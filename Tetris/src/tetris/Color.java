@@ -9,8 +9,6 @@ package tetris;
  *
  * @author felipeteles
  */
-class Color{
-    
-
-
+public enum Color{
+    BLUE, RED, YELLOW
 }

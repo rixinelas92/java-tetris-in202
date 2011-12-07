@@ -10,5 +10,5 @@ package tetris;
  * @author felipeteles
  */
 public enum Color{
-    BLUE, RED, YELLOW
+    BLUE, RED, YELLOW, EMPTY
 }

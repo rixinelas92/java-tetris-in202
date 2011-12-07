@@ -9,6 +9,8 @@ package tetris;
  *
  * @author felipeteles
  */
-class Color {
+class Color{
+    
+
 
 }

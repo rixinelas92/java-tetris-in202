@@ -5,8 +5,9 @@
 
 package tetris;
 
-
-import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import tetris.Screen.OutOfScreenBoundsException;
 /**
  *
  * @author felipeteles
@@ -83,7 +84,7 @@ public class Piece {
         Z,S,I,T,O,Li,L,None
     };
 
-    public Piece(ShapeType s,short square, Color c,Position p){
+    public Piece(ShapeType s,short square, Color c,Position p) throws OutOfScreenBoundsException{
         currentRotation = 1;
         currentSquare = square;
         currentShape = s;
@@ -91,25 +92,37 @@ public class Piece {
         position = new Position(p);
     }
 
-    public void setPosition(Position newPos){
+    public void setPosition(Position newPos) throws OutOfScreenBoundsException{
         this.position = new Position(newPos);
     }
     private void setShape(ShapeType newShape){
         this.currentShape = newShape;
 
     }
-    public Color getColor(Color newColor){
+    public Color getColor(){
         return Color.BLUE;
     }
     public Position getPosition(){
         return position;
     }
-    @Deprecated
-    public Vector<Position> getAllPosition(){
-        return null;
+    public Position[] getAllPosition(){
+        Position[] pos = new Position[4];
+        int tyleN = currentShape.ordinal();
+        try {
+            for(int i = 0;i<4;i++)
+                pos[i] = new Position(position.getX() + shape[tyleN][currentRotation][i][0],
+                                      position.getY() + shape[tyleN][currentRotation][i][1]);
+        } catch (OutOfScreenBoundsException ex) {
+          Logger.getLogger(Piece.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pos;
     }
     public void rotation(){
         currentRotation+=1;
+        currentRotation%=4;
+    }
+    public void rotationInversed(){
+        currentRotation+=3;
         currentRotation%=4;
     }
 

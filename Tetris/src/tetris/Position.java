@@ -5,6 +5,8 @@
 
 package tetris;
 
+import tetris.Screen.OutOfScreenBoundsException;
+
 /**
  *
  * @author felipeteles
@@ -14,38 +16,27 @@ class Position {
     private short y;
     static Screen.BorderRetriever borderRetriever;
 
-    public Position(Position old){
-        try{
-            setX(old.getX());
-            setY(old.getY());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+    public Position(Position old) throws OutOfScreenBoundsException{
+        setX(old.getX());
+        setY(old.getY());
+        
     }
-    public Position(int newX,int newY){
-        try{
-            setX((short)newX);
-            setX((short)newX);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+    public Position(int newX,int newY) throws OutOfScreenBoundsException{
+        setX((short)newX);
+        setX((short)newX);        
     }
-    public Position(short newX, short newY){
-        try{
-            setX(newX);
-            setX(newX);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+    public Position(short newX, short newY) throws OutOfScreenBoundsException{
+        setX(newX);
+        setX(newX);
     }
-    public void setX(short newX)throws Exception{
+    public void setX(short newX)throws OutOfScreenBoundsException{
         if(newX > borderRetriever.getMaxX() || newX < 0)
-            throw new Exception("Tried to set X to a place outside the border");
+            throw new OutOfScreenBoundsException();
         x = newX;
     }
-    public void setY(short newY)throws Exception{
+    public void setY(short newY)throws OutOfScreenBoundsException{
         if(newY > borderRetriever.getMaxY() || newY < 0)
-            throw new Exception("Tried to set Y to a place outside the border");
+            throw new OutOfScreenBoundsException();
         y = newY;
     }
     public void setPosition(short newX,short newY){
@@ -65,5 +56,6 @@ class Position {
     static public void setBorderRetriever(Screen.BorderRetriever borderRetriever){
         Position.borderRetriever = borderRetriever;
     }
+
 
 }

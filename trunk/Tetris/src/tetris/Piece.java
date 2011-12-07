@@ -5,7 +5,8 @@
 
 package tetris;
 
-import java.awt.List;
+import java.awt.Shape;
+import java.util.Vector;
 /**
  *
  * @author felipeteles
@@ -18,16 +19,24 @@ public class Piece {
 
     public Piece(){
 
-}
+    }
 
     public void setPosition(Position newPos){
     }
     private void setShape(Shape newShape){
     }
-    public Color getColor(Color newColor){}
-    public Position getPosition(){}
-    public List getAllPosition(){}
-    public void rotation(){}
+    public Color getColor(Color newColor){
+        return new Color();
     }
+    public Position getPosition(){
+        return position;
+    }
+    public Vector<Position> getAllPosition(){
+        return null;
+    }
+    public void rotation(){
+
+    }
+    
 }
 

@@ -11,6 +11,6 @@ package tetris;
  */
 public class Game {
     private Screen screen;
-    private Piece currentPiece
+    private Piece currentPiece;
 
 }

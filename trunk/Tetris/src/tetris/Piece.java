@@ -22,8 +22,10 @@ public class Piece {
     }
 
     public void setPosition(Position newPos){
+        this.position = new Position(newPos);
     }
     private void setShape(Shape newShape){
+
     }
     public Color getColor(Color newColor){
         return new Color();

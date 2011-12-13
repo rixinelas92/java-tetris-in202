@@ -57,7 +57,9 @@ public class Game implements Controller{
     }
 
     public void rotate() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Position[] piece = currentPiece.getAllPosition();
+        currentPiece.rotation();
+        
     }
 
     public void goToBottom() {

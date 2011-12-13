@@ -5,6 +5,7 @@
 
 package tetris;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 import tetris.Screen.OutOfScreenBoundsException;
 
 /**
@@ -55,6 +56,23 @@ class Position {
     }
     static public void setBorderRetriever(Screen.BorderRetriever borderRetriever){
         Position.borderRetriever = borderRetriever;
+    }
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null)
+            return false;
+        if(! (obj instanceof Position)){
+            return false;
+        }
+        Position p = (Position)obj;
+        if(x != p.getX())
+            return false;
+        if(y != p.getY())
+            return false;
+        return true;
     }
 
 

@@ -16,7 +16,7 @@ public class SoundEffectDemo extends JFrame {
    public SoundEffectDemo() {
       // Pre-load all the sound files
       SoundEffect.init();
-      SoundEffect.volume = SoundEffect.Volume.HIGH;  // un-mute
+      
 
       // Set up UI components
       Container cp = this.getContentPane();

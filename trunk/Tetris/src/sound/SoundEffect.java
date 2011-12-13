@@ -39,7 +39,7 @@ public enum SoundEffect {
          // Open audio clip and load samples from the audio input stream.
          clip.open(audioInputStream);
          volumeControl= (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-         //-80 minimum, 13.9 maximum
+         System.out.println(volumeControl.getMaximum()+" "+ volumeControl.getMinimum()+" "+volumeControl.getValue());
 
       } catch (UnsupportedAudioFileException e) {
          e.printStackTrace();
@@ -54,11 +54,11 @@ public enum SoundEffect {
    public void setVolume(int newVolume){
         float volume;
         volume= volumeControl.getMaximum()-volumeControl.getMinimum();
-        volume*=newVolume/100;
+        volume*=(float)newVolume/100;
         volumeControl.setValue(volumeControl.getMinimum()+volume);
    }
    public void play() {
-      if (volumeControl.getValue()==volumeControl.getMinimum()) {
+      if (volumeControl.getValue()!=volumeControl.getMinimum()) {
          if (clip.isRunning())
             clip.stop();   // Stop the player if it is still running
          clip.setFramePosition(0); // rewind to the beginning

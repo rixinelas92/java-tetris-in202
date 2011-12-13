@@ -5,6 +5,8 @@
 
 package tetris;
 
+import java.awt.Color;
+
 /**
  *
  * @author felipeteles
@@ -29,6 +31,10 @@ public class Box {
 
     public void setFull(boolean full) {
         this.full = full;
+    }
+
+    static Color getEmptyColor(){
+        return Color.WHITE;
     }
 
 

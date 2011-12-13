@@ -58,8 +58,14 @@ public class Game implements Controller{
 
     public void rotate() {
         Position[] piece = currentPiece.getAllPosition();
-        currentPiece.rotation();
-        
+        for(Position p: piece){
+            for (int i = 0; i < 4; ++i) {
+          //  currentPiece.setX(i, y(i));
+          //  currentPiece.setY(i, -x(i));
+        }
+      //  return currentPiece;
+                   
+        }
     }
 
     public void goToBottom() {
@@ -82,3 +88,19 @@ public class Game implements Controller{
     
 
 }
+
+
+/*
+   public Shape rotateLeft()
+    {
+        Shape result = new Shape();
+        result.pieceShape = pieceShape;
+
+        for (int i = 0; i < 4; ++i) {
+            result.setX(i, y(i));
+            result.setY(i, -x(i));
+        }
+        return result;
+    }
+
+*/

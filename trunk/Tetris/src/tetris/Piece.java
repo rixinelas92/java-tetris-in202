@@ -81,9 +81,10 @@ public class Piece {
     private Color color;
     private Position position;
 
-    public enum ShapeType{
+    static public enum ShapeType{
         Z,S,I,T,O,Li,L,None
     };
+
     Color[] shapeColors = {Color.PINK, Color.MAGENTA, Color.BLUE, Color.CYAN,Color.YELLOW,Color.GREEN,Color.ORANGE,Box.getEmptyColor()};
 
     public Piece(ShapeType s,short square, Position p) throws OutOfScreenBoundsException{

@@ -75,5 +75,9 @@ class Position {
         return true;
     }
 
+    public String toString(){
+        return "["+x+";"+y+"]";
+    }
+
 
 }

@@ -6,15 +6,22 @@
 package tetris;
 
 import java.awt.Color;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import junit.framework.TestCase;
 import tetris.Piece.ShapeType;
+import tetris.Screen.OutOfScreenBoundsException;
 
 /**
  *
  * @author felipeteles
  */
 public class PieceTest extends TestCase {
-    
+   
+    Screen.BorderRetriever borderRetriever;
+
+
     public PieceTest(String testName) {
         super(testName);
     }
@@ -22,6 +29,10 @@ public class PieceTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        Screen sc = new Screen();
+        borderRetriever = sc.new BorderRetriever();
+        Position.setBorderRetriever(borderRetriever);
+
     }
 
     @Override
@@ -35,15 +46,12 @@ public class PieceTest extends TestCase {
     public void testSetPosition() throws Exception {
         System.out.println("setPosition");
 
-        Position newPos = new Position(1,2);
-        newPos.setPosition((short)2, (short)3);
+        Position oldPos = new Position(1,2);
+        Piece instance = new Piece(ShapeType.Z, (short) 1, oldPos);
+        Position newPos = new Position(2,3);
+        instance.setPosition(newPos);
+        assertEquals(instance.getPosition(), new Position(2,3));
 
-        Piece instance = new Piece(ShapeType.Z, (short) 1, newPos);
-
-        if(newPos.getX() != 2)
-            fail("setter or getter not working");
-        if(newPos.getY() != 3)
-            fail("setter or getter not working");
     }
 
     /**
@@ -51,60 +59,99 @@ public class PieceTest extends TestCase {
      */
     public void testGetColor() {
         System.out.println("getColor");
-        Piece instance = null;
-        Color expResult = null;
-        Color result = instance.getColor();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        Vector<Color> colors = new Vector<Color>();
+        for(Piece.ShapeType s: Piece.ShapeType.values()){
+            Position oldPos;
+            try {
+                oldPos = new Position(1, 2);
+                Piece instance = new Piece(ShapeType.Z, (short) 1, oldPos);
+                colors.add(instance.getColor());
+            } catch (OutOfScreenBoundsException ex) {
+                Logger.getLogger(PieceTest.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+        }
+
+        for(int i = 0; i< colors.size(); i++)
+            for(int j = i+1; j< colors.size(); j++){
+                assertNotSame(colors.get(i).getRGB(), colors.get(j).getRGB());
+            }
     }
 
     /**
      * Test of getPosition method, of class Piece.
      */
     public void testGetPosition() {
-        System.out.println("getPosition");
-        Piece instance = null;
-        Position expResult = null;
-        Position result = instance.getPosition();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            System.out.println("getPosition");
+            Position oldPos = new Position(1, 2);
+            Piece instance = new Piece(ShapeType.Z, (short) 1, oldPos);
+            Position newPos = new Position(2, 3);
+            instance.setPosition(newPos);
+            assertEquals(instance.getPosition(), new Position(2, 3));
+        } catch (OutOfScreenBoundsException ex) {
+            fail(ex.getStackTrace().toString());
+        }
     }
 
     /**
      * Test of getAllPosition method, of class Piece.
      */
     public void testGetAllPosition() {
-        System.out.println("getAllPosition");
-        Piece instance = null;
-        Position[] expResult = null;
-        Position[] result = instance.getAllPosition();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            System.out.println("getPosition");
+            Position oldPos = new Position(1, 2);
+            Piece instance = new Piece(ShapeType.Z, (short) 1, oldPos);
+            Position[] ps = instance.getAllPosition();
+            Piece.printTyle(ShapeType.Z, 1);
+            for(Position p: ps){
+                System.out.println(p);
+            }
+        } catch (OutOfScreenBoundsException ex) {
+            fail(ex.getStackTrace().toString());
+        }
     }
 
     /**
      * Test of rotation method, of class Piece.
      */
     public void testRotation() {
-        System.out.println("rotation");
-        Piece instance = null;
-        instance.rotation();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        try {
+            System.out.println("rotation");
+            Position oldPos = new Position(1, 2);
+            Piece instance = new Piece(ShapeType.Z, (short) 1, oldPos);
+            instance.rotation();
+            Position[] ps = instance.getAllPosition();
+            Piece.printTyle(ShapeType.Z, 1);
+            for(Position p: ps){
+                System.out.println(p);
+            }
+        } catch (OutOfScreenBoundsException ex) {
+            fail(ex.getStackTrace().toString());
+        }
+        
     }
 
     /**
      * Test of rotationInversed method, of class Piece.
      */
     public void testRotationInversed() {
-        System.out.println("rotationInversed");
-        Piece instance = null;
-        instance.rotationInversed();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        try {
+            System.out.println("rotationInversed");
+            Position oldPos = new Position(1, 2);
+            Piece instance = new Piece(ShapeType.Z, (short) 1, oldPos);
+            instance.rotation();
+            Position[] ps = instance.getAllPosition();
+            Piece.printTyle(ShapeType.Z, 1);
+            for(Position p: ps){
+                System.out.println(p);
+            }
+        } catch (OutOfScreenBoundsException ex) {
+            fail(ex.getStackTrace().toString());
+        }
     }
 
     /**
@@ -114,8 +161,6 @@ public class PieceTest extends TestCase {
         System.out.println("main");
         String[] args = null;
         Piece.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -129,5 +174,7 @@ public class PieceTest extends TestCase {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+
 
 }

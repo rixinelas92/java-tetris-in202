@@ -5,6 +5,7 @@
 
 package tetris;
 
+import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tetris.Screen.OutOfScreenBoundsException;
@@ -83,6 +84,7 @@ public class Piece {
     public enum ShapeType{
         Z,S,I,T,O,Li,L,None
     };
+    Color[] shapeColors = {Color.PINK, Color.MAGENTA, Color.BLUE, Color.CYAN,Color.YELLOW,Color.GREEN,Color.ORANGE,Box.getEmptyColor()};
 
     public Piece(ShapeType s,short square, Color c,Position p) throws OutOfScreenBoundsException{
         currentRotation = 1;
@@ -100,7 +102,7 @@ public class Piece {
 
     }
     public Color getColor(){
-        return Color.BLUE;
+        return shapeColors[currentShape.ordinal()];
     }
     public Position getPosition(){
         return position;

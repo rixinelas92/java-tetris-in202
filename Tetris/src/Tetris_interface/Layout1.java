@@ -37,7 +37,6 @@ public class Layout1 extends JFrame {
         make_game2p();
         make_base();
         make_UI();
-        
     }
     //cria os panels usados
     private void make_top(){

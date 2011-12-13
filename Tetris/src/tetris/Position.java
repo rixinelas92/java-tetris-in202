@@ -5,7 +5,7 @@
 
 package tetris;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 import tetris.Screen.OutOfScreenBoundsException;
 
 /**

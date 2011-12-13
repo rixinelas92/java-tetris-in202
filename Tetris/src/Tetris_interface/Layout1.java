@@ -269,7 +269,7 @@ public class Layout1 extends JFrame {
 
     private void make_som() {
         somPanel = new JPanel(new AbsoluteLayout());
-        JLabel optionTitle = new JLabel("Options");
+        JLabel optionTitle = new JLabel("Sound");
         optionTitle.setFont(new java.awt.Font("Neuropol", 0, 24));
         
         JSeparator separator = new JSeparator();

@@ -24,15 +24,9 @@ public enum SoundEffect {
    SHOOT("eau_001.wav");        // bullet
 
    // Nested class for specifying volume
-   public static enum Volume {
-      MUTE, LOW, MEDIUM, HIGH
-   }
-
-   public static Volume volume = Volume.LOW;
-
    // Each sound effect has its own clip, loaded with its own sound file.
    private Clip clip;
-
+   private FloatControl volumeControl;
    // Constructor to construct each element of the enum with its own sound file.
    SoundEffect(String soundFileName) {
       try {
@@ -44,6 +38,9 @@ public enum SoundEffect {
          clip = AudioSystem.getClip();
          // Open audio clip and load samples from the audio input stream.
          clip.open(audioInputStream);
+         volumeControl= (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+         //-80 minimum, 13.9 maximum
+
       } catch (UnsupportedAudioFileException e) {
          e.printStackTrace();
       } catch (IOException e) {
@@ -54,8 +51,14 @@ public enum SoundEffect {
    }
 
    // Play or Re-play the sound effect from the beginning, by rewinding.
+   public void setVolume(int newVolume){
+        float volume;
+        volume= volumeControl.getMaximum()-volumeControl.getMinimum();
+        volume*=newVolume/100;
+        volumeControl.setValue(volumeControl.getMinimum()+volume);
+   }
    public void play() {
-      if (volume != Volume.MUTE) {
+      if (volumeControl.getValue()==volumeControl.getMinimum()) {
          if (clip.isRunning())
             clip.stop();   // Stop the player if it is still running
          clip.setFramePosition(0); // rewind to the beginning

@@ -168,11 +168,9 @@ public class PieceTest extends TestCase {
      */
     public void testPrintTyle() {
         System.out.println("printTyle");
-        ShapeType s = null;
+        ShapeType s = ShapeType.I;
         int rot = 0;
-        Piece.printTyle(s, rot);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Piece.printTyle(s, rot);        
     }
 
 

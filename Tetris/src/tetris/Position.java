@@ -23,11 +23,11 @@ class Position {
     }
     public Position(int newX,int newY) throws OutOfScreenBoundsException{
         setX((short)newX);
-        setX((short)newX);        
+        setY((short)newY);
     }
     public Position(short newX, short newY) throws OutOfScreenBoundsException{
         setX(newX);
-        setX(newX);
+        setY(newY);
     }
     public void setX(short newX)throws OutOfScreenBoundsException{
         if(newX > borderRetriever.getMaxX() || newX < 0)
@@ -42,7 +42,7 @@ class Position {
     public void setPosition(short newX,short newY){
        try{
             setX(newX);
-            setX(newX);
+            setY(newY);
         }catch(Exception e){
             e.printStackTrace();
         }

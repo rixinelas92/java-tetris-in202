@@ -7,15 +7,14 @@ package tetris;
 
 import Tetris_interface.Layout1;
 import javax.swing.SwingUtilities;
-import sound.MusicI;
-import sound.ThemeMusic;
+import sound.SoundEffect;
 
 /**
  *
  * @author felipeteles
  */
 public class Main {
-    static MusicI theme;
+    static SoundEffect theme;
     /**
      * @param args the command line arguments
      */
@@ -36,10 +35,8 @@ public class Main {
         Runnable r = new Runnable() {
 
             public void run() {
-                theme = new ThemeMusic();
-                theme.prepare();
                 try {
-                    theme.play();
+                    SoundEffect.EXPLODE.play();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

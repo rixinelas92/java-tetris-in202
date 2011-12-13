@@ -14,7 +14,7 @@ import javax.swing.Timer;
  *
  * @author felipeteles
  */
-public class Game implements ActionListener{
+public class Game implements Controller{
     private Screen screen;
     private Piece currentPiece;
     private Controller controls;
@@ -56,9 +56,27 @@ public class Game implements ActionListener{
         return Box.getEmptyColor();
     }
 
-
-    public void actionPerformed(ActionEvent ae) {
-        // OPA! algo aconteceu!
+    public void rotate() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public void goToBottom() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void goLeft() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void goLight() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void stop() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
+    
 
 }

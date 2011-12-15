@@ -12,7 +12,7 @@ import tetris.Screen.OutOfScreenBoundsException;
  *
  * @author felipeteles
  */
-class Position {
+public class Position {
     private short x;
     private short y;
     static Screen.BorderRetriever borderRetriever;

@@ -35,11 +35,17 @@ import tetris.Position;
 public class Layout1 extends JFrame {
 
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
-    private JLabel[] currentPiece, nextPiece;
-    private Position[] currentPos, nextPos;
+    private JLabel[] currentPiece, nextPiece; //array with the position of the 4 boxes of the 2 pieces
+    private JLabel[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
+    private int pieceSize = 20, screenWidth = 10, screenHeight = 13;
+    //options components
+    private JTextField leftKey,rightKey,downKey,rotateKey,playerName;
+    private JCheckBox mouseBox;
+    //sound components
+    private JComboBox themeBox;
+    private JSlider volumeSlider;
     //1 players components
     private JPanel gameScreen1pPanel, gameNext1pPanel;
-    private int pieceSize = 20;
 
     public Layout1() {
 
@@ -52,6 +58,7 @@ public class Layout1 extends JFrame {
         make_game2p();
         make_base();
         make_UI();
+        screen = new JLabel[screenWidth][screenHeight];
     }
     //cria os panels usados
 
@@ -184,7 +191,7 @@ public class Layout1 extends JFrame {
         JLabel moveLeft = new JLabel("Move Left");
         moveLeft.setFont(new Font("Segoe Print", 0, 12));
 
-        JTextField leftKey = new JTextField("Q");
+        leftKey = new JTextField("Q");
         leftKey.setFont(new Font("Segoe Print", 0, 12));
         leftKey.setHorizontalAlignment(JTextField.CENTER);
         leftKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
@@ -192,7 +199,7 @@ public class Layout1 extends JFrame {
         JLabel moveRight = new JLabel("Move Right");
         moveRight.setFont(new Font("Segoe Print", 0, 12));
 
-        JTextField rightKey = new JTextField("D");
+        rightKey = new JTextField("D");
         rightKey.setFont(new Font("Segoe Print", 0, 12));
         rightKey.setHorizontalAlignment(JTextField.CENTER);
         rightKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
@@ -200,7 +207,7 @@ public class Layout1 extends JFrame {
         JLabel moveDown = new JLabel("Move Down");
         moveDown.setFont(new Font("Segoe Print", 0, 12));
 
-        JTextField downKey = new JTextField("S");
+        downKey = new JTextField("S");
         downKey.setFont(new Font("Segoe Print", 0, 12));
         downKey.setHorizontalAlignment(JTextField.CENTER);
         downKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
@@ -208,13 +215,13 @@ public class Layout1 extends JFrame {
         JLabel rotate = new JLabel("Rotate");
         moveDown.setFont(new Font("Segoe Print", 0, 12));
 
-        JTextField rotateKey = new JTextField("Z");
+        rotateKey = new JTextField("Z");
         rotateKey.setFont(new Font("Segoe Print", 0, 12));
         rotateKey.setHorizontalAlignment(JTextField.CENTER);
         rotateKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
 
-        JCheckBox mouseBox = new JCheckBox("Use mouse");
+        mouseBox = new JCheckBox("Use mouse");
         mouseBox.setFont(new Font("Segoe Print", 0, 12));
 
         controlsPanel.add(moveLeft, new AbsoluteConstraints(30, 30, -1, -1));
@@ -237,7 +244,7 @@ public class Layout1 extends JFrame {
         JPanel playerPanel = new JPanel(new AbsoluteLayout());
         playerPanel.setBorder(BorderFactory.createTitledBorder(null, "Player Name", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Sybil Green", 0, 14)));
 
-        JTextField playerName = new JTextField("ENSTA Project");
+        playerName = new JTextField("ENSTA Project");
         playerName.setFont(new Font("Segoe Print", 0, 12));
         playerName.setHorizontalAlignment(JTextField.CENTER);
         playerName.setBorder(null);
@@ -286,14 +293,14 @@ public class Layout1 extends JFrame {
         JLabel themeTitle = new JLabel("Theme");
         themeTitle.setFont(new Font("Segoe Print", 0, 14));
 
-        JComboBox themeBox = new JComboBox();
+        themeBox = new JComboBox();
         themeBox.setFont(new Font("Segoe Print", 0, 12));
         themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Bomberman"}));
 
         JLabel volumeTitle = new JLabel("Volume");
         volumeTitle.setFont(new Font("Segoe Print", 0, 14));
 
-        JSlider volumeSlider = new JSlider();
+        volumeSlider = new JSlider();
 
         somPanel.add(themeTitle, new AbsoluteConstraints(30, 90, -1, -1));
         somPanel.add(themeBox, new AbsoluteConstraints(110, 85, -1, -1));
@@ -394,7 +401,7 @@ public class Layout1 extends JFrame {
         });
         game1pPanel.add(apply, new AbsoluteConstraints(215, 230, 100, 30));
         game1pPanel.add(cancel, new AbsoluteConstraints(215, 260, 100, -1));
-        
+
     }
 
     private void make_game2p() {
@@ -480,7 +487,7 @@ public class Layout1 extends JFrame {
         somPanel.setVisible(false);
         game1pPanel.setVisible(true);
         game2pPanel.setVisible(false);
-        
+
         //so pra demonstrar, retirar depois
         JLabel bluePiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Blue.png")));
         JLabel brownPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Brown.png")));
@@ -489,15 +496,18 @@ public class Layout1 extends JFrame {
         JLabel purplePiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Purple.png")));
         JLabel redPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Red.png")));
         JLabel yellowPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Yellow.png")));
-        System.out.println(gameScreen1pPanel.getHeight()-pieceSize);
-        gameScreen1pPanel.add(bluePiece, new AbsoluteConstraints(0*pieceSize,gameScreen1pPanel.getHeight()-pieceSize, -1,-1));//pieceSize, pieceSize));
-        gameScreen1pPanel.add(brownPiece, new AbsoluteConstraints(1*pieceSize,gameScreen1pPanel.getHeight()-pieceSize, pieceSize, pieceSize));
-        gameScreen1pPanel.add(cianoPiece, new AbsoluteConstraints(2*pieceSize,gameScreen1pPanel.getHeight()-pieceSize, pieceSize, pieceSize));
-        gameScreen1pPanel.add(greenPiece, new AbsoluteConstraints(3*pieceSize,gameScreen1pPanel.getHeight()-pieceSize, pieceSize, pieceSize));
-        gameScreen1pPanel.add(purplePiece, new AbsoluteConstraints(4*pieceSize,gameScreen1pPanel.getHeight()-pieceSize, pieceSize, pieceSize));
-        gameScreen1pPanel.add(redPiece, new AbsoluteConstraints(5*pieceSize,gameScreen1pPanel.getHeight()-pieceSize, pieceSize, pieceSize));
-        gameScreen1pPanel.add(yellowPiece, new AbsoluteConstraints(6*pieceSize,gameScreen1pPanel.getHeight()-pieceSize, pieceSize, pieceSize));
-        
+
+        gameScreen1pPanel.add(bluePiece, new AbsoluteConstraints(0 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, -1, -1));//pieceSize, pieceSize));
+        gameScreen1pPanel.add(brownPiece, new AbsoluteConstraints(1 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
+        gameScreen1pPanel.add(cianoPiece, new AbsoluteConstraints(2 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
+        gameScreen1pPanel.add(greenPiece, new AbsoluteConstraints(3 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
+        gameScreen1pPanel.add(purplePiece, new AbsoluteConstraints(4 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
+        gameScreen1pPanel.add(redPiece, new AbsoluteConstraints(5 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
+        gameScreen1pPanel.add(yellowPiece, new AbsoluteConstraints(6 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
+
+        screen[1][1] = yellowPiece;
+        gameScreen1pPanel.add(screen[1][1], new AbsoluteConstraints(7 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
+
     }
 
     private void func_2players() {
@@ -527,56 +537,88 @@ public class Layout1 extends JFrame {
 
     public void setPiecePosition(Position[] newPiece) {
         //if the bloc shouldn't keep hide, pass position X or/and Y =-1
-        if (newPiece[1].getX() != -1 || newPiece[1].getY() != -1) {
-            gameScreen1pPanel.add(currentPiece[1], new AbsoluteConstraints(newPiece[1].getX(), gameScreen1pPanel.getHeight() - newPiece[1].getY(), 20, 20));
-        }
-        if (newPiece[2].getX() != -1 || newPiece[2].getY() != -1) {
-            gameScreen1pPanel.add(currentPiece[2], new AbsoluteConstraints(newPiece[2].getX(), gameScreen1pPanel.getHeight() - newPiece[2].getY(), 20, 20));
-        }
-        if (newPiece[3].getX() != -1 || newPiece[3].getY() != -1) {
-            gameScreen1pPanel.add(currentPiece[3], new AbsoluteConstraints(newPiece[3].getX(), gameScreen1pPanel.getHeight() - newPiece[3].getY(), 20, 20));
-        }
-        if (newPiece[4].getX() != -1 || newPiece[4].getY() != -1) {
-            gameScreen1pPanel.add(currentPiece[4], new AbsoluteConstraints(newPiece[4].getX(), gameScreen1pPanel.getHeight() - newPiece[4].getY(), 20, 20));
-        }
+        currentPiece[1].setLocation(newPiece[1].getX(), newPiece[1].getY());
+        currentPiece[2].setLocation(newPiece[2].getX(), newPiece[2].getY());
+        currentPiece[3].setLocation(newPiece[3].getX(), newPiece[3].getY());
+        currentPiece[4].setLocation(newPiece[4].getX(), newPiece[4].getY());
+        screen[currentPiece[1].getX()][currentPiece[1].getY()] = currentPiece[1];
+        screen[currentPiece[2].getX()][currentPiece[2].getY()] = currentPiece[2];
+        screen[currentPiece[3].getX()][currentPiece[3].getY()] = currentPiece[3];
+        screen[currentPiece[4].getX()][currentPiece[4].getY()] = currentPiece[4];
+        gameScreen1pPanel.add(currentPiece[1], new AbsoluteConstraints(xPos(currentPiece[1].getX()), yPos(currentPiece[1].getY()), pieceSize, pieceSize));
+        gameScreen1pPanel.add(currentPiece[2], new AbsoluteConstraints(xPos(currentPiece[2].getX()), yPos(currentPiece[2].getY()), pieceSize, pieceSize));
+        gameScreen1pPanel.add(currentPiece[3], new AbsoluteConstraints(xPos(currentPiece[3].getX()), yPos(currentPiece[3].getY()), pieceSize, pieceSize));
+        gameScreen1pPanel.add(currentPiece[4], new AbsoluteConstraints(xPos(currentPiece[4].getX()), yPos(currentPiece[4].getY()), pieceSize, pieceSize));
+
     }
 
     public void newPiece(Position[] newPos, String colorPiece) {
         //this function receive the 4 positions of the new piece and her color
-        //if the bloc shouldn't keep hide, pass position X or/and Y =-1
-        gameNext1pPanel.removeAll();
 
         currentPiece = nextPiece;
-        currentPos = nextPos;
+//put the piece in the game
+        currentPiece[1].setLocation(gameScreen1pPanel.getWidth() / (2 * pieceSize), gameScreen1pPanel.getHeight() / pieceSize);
+        currentPiece[2].setLocation(currentPiece[1].getX() - nextPiece[1].getX() + nextPiece[2].getX(), currentPiece[1].getY() - nextPiece[1].getY() + nextPiece[2].getY());
+        currentPiece[3].setLocation(currentPiece[1].getX() - nextPiece[1].getX() + nextPiece[3].getX(), currentPiece[1].getY() - nextPiece[1].getY() + nextPiece[3].getY());
+        currentPiece[4].setLocation(currentPiece[1].getX() - nextPiece[1].getX() + nextPiece[4].getX(), currentPiece[1].getY() - nextPiece[1].getY() + nextPiece[4].getY());
+        screen[currentPiece[1].getX()][currentPiece[1].getY()] = currentPiece[1];
+        screen[currentPiece[2].getX()][currentPiece[2].getY()] = currentPiece[2];
+        screen[currentPiece[3].getX()][currentPiece[3].getY()] = currentPiece[3];
+        screen[currentPiece[4].getX()][currentPiece[4].getY()] = currentPiece[4];
 
-        //put the piece in the game
-        gameScreen1pPanel.add(currentPiece[1], new AbsoluteConstraints(gameScreen1pPanel.getWidth() / (2 * pieceSize), 0, pieceSize, pieceSize));
-        if (currentPos[2].getY() <= currentPos[1].getY()) {
-            gameScreen1pPanel.add(currentPiece[2], new AbsoluteConstraints(currentPos[2].getX(), currentPos[2].getY(), pieceSize, pieceSize));
+        gameScreen1pPanel.add(currentPiece[1], new AbsoluteConstraints(xPos(currentPiece[1].getX()), yPos(currentPiece[1].getY()), pieceSize, pieceSize));
+        if (nextPiece[2].getY() <= nextPiece[1].getY()) {
+            gameScreen1pPanel.add(currentPiece[2], new AbsoluteConstraints(xPos(currentPiece[2].getX()), yPos(currentPiece[2].getY()), pieceSize, pieceSize));
         }
-        if (currentPos[3].getY() <= currentPos[1].getY()) {
-            gameScreen1pPanel.add(currentPiece[3], new AbsoluteConstraints(currentPos[3].getX(), currentPos[3].getY(), pieceSize, pieceSize));
+        if (nextPiece[3].getY() <= nextPiece[1].getY()) {
+            gameScreen1pPanel.add(currentPiece[3], new AbsoluteConstraints(xPos(currentPiece[3].getX()), yPos(currentPiece[3].getY()), pieceSize, pieceSize));
         }
-        if (currentPos[4].getY() <= currentPos[1].getY()) {
-            gameScreen1pPanel.add(currentPiece[4], new AbsoluteConstraints(currentPos[4].getX(), currentPos[4].getY(), pieceSize, pieceSize));
+        if (nextPiece[4].getY() <= nextPiece[1].getY()) {
+            gameScreen1pPanel.add(currentPiece[4], new AbsoluteConstraints(xPos(currentPiece[4].getX()), yPos(currentPiece[4].getY()), pieceSize, pieceSize));
         }
-        currentPos[1].setPosition((short) (gameScreen1pPanel.getWidth() / (2 * pieceSize)), (short) 0);
-        currentPos[2].setPosition((short) (currentPos[1].getX() + currentPos[2].getX()), (short) (currentPos[1].getY() - currentPos[2].getY()));
-        currentPos[3].setPosition((short) (currentPos[1].getX() + currentPos[3].getX()), (short) (currentPos[1].getY() - currentPos[3].getY()));
-        currentPos[4].setPosition((short) (currentPos[1].getX() + currentPos[4].getX()), (short) (currentPos[1].getY() - currentPos[4].getY()));
 
         //add one new piece in NextPiece box
-        nextPiece[1] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/"+colorPiece+".png")));
-        nextPiece[2] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/"+colorPiece+".png")));
-        nextPiece[3] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/"+colorPiece+".png")));
-        nextPiece[4] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/"+colorPiece+".png")));
-        nextPos = newPos;
-        int xBase = gameNext1pPanel.getWidth() / (2 * pieceSize);
-        int yBase = gameNext1pPanel.getHeight() / (2 * pieceSize);
-        gameNext1pPanel.add(nextPiece[1], new AbsoluteConstraints(xBase + nextPos[1].getX(), yBase + nextPos[1].getY(), pieceSize, pieceSize));
-        gameNext1pPanel.add(nextPiece[2], new AbsoluteConstraints(xBase + nextPos[2].getX(), yBase + nextPos[1].getY(), pieceSize, pieceSize));
-        gameNext1pPanel.add(nextPiece[3], new AbsoluteConstraints(xBase + nextPos[3].getX(), yBase + nextPos[1].getY(), pieceSize, pieceSize));
-        gameNext1pPanel.add(nextPiece[4], new AbsoluteConstraints(xBase + nextPos[4].getX(), yBase + nextPos[1].getY(), pieceSize, pieceSize));
+        gameNext1pPanel.removeAll();
+
+        nextPiece[1] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+        nextPiece[2] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+        nextPiece[3] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+        nextPiece[4] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+
+        nextPiece[1].setLocation(newPos[1].getX(), newPos[1].getY());
+        nextPiece[2].setLocation(newPos[2].getX(), newPos[1].getY());
+        nextPiece[3].setLocation(newPos[3].getX(), newPos[1].getY());
+        nextPiece[4].setLocation(newPos[4].getX(), newPos[1].getY());
+
+        int xBase = gameNext1pPanel.getWidth() / 2;
+        int yBase = gameNext1pPanel.getHeight() / 2;
+        gameNext1pPanel.add(nextPiece[1], new AbsoluteConstraints(xBase + xPos(nextPiece[1].getX()), yBase + yPos(nextPiece[1].getY()), pieceSize, pieceSize));
+        gameNext1pPanel.add(nextPiece[2], new AbsoluteConstraints(xBase + xPos(nextPiece[2].getX()), yBase + yPos(nextPiece[2].getY()), pieceSize, pieceSize));
+        gameNext1pPanel.add(nextPiece[3], new AbsoluteConstraints(xBase + xPos(nextPiece[3].getX()), yBase + yPos(nextPiece[3].getY()), pieceSize, pieceSize));
+        gameNext1pPanel.add(nextPiece[4], new AbsoluteConstraints(xBase + xPos(nextPiece[4].getX()), yBase + yPos(nextPiece[4].getY()), pieceSize, pieceSize));
+    }
+
+    public void eraseLine(int line) {
+        //linhas começam do zero
+        int i, j;
+        for (i = 0; i < screenWidth; i++) {
+            screen[i][line].setVisible(false);
+        }
+        for (j = line; j < screenHeight; j++) {
+            for (i = 0; i < screenWidth; i++) {
+                screen[i][j] = screen[i][j + 1];
+                gameScreen1pPanel.add(screen[i][j], new AbsoluteConstraints(xPos(i), yPos(line), pieceSize, pieceSize));
+            }
+        }
+    }
+    //internal use funcition
+
+    private int xPos(int newX) {
+        return newX * pieceSize;
+    }
+
+    private int yPos(int newY) {
+        return gameScreen1pPanel.getHeight() - newY * pieceSize;
     }
 
     public static void main(String[] args) {

@@ -36,8 +36,10 @@ public class Position {
         x = newX;
     }
     public void setY(short newY)throws OutOfScreenBoundsException{
+        System.out.println("->"+borderRetriever+"    "+borderRetriever.getMaxY()+"   "+ newY);
         if(newY > borderRetriever.getMaxY() || newY < 0)
             throw new OutOfScreenBoundsException();
+
         y = newY;
     }
     public void setPosition(short newX,short newY){

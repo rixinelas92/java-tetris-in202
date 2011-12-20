@@ -8,7 +8,12 @@ package tetris;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Timer;
+import tetris.Piece.ShapeType;
+import tetris.Screen.BorderRetriever;
+import tetris.Screen.OutOfScreenBoundsException;
 
 /**
  *
@@ -17,7 +22,6 @@ import javax.swing.Timer;
 public class Game implements Controller{
     private Screen screen;
     private Piece currentPiece;
-    private Controller controls;
 
 
     Timer timer;
@@ -56,6 +60,20 @@ public class Game implements Controller{
         return Box.getEmptyColor();
     }
 
+    public void initGame(){
+        screen = new Screen();
+        Position.setBorderRetriever(screen.new BorderRetriever());
+        try {
+            currentPiece = new Piece(ShapeType.Li, (short) 1, new Position(1, 1));
+        } catch (OutOfScreenBoundsException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public Position[] getCurrentPiecePositions(){
+        return currentPiece.getAllPosition();
+    }
     public void rotate() {
         Position[] piece = currentPiece.getAllPosition();
         for(Position p: piece){

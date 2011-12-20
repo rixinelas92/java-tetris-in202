@@ -16,6 +16,10 @@ public class Main {
 
     static SoundEffect theme;
 
+    static Layout1 screen;
+
+    static Game game;
+
     /**
      * @param args the command line arguments
      */
@@ -39,13 +43,12 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
-                Layout1 ex = new Layout1();
-                ex.setVisible(true);
+                screen = new Layout1();
+                screen.setVisible(true);
             }
         });
         startThemeMusic();
-
-
+      
 
     }
 
@@ -63,4 +66,15 @@ public class Main {
         Thread t = new Thread(r);
         t.start();
     }
+    
+    public static void testScreen(){
+        game = new Game();
+        game.initGame();
+        System.out.println(game.getCurrentPiecePositions());
+        System.out.println(screen);
+        screen.newPiece(game.getCurrentPiecePositions(), "Blue");
+        
+    }
+
+
 }

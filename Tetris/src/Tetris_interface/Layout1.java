@@ -25,27 +25,25 @@ import javax.swing.SwingUtilities;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 import javax.swing.border.TitledBorder;
-
 import tetris.Position;
 
-/**
- *
- * @author Felipe
- */
 public class Layout1 extends JFrame {
 
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
     private JLabel[] currentPiece, nextPiece; //array with the position of the 4 boxes of the 2 pieces
     private JLabel[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
-    private int pieceSize = 20, screenWidth = 10, screenHeight = 13;
+    private int pieceSize = 20, screenWidth = 10, screenHeight = 13, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
-    private JTextField leftKey,rightKey,downKey,rotateKey,playerName;
+    private JTextField leftKey, rightKey, downKey, rotateKey, playerName;
     private JCheckBox mouseBox;
     //sound components
     private JComboBox themeBox;
     private JSlider volumeSlider;
     //1 players components
     private JPanel gameScreen1pPanel, gameNext1pPanel;
+    private JProgressBar scoreBar;
+    private JTextField score, timePassed;
+    private JLabel level;
 
     public Layout1() {
 
@@ -351,15 +349,15 @@ public class Layout1 extends JFrame {
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(200, 50, 90, 60));
 
         //game status
-        JProgressBar scoreBar = new JProgressBar();
+        scoreBar = new JProgressBar();
         scoreBar.setValue(10);
         game1pPanel.add(scoreBar, new AbsoluteConstraints(205, 210, 120, -1));
 
-        JLabel nivel = new JLabel("Nivel: 0");
-        nivel.setFont(new java.awt.Font("Neuropol", 0, 14));
-        game1pPanel.add(nivel, new AbsoluteConstraints(235, 190, -1, -1));
+        level = new JLabel("Level: 0");
+        level.setFont(new java.awt.Font("Neuropol", 0, 14));
+        game1pPanel.add(level, new AbsoluteConstraints(235, 190, -1, -1));
 
-        JTextField score = new JTextField();
+        score = new JTextField();
         score.setText("0");
         score.setFont(new Font("Neuropol", 0, 14)); // NOI18N
         score.setHorizontalAlignment(JTextField.CENTER);
@@ -374,7 +372,7 @@ public class Layout1 extends JFrame {
         timeLabel.setFont(new Font("Neuropol", 0, 14));
         game1pPanel.add(timeLabel, new AbsoluteConstraints(275, 130, -1, -1));
 
-        JTextField timePassed = new JTextField("01:02");
+        timePassed = new JTextField("01:02");
         timePassed.setBackground(new java.awt.Color(0, 0, 0));
         timePassed.setFont(new java.awt.Font("Neuropol", 0, 14)); // NOI18N
         timePassed.setForeground(new java.awt.Color(51, 255, 0));
@@ -388,7 +386,7 @@ public class Layout1 extends JFrame {
         apply.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
-                func_changeConfig();
+                func_pause();
             }
         });
         JButton cancel = new JButton("Restart");
@@ -396,7 +394,7 @@ public class Layout1 extends JFrame {
         cancel.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
-                func_initial();
+                func_restart();
             }
         });
         game1pPanel.add(apply, new AbsoluteConstraints(215, 230, 100, 30));
@@ -524,14 +522,22 @@ public class Layout1 extends JFrame {
     }
 
     private void func_changeConfig() {
-        /**atualiza hotkeys
-        if (mouse.isSelected()) {
-        //habilita movimento pelo mouse
+        //atualiza hotkeys
+        if (mouseBox.isSelected()) {
+            //habilita movimento pelo mouse
         } else {
-        //desabilita o mouse
+            //desabilita o mouse
         }
-         * **/
+
         func_initial();
+    }
+
+    private void func_pause() {
+        
+    }
+
+    private void func_restart() {
+        setScore(60);
     }
     //publics functions
 
@@ -610,6 +616,26 @@ public class Layout1 extends JFrame {
                 gameScreen1pPanel.add(screen[i][j], new AbsoluteConstraints(xPos(i), yPos(line), pieceSize, pieceSize));
             }
         }
+    }
+
+    public void setScore(int newScore) {
+        //if change of level, set the new level maximum score and change the label
+        score.setText(String.valueOf(newScore));
+        if ((newScore - levelScoreAnt) > levelScore) {
+            levelScoreAnt += levelScore;
+            levelScore += levelScore * scoreFactor / 100;
+            levelNumber++;
+            level.setText("Level:" + levelNumber);
+        }
+        //verificar necessidade, se é possivel ou naum passar de mais de um nivel com uma jogada
+        if ((newScore - levelScoreAnt) > levelScore) {
+            levelScoreAnt += levelScore;
+            levelScore += levelScore * scoreFactor / 100;
+            levelNumber++;
+            level.setText("Level:" + levelNumber);
+        }
+        scoreBar.setValue((newScore - levelScoreAnt) * 100 / levelScore);
+
     }
     //internal use funcition
 

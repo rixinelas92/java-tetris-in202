@@ -40,6 +40,25 @@ public class Screen {
         }
         return -1;
     }
+    /**
+     * Remove Line
+     * @return
+     */
+    public void removeLine(int line){
+        for(int i = line+1;i<sizeY;i++){
+            int j;
+            for(j = 0;j<sizeX;j++){
+                if(grid[i][j].isFull())
+                    break;
+            }
+            if(j == sizeX) // none line is filled
+                break;
+
+            for(j = 0;j<sizeX;j++){
+                grid[i-1][j] = new Box(grid[i][j]);
+            }
+        }
+    }
 
     public boolean checkColisionBord(){
         return false;

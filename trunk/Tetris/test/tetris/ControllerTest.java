@@ -66,7 +66,7 @@ public class ControllerTest extends TestCase {
     public void testGoLight() {
         System.out.println("goLight");
         Controller instance = new ControllerImpl();
-        instance.goLight();
+        instance.goRight();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -93,7 +93,7 @@ public class ControllerTest extends TestCase {
         public void goLeft() {
         }
 
-        public void goLight() {
+        public void goRight() {
         }
 
         public void stop() {

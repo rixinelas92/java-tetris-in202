@@ -32,6 +32,7 @@ public class Layout1 extends JFrame {
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
     private JLabel[] currentPiece, nextPiece; //array with the position of the 4 boxes of the 2 pieces
     private JLabel[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
+    //constants
     private int pieceSize = 20, screenWidth = 10, screenHeight = 13, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
     private JTextField leftKey, rightKey, downKey, rotateKey, playerName;
@@ -44,6 +45,8 @@ public class Layout1 extends JFrame {
     private JProgressBar scoreBar;
     private JTextField score, timePassed;
     private JLabel level;
+    //listenets
+    static ActionListener gameViewReady = null;
 
     public Layout1() {
 
@@ -65,76 +68,84 @@ public class Layout1 extends JFrame {
         topPanel = new JPanel(new AbsoluteLayout());
 
         JToolBar toolbar = new JToolBar();
+        try {
+            ImageIcon newgameIcon = new ImageIcon(getClass().getResource("newgame.png"));
+            ImageIcon configIcon = new ImageIcon(getClass().getResource("config.png"));
+            ImageIcon somIcon = new ImageIcon(getClass().getResource("som.png"));
+            ImageIcon closeIcon = new ImageIcon(getClass().getResource("close.png"));
 
-        ImageIcon newgameIcon = new ImageIcon(getClass().getResource("newgame.png"));
-        ImageIcon configIcon = new ImageIcon(getClass().getResource("config.png"));
-        ImageIcon somIcon = new ImageIcon(getClass().getResource("som.png"));
-        ImageIcon closeIcon = new ImageIcon(getClass().getResource("close.png"));
+            JButton newgame = new JButton("New Game", newgameIcon);
+            JButton config = new JButton("Configuration", configIcon);
+            JButton som = new JButton("Sound", somIcon);
+            JButton close = new JButton("Exit", closeIcon);
 
-        JButton newgame = new JButton("New Game", newgameIcon);
-        JButton config = new JButton("Configuration", configIcon);
-        JButton som = new JButton("Sound", somIcon);
-        JButton close = new JButton("Exit", closeIcon);
+            newgame.addActionListener(new ActionListener() {
 
-        newgame.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    func_newgame();
+                }
+            });
 
-            public void actionPerformed(ActionEvent event) {
-                func_newgame();
-            }
-        });
+            config.addActionListener(new ActionListener() {
 
-        config.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    func_config();
+                }
+            });
 
-            public void actionPerformed(ActionEvent event) {
-                func_config();
-            }
-        });
+            som.addActionListener(new ActionListener() {
 
-        som.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    func_som();
+                }
+            });
 
-            public void actionPerformed(ActionEvent event) {
-                func_som();
-            }
-        });
+            close.addActionListener(new ActionListener() {
 
-        close.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    func_exit();
+                }
+            });
 
-            public void actionPerformed(ActionEvent event) {
-                func_exit();
-            }
-        });
+            toolbar.add(newgame, new AbsoluteConstraints(20, 20));
+            toolbar.add(config, new AbsoluteConstraints(80, 20));
+            toolbar.add(som, new AbsoluteConstraints(140, 20));
+            toolbar.add(close, new AbsoluteConstraints(200, 20));
 
-        toolbar.add(newgame, new AbsoluteConstraints(20, 20));
-        toolbar.add(config, new AbsoluteConstraints(80, 20));
-        toolbar.add(som, new AbsoluteConstraints(140, 20));
-        toolbar.add(close, new AbsoluteConstraints(200, 20));
-
-        topPanel.add(toolbar, new AbsoluteConstraints(0, 0));
+            topPanel.add(toolbar, new AbsoluteConstraints(0, 0));
+        } catch (Exception e) {
+            System.out.println("Problem in top icons load");
+            e.printStackTrace();
+        }
     }
 
     private void make_initial() {
         initialPanel = new JPanel(new AbsoluteLayout());
         JLabel menuImage = new JLabel();
-        menuImage.setIcon(new ImageIcon(getClass().getResource("/Tetris_interface/menuimage.png")));
+        try {
+            menuImage.setIcon(new ImageIcon(getClass().getResource("/Tetris_interface/menuimage.png")));
 
-        initialPanel.add(menuImage, new AbsoluteConstraints(0, 50, -1, -1));
+            initialPanel.add(menuImage, new AbsoluteConstraints(0, 50, -1, -1));
 
-        JLabel initialMenu = new JLabel("TETRIS");
-        initialMenu.setFont(new java.awt.Font("Neuropol", 0, 48));
+            JLabel initialMenu = new JLabel("TETRIS");
+            initialMenu.setFont(new java.awt.Font("Neuropol", 0, 48));
 
-        initialPanel.add(initialMenu, new AbsoluteConstraints(70, 5, -1, -1));
+            initialPanel.add(initialMenu, new AbsoluteConstraints(70, 5, -1, -1));
 
-        JLabel credits1 = new JLabel("By: Gustavo PACIANOTTO G.");
-        credits1.setFont(new Font("Segoe Print", 0, 13));
-        JLabel credits2 = new JLabel("     Adriano Tacilo RIBEIRO");
-        credits2.setFont(new Font("Segoe Print", 0, 13));
-        JLabel credits3 = new JLabel("     Ademir Felipe TELES");
-        credits3.setFont(new Font("Segoe Print", 0, 13));
+            JLabel credits1 = new JLabel("By: Gustavo PACIANOTTO G.");
+            credits1.setFont(new Font("Segoe Print", 0, 13));
+            JLabel credits2 = new JLabel("     Adriano Tacilo RIBEIRO");
+            credits2.setFont(new Font("Segoe Print", 0, 13));
+            JLabel credits3 = new JLabel("     Ademir Felipe TELES");
+            credits3.setFont(new Font("Segoe Print", 0, 13));
 
-        initialPanel.add(credits1, new AbsoluteConstraints(127, 180, -1, -1));
-        initialPanel.add(credits2, new AbsoluteConstraints(127, 202, -1, -1));
-        initialPanel.add(credits3, new AbsoluteConstraints(127, 224, -1, -1));
-
+            initialPanel.add(credits1, new AbsoluteConstraints(127, 180, -1, -1));
+            initialPanel.add(credits2, new AbsoluteConstraints(127, 202, -1, -1));
+            initialPanel.add(credits3, new AbsoluteConstraints(127, 224, -1, -1));
+        } catch (Exception e) {
+            System.out.println("Problem in top icons load");
+            e.printStackTrace();
+        }
 
     }
 
@@ -486,6 +497,13 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(true);
         game2pPanel.setVisible(false);
 
+        try {
+            gameViewReady.actionPerformed(null);
+        } catch (Exception e) {
+            System.out.println("problema com o action perfomed");
+        }
+
+
         //so pra demonstrar, retirar depois
         JLabel bluePiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Blue.png")));
         JLabel brownPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Brown.png")));
@@ -533,28 +551,27 @@ public class Layout1 extends JFrame {
     }
 
     private void func_pause() {
-        
     }
 
     private void func_restart() {
-        setScore(60);
+        
     }
     //publics functions
 
     public void setPiecePosition(Position[] newPiece) {
         //if the bloc shouldn't keep hide, pass position X or/and Y =-1
+        currentPiece[0].setLocation(newPiece[0].getX(), newPiece[0].getY());
         currentPiece[1].setLocation(newPiece[1].getX(), newPiece[1].getY());
         currentPiece[2].setLocation(newPiece[2].getX(), newPiece[2].getY());
         currentPiece[3].setLocation(newPiece[3].getX(), newPiece[3].getY());
-        currentPiece[4].setLocation(newPiece[4].getX(), newPiece[4].getY());
+        screen[currentPiece[0].getX()][currentPiece[0].getY()] = currentPiece[0];
         screen[currentPiece[1].getX()][currentPiece[1].getY()] = currentPiece[1];
         screen[currentPiece[2].getX()][currentPiece[2].getY()] = currentPiece[2];
         screen[currentPiece[3].getX()][currentPiece[3].getY()] = currentPiece[3];
-        screen[currentPiece[4].getX()][currentPiece[4].getY()] = currentPiece[4];
+        gameScreen1pPanel.add(currentPiece[0], new AbsoluteConstraints(xPos(currentPiece[0].getX()), yPos(currentPiece[0].getY()), pieceSize, pieceSize));
         gameScreen1pPanel.add(currentPiece[1], new AbsoluteConstraints(xPos(currentPiece[1].getX()), yPos(currentPiece[1].getY()), pieceSize, pieceSize));
         gameScreen1pPanel.add(currentPiece[2], new AbsoluteConstraints(xPos(currentPiece[2].getX()), yPos(currentPiece[2].getY()), pieceSize, pieceSize));
         gameScreen1pPanel.add(currentPiece[3], new AbsoluteConstraints(xPos(currentPiece[3].getX()), yPos(currentPiece[3].getY()), pieceSize, pieceSize));
-        gameScreen1pPanel.add(currentPiece[4], new AbsoluteConstraints(xPos(currentPiece[4].getX()), yPos(currentPiece[4].getY()), pieceSize, pieceSize));
 
     }
 
@@ -563,45 +580,49 @@ public class Layout1 extends JFrame {
 
         currentPiece = nextPiece;
 //put the piece in the game
-        currentPiece[1].setLocation(gameScreen1pPanel.getWidth() / (2 * pieceSize), gameScreen1pPanel.getHeight() / pieceSize);
-        currentPiece[2].setLocation(currentPiece[1].getX() - nextPiece[1].getX() + nextPiece[2].getX(), currentPiece[1].getY() - nextPiece[1].getY() + nextPiece[2].getY());
-        currentPiece[3].setLocation(currentPiece[1].getX() - nextPiece[1].getX() + nextPiece[3].getX(), currentPiece[1].getY() - nextPiece[1].getY() + nextPiece[3].getY());
-        currentPiece[4].setLocation(currentPiece[1].getX() - nextPiece[1].getX() + nextPiece[4].getX(), currentPiece[1].getY() - nextPiece[1].getY() + nextPiece[4].getY());
+        currentPiece[0].setLocation(gameScreen1pPanel.getWidth() / (2 * pieceSize), gameScreen1pPanel.getHeight() / pieceSize);
+        currentPiece[1].setLocation(currentPiece[0].getX() - nextPiece[0].getX() + nextPiece[1].getX(), currentPiece[0].getY() - nextPiece[0].getY() + nextPiece[1].getY());
+        currentPiece[2].setLocation(currentPiece[0].getX() - nextPiece[0].getX() + nextPiece[2].getX(), currentPiece[0].getY() - nextPiece[0].getY() + nextPiece[2].getY());
+        currentPiece[3].setLocation(currentPiece[0].getX() - nextPiece[0].getX() + nextPiece[3].getX(), currentPiece[0].getY() - nextPiece[0].getY() + nextPiece[3].getY());
+        screen[currentPiece[0].getX()][currentPiece[0].getY()] = currentPiece[0];
         screen[currentPiece[1].getX()][currentPiece[1].getY()] = currentPiece[1];
         screen[currentPiece[2].getX()][currentPiece[2].getY()] = currentPiece[2];
         screen[currentPiece[3].getX()][currentPiece[3].getY()] = currentPiece[3];
-        screen[currentPiece[4].getX()][currentPiece[4].getY()] = currentPiece[4];
 
-        gameScreen1pPanel.add(currentPiece[1], new AbsoluteConstraints(xPos(currentPiece[1].getX()), yPos(currentPiece[1].getY()), pieceSize, pieceSize));
-        if (nextPiece[2].getY() <= nextPiece[1].getY()) {
+        gameScreen1pPanel.add(currentPiece[0], new AbsoluteConstraints(xPos(currentPiece[0].getX()), yPos(currentPiece[0].getY()), pieceSize, pieceSize));
+        if (nextPiece[1].getY() <= nextPiece[0].getY()) {
+            gameScreen1pPanel.add(currentPiece[1], new AbsoluteConstraints(xPos(currentPiece[1].getX()), yPos(currentPiece[1].getY()), pieceSize, pieceSize));
+        }
+        if (nextPiece[2].getY() <= nextPiece[0].getY()) {
             gameScreen1pPanel.add(currentPiece[2], new AbsoluteConstraints(xPos(currentPiece[2].getX()), yPos(currentPiece[2].getY()), pieceSize, pieceSize));
         }
-        if (nextPiece[3].getY() <= nextPiece[1].getY()) {
+        if (nextPiece[3].getY() <= nextPiece[0].getY()) {
             gameScreen1pPanel.add(currentPiece[3], new AbsoluteConstraints(xPos(currentPiece[3].getX()), yPos(currentPiece[3].getY()), pieceSize, pieceSize));
-        }
-        if (nextPiece[4].getY() <= nextPiece[1].getY()) {
-            gameScreen1pPanel.add(currentPiece[4], new AbsoluteConstraints(xPos(currentPiece[4].getX()), yPos(currentPiece[4].getY()), pieceSize, pieceSize));
         }
 
         //add one new piece in NextPiece box
         gameNext1pPanel.removeAll();
+        try {
+            nextPiece[0] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+            nextPiece[1] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+            nextPiece[2] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+            nextPiece[3] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
 
-        nextPiece[1] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
-        nextPiece[2] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
-        nextPiece[3] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
-        nextPiece[4] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+            nextPiece[0].setLocation(newPos[0].getX(), newPos[0].getY());
+            nextPiece[1].setLocation(newPos[1].getX(), newPos[1].getY());
+            nextPiece[2].setLocation(newPos[2].getX(), newPos[2].getY());
+            nextPiece[3].setLocation(newPos[3].getX(), newPos[3].getY());
 
-        nextPiece[1].setLocation(newPos[1].getX(), newPos[1].getY());
-        nextPiece[2].setLocation(newPos[2].getX(), newPos[1].getY());
-        nextPiece[3].setLocation(newPos[3].getX(), newPos[1].getY());
-        nextPiece[4].setLocation(newPos[4].getX(), newPos[1].getY());
-
-        int xBase = gameNext1pPanel.getWidth() / 2;
-        int yBase = gameNext1pPanel.getHeight() / 2;
-        gameNext1pPanel.add(nextPiece[1], new AbsoluteConstraints(xBase + xPos(nextPiece[1].getX()), yBase + yPos(nextPiece[1].getY()), pieceSize, pieceSize));
-        gameNext1pPanel.add(nextPiece[2], new AbsoluteConstraints(xBase + xPos(nextPiece[2].getX()), yBase + yPos(nextPiece[2].getY()), pieceSize, pieceSize));
-        gameNext1pPanel.add(nextPiece[3], new AbsoluteConstraints(xBase + xPos(nextPiece[3].getX()), yBase + yPos(nextPiece[3].getY()), pieceSize, pieceSize));
-        gameNext1pPanel.add(nextPiece[4], new AbsoluteConstraints(xBase + xPos(nextPiece[4].getX()), yBase + yPos(nextPiece[4].getY()), pieceSize, pieceSize));
+            int xBase = gameNext1pPanel.getWidth() / 2;
+            int yBase = gameNext1pPanel.getHeight() / 2;
+            gameNext1pPanel.add(nextPiece[0], new AbsoluteConstraints(xBase + xPos(nextPiece[0].getX()), yBase + yPos(nextPiece[0].getY()), pieceSize, pieceSize));
+            gameNext1pPanel.add(nextPiece[1], new AbsoluteConstraints(xBase + xPos(nextPiece[1].getX()), yBase + yPos(nextPiece[1].getY()), pieceSize, pieceSize));
+            gameNext1pPanel.add(nextPiece[2], new AbsoluteConstraints(xBase + xPos(nextPiece[2].getX()), yBase + yPos(nextPiece[2].getY()), pieceSize, pieceSize));
+            gameNext1pPanel.add(nextPiece[3], new AbsoluteConstraints(xBase + xPos(nextPiece[3].getX()), yBase + yPos(nextPiece[3].getY()), pieceSize, pieceSize));
+        } catch (Exception e) {
+            System.out.println("Problem in top icons load");
+            e.printStackTrace();
+        }
     }
 
     public void eraseLine(int line) {
@@ -618,24 +639,11 @@ public class Layout1 extends JFrame {
         }
     }
 
-    public void setScore(int newScore) {
+    public void setScore(int newScore, int newLevel, int scoreMin, int scoreMax) {
         //if change of level, set the new level maximum score and change the label
         score.setText(String.valueOf(newScore));
-        if ((newScore - levelScoreAnt) > levelScore) {
-            levelScoreAnt += levelScore;
-            levelScore += levelScore * scoreFactor / 100;
-            levelNumber++;
-            level.setText("Level:" + levelNumber);
-        }
-        //verificar necessidade, se é possivel ou naum passar de mais de um nivel com uma jogada
-        if ((newScore - levelScoreAnt) > levelScore) {
-            levelScoreAnt += levelScore;
-            levelScore += levelScore * scoreFactor / 100;
-            levelNumber++;
-            level.setText("Level:" + levelNumber);
-        }
-        scoreBar.setValue((newScore - levelScoreAnt) * 100 / levelScore);
-
+        level.setText("Level:" + newLevel);
+        scoreBar.setValue((newScore - scoreMin) * 100 / (scoreMax - scoreMin));
     }
     //internal use funcition
 
@@ -645,6 +653,11 @@ public class Layout1 extends JFrame {
 
     private int yPos(int newY) {
         return gameScreen1pPanel.getHeight() - newY * pieceSize;
+    }
+//listeners
+
+    static void addGameViewReady(ActionListener newGameViewReady) {
+        gameViewReady = newGameViewReady;
     }
 
     public static void main(String[] args) {

@@ -497,12 +497,9 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(true);
         game2pPanel.setVisible(false);
 
-        try {
+        if (gameViewReady != null) {
             gameViewReady.actionPerformed(null);
-        } catch (Exception e) {
-            System.out.println("problema com o action perfomed");
         }
-
 
         //so pra demonstrar, retirar depois
         JLabel bluePiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Blue.png")));
@@ -554,7 +551,6 @@ public class Layout1 extends JFrame {
     }
 
     private void func_restart() {
-        
     }
     //publics functions
 

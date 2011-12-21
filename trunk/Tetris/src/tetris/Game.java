@@ -24,6 +24,7 @@ public class Game implements Controller{
     private Piece currentPiece;
 
 
+
     Timer timer;
     boolean isFallingFinished = false;
     boolean isStarted = false;
@@ -75,15 +76,7 @@ public class Game implements Controller{
         return currentPiece.getAllPosition();
     }
     public void rotate() {
-        Position[] piece = currentPiece.getAllPosition();
-        for(Position p: piece){
-            for (int i = 0; i < 4; ++i) {
-          //  currentPiece.setX(i, y(i));
-          //  currentPiece.setY(i, -x(i));
-        }
-      //  return currentPiece;
-                   
-        }
+        currentPiece.rotation();
     }
 
     public void goToBottom() {
@@ -94,7 +87,7 @@ public class Game implements Controller{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void goLight() {
+    public void goRight() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

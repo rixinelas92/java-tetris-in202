@@ -85,7 +85,7 @@ public class Piece {
         Z,S,I,T,O,Li,L,None
     };
 
-    Color[] shapeColors = {Color.PINK, Color.MAGENTA, Color.BLUE, Color.CYAN,Color.YELLOW,Color.GREEN,Color.ORANGE,Box.getEmptyColor()};
+    public static final Color[] shapeColors = {Color.PINK, Color.MAGENTA, Color.BLUE, Color.CYAN,Color.YELLOW,Color.GREEN,Color.ORANGE,Box.getEmptyColor()};
 
     public Piece(ShapeType s,short square, Position p) throws OutOfScreenBoundsException{
         currentRotation = 1;

@@ -7,17 +7,39 @@ package tetris;
  * @author felipeteles
  */
 public class Screen {
-    private short sizeX = 10;
-    private short sizeY = 30;
-    private Box[][] screen;
+    static final private short sizeX = 10;
+    static final private short sizeY = 30;
+    private Box[][] grid;
 
     public Screen(){ //define o tamanho fixo da tela
+        grid = new Box[sizeX][sizeY];
+    }
+    public Screen(Screen s){
+        grid = new Box[sizeX][sizeY];
+        for(int i = 0;i<sizeX;i++){
+            for(int j = 0;j<sizeY;j++){
+                grid[i][j] = new Box(s.grid[i][j]);
+            }
+        }
     }
 
+    /**
+     * Retorns -1 if no line were affected and i >= 0 if the i-ary line
+     * were afected. (starting from 0);
+     * @return number of line affected
+     */
     public short checkLine(){
-        short n_line = 0;
-        return n_line;
-    }//verifica linhas cheias, apaga e retorna numero de linhas feitas
+        for(int i = 0;i<sizeY;i++){
+            int j;
+            for(j = 0;j<sizeX;j++){
+                if(!grid[i][j].isFull())
+                    break;
+            }
+            if(j == sizeX) // all lines filled
+                return (short)i;
+        }
+        return -1;
+    }
 
     public boolean checkColisionBord(){
         return false;
@@ -36,7 +58,7 @@ public class Screen {
             return null;
         if(y > sizeX  || y < 0)
             return null;
-        return screen[x][y];
+        return grid[x][y];
     }
     
     public class BorderRetriever{

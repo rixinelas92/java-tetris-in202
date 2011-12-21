@@ -6,6 +6,7 @@
 package tetris;
 
 import java.awt.Color;
+import tetris.Piece.ShapeType;
 
 /**
  *
@@ -16,7 +17,17 @@ public class Box {
     private Color color;
     
     public Box(){
-    };//começa tudo em branco e full=false.
+        this.full = false;
+        this.color = Piece.shapeColors[ShapeType.None.ordinal()];
+    }
+    public Box(boolean full, Color color){
+        this.full = full;
+        this.color = color;
+    }
+    public Box(Box b){
+        this.color=b.color;
+        this.full = b.full;
+    }
     public Color getColor() {
         return color;
     }

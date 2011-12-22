@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Font;
 
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -49,7 +52,7 @@ public class Layout1 extends JFrame {
     static ActionListener gameViewReady = null;
 
     public Layout1() {
-
+        
         make_top();
         make_initial();
         make_selection();
@@ -60,9 +63,8 @@ public class Layout1 extends JFrame {
         make_base();
         make_UI();
         screen = new JLabel[screenWidth][screenHeight];
-    }
+      }
     //cria os panels usados
-
     private void make_top() {
 
         topPanel = new JPanel(new AbsoluteLayout());
@@ -118,7 +120,6 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
-
     private void make_initial() {
         initialPanel = new JPanel(new AbsoluteLayout());
         JLabel menuImage = new JLabel();
@@ -148,7 +149,6 @@ public class Layout1 extends JFrame {
         }
 
     }
-
     private void make_selection() {
         selectionPanel = new JPanel(new AbsoluteLayout());
 
@@ -180,7 +180,6 @@ public class Layout1 extends JFrame {
         selectionPanel.add(player2, new AbsoluteConstraints(2, 182, 320, 130));
 
     }
-
     private void make_options() {
 
         optionsPanel = new JPanel(new AbsoluteLayout());
@@ -287,7 +286,6 @@ public class Layout1 extends JFrame {
         optionsPanel.add(cancel, new AbsoluteConstraints(180, 250, -1, -1));
 
     }
-
     private void make_som() {
         somPanel = new JPanel(new AbsoluteLayout());
         JLabel optionTitle = new JLabel("Sound");
@@ -337,7 +335,6 @@ public class Layout1 extends JFrame {
         somPanel.add(cancel, new AbsoluteConstraints(180, 250, -1, -1));
 
     }
-
     private void make_game1p() {
         game1pPanel = new JPanel(new AbsoluteLayout());
 
@@ -350,15 +347,15 @@ public class Layout1 extends JFrame {
         game1pPanel.add(separator, new AbsoluteConstraints(5, 50, 330, 10));
 
         //panels
-
+       
         gameScreen1pPanel = new JPanel(new AbsoluteLayout());
         gameScreen1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        gameScreen1pPanel.setFocusable(true);
         gameNext1pPanel = new JPanel(new AbsoluteLayout());
         gameNext1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
 
         game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(0, 50, 200, 260));
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(200, 50, 90, 60));
-
         //game status
         scoreBar = new JProgressBar();
         scoreBar.setValue(10);
@@ -410,16 +407,14 @@ public class Layout1 extends JFrame {
         });
         game1pPanel.add(apply, new AbsoluteConstraints(215, 230, 100, 30));
         game1pPanel.add(cancel, new AbsoluteConstraints(215, 260, 100, -1));
-
+       
     }
-
     private void make_game2p() {
         game2pPanel = new JPanel(new AbsoluteLayout());
         JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
         game2pPanel.add(menu, new AbsoluteConstraints(0, 0));
 
     }
-
     private void make_base() {
 
         base = new JPanel(new AbsoluteLayout());
@@ -435,10 +430,9 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         base.add(game2pPanel, new AbsoluteConstraints(0, 10, 330, 320));
         game2pPanel.setVisible(false);
-
+        
     }
     //cria a interface do JFrame
-
     private void make_UI() {
         getContentPane().setLayout(new AbsoluteLayout());
         add(base, new AbsoluteConstraints(0, 0));
@@ -452,7 +446,6 @@ public class Layout1 extends JFrame {
 
     }
     //functions by Events
-
     private void func_initial() {
         initialPanel.setVisible(true);
         selectionPanel.setVisible(false);
@@ -461,7 +454,6 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
     }
-
     private void func_newgame() {
         initialPanel.setVisible(false);
         selectionPanel.setVisible(true);
@@ -470,7 +462,6 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
     }
-
     private void func_config() {
         initialPanel.setVisible(false);
         selectionPanel.setVisible(false);
@@ -479,7 +470,6 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
     }
-
     private void func_som() {
         initialPanel.setVisible(false);
         selectionPanel.setVisible(false);
@@ -488,7 +478,6 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
     }
-
     private void func_1player() {
         initialPanel.setVisible(false);
         selectionPanel.setVisible(false);
@@ -496,7 +485,7 @@ public class Layout1 extends JFrame {
         somPanel.setVisible(false);
         game1pPanel.setVisible(true);
         game2pPanel.setVisible(false);
-
+        
         if (gameViewReady != null) {
             gameViewReady.actionPerformed(null);
         }
@@ -522,7 +511,6 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.add(screen[1][1], new AbsoluteConstraints(7 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
 
     }
-
     private void func_2players() {
         initialPanel.setVisible(false);
         selectionPanel.setVisible(false);
@@ -531,11 +519,9 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(true);
     }
-
     private void func_exit() {
         System.exit(0);
     }
-
     private void func_changeConfig() {
         //atualiza hotkeys
         if (mouseBox.isSelected()) {
@@ -546,14 +532,11 @@ public class Layout1 extends JFrame {
 
         func_initial();
     }
-
     private void func_pause() {
     }
-
     private void func_restart() {
     }
     //publics functions
-
     public void setPiecePosition(Position[] newPiece) {
         //if the bloc shouldn't keep hide, pass position X or/and Y =-1
         currentPiece[0].setLocation(newPiece[0].getX(), newPiece[0].getY());
@@ -570,7 +553,6 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.add(currentPiece[3], new AbsoluteConstraints(xPos(currentPiece[3].getX()), yPos(currentPiece[3].getY()), pieceSize, pieceSize));
 
     }
-
     public void newPiece(Position[] newPos, String colorPiece) {
         //this function receive the 4 positions of the new piece and her color
 
@@ -620,7 +602,6 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
-
     public void eraseLine(int line) {
         //linhas começam do zero
         int i, j;
@@ -634,24 +615,29 @@ public class Layout1 extends JFrame {
             }
         }
     }
-
     public void setScore(int newScore, int newLevel, int scoreMin, int scoreMax) {
         //if change of level, set the new level maximum score and change the label
         score.setText(String.valueOf(newScore));
         level.setText("Level:" + newLevel);
         scoreBar.setValue((newScore - scoreMin) * 100 / (scoreMax - scoreMin));
     }
+    public void setKeyListener(KeyListener newListener){
+       gameScreen1pPanel.addKeyListener(newListener);
+    }
+    public void setMouseListener(MouseListener newListener){
+       gameScreen1pPanel.addMouseListener(newListener);
+    }
+    public void setMouseMotionListener(MouseMotionListener newListener){
+       gameScreen1pPanel.addMouseMotionListener(newListener);
+    }
     //internal use funcition
-
     private int xPos(int newX) {
         return newX * pieceSize;
     }
-
     private int yPos(int newY) {
         return gameScreen1pPanel.getHeight() - newY * pieceSize;
     }
-//listeners
-
+    
     static void addGameViewReady(ActionListener newGameViewReady) {
         gameViewReady = newGameViewReady;
     }

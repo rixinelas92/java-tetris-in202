@@ -39,8 +39,7 @@ public enum SoundEffect {
          // Open audio clip and load samples from the audio input stream.
          clip.open(audioInputStream);
          volumeControl= (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-         System.out.println(volumeControl.getMaximum()+" "+ volumeControl.getMinimum()+" "+volumeControl.getValue());
-
+         
       } catch (UnsupportedAudioFileException e) {
          e.printStackTrace();
       } catch (IOException e) {

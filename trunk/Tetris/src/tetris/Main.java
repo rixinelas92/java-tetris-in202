@@ -44,12 +44,10 @@ public class Main {
 
             public void run() {
                 screen = new Layout1();
-                screen.setVisible(true);
+                screen.setVisible(true);          
             }
         });
         startThemeMusic();
-      
-
     }
 
     private static void startThemeMusic() {
@@ -72,9 +70,14 @@ public class Main {
         game.initGame();
         System.out.println(game.getCurrentPiecePositions());
         System.out.println(screen);
-        screen.newPiece(game.getCurrentPiecePositions(), "Blue");
+        screen.initPieces(game.getNextPiecePositions(), game.getNextPieceColorName(),
+                game.getCurrentPiecePositions(), game.getCurrentPieceColorName());
         
     }
-
-
+    public static void updatePiecesPositions(){
+        screen.setPiecePosition(game.getCurrentPiecePositions());
+    }
+    public static void setNewPiece(){
+        screen.newPiece(game.getCurrentPiecePositions(), game.getCurrentPieceColorName());
+    }
 }

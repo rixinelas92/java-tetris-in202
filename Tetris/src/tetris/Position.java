@@ -6,6 +6,7 @@
 package tetris;
 
 
+import tetris.Screen.FilledRetriever;
 import tetris.Screen.OutOfScreenBoundsException;
 
 /**
@@ -16,6 +17,7 @@ public class Position {
     private short x;
     private short y;
     static Screen.BorderRetriever borderRetriever;
+    static FilledRetriever filledRetriever;
 
     public Position(Position old) throws OutOfScreenBoundsException{
         setX(old.getX());
@@ -31,15 +33,13 @@ public class Position {
         setY(newY);
     }
     public void setX(short newX)throws OutOfScreenBoundsException{
-        if(newX > borderRetriever.getMaxX() || newX < 0)
+        if(newX >= borderRetriever.getMaxX() || newX < 0)
             throw new OutOfScreenBoundsException();
         x = newX;
     }
     public void setY(short newY)throws OutOfScreenBoundsException{
-        System.out.println("->"+borderRetriever+"    "+borderRetriever.getMaxY()+"   "+ newY);
-        if(newY > borderRetriever.getMaxY() || newY < 0)
+        if(newY >= borderRetriever.getMaxY() || newY < 0)
             throw new OutOfScreenBoundsException();
-
         y = newY;
     }
     public void setPosition(short newX,short newY){
@@ -59,8 +59,13 @@ public class Position {
     static public void setBorderRetriever(Screen.BorderRetriever borderRetriever){
         Position.borderRetriever = borderRetriever;
     }
+    static public void setFilledRetriever(Screen.FilledRetriever filledRetriever){
+        Position.filledRetriever = filledRetriever;
+    }
 
-
+    static boolean isFilled(int x, int y){
+        return filledRetriever.isFilledWithStaticBloc(x, y);
+    }
 
     @Override
     public boolean equals(Object obj) {

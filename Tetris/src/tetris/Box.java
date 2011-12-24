@@ -48,5 +48,9 @@ public class Box {
         return Color.WHITE;
     }
 
+    public void copyFrom(Box b){
+        this.color = b.color;
+        this.full = b.full;
+    }
 
 }

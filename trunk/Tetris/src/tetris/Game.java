@@ -8,19 +8,21 @@ package tetris;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
 import tetris.Screen.BorderRetriever;
 import tetris.Screen.NotAvailablePlaceForPieceException;
 import tetris.Screen.OutOfScreenBoundsException;
+import tetris.util.RandomEnum;
 
 /**
  *
  * @author felipeteles
  */
-public class Game implements Controller,ActionListener{
+public class Game extends Controller implements ActionListener{
     private Screen screen;
     private Piece currentPiece;
     private Piece nextPiece;
@@ -155,21 +157,47 @@ public class Game implements Controller,ActionListener{
         }
     }
 
-    private static class RandomEnum<E extends Enum> {
-
-        private static final Random RND = new Random();
-        private final E[] values;
-
-        public RandomEnum(Class<E> token) {
-            values = token.getEnumConstants();
-        }
-        public E random() {
-            return values[RND.nextInt(values.length)];
-        }
-        public E randomExceptLast() {
-            return values[RND.nextInt(values.length-1)];
-        }
+    @Override
+    protected void goToX() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
     
 
 }

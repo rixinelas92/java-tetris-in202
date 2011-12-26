@@ -70,8 +70,12 @@ public class Main {
         game.initGame();
         System.out.println(game.getCurrentPiecePositions());
         System.out.println(screen);
+
+        /*
         screen.initPieces(game.getNextPiecePositions(), game.getNextPieceColorName(),
                 game.getCurrentPiecePositions(), game.getCurrentPieceColorName());
+         *
+         */
         
     }
     public static void updatePiecesPositions(){

@@ -10,7 +10,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-//para teste
+
 import javax.swing.*;
 import Tetris_interface.AbsoluteConstraints;
 import Tetris_interface.AbsoluteLayout;
@@ -18,7 +18,7 @@ import Tetris_interface.AbsoluteLayout;
  *
  * @author gustavo
  */
-public class Controller extends JFrame implements KeyListener, MouseMotionListener, MouseListener {
+public abstract class Controller extends JFrame implements KeyListener, MouseMotionListener, MouseListener {
     private int keyPause,keyGoLeft,keyGoRight,keyGoDown,keyRotate;
     private boolean mouseController;
 
@@ -55,29 +55,27 @@ public class Controller extends JFrame implements KeyListener, MouseMotionListen
         mouseController = newMouseController;
     }
     //classes to be overwrite   
-    public void rotate() {
-    }
-    public void goToBottom() {
-    }
-    public void goLeft() {
-    }
-    public void goRight() {
-    }
-    public void stop() {
-    }
-    private void goToX() {
-    }
+    public abstract void rotate();
+
+    public abstract void goToBottom();
+    public abstract void goLeft();
+    public abstract void goRight();
+    public abstract void stop();
+    protected abstract void goToX();
+
     //test function
+    
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                Controller frame = new Controller();
+                Controller frame = new Game();
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
             }
         });
     }
+     
     //Listeners functions
     public void keyPressed(KeyEvent e) {
         int keyUsed = e.getKeyCode();
@@ -102,31 +100,19 @@ public class Controller extends JFrame implements KeyListener, MouseMotionListen
         }
     }  
     //not used
-    public void keyTyped(KeyEvent e) {
-         throw new UnsupportedOperationException("Not supported yet.");
-    }  
-    public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    public void mouseDragged(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public abstract void keyTyped(KeyEvent e);
 
-    public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public abstract void keyReleased(KeyEvent e);
 
-    public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public abstract void mouseDragged(MouseEvent e);
 
-    public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public abstract void mousePressed(MouseEvent e);
 
-    public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public abstract void mouseReleased(MouseEvent e);
+
+    public abstract void mouseEntered(MouseEvent e);
+
+    public abstract void mouseExited(MouseEvent e);
 
     
 

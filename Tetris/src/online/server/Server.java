@@ -124,10 +124,35 @@ public class Server extends Thread {
 
 
     private void cleanClient() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        try {
+            send("\n\n");
+        } catch (Exception e) {}
+
+        try{
+            Match m = player.getMatch();
+            Player other = m.getOtherPlayer(player.getPlayerId());
+
+            other.getServer().send("\n\n");
+        } catch (Exception e) {}
+
+        try{
+            Match m = player.getMatch();
+            matchMap.remove(m.getMatchid());
+        } catch (Exception e) {}
+
+        try{
+            playerMap.remove(player.getPlayerId());
+        } catch (Exception e) {} 
     }
     static private void cleanMatch(Match m){
-        throw new UnsupportedOperationException("Not yet implemented");
+        try{
+            matchMap.remove(m.getMatchid());
+            for(int i:m.getPlayersIds()){
+                        throw new UnsupportedOperationException("Not yet implemented");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void consume(String q) throws IOException {
@@ -159,6 +184,9 @@ public class Server extends Thread {
                 break;
             case GAMEOVER:
                 sendGameOver();
+                break;
+            case MATCHDECLINE:
+                sendMatchDeclined(query[1]);
                 break;
             default:
                 break;
@@ -257,6 +285,24 @@ public class Server extends Thread {
     private void sendGameOver() throws IOException {
         Match m = player.getMatch();
         m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.ENDGAME+" "+m.getMatchid());
+    }
+
+    private void sendMatchDeclined(String idStr) throws IOException {
+        Integer id = -1;
+        try{
+            id = Integer.valueOf(idStr);
+            Player opp = playerMap.get(id);
+            if(opp.getState() == Player.PlayerState.ONLINE){
+                opp.getServer().send(ServerQueryCodes.MATCHDECLINED+" "+player.getPlayerId());
+            } else {
+                id = -1;
+            }
+        } catch (NumberFormatException e){
+        }finally{
+            if(id == -1){
+                send(ServerQueryCodes.ERROR+" "+ServerQueryCodes.MATCHDECLINED+"#"+player.getPlayerId());
+            }
+        }
     }
 }
 

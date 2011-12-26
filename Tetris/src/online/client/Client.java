@@ -123,6 +123,7 @@ public class Client extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            cleanServer();
             try {
                 br.close();
             } catch (Exception e) {
@@ -202,8 +203,9 @@ public class Client extends Thread {
         System.out.println(" Game punnition from match: "+mid);
     }
 
-    private void endGame(String mid){
+    private void endGame(String mid) throws IOException{
         System.out.println(" Game over: "+mid);
+        send("\n\n");
     }
 
     private void receivedError(){
@@ -236,5 +238,13 @@ public class Client extends Thread {
 
     public void gameOver() throws IOException{
         send(PlayerQueryCodes.GAMEOVER+"");
+    }
+
+    private void cleanServer() {
+        try{
+            send("\n\n");
+        }catch(Exception e){
+
+        }
     }
 }

@@ -66,6 +66,12 @@ public class Match {
         return scret.getWith(id, pScore);
     }
 
+    public int[] getPlayersIds(){
+        int[] ids = new int[2];
+        ids[0] = p[0].getPlayerId();
+        ids[1] = p[1].getPlayerId();
+        return ids;
+    }
     final class caracRet<T>{
         T getOther(int id,T[] v){
             if(p[0].getPlayerId() == id)

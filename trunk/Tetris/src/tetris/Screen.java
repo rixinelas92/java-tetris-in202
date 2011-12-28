@@ -15,6 +15,14 @@ public class Screen {
     static final public short SIZE_Y = 13;
     private Box[][] grid;
 
+    /**                \/ middle position
+     *     ( 0,12) ... (3,12) ... ( 9,12)
+     *      ...........................
+     *     ( 0, 0) ... ...........( 9, 0)
+     */
+
+
+
     static private Position middle;
 
     static public Position getMiddlePosition(){

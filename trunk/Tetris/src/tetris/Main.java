@@ -44,7 +44,9 @@ public class Main {
 
             public void run() {
                 screen = new Layout1();
-                screen.setVisible(true);          
+                screen.setVisible(true);
+                game = new Game();
+                Layout1.addGameViewReady(game.new GameViewReadyListener());
             }
         });
         startThemeMusic();
@@ -65,19 +67,7 @@ public class Main {
         t.start();
     }
     
-    public static void testScreen(){
-        game = new Game();
-        game.initGame();
-        System.out.println(game.getCurrentPiecePositions());
-        System.out.println(screen);
-
-        /*
-        screen.initPieces(game.getNextPiecePositions(), game.getNextPieceColorName(),
-                game.getCurrentPiecePositions(), game.getCurrentPieceColorName());
-         *
-         */
-        
-    }
+    
     public static void updatePiecesPositions(){
         screen.setPiecePosition(game.getCurrentPiecePositions());
     }

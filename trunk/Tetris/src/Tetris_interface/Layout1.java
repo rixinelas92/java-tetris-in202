@@ -638,7 +638,7 @@ public class Layout1 extends JFrame {
         return gameScreen1pPanel.getHeight() - newY * pieceSize;
     }
     
-    static void addGameViewReady(ActionListener newGameViewReady) {
+    public static void addGameViewReady(ActionListener newGameViewReady) {
         gameViewReady = newGameViewReady;
     }
 

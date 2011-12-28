@@ -14,6 +14,8 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.*;
 import Tetris_interface.AbsoluteConstraints;
 import Tetris_interface.AbsoluteLayout;
+import tetris.Screen.NotAvailablePlaceForPieceException;
+import tetris.Screen.OutOfScreenBoundsException;
 /**
  *
  * @author gustavo
@@ -56,12 +58,12 @@ public abstract class Controller extends JFrame implements KeyListener, MouseMot
     }
     //classes to be overwrite   
     public abstract void rotate();
-
-    public abstract void goToBottom();
-    public abstract void goLeft();
-    public abstract void goRight();
-    public abstract void stop();
-    protected abstract void goToX();
+    public abstract void goDown() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+    public abstract void goToBottom() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+    public abstract void goLeft()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+    public abstract void goRight()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+    public abstract void stopToggle()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+    protected abstract void goToX()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
 
     //test function
     
@@ -81,16 +83,45 @@ public abstract class Controller extends JFrame implements KeyListener, MouseMot
         int keyUsed = e.getKeyCode();
         
         System.out.println("check");
-        if (keyUsed==keyPause) stop();
-        if (keyUsed==keyGoLeft) goLeft();
-        if (keyUsed==keyGoRight) goRight();
-        if (keyUsed==keyGoDown) goToBottom();
-        if (keyUsed==keyRotate) rotate();
+        /*
+         * Each action have its own try catch in order to permit the same key to
+         * trigger two or more different actions.
+         */
+        try{
+            if (keyUsed==keyPause) stopToggle();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+        try{
+            if (keyUsed==keyGoLeft) goLeft();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+        try{
+            if (keyUsed==keyGoRight) goRight();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+        try{
+            if (keyUsed==keyGoDown) goToBottom();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+        try{
+            if (keyUsed==keyRotate) rotate();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+
          
     }
     public void mouseMoved(MouseEvent e) {
         if(mouseController){
-            goToX();
+            try{
+                goToX();
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
         }
     }
 

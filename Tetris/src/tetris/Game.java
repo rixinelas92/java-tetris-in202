@@ -105,22 +105,43 @@ public class Game extends Controller implements ActionListener{
     }
 
     public void goToBottom() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        while(true){
+            try{
+                goDown();
+            }catch(Exception e){
+                break;
+            }
+        }
     }
 
-    public void goLeft() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void goDown() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException{
+        int x = currentPiece.getX();
+        int y = currentPiece.getY();
+        y--;
+        currentPiece.setPosition(new Position(x,y));
+    }
+    public void goLeft() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException{
+        int x = currentPiece.getX();
+        int y = currentPiece.getY();
+        x--;
+        currentPiece.setPosition(new Position(x,y));
     }
 
-    public void goRight() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void goRight() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException{
+        int x = currentPiece.getX();
+        int y = currentPiece.getY();
+        x--;
+        currentPiece.setPosition(new Position(x,y));
     }
 
-    public void stop() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void stopToggle() {
+        isPaused = !isPaused;
     }
 
     public void actionPerformed(ActionEvent ae) {
+        if(isPaused){
+            return;
+        }
         if(isFallingFinished){
             try {
                 isFallingFinished = false;
@@ -163,42 +184,42 @@ public class Game extends Controller implements ActionListener{
 
     @Override
     protected void goToX() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
 

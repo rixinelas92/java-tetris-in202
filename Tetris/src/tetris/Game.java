@@ -223,6 +223,14 @@ public class Game extends Controller implements ActionListener{
     }
 
 
+    public class GameViewReadyListener implements ActionListener{
+
+        public void actionPerformed(ActionEvent ae) {
+            initGame();
+            System.out.println(getCurrentPiecePositions());
+            System.out.println(screen);
+        }
+    }
     
 
 }

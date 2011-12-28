@@ -33,12 +33,12 @@ public class Position {
         setY(newY);
     }
     public void setX(short newX)throws OutOfScreenBoundsException{
-        if(newX >= borderRetriever.getMaxX() || newX < 0)
+        if(newX-1 > borderRetriever.getMaxX() || newX+1 < 0)
             throw new OutOfScreenBoundsException();
         x = newX;
     }
     public void setY(short newY)throws OutOfScreenBoundsException{
-        if(newY >= borderRetriever.getMaxY() || newY < 0)
+        if(newY-1 > borderRetriever.getMaxY() || newY+1 < 0)
             throw new OutOfScreenBoundsException();
         y = newY;
     }
@@ -82,6 +82,15 @@ public class Position {
         return true;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this.x;
+        hash = 97 * hash + this.y;
+        return hash;
+    }
+
+    @Override
     public String toString(){
         return "["+x+";"+y+"]";
     }

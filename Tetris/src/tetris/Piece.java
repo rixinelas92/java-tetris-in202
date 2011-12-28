@@ -16,7 +16,7 @@ import tetris.Screen.OutOfScreenBoundsException;
  */
 public class Piece {
 
-    private short currentRotation,currentSquare;//indices da tabela aciam
+    private short currentRotation;
     private ShapeType currentShape;
     private Position position;
 
@@ -27,9 +27,8 @@ public class Piece {
     public static final Color[]  shapeColors = {Color.PINK, Color.MAGENTA, Color.BLUE, Color.CYAN,Color.YELLOW,Color.GREEN,Color.ORANGE,Box.getEmptyColor()};
     public static final String[] shapeCNames = {"Purple",   "Red",         "Blue",     "Ciano",   "Yellow",    "Green",    "Brown",     "close"};
 
-    public Piece(ShapeType s,short square, Position p) throws OutOfScreenBoundsException{
+    public Piece(ShapeType s, Position p) throws OutOfScreenBoundsException{
         currentRotation = 1;
-        currentSquare = square;
         currentShape = s;
         position = new Position(p);
     }
@@ -98,23 +97,34 @@ public class Piece {
         }
         return pos;
     }
-    public void rotation(){
-        currentRotation+=1;
-        currentRotation%=4;
+    public void rotation() throws NotAvailablePlaceForPieceException{
+        int tyleN = currentShape.ordinal();
+        int x,y;
+        short rot = (short) (currentRotation + 1);
+        rot%=4;
+
+        for(int i = 0;i<4;i++){
+            x = this.position.getX() + shape[tyleN][rot][i][0];
+            y = this.position.getY() - shape[tyleN][rot][i][1];
+            if(Position.isFilled(x, y))
+                throw new Screen.NotAvailablePlaceForPieceException("("+x+","+y+")");
+        }
+        currentRotation=rot;
     }
-    public void rotationInversed(){
-        currentRotation+=3;
-        currentRotation%=4;
+    public void rotationInversed() throws NotAvailablePlaceForPieceException{
+        int tyleN = currentShape.ordinal();
+        int x,y;
+        short rot = (short) (currentRotation + 3);
+        rot%=4;
+
+        for(int i = 0;i<4;i++){
+            x = this.position.getX() + shape[tyleN][rot][i][0];
+            y = this.position.getY() - shape[tyleN][rot][i][1];
+            if(Position.isFilled(x, y))
+                throw new Screen.NotAvailablePlaceForPieceException("("+x+","+y+")");
+        }
+        currentRotation=rot;
     }
-
-    
-
-
-
-
-
-
-
 
     static char[][] model = new char[4][4];
     synchronized public static void printTyle(ShapeType s,int rot){

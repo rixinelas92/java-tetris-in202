@@ -72,8 +72,8 @@ public class Game extends Controller implements ActionListener{
         Position.setBorderRetriever(screen.new BorderRetriever());
         Position.setFilledRetriever(screen.new FilledRetriever());
         try {
-            currentPiece = new Piece(randomShape.randomExceptLast(), (short) 1, Screen.getMiddlePosition());
-            nextPiece = new Piece(randomShape.randomExceptLast(), (short) 1, Screen.getMiddlePosition());
+            currentPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
+            nextPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
         } catch (OutOfScreenBoundsException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -97,7 +97,11 @@ public class Game extends Controller implements ActionListener{
     }
 
     public void rotate() {
-        currentPiece.rotation();
+        try {
+            currentPiece.rotation();
+        } catch (NotAvailablePlaceForPieceException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void goToBottom() {
@@ -121,7 +125,7 @@ public class Game extends Controller implements ActionListener{
             try {
                 isFallingFinished = false;
                 currentPiece = nextPiece;
-                nextPiece = new Piece(randomShape.randomExceptLast(), (short) 1, Screen.getMiddlePosition());
+                nextPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
                 Main.setNewPiece();
             } catch (OutOfScreenBoundsException ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);

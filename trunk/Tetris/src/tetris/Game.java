@@ -26,9 +26,7 @@ public class Game extends Controller implements ActionListener{
     private Screen screen;
     private Piece currentPiece;
     private Piece nextPiece;
-
     private RandomEnum<Piece.ShapeType> randomShape = new RandomEnum<Piece.ShapeType>(Piece.ShapeType.class);
-
 
     Timer timer;
     int timeBeforeNextPiece = 400;
@@ -130,7 +128,7 @@ public class Game extends Controller implements ActionListener{
     public void goRight() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException{
         int x = currentPiece.getX();
         int y = currentPiece.getY();
-        x--;
+        x++;
         currentPiece.setPosition(new Position(x,y));
     }
 

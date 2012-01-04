@@ -36,6 +36,10 @@ public class Piece {
     public short getY(){
         return position.getY();
     }
+    /**
+     * Returns the coordinate X for the position selected.
+     * @return x
+     */
     public short getX(){
         return position.getX();
     }

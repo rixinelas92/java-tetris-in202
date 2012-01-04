@@ -72,9 +72,11 @@ public class Main {
         screen.setPiecePosition(game.getCurrentPiecePositions());
     }
     public static void setNewPiece(){
-        screen.newPiece(game.getCurrentPiecePositions(),game.getNextPiecePositions(), game.getCurrentPieceColorName());
+        screen.newPiece(game.getCurrentPiecePositions(),game.getNextPiecePositions(), game.getNextPieceColorName());
     }
-    
+    public static void setNewFirstPiece(){
+        screen.newFirstPiece(game.getNextPiecePositions(), game.getNextPieceColorName());
+    }
     public static void setListeners(Controller c){
         screen.setFocusable(true);
         /*

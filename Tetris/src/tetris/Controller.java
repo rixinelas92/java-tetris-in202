@@ -20,12 +20,13 @@ import tetris.Screen.OutOfScreenBoundsException;
  *
  * @author gustavo
  */
-public abstract class Controller extends JFrame implements KeyListener, MouseMotionListener, MouseListener {
+public abstract class Controller implements KeyListener, MouseMotionListener, MouseListener {
     private int keyPause,keyGoLeft,keyGoRight,keyGoDown,keyRotate;
     private boolean mouseController;
 
    public Controller(){
         //test
+       /*
         setSize(100,100);
         JPanel typingArea = new JPanel(new AbsoluteLayout());
         JPanel typingPanel = new JPanel(new AbsoluteLayout());
@@ -36,12 +37,17 @@ public abstract class Controller extends JFrame implements KeyListener, MouseMot
         getContentPane().setLayout(new AbsoluteLayout());
         getContentPane().add(typingArea, new AbsoluteConstraints(10,10,50,50));
         getContentPane().add(typingPanel, new AbsoluteConstraints(10,30,50,50));
+        *  * 
+        */
+        
         //usefull
-        keyPause= KeyEvent.VK_P;
+        keyPause=KeyEvent.VK_P;
         keyGoLeft=KeyEvent.VK_LEFT;
         keyGoRight=KeyEvent.VK_RIGHT;
         keyGoDown=KeyEvent.VK_DOWN;
         keyRotate=KeyEvent.VK_UP;
+       
+       
     }
     public void setControllers(int newLeft, int newRight, int newDown, int newRotate){
         keyGoLeft=newLeft;
@@ -71,9 +77,12 @@ public abstract class Controller extends JFrame implements KeyListener, MouseMot
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 Controller frame = new Game();
+                /*
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
+                 * 
+                 */
             }
         });
     }

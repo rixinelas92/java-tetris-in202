@@ -72,6 +72,18 @@ public class Main {
         screen.setPiecePosition(game.getCurrentPiecePositions());
     }
     public static void setNewPiece(){
-        screen.newPiece(game.getCurrentPiecePositions(), game.getCurrentPieceColorName());
+        screen.newPiece(game.getCurrentPiecePositions(),game.getNextPiecePositions(), game.getCurrentPieceColorName());
+    }
+    
+    public static void setListeners(Controller c){
+        screen.setFocusable(true);
+        /*
+         * Requesting focus so that the menu dont get the actual focus from the 
+         * keyboard annoying the user with useless actions.
+         */
+        screen.requestFocusInWindow();
+        screen.addKeyListener(c);
+        screen.addMouseMotionListener(c);
+        screen.addMouseListener(c);
     }
 }

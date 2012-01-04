@@ -75,6 +75,7 @@ public class Game extends Controller implements ActionListener{
         } catch (OutOfScreenBoundsException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Main.setListeners(this);
         timer = new Timer(timeBeforeNextPiece,this);
         timer.start();
     }

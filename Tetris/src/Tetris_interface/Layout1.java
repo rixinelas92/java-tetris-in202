@@ -74,6 +74,7 @@ public class Layout1 extends JFrame {
 
         JToolBar toolbar = new JToolBar();
         try {
+            toolbar.setFloatable(false);
             ImageIcon newgameIcon = new ImageIcon(getClass().getResource("newgame.png"));
             ImageIcon configIcon = new ImageIcon(getClass().getResource("config.png"));
             ImageIcon somIcon = new ImageIcon(getClass().getResource("som.png"));

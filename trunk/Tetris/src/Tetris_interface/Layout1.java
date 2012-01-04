@@ -618,11 +618,16 @@ public class Layout1 extends JFrame {
         System.out.println("GG c ("+currentPiece[0].getX()+","+currentPiece[0].getY());
         System.out.println("GG n ("+nextPiece[0].getX()+","+nextPiece[0].getY());
         for(int i=0;i<4;i++){
-            currentPiece[i].setLocation(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()));
+            gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
+         //   currentPiece[i].setLocation(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()));
         }
         for(int i=0;i<4;i++){
             screen[newPiece[i].getX()][newPiece[i].getY()] = currentPiece[i];
         }
+       
+        gameScreen1pPanel.setVisible(false);
+        gameScreen1pPanel.setVisible(true);
+  
     }
     
     public void newFirstPiece(Position[] newpiece, String c){
@@ -661,7 +666,11 @@ public class Layout1 extends JFrame {
         for(int i=0;i<4;i++){
             gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(X_BASE + ( newPosNextPiece[i].getX()-min.getX()) * pieceSize, Y_BASE - (newPosNextPiece[i].getY()-min.getY()) * pieceSize, pieceSize, pieceSize));
         }
-        
+        gameNext1pPanel.setVisible(false);
+        gameNext1pPanel.setVisible(true);
+        gameScreen1pPanel.setVisible(false);
+        gameScreen1pPanel.setVisible(true);
+     
     }
 
     public void eraseLine(int line) {
@@ -704,6 +713,7 @@ public class Layout1 extends JFrame {
     }
 
     private int yPos(int newY) {
+        newY++;
         return gameScreen1pPanel.getHeight() - newY * pieceSize;
     }
 

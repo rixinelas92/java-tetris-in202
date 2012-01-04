@@ -617,10 +617,10 @@ public class Layout1 extends JFrame {
         //if the bloc shouldn't keep hide, pass position X or/and Y =-1
         System.out.println("GG c ("+currentPiece[0].getX()+","+currentPiece[0].getY());
         System.out.println("GG n ("+nextPiece[0].getX()+","+nextPiece[0].getY());
-        for(int i=0;i<3;i++){
+        for(int i=0;i<4;i++){
             currentPiece[i].setLocation(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()));
         }
-        for(int i=0;i<3;i++){
+        for(int i=0;i<4;i++){
             screen[newPiece[i].getX()][newPiece[i].getY()] = currentPiece[i];
         }
     }

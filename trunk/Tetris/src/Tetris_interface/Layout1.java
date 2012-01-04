@@ -50,6 +50,8 @@ public class Layout1 extends JFrame {
     private JLabel level;
     //listenets
     static ActionListener gameViewReady = null;
+    private static final int X_BASE = 30;
+    private static final int Y_BASE = 30;
 
     public Layout1() {
 
@@ -508,6 +510,7 @@ public class Layout1 extends JFrame {
         }
 
         //so pra demonstrar, retirar depois
+        /*
         JLabel bluePiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Blue.png")));
         JLabel brownPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Brown.png")));
         JLabel cianoPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Ciano.png")));
@@ -524,12 +527,20 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.add(redPiece, new AbsoluteConstraints(5 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
         gameScreen1pPanel.add(yellowPiece, new AbsoluteConstraints(6 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
 
+          
+         
+        
         screen[1][1] = yellowPiece;
         currentPiece[0] = bluePiece;
         currentPiece[1] = brownPiece;
         currentPiece[2] = cianoPiece;
         currentPiece[3] = greenPiece;
+        
+        
         gameScreen1pPanel.add(screen[1][1], new AbsoluteConstraints(7 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
+         * 
+         *
+         */
 
        }
 
@@ -604,47 +615,53 @@ public class Layout1 extends JFrame {
 
     public void setPiecePosition(Position[] newPiece) {
         //if the bloc shouldn't keep hide, pass position X or/and Y =-1
-        currentPiece[0].setLocation(xPos(newPiece[0].getX()), yPos(newPiece[0].getY()));
-        currentPiece[1].setLocation(xPos(newPiece[1].getX()), yPos(newPiece[1].getY()));
-        currentPiece[2].setLocation(xPos(newPiece[2].getX()), yPos(newPiece[2].getY()));
-        currentPiece[3].setLocation(xPos(newPiece[3].getX()), yPos(newPiece[3].getY()));
-        screen[newPiece[0].getX()][newPiece[0].getY()] = currentPiece[0];
-        screen[newPiece[1].getX()][newPiece[1].getY()] = currentPiece[1];
-        screen[newPiece[2].getX()][newPiece[2].getY()] = currentPiece[2];
-        screen[newPiece[3].getX()][newPiece[3].getY()] = currentPiece[3];
-
+        System.out.println("GG c ("+currentPiece[0].getX()+","+currentPiece[0].getY());
+        System.out.println("GG n ("+nextPiece[0].getX()+","+nextPiece[0].getY());
+        for(int i=0;i<3;i++){
+            currentPiece[i].setLocation(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()));
+        }
+        for(int i=0;i<3;i++){
+            screen[newPiece[i].getX()][newPiece[i].getY()] = currentPiece[i];
+        }
+    }
+    
+    public void newFirstPiece(Position[] newpiece, String c){
+        for(int i=0;i<4;i++){
+            nextPiece[i] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + c + ".png")));
+        }      
+        Position min= Position.getMinCoord(newpiece);
+        for(int i=0;i<4;i++){
+            gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(X_BASE + ( newpiece[i].getX()-min.getX()) * pieceSize, Y_BASE - (newpiece[i].getY()-min.getY()) * pieceSize, pieceSize, pieceSize));
+        }
     }
 
     public void newPiece(Position[] newPosCurrentPiece, Position[] newPosNextPiece, String colorPiece) {
         //this function receive the 4 positions of the new piece and her color
-        currentPiece = nextPiece;
+        for(int i=0;i<4;i++){
+            currentPiece[i] = nextPiece[i];
+        }
         //put the piece in the game
         if (currentPiece[0] != null) {
             System.out.println("hi");
-            gameScreen1pPanel.add(currentPiece[0], new AbsoluteConstraints(xPos(newPosCurrentPiece[0].getX()), yPos(newPosCurrentPiece[0].getY()), pieceSize, pieceSize));
-            gameScreen1pPanel.add(currentPiece[1], new AbsoluteConstraints(xPos(newPosCurrentPiece[1].getX()), yPos(newPosCurrentPiece[1].getY()), pieceSize, pieceSize));
-            gameScreen1pPanel.add(currentPiece[2], new AbsoluteConstraints(xPos(newPosCurrentPiece[2].getX()), yPos(newPosCurrentPiece[2].getY()), pieceSize, pieceSize));
-            gameScreen1pPanel.add(currentPiece[3], new AbsoluteConstraints(xPos(newPosCurrentPiece[3].getX()), yPos(newPosCurrentPiece[3].getY()), pieceSize, pieceSize));
-            screen[newPosCurrentPiece[0].getX()][newPosCurrentPiece[0].getY()] = currentPiece[0];
-            screen[newPosCurrentPiece[1].getX()][newPosCurrentPiece[1].getY()] = currentPiece[1];
-            screen[newPosCurrentPiece[2].getX()][newPosCurrentPiece[2].getY()] = currentPiece[2];
-            screen[newPosCurrentPiece[3].getX()][newPosCurrentPiece[3].getY()] = currentPiece[3];
-
+            
+            for(int i=0;i<4;i++){
+                gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPosCurrentPiece[i].getX()), yPos(newPosCurrentPiece[i].getY()), pieceSize, pieceSize));
+            }
+            for(int i=0;i<4;i++){
+                screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()] = currentPiece[i];    
+            }
             //add one new piece in NextPiece box
             gameNext1pPanel.removeAll();
         }
-        nextPiece[0] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
-        nextPiece[1] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
-        nextPiece[2] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
-        nextPiece[3] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
-        int xBase = 30;
-        int yBase = 30;
-        gameNext1pPanel.add(nextPiece[0], new AbsoluteConstraints(xBase + newPosNextPiece[0].getX() * pieceSize, yBase - newPosNextPiece[0].getY() * pieceSize, pieceSize, pieceSize));
-        gameNext1pPanel.add(nextPiece[1], new AbsoluteConstraints(xBase + newPosNextPiece[1].getX() * pieceSize, yBase - newPosNextPiece[1].getY() * pieceSize, pieceSize, pieceSize));
-        gameNext1pPanel.add(nextPiece[2], new AbsoluteConstraints(xBase + newPosNextPiece[2].getX() * pieceSize, yBase - newPosNextPiece[2].getY() * pieceSize, pieceSize, pieceSize));
-        gameNext1pPanel.add(nextPiece[3], new AbsoluteConstraints(xBase + newPosNextPiece[3].getX() * pieceSize, yBase - newPosNextPiece[3].getY() * pieceSize, pieceSize, pieceSize));
-
-
+        for(int i=0;i<4;i++){
+            nextPiece[i] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+        }
+        
+        Position min= Position.getMinCoord(newPosNextPiece);
+        for(int i=0;i<4;i++){
+            gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(X_BASE + ( newPosNextPiece[i].getX()-min.getX()) * pieceSize, Y_BASE - (newPosNextPiece[i].getY()-min.getY()) * pieceSize, pieceSize, pieceSize));
+        }
+        
     }
 
     public void eraseLine(int line) {

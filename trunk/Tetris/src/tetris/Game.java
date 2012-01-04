@@ -70,8 +70,16 @@ public class Game extends Controller implements ActionListener{
         Position.setBorderRetriever(screen.new BorderRetriever());
         Position.setFilledRetriever(screen.new FilledRetriever());
         try {
-            currentPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
-            nextPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
+            Piece.ShapeType cs = randomShape.randomExceptLast();
+            Piece.ShapeType ns = randomShape.randomExceptLast();
+            nextPiece = new Piece(cs, Screen.getMiddlePosition());
+            Main.setNewFirstPiece();
+            currentPiece = nextPiece;
+            
+            nextPiece = new Piece(ns, Screen.getMiddlePosition());
+            System.out.println("AAAAAAAAAA "+cs.name());
+            System.out.println("BBBBBBBBBB "+ns.name());
+            Main.setNewPiece();
         } catch (OutOfScreenBoundsException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }

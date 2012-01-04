@@ -6,6 +6,8 @@
 package tetris;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tetris.Screen.FilledRetriever;
 import tetris.Screen.OutOfScreenBoundsException;
 
@@ -31,6 +33,14 @@ public class Position {
     public Position(short newX, short newY) throws OutOfScreenBoundsException{
         setX(newX);
         setY(newY);
+    }
+    private Position(){
+    }
+    public void setX(int newX) throws OutOfScreenBoundsException{
+        setX((short)newX);
+    }
+    public void setY(int newY) throws OutOfScreenBoundsException {
+        setY((short)newY);
     }
     public void setX(short newX)throws OutOfScreenBoundsException{
         if(newX-1 > borderRetriever.getMaxX() || newX+1 < 0)
@@ -94,6 +104,20 @@ public class Position {
     public String toString(){
         return "["+x+";"+y+"]";
     }
-
+    public static Position getMinCoord(Position[] vector){
+        try {
+            Position p=new Position(borderRetriever.getMaxX(),borderRetriever.getMaxY());
+            for(Position s:vector){
+                p.setX(Math.min(p.getX(), s.getX()));
+                p.setY(Math.min(p.getY(),s.getY() ));
+            }
+            return p;
+        } catch (OutOfScreenBoundsException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Position p = new Position();
+        p.x = p.y = 0;
+        return p;
+    }
 
 }

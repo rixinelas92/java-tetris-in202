@@ -16,6 +16,7 @@ import Tetris_interface.AbsoluteConstraints;
 import Tetris_interface.AbsoluteLayout;
 import tetris.Screen.NotAvailablePlaceForPieceException;
 import tetris.Screen.OutOfScreenBoundsException;
+
 /**
  *
  * @author gustavo

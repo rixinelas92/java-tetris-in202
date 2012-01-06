@@ -615,8 +615,6 @@ public class Layout1 extends JFrame {
 
     public void setPiecePosition(Position[] newPiece) {
         //if the bloc shouldn't keep hide, pass position X or/and Y =-1
-        System.out.println("GG c ("+currentPiece[0].getX()+","+currentPiece[0].getY());
-        System.out.println("GG n ("+nextPiece[0].getX()+","+nextPiece[0].getY());
         for(int i=0;i<4;i++){
             gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
          //   currentPiece[i].setLocation(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()));
@@ -665,27 +663,37 @@ public class Layout1 extends JFrame {
         Position min= Position.getMinCoord(newPosNextPiece);
         for(int i=0;i<4;i++){
             gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(X_BASE + ( newPosNextPiece[i].getX()-min.getX()) * pieceSize, Y_BASE - (newPosNextPiece[i].getY()-min.getY()) * pieceSize, pieceSize, pieceSize));
-        }
-        gameNext1pPanel.setVisible(false);
-        gameNext1pPanel.setVisible(true);
-        gameScreen1pPanel.setVisible(false);
-        gameScreen1pPanel.setVisible(true);
-     
+        }     
     }
 
     public void eraseLine(int line) {
         //linhas começam do zero
         int i, j;
         for (i = 0; i < screenWidth; i++) {
-            screen[i][line].setVisible(false);
-            screen[i][line].setEnabled(false);
-        }
-        for (j = line; j < screenHeight; j++) {
-            for (i = 0; i < screenWidth; i++) {
-                screen[i][j] = screen[i][j + 1];
-                screen[i][j].setLocation(xPos(i), yPos(j));
+            if(screen[i][line] != null){
+                screen[i][line].setVisible(false);
+                screen[i][line].setEnabled(false);
+                gameScreen1pPanel.remove(screen[i][line]);
             }
         }
+        for (j = line; j < screenHeight-1; j++) {
+            for (i = 0; i < screenWidth; i++) {
+
+                screen[i][j] = screen[i][j+1];
+                if(screen[i][j] != null){
+                    gameScreen1pPanel.remove(screen[i][j]);
+                    gameScreen1pPanel.add(screen[i][j], new AbsoluteConstraints(xPos(i),yPos(j), pieceSize, pieceSize));
+                }
+            }
+        }
+        toggleVisiblePropOnGame();
+    }
+
+    public void toggleVisiblePropOnGame(){
+        gameNext1pPanel.setVisible(false);
+        gameNext1pPanel.setVisible(true);
+        gameScreen1pPanel.setVisible(false);
+        gameScreen1pPanel.setVisible(true);
     }
 
     public void setScore(int newScore, int newLevel, int scoreMin, int scoreMax) {

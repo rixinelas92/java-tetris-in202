@@ -88,4 +88,12 @@ public class Main {
         screen.addMouseMotionListener(c);
         screen.addMouseListener(c);
     }
+
+    static void terminateControllerAction() {
+        screen.toggleVisiblePropOnGame();
+    }
+
+    static void callScreenRemoveLine(int lineC) {
+        screen.eraseLine(lineC);
+    }
 }

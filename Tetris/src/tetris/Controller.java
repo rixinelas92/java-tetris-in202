@@ -100,29 +100,29 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
         try{
             if (keyUsed==keyPause) stopToggle();
         } catch(Exception ex){
-            ex.printStackTrace();
+            System.out.println("Cant "+e.getKeyChar());
         }
         try{
             if (keyUsed==keyGoLeft) goLeft();
         } catch(Exception ex){
-            ex.printStackTrace();
+            System.out.println("Cant "+e.getKeyChar());
         }
         try{
             if (keyUsed==keyGoRight) goRight();
         } catch(Exception ex){
-            ex.printStackTrace();
+            System.out.println("Cant "+e.getKeyChar());
         }
         try{
             if (keyUsed==keyGoDown) goToBottom();
         } catch(Exception ex){
-            ex.printStackTrace();
+            System.out.println("Cant "+e.getKeyChar());
         }
         try{
             if (keyUsed==keyRotate) rotate();
         } catch(Exception ex){
-            ex.printStackTrace();
+            System.out.println("Cant "+e.getKeyChar());
         }
-
+        Main.terminateControllerAction();
          
     }
     public void mouseMoved(MouseEvent e) {

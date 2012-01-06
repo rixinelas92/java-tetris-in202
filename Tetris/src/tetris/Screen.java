@@ -77,6 +77,7 @@ public class Screen {
         for(int i = 0;i<SIZE_Y;i++){
             int j;
             for(j = 0;j<SIZE_X;j++){
+               
                 if(!grid[j][i].isFull())
                     break;
             }
@@ -93,18 +94,18 @@ public class Screen {
         for(int i = line+1;i<SIZE_Y;i++){
             int j;
             for(j = 0;j<SIZE_X;j++){
-                if(grid[i][j].isFull())
+                if(grid[j][i].isFull())
                     break;
             }
             if(j == SIZE_X) // none line is filled
                 break;
 
             for(j = 0;j<SIZE_X;j++){
-                grid[i-1][j].copyFrom(grid[i][j]);
+                grid[j][i-1].copyFrom(grid[i][j]);
             }
         }
         for(int j = 0;j<SIZE_X;j++)
-            grid[SIZE_Y-1][j].setFull(false);
+            grid[j][SIZE_Y-1].setFull(false);
     }
     /**
      * Returns colision in bord of the screen like false.

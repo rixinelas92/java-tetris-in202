@@ -77,8 +77,6 @@ public class Game extends Controller implements ActionListener{
             currentPiece = nextPiece;
             
             nextPiece = new Piece(ns, Screen.getMiddlePosition());
-            System.out.println("AAAAAAAAAA "+cs.name());
-            System.out.println("BBBBBBBBBB "+ns.name());
             Main.setNewPiece();
         } catch (OutOfScreenBoundsException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
@@ -162,10 +160,10 @@ public class Game extends Controller implements ActionListener{
             try {
                 currentPiece.setY((short) (currentPiece.getY()-1));
             } catch (OutOfScreenBoundsException ex) {
-                ex.printStackTrace();
+                System.out.println("Cant Floor");
                 isFallingFinished = true;
             } catch (NotAvailablePlaceForPieceException ex) {
-                ex.printStackTrace();
+                System.out.println("Cant Piece");
                 isFallingFinished = true;
             }
             if(isFallingFinished){
@@ -182,10 +180,10 @@ public class Game extends Controller implements ActionListener{
                 if(lineC == -1)
                     break;
                 screen.removeLine(lineC);
+                Main.callScreenRemoveLine(lineC);
                 numLinesFull++;
             }          
             Main.updatePiecesPositions();
-            System.out.println("HEY! WE HAVE "+numLinesFull+" LINES!");
         }
     }
 
@@ -234,8 +232,6 @@ public class Game extends Controller implements ActionListener{
 
         public void actionPerformed(ActionEvent ae) {
             initGame();
-            System.out.println(getCurrentPiecePositions());
-            System.out.println(screen);
         }
     }
     

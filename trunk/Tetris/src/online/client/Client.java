@@ -21,7 +21,7 @@ import online.util.Player.PlayerState;
  *
  * @author gustavo
  */
-public class Client extends Thread {
+abstract public class Client extends Thread {
 
     Socket socket;
     BufferedReader br;
@@ -30,9 +30,9 @@ public class Client extends Thread {
 
     public static void main(String[] str) {
         try {
-            Client c = new Client("localhost","ppp1");
+            Client c = new ClientTest("localhost","ppp1");
             Thread.sleep(1000);
-            Client c2 = new Client("localhost","ppp2");
+            Client c2 = new ClientTest("localhost","ppp2");
 
             c.start();
             c2.start();
@@ -83,7 +83,7 @@ public class Client extends Thread {
     }
 
 
-    private void send(String str) throws IOException{
+    protected void send(String str) throws IOException{
         os.write(str+"\n");
         os.flush();
     }
@@ -176,41 +176,17 @@ public class Client extends Thread {
  * RECEIVERS
  */
 
-    private void receivePlayerList(String list) {
-            list = list.trim();
-            String[] players = list.split("#");
-            System.out.println(" no \t| Player \t| State");
-            for(String s: players){
-                String[] data = s.split(">");
-                if(data.length < 3)
-                    continue;
-                int key = Integer.valueOf(data[0]);
-                String name = data[1];
-                PlayerState state = PlayerState.valueOf(data[2]);
-                System.out.println(" "+key+" \t| "+name+" \t| "+state);
-            }
-    }
+    abstract public  void receivePlayerList(String list);
 
-    private void receiveMatchRequest(String uid) throws IOException {
-        System.out.println("MATCHREQUESTED FROM "+uid);
-    }
+    abstract public void receiveMatchRequest(String uid) throws IOException;
 
-    private void matchStart(String mid){
-        System.out.println(" MATCH STARTED WITH ID="+mid);
-    }
+    abstract public void matchStart(String mid);
 
-    private void receiveGamePunn(String mid){
-        System.out.println(" Game punnition from match: "+mid);
-    }
+    abstract public void receiveGamePunn(String mid);
 
-    private void endGame(String mid) throws IOException{
-        System.out.println(" Game over: "+mid);
-        send("\n\n");
-    }
+    abstract public void endGame(String mid) throws IOException;
 
-    private void receivedError(){
-        System.out.println("ERROR!");
-    }
+    abstract public void receivedError();
 /*****************
  * RECEIVERS - END
  */
@@ -245,6 +221,50 @@ public class Client extends Thread {
             send("\n\n");
         }catch(Exception e){
 
+        }
+    }
+
+    static public class ClientTest extends Client {
+
+        public ClientTest(String serverAddress, String playername) throws UnknownHostException, IOException {
+            super(serverAddress,playername);
+        }
+
+        public void receivePlayerList(String list) {
+            list = list.trim();
+            String[] players = list.split("#");
+            System.out.println(" no \t| Player \t| State");
+            for (String s : players) {
+                String[] data = s.split(">");
+                if (data.length < 3) {
+                    continue;
+                }
+                int key = Integer.valueOf(data[0]);
+                String name = data[1];
+                PlayerState state = PlayerState.valueOf(data[2]);
+                System.out.println(" " + key + " \t| " + name + " \t| " + state);
+            }
+        }
+
+        public void receiveMatchRequest(String uid) throws IOException {
+            System.out.println("MATCHREQUESTED FROM " + uid);
+        }
+
+        public void matchStart(String mid) {
+            System.out.println(" MATCH STARTED WITH ID=" + mid);
+        }
+
+        public void receiveGamePunn(String mid) {
+            System.out.println(" Game punnition from match: " + mid);
+        }
+
+        public void endGame(String mid) throws IOException {
+            System.out.println(" Game over: " + mid);
+            send("\n\n");
+        }
+
+        public void receivedError() {
+            System.out.println("ERROR!");
         }
     }
 }

@@ -453,6 +453,8 @@ public class Layout1 extends JFrame {
         JScrollPane scrollPane = new JScrollPane(playersList);
 
         game2pPanel.add(scrollPane, new AbsoluteConstraints(10, 60, 300, 250));
+        Main.start2pConnection();
+
            Player p1 = new Player("p1", null, 1);
            Player p2 = new Player("p2", null, 2);
            Player p3 = new Player("p3", null, 3);

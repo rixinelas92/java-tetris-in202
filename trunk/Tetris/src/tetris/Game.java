@@ -43,7 +43,9 @@ public class Game extends Controller implements ActionListener{
 
 
     public int timeBefore(int level){
-        return (13-level)*(500/12);
+        if(level > 12)
+            level = 12;
+        return 100 + (13-level)*(400/12);
     }
 
             /*
@@ -63,8 +65,7 @@ public class Game extends Controller implements ActionListener{
     }
 
     public int pointsToLevel(int level){
-
-        return level*level*80 ;
+        return level*level*160 ;
     }
     boolean isFilled(short x, short y){
         Position[] piece = currentPiece.getAllPosition();

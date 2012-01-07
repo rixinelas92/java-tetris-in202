@@ -38,6 +38,7 @@ import javax.swing.border.TitledBorder;
 import online.util.Player;
 import tetris.Main;
 import tetris.Position;
+import tetris.Screen;
 
 public class Layout1 extends JFrame {
 
@@ -45,7 +46,7 @@ public class Layout1 extends JFrame {
     private JLabelCont[] currentPiece, nextPiece; //array with the position of the 4 boxes of the 2 pieces
     private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
     //constants
-    private int pieceSize = 20, screenWidth = 10, screenHeight = 13, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
+    private int pieceSize = 20, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
     private JTextField leftKey, rightKey, downKey, rotateKey, playerName;
     private JCheckBox mouseBox;
@@ -378,7 +379,7 @@ public class Layout1 extends JFrame {
         gameNext1pPanel = new JPanel(new AbsoluteLayout());
         gameNext1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
 
-        game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(0, 50, 200, 260));
+        game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(0, 50, 200, 400));
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 50, 90, 70));
         //game status
         scoreBar = new JProgressBar();
@@ -453,6 +454,7 @@ public class Layout1 extends JFrame {
         JScrollPane scrollPane = new JScrollPane(playersList);
 
         game2pPanel.add(scrollPane, new AbsoluteConstraints(10, 60, 300, 250));
+        /*
         Main.start2pConnection();
 
            Player p1 = new Player("p1", null, 1);
@@ -468,7 +470,7 @@ public class Layout1 extends JFrame {
         ((DefaultListModel)(playersList.getModel())).addElement(p3);
         ((DefaultListModel)(playersList.getModel())).addElement(p4);
         ((DefaultListModel)(playersList.getModel())).addElement(p5);
-        
+        */
 
   //      game2pPanel = new JPanel(new AbsoluteLayout());
     //    JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
@@ -487,9 +489,9 @@ public class Layout1 extends JFrame {
         optionsPanel.setVisible(false);
         base.add(somPanel, new AbsoluteConstraints(0, 10, 330, 320));
         somPanel.setVisible(false);
-        base.add(game1pPanel, new AbsoluteConstraints(0, 10, 330, 320));
+        base.add(game1pPanel, new AbsoluteConstraints(0, 10, 330, 460));
         game1pPanel.setVisible(false);
-        base.add(game2pPanel, new AbsoluteConstraints(0, 10, 330, 320));
+        base.add(game2pPanel, new AbsoluteConstraints(0, 10, 330, 460));
         game2pPanel.setVisible(false);
 
     }
@@ -500,12 +502,10 @@ public class Layout1 extends JFrame {
         add(base, new AbsoluteConstraints(0, 0));
         pack();
         setTitle("Tetris");
-        setSize(330, 350);
+        setSize(330, 490);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
-
-
     }
     //functions by Events
 

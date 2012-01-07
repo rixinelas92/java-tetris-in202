@@ -14,6 +14,7 @@ public class Screen {
     static final public short SIZE_X = 10;
     static final public short SIZE_Y = 13;
     private Box[][] grid;
+    private Box nulle = new Box();
 
     /**                \/ middle position
      *     ( 0,12) ... (3,12) ... ( 9,12)
@@ -29,18 +30,17 @@ public class Screen {
     static public Position getMiddlePosition(){
         if(middle != null)
             return middle;
-        try {
-            middle = new Position((short) SIZE_X/2 - 2, (short) SIZE_Y-1);
-        } catch (OutOfScreenBoundsException ex) {
-            Logger.getLogger(Screen.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+            middle = new Position((short) SIZE_X/2 - 2, (short) SIZE_Y+1,0);
+        
+        
         return middle;
     }
     /**
      * Creates a new screen with parameters defined by default.
      */
     public Screen(){ 
-        grid = new Box[SIZE_X][SIZE_Y];
+        grid = new Box[SIZE_X][SIZE_Y+3];
         for(int i = 0;i<grid.length;i++)
             for(int j = 0;j<grid[i].length;j++)
                 grid[i][j] = new Box();
@@ -102,10 +102,11 @@ public class Screen {
 
             for(j = 0;j<SIZE_X;j++){
                 grid[j][i-1].copyFrom(grid[j][i]);
+                grid[j][i].setFull(false);
             }
         }
-        for(int j = 0;j<SIZE_X;j++)
-            grid[j][SIZE_Y-1].setFull(false);
+     //   for(int j = 0;j<SIZE_X;j++)
+      //      grid[j][SIZE_Y-1].setFull(false);
     }
     /**
      * Returns colision in bord of the screen like false.
@@ -135,7 +136,7 @@ public class Screen {
     public Box getBoxAt(short x,short y){
         if(x > SIZE_X  || x < 0)
             return null;
-        if(y > SIZE_X  || y < 0)
+        if(y > SIZE_X+3  || y < 0)
             return null;
         return grid[x][y];
     }

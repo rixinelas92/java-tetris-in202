@@ -96,4 +96,8 @@ public class Main {
     static void callScreenRemoveLine(int lineC) {
         screen.eraseLine(lineC);
     }
+    public static void togglePause(){
+        game.stopToggle();
+        screen.requestFocusInWindow();
+    }
 }

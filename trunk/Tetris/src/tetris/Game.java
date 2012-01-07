@@ -105,7 +105,7 @@ public class Game extends Controller implements ActionListener{
         try {
             currentPiece.rotation();
         } catch (NotAvailablePlaceForPieceException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Cant Rotate");
         }
     }
 
@@ -173,6 +173,7 @@ public class Game extends Controller implements ActionListener{
                     screen.getBoxAt(p.getX(), p.getY()).setColor(currentPiece.getColor());
                 }
             }
+            Main.updatePiecesPositions();
             int numLinesFull = 0;
             int lineC;
             while(true){
@@ -183,7 +184,6 @@ public class Game extends Controller implements ActionListener{
                 Main.callScreenRemoveLine(lineC);
                 numLinesFull++;
             }          
-            Main.updatePiecesPositions();
         }
     }
 

@@ -5,20 +5,32 @@
 package tetris;
 
 import Tetris_interface.Layout1;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
+import online.client.Client;
+import online.util.Player.PlayerState;
+import online.util.PlayerDescriptor;
 import sound.SoundEffect;
 
 /**
  *
  * @author felipeteles
  */
-public class Main {
+public class Main  {
 
     static SoundEffect theme;
 
     static Layout1 screen;
 
     static Game game;
+
+    static Client internet;
+
+    static String playerName = "TetrisPlauer";
 
     /**
      * @param args the command line arguments
@@ -106,4 +118,72 @@ public class Main {
     static void setPointsAndLevel(int points, int level, int pointsToNextLevel) {
         screen.setScore(points, level, 0, pointsToNextLevel);
     }
+
+    public static void start2pConnection(){
+        try {
+            internet = new ClientImpl("localhost", playerName);
+            internet.start();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+    static class ClientImpl extends Client{
+
+        HashSet<PlayerDescriptor> playerSet;
+        
+        public ClientImpl(String serverAddress, String playername) throws UnknownHostException, IOException {
+            super(serverAddress,playername);
+        }
+
+        @Override
+        public void receivePlayerList(String list) {
+            list = list.trim();
+            String[] players = list.split("#");
+            System.out.println(" no \t| Player \t| State");
+            playerSet.clear();
+            for (String s : players) {
+                String[] data = s.split(">");
+                if (data.length < 3) {
+                    continue;
+                }
+                int key = Integer.valueOf(data[0]);
+                String name = data[1];
+                PlayerState state = PlayerState.valueOf(data[2]);
+                PlayerDescriptor pd = new PlayerDescriptor(name, state.ONLINE, key);
+                playerSet.add(pd);
+            }
+        }
+
+        @Override
+        public void receiveMatchRequest(String uid) throws IOException {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void matchStart(String mid) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void receiveGamePunn(String mid) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void endGame(String mid) throws IOException {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void receivedError() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+    }
+
+
 }

@@ -90,6 +90,7 @@ public class Main {
     }
 
     static void terminateControllerAction() {
+        updatePiecesPositions();
         screen.toggleVisiblePropOnGame();
     }
 
@@ -100,7 +101,6 @@ public class Main {
         game.stopToggle();
         screen.requestFocusInWindow();
         screen.clock.togglePause();
-        
     }
 
     static void setPointsAndLevel(int points, int level, int pointsToNextLevel) {

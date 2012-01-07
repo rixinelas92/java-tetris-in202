@@ -64,7 +64,7 @@ public class Game extends Controller implements ActionListener{
 
     public int pointsToLevel(int level){
 
-        return level*level*40 ;
+        return level*level*80 ;
     }
     boolean isFilled(short x, short y){
         Position[] piece = currentPiece.getAllPosition();
@@ -240,6 +240,7 @@ public class Game extends Controller implements ActionListener{
 
 
         }
+
     }
 
     @Override

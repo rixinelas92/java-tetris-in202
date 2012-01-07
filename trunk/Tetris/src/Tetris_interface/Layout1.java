@@ -13,6 +13,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -567,10 +569,12 @@ public class Layout1 extends JFrame {
         for(int i=0;i<4;i++){
             gameScreen1pPanel.remove(currentPiece[i]);
             gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
-         //   currentPiece[i].setLocation(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()));
         }
         for(int i=0;i<4;i++){
-            screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+            try {
+                screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+            } catch (Exception ex) {
+            }
         }
         for(int i=0;i<4;i++){
             screen[newPiece[i].getX()][newPiece[i].getY()] = currentPiece[i];
@@ -603,7 +607,10 @@ public class Layout1 extends JFrame {
                 gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPosCurrentPiece[i].getX()), yPos(newPosCurrentPiece[i].getY()), pieceSize, pieceSize));
             }
             for(int i=0;i<4;i++){
-                screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+                try {
+                    screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+                } catch (Exception ex) {
+                }
             }
             for(int i=0;i<4;i++){   
                 screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()] = currentPiece[i];
@@ -752,8 +759,8 @@ public class Layout1 extends JFrame {
 
 
     public class JLabelCont extends JLabel{
-        int x;
-        int y;
+        int x=-1;
+        int y=-1;
 
         private JLabelCont(ImageIcon imageIcon) {
             super(imageIcon);
@@ -762,10 +769,14 @@ public class Layout1 extends JFrame {
             this.x =x;
             this.y =y;
         }
-        public int getCX(){
+        public int getCX() throws Exception{
+            if(x == -1)
+                throw new Exception("x null");
             return x;
         }
-        public int getCY(){
+        public int getCY() throws Exception{
+            if(y == -1)
+                throw new Exception("y null");
             return y;
         }
 

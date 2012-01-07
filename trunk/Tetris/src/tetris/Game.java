@@ -33,10 +33,39 @@ public class Game extends Controller implements ActionListener{
     boolean isFallingFinished = false;
     boolean isStarted = false;
     boolean isPaused = false;
+    boolean isFinished = false;
     int numLinesRemoved = 0;
     int curX = 0;
     int curY = 0;
+    int points;
+    int level;
 
+
+
+    public int timeBefore(int level){
+        return (13-level)*(500/12);
+    }
+
+            /*
+             *  * une ligne qui disparaît rapporte 40 points,
+             *  * 2 lignes qui sont supprimées rapportent 100 points
+             *  * 3 lignes qui sont supprimées rapportent 300 points
+             *  * 4 lignes (on ne peut pas plus) rapportent 1200 points.
+             */
+    public int ponctuation(int numL){
+        switch(numL){
+            case 1: return 40*level;
+            case 2: return 100*level;
+            case 3: return 300*level;
+            case 4: return 1200*level;
+            default: return 0*level;
+        }
+    }
+
+    public int pointsToLevel(int level){
+
+        return level<<level ;
+    }
     boolean isFilled(short x, short y){
         Position[] piece = currentPiece.getAllPosition();
         for(Position p: piece){
@@ -81,9 +110,14 @@ public class Game extends Controller implements ActionListener{
         } catch (OutOfScreenBoundsException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
+        level = 1;
+        points = 0;
         Main.setListeners(this);
-        timer = new Timer(timeBeforeNextPiece,this);
+        int pointsToNextLevel = pointsToLevel(level+1);
+        Main.setPointsAndLevel(points, level, pointsToNextLevel);
+        timer = new Timer(timeBefore(level),this);
         timer.start();
+
     }
 
     public Position[] getCurrentPiecePositions(){
@@ -169,9 +203,20 @@ public class Game extends Controller implements ActionListener{
             if(isFallingFinished){
                 Position[] all = currentPiece.getAllPosition();
                 for(Position p: all){
-                    screen.getBoxAt(p.getX(), p.getY()).setFull(true);
-                    screen.getBoxAt(p.getX(), p.getY()).setColor(currentPiece.getColor());
+                    Box b = screen.getBoxAt(p.getX(), p.getY());
+                    if(b == null){
+                        isFinished = true;
+                        continue;
+                    }
+                    b.setFull(true);
+                    b.setColor(currentPiece.getColor());
                 }
+            }
+            if(isFinished){
+                System.out.println("ACABOU!!!");
+                timer.stop();
+                return;
+
             }
             Main.updatePiecesPositions();
             int numLinesFull = 0;
@@ -183,7 +228,17 @@ public class Game extends Controller implements ActionListener{
                 screen.removeLine(lineC);
                 Main.callScreenRemoveLine(lineC);
                 numLinesFull++;
-            }          
+            }
+            int p = ponctuation(numLinesFull);
+            points+=p;
+            if(points>pointsToLevel(level+1)){
+                level++;
+            }
+            int pointsToNextLevel = pointsToLevel(level+1);
+            timer.setDelay(timeBefore(level));
+            Main.setPointsAndLevel(points, level, pointsToNextLevel);
+
+
         }
     }
 

@@ -7,14 +7,13 @@ package Tetris_interface;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,8 +29,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.TitledBorder;
+import online.util.Player;
 import tetris.Main;
 import tetris.Position;
 
@@ -59,6 +63,8 @@ public class Layout1 extends JFrame {
     private static final int Y_BASE = 35;
     public Clock clock;
     Random r = new Random();
+
+    private JList playersList;
 
     public Layout1() {
 
@@ -431,8 +437,40 @@ public class Layout1 extends JFrame {
 
     private void make_game2p() {
         game2pPanel = new JPanel(new AbsoluteLayout());
-        JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
-        game2pPanel.add(menu, new AbsoluteConstraints(0, 0));
+
+        JLabel game2pTitle = new JLabel("2 Player");
+        game2pTitle.setFont(new java.awt.Font("Neuropol", 0, 24));
+
+        JSeparator separator = new JSeparator();
+
+        game2pPanel.add(game2pTitle, new AbsoluteConstraints(110, 20, -1, -1));
+
+
+
+        playersList = new JList();
+        playersList.setCellRenderer(new MyCellRenderer());
+        playersList.setModel(new DefaultListModel());
+        JScrollPane scrollPane = new JScrollPane(playersList);
+
+        game2pPanel.add(scrollPane, new AbsoluteConstraints(10, 60, 300, 250));
+           Player p1 = new Player("p1", null, 1);
+           Player p2 = new Player("p2", null, 2);
+           Player p3 = new Player("p3", null, 3);
+           Player p4 = new Player("p4", null, 4);
+           Player p5 = new Player("p5", null, 5);
+
+
+
+        ((DefaultListModel)(playersList.getModel())).addElement(p1);
+        ((DefaultListModel)(playersList.getModel())).addElement(p2);
+        ((DefaultListModel)(playersList.getModel())).addElement(p3);
+        ((DefaultListModel)(playersList.getModel())).addElement(p4);
+        ((DefaultListModel)(playersList.getModel())).addElement(p5);
+        
+
+  //      game2pPanel = new JPanel(new AbsoluteLayout());
+    //    JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
+      //  game2pPanel.add(menu, new AbsoluteConstraints(0, 0));
 
     }
 
@@ -516,7 +554,7 @@ public class Layout1 extends JFrame {
         if (gameViewReady != null) {
             gameViewReady.actionPerformed(null);
         }
-       }
+    }
 
     private void func_2players() {
         initialPanel.setVisible(false);
@@ -801,6 +839,53 @@ public class Layout1 extends JFrame {
             }else{
                 timer.stop();
             }
+        }
+    }
+
+    static class MyCellRenderer extends JLabel implements ListCellRenderer {
+
+        final static ImageIcon offline = new ImageIcon(MyCellRenderer.class.getResource("OFFLINE.png"));
+        final static ImageIcon playing = new ImageIcon(MyCellRenderer.class.getResource("PLAYING.png"));
+        final static ImageIcon online = new ImageIcon(MyCellRenderer.class.getResource("ONLINE.png"));
+
+        // This is the only method defined by ListCellRenderer.
+        // We just reconfigure the JLabel each time we're called.
+        public Component getListCellRendererComponent(
+                JList list,
+                Object value, // value to display
+                int index, // cell index
+                boolean isSelected, // is the cell selected
+                boolean cellHasFocus) // the list and the cell have the focus
+        {
+
+            Player player = (Player) value;
+
+
+            String s = value.toString();
+            setText(s);
+
+            switch (player.getState()) {
+                case OFFLINE:
+                    setIcon(offline);
+                    break;
+                case ONLINE:
+                    setIcon(online);
+                    break;
+                case PLAYING:
+                    setIcon(playing);
+                    break;
+            }
+            if (isSelected) {
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+            setEnabled(list.isEnabled());
+            setFont(list.getFont());
+            setOpaque(true);
+            return this;
         }
     }
 

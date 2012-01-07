@@ -33,8 +33,8 @@ import tetris.Position;
 public class Layout1 extends JFrame {
 
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
-    private JLabel[] currentPiece, nextPiece; //array with the position of the 4 boxes of the 2 pieces
-    private JLabel[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
+    private JLabelCont[] currentPiece, nextPiece; //array with the position of the 4 boxes of the 2 pieces
+    private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
     //constants
     private int pieceSize = 20, screenWidth = 10, screenHeight = 13, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
@@ -64,9 +64,9 @@ public class Layout1 extends JFrame {
         make_game2p();
         make_base();
         make_UI();
-        screen = new JLabel[screenWidth][screenHeight];
-        currentPiece = new JLabel[4];
-        nextPiece = new JLabel[4];
+        screen = new JLabelCont[screenWidth][screenHeight];
+        currentPiece = new JLabelCont[4];
+        nextPiece = new JLabelCont[4];
     }
     //cria os panels usados
 
@@ -620,9 +620,12 @@ public class Layout1 extends JFrame {
          //   currentPiece[i].setLocation(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()));
         }
         for(int i=0;i<4;i++){
-            screen[newPiece[i].getX()][newPiece[i].getY()] = currentPiece[i];
+            screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
         }
-       
+        for(int i=0;i<4;i++){
+            screen[newPiece[i].getX()][newPiece[i].getY()] = currentPiece[i];
+            screen[newPiece[i].getX()][newPiece[i].getY()].setP(newPiece[i].getX(),newPiece[i].getY());
+        }
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
   
@@ -630,7 +633,7 @@ public class Layout1 extends JFrame {
     
     public void newFirstPiece(Position[] newpiece, String c){
         for(int i=0;i<4;i++){
-            nextPiece[i] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + c + ".png")));
+            nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource("/Tetris_interface/" + c + ".png")));
         }      
         Position min= Position.getMinCoord(newpiece);
         for(int i=0;i<4;i++){
@@ -651,13 +654,15 @@ public class Layout1 extends JFrame {
                 gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPosCurrentPiece[i].getX()), yPos(newPosCurrentPiece[i].getY()), pieceSize, pieceSize));
             }
             for(int i=0;i<4;i++){
-                screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()] = currentPiece[i];    
+                screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+                screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()] = currentPiece[i];
+                screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()].setP(newPosCurrentPiece[i].getX(),newPosCurrentPiece[i].getY());
             }
             //add one new piece in NextPiece box
             gameNext1pPanel.removeAll();
         }
         for(int i=0;i<4;i++){
-            nextPiece[i] = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+            nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
         }
         
         Position min= Position.getMinCoord(newPosNextPiece);
@@ -669,6 +674,18 @@ public class Layout1 extends JFrame {
     public void eraseLine(int line) {
         //linhas começam do zero
         int i, j;
+
+        for (j = screenHeight-1; j >=0; j--) {
+            for (i = 0; i < screenWidth; i++) {
+                if(screen[i][j] != null){
+                    System.out.print(".");
+                }else{
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+
         for (i = 0; i < screenWidth; i++) {
             if(screen[i][line] != null){
                 screen[i][line].setVisible(false);
@@ -676,15 +693,22 @@ public class Layout1 extends JFrame {
                 gameScreen1pPanel.remove(screen[i][line]);
             }
         }
+        
         for (j = line; j < screenHeight-1; j++) {
-            for (i = 0; i < screenWidth; i++) {
+            int count = 0;
+            for (i=0; i < screenWidth; i++) {
 
+                
                 screen[i][j] = screen[i][j+1];
                 if(screen[i][j] != null){
+                    screen[i][j].setP(i, j);
+                    count++;
                     gameScreen1pPanel.remove(screen[i][j]);
                     gameScreen1pPanel.add(screen[i][j], new AbsoluteConstraints(xPos(i),yPos(j), pieceSize, pieceSize));
                 }
             }
+            if(count == 0)
+                break;
         }
         toggleVisiblePropOnGame();
     }
@@ -754,5 +778,26 @@ public class Layout1 extends JFrame {
                 ex.setVisible(true);
             }
         });
+    }
+
+
+    public class JLabelCont extends JLabel{
+        int x;
+        int y;
+
+        private JLabelCont(ImageIcon imageIcon) {
+            super(imageIcon);
+        }
+        public void setP(int x, int y){
+            this.x =x;
+            this.y =y;
+        }
+        public int getCX(){
+            return x;
+        }
+        public int getCY(){
+            return y;
+        }
+
     }
 }

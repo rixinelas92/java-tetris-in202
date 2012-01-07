@@ -50,7 +50,9 @@ public class PlayerDescriptor {
     public int hashCode() {
         return id;
     }
-
+    public String toString(){
+        return name+" - "+state;
+    }
     
 
 }

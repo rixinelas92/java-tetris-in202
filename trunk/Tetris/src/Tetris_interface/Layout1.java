@@ -28,6 +28,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 import javax.swing.border.TitledBorder;
+import tetris.Main;
 import tetris.Position;
 
 public class Layout1 extends JFrame {
@@ -64,7 +65,7 @@ public class Layout1 extends JFrame {
         make_game2p();
         make_base();
         make_UI();
-        screen = new JLabelCont[screenWidth][screenHeight];
+        screen = new JLabelCont[screenWidth][screenHeight+3];
         currentPiece = new JLabelCont[4];
         nextPiece = new JLabelCont[4];
     }
@@ -508,40 +509,6 @@ public class Layout1 extends JFrame {
         if (gameViewReady != null) {
             gameViewReady.actionPerformed(null);
         }
-
-        //so pra demonstrar, retirar depois
-        /*
-        JLabel bluePiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Blue.png")));
-        JLabel brownPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Brown.png")));
-        JLabel cianoPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Ciano.png")));
-        JLabel greenPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Green.png")));
-        JLabel purplePiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Purple.png")));
-        JLabel redPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Red.png")));
-        JLabel yellowPiece = new JLabel(new ImageIcon(getClass().getResource("/Tetris_interface/Yellow.png")));
-
-        gameScreen1pPanel.add(bluePiece, new AbsoluteConstraints(0 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, -1, -1));//pieceSize, pieceSize));
-        gameScreen1pPanel.add(brownPiece, new AbsoluteConstraints(1 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
-        gameScreen1pPanel.add(cianoPiece, new AbsoluteConstraints(2 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
-        gameScreen1pPanel.add(greenPiece, new AbsoluteConstraints(3 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
-        gameScreen1pPanel.add(purplePiece, new AbsoluteConstraints(4 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
-        gameScreen1pPanel.add(redPiece, new AbsoluteConstraints(5 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
-        gameScreen1pPanel.add(yellowPiece, new AbsoluteConstraints(6 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
-
-          
-         
-        
-        screen[1][1] = yellowPiece;
-        currentPiece[0] = bluePiece;
-        currentPiece[1] = brownPiece;
-        currentPiece[2] = cianoPiece;
-        currentPiece[3] = greenPiece;
-        
-        
-        gameScreen1pPanel.add(screen[1][1], new AbsoluteConstraints(7 * pieceSize, gameScreen1pPanel.getHeight() - pieceSize, pieceSize, pieceSize));
-         * 
-         *
-         */
-
        }
 
     private void func_2players() {
@@ -569,30 +536,7 @@ public class Layout1 extends JFrame {
     }
 
     private void func_pause() {
-        //just for test
-        gameScreen1pPanel.setVisible(false);
-        gameScreen1pPanel.setVisible(true);
-
-        Position[] tester = new Position[4];
-        Position[] tester2 = new Position[4];
-
-
-        try {
-            tester[0] = new Position(5, 5);
-            tester[1] = new Position(3, 5);
-            tester[2] = new Position(4, 5);
-            tester[3] = new Position(5, 6);
-            tester2[0] = new Position(1, 0);
-            tester2[1] = new Position(0, 0);
-            tester2[2] = new Position(0, 1);
-            tester2[3] = new Position(1, 1);
-
-            newPiece(tester, tester2, "Blue");
-
-            System.out.println("xau");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+       Main.togglePause();
     }
 
     private void func_restart() {
@@ -616,6 +560,7 @@ public class Layout1 extends JFrame {
     public void setPiecePosition(Position[] newPiece) {
         //if the bloc shouldn't keep hide, pass position X or/and Y =-1
         for(int i=0;i<4;i++){
+            gameScreen1pPanel.remove(currentPiece[i]);
             gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
          //   currentPiece[i].setLocation(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()));
         }
@@ -654,7 +599,9 @@ public class Layout1 extends JFrame {
                 gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPosCurrentPiece[i].getX()), yPos(newPosCurrentPiece[i].getY()), pieceSize, pieceSize));
             }
             for(int i=0;i<4;i++){
-                screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+            screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+            }
+            for(int i=0;i<4;i++){   
                 screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()] = currentPiece[i];
                 screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()].setP(newPosCurrentPiece[i].getX(),newPosCurrentPiece[i].getY());
             }
@@ -672,6 +619,7 @@ public class Layout1 extends JFrame {
     }
 
     public void eraseLine(int line) {
+
         //linhas começam do zero
         int i, j;
 
@@ -694,11 +642,9 @@ public class Layout1 extends JFrame {
             }
         }
         
-        for (j = line; j < screenHeight-1; j++) {
+        for (j = line; j < screenHeight; j++) {
             int count = 0;
             for (i=0; i < screenWidth; i++) {
-
-                
                 screen[i][j] = screen[i][j+1];
                 if(screen[i][j] != null){
                     screen[i][j].setP(i, j);
@@ -707,12 +653,30 @@ public class Layout1 extends JFrame {
                     gameScreen1pPanel.add(screen[i][j], new AbsoluteConstraints(xPos(i),yPos(j), pieceSize, pieceSize));
                 }
             }
+            for (i=0; i < screenWidth; i++) {
+                screen[i][j+1] = null;
+            }
             if(count == 0)
                 break;
         }
         toggleVisiblePropOnGame();
     }
 
+
+
+    void verifiIntegrity(String str){
+        for (int j = 0; j < screenHeight; j++) {
+            for (int i = 0; i < screenWidth; i++) {
+                if(screen[i][j] != null){
+                    if(screen[i][j].getCX() != i || screen[i][j].getCY() != j){
+                        System.out.println(str+" HEYNHEY HEYH! POBREMA!"+i+" "+j+" =/= "+screen[i][j].getCX()+" "+screen[i][j].getCY());
+                    }
+                }
+
+            }
+        }
+
+    }
     public void toggleVisiblePropOnGame(){
         gameNext1pPanel.setVisible(false);
         gameNext1pPanel.setVisible(true);

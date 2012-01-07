@@ -52,8 +52,8 @@ public class Layout1 extends JFrame {
     private JLabel level;
     //listenets
     static ActionListener gameViewReady = null;
-    private static final int X_BASE = 30;
-    private static final int Y_BASE = 30;
+    private static final int X_BASE = 45;
+    private static final int Y_BASE = 35;
     public Clock clock;
 
 
@@ -370,7 +370,7 @@ public class Layout1 extends JFrame {
         gameNext1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
 
         game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(0, 50, 200, 260));
-        game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(200, 50, 90, 60));
+        game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 50, 90, 70));
         //game status
         scoreBar = new JProgressBar();
         scoreBar.setValue(10);
@@ -584,10 +584,7 @@ public class Layout1 extends JFrame {
         for(int i=0;i<4;i++){
             nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource("/Tetris_interface/" + c + ".png")));
         }      
-        Position min= Position.getMinCoord(newpiece);
-        for(int i=0;i<4;i++){
-            gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(X_BASE + ( newpiece[i].getX()-min.getX()) * pieceSize, Y_BASE - (newpiece[i].getY()-min.getY()) * pieceSize, pieceSize, pieceSize));
-        }
+        setNextPiecePosition(newpiece);
         clock = new Clock();
     }
 
@@ -598,29 +595,39 @@ public class Layout1 extends JFrame {
         }
         //put the piece in the game
         if (currentPiece[0] != null) {
-            System.out.println("hi");
-            
             for(int i=0;i<4;i++){
                 gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPosCurrentPiece[i].getX()), yPos(newPosCurrentPiece[i].getY()), pieceSize, pieceSize));
             }
             for(int i=0;i<4;i++){
-            screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+                screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
             }
             for(int i=0;i<4;i++){   
                 screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()] = currentPiece[i];
                 screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()].setP(newPosCurrentPiece[i].getX(),newPosCurrentPiece[i].getY());
             }
-            //add one new piece in NextPiece box
-            gameNext1pPanel.removeAll();
+            for(int i=0;i<4;i++){
+                gameNext1pPanel.remove(currentPiece[i]);
+            }
+            //add one new piece in NextPiece box   
         }
+        
         for(int i=0;i<4;i++){
             nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
         }
-        
-        Position min= Position.getMinCoord(newPosNextPiece);
-        for(int i=0;i<4;i++){
-            gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(X_BASE + ( newPosNextPiece[i].getX()-min.getX()) * pieceSize, Y_BASE - (newPosNextPiece[i].getY()-min.getY()) * pieceSize, pieceSize, pieceSize));
-        }     
+        setNextPiecePosition(newPosNextPiece);
+        toggleVisiblePropOnGame();
+    }
+
+    private void setNextPiecePosition(Position[] newPosNextPiece) {
+        Position min = Position.getMinCoord(newPosNextPiece);
+        Position max = Position.getMaxCoord(newPosNextPiece);
+        int yd = Y_BASE -((-(max.getY()+min.getY()-1)) * pieceSize)/2;
+        int xd = X_BASE +((-(max.getX()+min.getX()+1)) * pieceSize)/2;
+        for (int i = 0; i < 4; i++) {
+            int xx =xd + ( newPosNextPiece[i].getX() ) * pieceSize;
+            int yy =yd - ( newPosNextPiece[i].getY() ) * pieceSize;
+            gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(xx, yy, pieceSize, pieceSize));
+        }
     }
 
     public void eraseLine(int line) {
@@ -644,6 +651,8 @@ public class Layout1 extends JFrame {
                 screen[i][line].setVisible(false);
                 screen[i][line].setEnabled(false);
                 gameScreen1pPanel.remove(screen[i][line]);
+            }else{
+                System.out.println("   +++++ "+i+" "+line);
             }
         }
         
@@ -760,14 +769,15 @@ public class Layout1 extends JFrame {
     public class Clock implements ActionListener{
         Timer timer;
         long time;
+        static final int delay = 500;
         public Clock(){
-            timer = new Timer(1000,this);
+            timer = new Timer(delay,this);
             time = 0;
             timer.start();
         }
 
         public void actionPerformed(ActionEvent ae) {
-            time+=1000;
+            time+=delay;
             timePassed.setText(String.format("%1$tM:%1$tS",time,time));
         }
         public void togglePause(){

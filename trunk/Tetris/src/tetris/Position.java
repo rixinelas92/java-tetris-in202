@@ -212,4 +212,20 @@ public class Position {
         return p;
     }
 
+
+    public static Position getMaxCoord(Position[] vector){
+        try {
+            Position p = new Position(0,0);
+            for(Position s:vector){
+                p.setX(Math.max(p.getX(), s.getX()));
+                p.setY(Math.max(p.getY(),s.getY() ));
+            }
+            return p;
+        } catch (OutOfScreenBoundsException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Position p = new Position();
+        p.x = p.y = 0;
+        return p;
+    }
 }

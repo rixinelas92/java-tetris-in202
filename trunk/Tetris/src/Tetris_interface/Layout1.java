@@ -12,6 +12,7 @@ import java.awt.Font;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Random;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -55,7 +56,7 @@ public class Layout1 extends JFrame {
     private static final int X_BASE = 45;
     private static final int Y_BASE = 35;
     public Clock clock;
-
+    Random r = new Random();
 
     public Layout1() {
 
@@ -579,10 +580,13 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setVisible(true);
   
     }
-    
+
+    public String getStringForColor(String color){
+        return "imgs/" + color + r.nextInt(5)+".png";
+    }
     public void newFirstPiece(Position[] newpiece, String c){
         for(int i=0;i<4;i++){
-            nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource("/Tetris_interface/" + c + ".png")));
+            nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(c))));
         }      
         setNextPiecePosition(newpiece);
         clock = new Clock();
@@ -612,7 +616,7 @@ public class Layout1 extends JFrame {
         }
         
         for(int i=0;i<4;i++){
-            nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource("/Tetris_interface/" + colorPiece + ".png")));
+            nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(colorPiece))));
         }
         setNextPiecePosition(newPosNextPiece);
         toggleVisiblePropOnGame();

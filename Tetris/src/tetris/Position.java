@@ -57,6 +57,21 @@ public class Position {
         setX(newX);
         setY(newY);
     }
+
+    public Position(int newX,int newY,int secure){
+        if(secure != 0){
+            try{
+                setX(newX);
+                setY(newY);
+            }catch(Exception e){
+
+            }
+        }else{
+            this.x = (short)newX;
+            this.y = (short)newY;
+        }
+
+    }
     /* Hidding constructor from user.
      */
     private Position(){

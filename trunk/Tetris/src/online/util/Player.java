@@ -78,4 +78,7 @@ public class Player {
         this.m = m;
     }
 
+    public String toString(){
+        return name+" - "+actState;
+    }
 }

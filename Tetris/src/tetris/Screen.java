@@ -101,7 +101,7 @@ public class Screen {
                 break;
 
             for(j = 0;j<SIZE_X;j++){
-                grid[j][i-1].copyFrom(grid[i][j]);
+                grid[j][i-1].copyFrom(grid[j][i]);
             }
         }
         for(int j = 0;j<SIZE_X;j++)

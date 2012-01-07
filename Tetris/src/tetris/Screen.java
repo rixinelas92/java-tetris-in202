@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  */
 public class Screen {
     static final public short SIZE_X = 10;
-    static final public short SIZE_Y = 13;
+    static final public short SIZE_Y = 20;
     private Box[][] grid;
     private Box nulle = new Box();
 
@@ -51,9 +51,9 @@ public class Screen {
      * @param s defines de original screen.
      */
     public Screen(Screen s){
-        grid = new Box[SIZE_X][SIZE_Y];
+        grid = new Box[SIZE_X][SIZE_Y+3];
         for(int i = 0;i<SIZE_X;i++){
-            for(int j = 0;j<SIZE_Y;j++){
+            for(int j = 0;j<SIZE_Y+3;j++){
                 grid[i][j] = new Box(s.grid[i][j]);
             }
         }
@@ -90,7 +90,7 @@ public class Screen {
      * Removes the line that are filled.
      * @param line informes the line to be remove.
      */
-    public void removeLine(int line){
+    synchronized public void removeLine(int line){
         for(int i = line+1;i<SIZE_Y;i++){
             int j;
             for(j = 0;j<SIZE_X;j++){
@@ -136,7 +136,7 @@ public class Screen {
     public Box getBoxAt(short x,short y){
         if(x > SIZE_X  || x < 0)
             return null;
-        if(y > SIZE_X+3  || y < 0)
+        if(y > SIZE_Y  || y < 0)
             return null;
         return grid[x][y];
     }

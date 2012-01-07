@@ -148,12 +148,12 @@ public class Layout1 extends JFrame {
         try {
             menuImage.setIcon(new ImageIcon(getClass().getResource("/Tetris_interface/menuimage.png")));
 
-            initialPanel.add(menuImage, new AbsoluteConstraints(0, 50, -1, -1));
+            initialPanel.add(menuImage, new AbsoluteConstraints(0, 100, 260, 250));
 
             JLabel initialMenu = new JLabel("TETRIS");
             initialMenu.setFont(new java.awt.Font("Neuropol", 0, 48));
 
-            initialPanel.add(initialMenu, new AbsoluteConstraints(70, 5, -1, -1));
+            initialPanel.add(initialMenu, new AbsoluteConstraints(70, 30, -1, -1));
 
             JLabel credits1 = new JLabel("By: Gustavo PACIANOTTO G.");
             credits1.setFont(new Font("Segoe Print", 0, 13));
@@ -162,9 +162,9 @@ public class Layout1 extends JFrame {
             JLabel credits3 = new JLabel("     Ademir Felipe TELES");
             credits3.setFont(new Font("Segoe Print", 0, 13));
 
-            initialPanel.add(credits1, new AbsoluteConstraints(127, 180, -1, -1));
-            initialPanel.add(credits2, new AbsoluteConstraints(127, 202, -1, -1));
-            initialPanel.add(credits3, new AbsoluteConstraints(127, 224, -1, -1));
+            initialPanel.add(credits1, new AbsoluteConstraints(10, 390, -1, -1));
+            initialPanel.add(credits2, new AbsoluteConstraints(10, 410, -1, -1));
+            initialPanel.add(credits3, new AbsoluteConstraints(10, 430, -1, -1));
         } catch (Exception e) {
             System.out.println("Problem in top icons load");
             e.printStackTrace();
@@ -384,7 +384,7 @@ public class Layout1 extends JFrame {
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 50, 90, 70));
         //game status
         scoreBar = new JProgressBar();
-        scoreBar.setValue(10);
+        scoreBar.setValue(0);
         game1pPanel.add(scoreBar, new AbsoluteConstraints(205, 210, 120, -1));
 
         level = new JLabel("Level: 0");
@@ -468,12 +468,12 @@ public class Layout1 extends JFrame {
 
         base = new JPanel(new AbsoluteLayout());
         base.add(topPanel, new AbsoluteConstraints(0, 0));
-        base.add(initialPanel, new AbsoluteConstraints(0, 20, 330, 340));
-        base.add(selectionPanel, new AbsoluteConstraints(0, 10, 330, 320));
+        base.add(initialPanel, new AbsoluteConstraints(0, 0, 330, 460));
+        base.add(selectionPanel, new AbsoluteConstraints(0, 10, 330, 460));
         selectionPanel.setVisible(false);
-        base.add(optionsPanel, new AbsoluteConstraints(0, 10, 330, 320));
+        base.add(optionsPanel, new AbsoluteConstraints(0, 10, 330, 460));
         optionsPanel.setVisible(false);
-        base.add(somPanel, new AbsoluteConstraints(0, 10, 330, 320));
+        base.add(somPanel, new AbsoluteConstraints(0, 10, 330, 460));
         somPanel.setVisible(false);
         base.add(game1pPanel, new AbsoluteConstraints(0, 10, 330, 460));
         game1pPanel.setVisible(false);

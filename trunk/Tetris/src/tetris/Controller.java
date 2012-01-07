@@ -92,11 +92,6 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     public void keyPressed(KeyEvent e) {
         int keyUsed = e.getKeyCode();
         
-        System.out.println("check");
-        /*
-         * Each action have its own try catch in order to permit the same key to
-         * trigger two or more different actions.
-         */
         try{
             if (keyUsed==keyPause) stopToggle();
         } catch(Exception ex){

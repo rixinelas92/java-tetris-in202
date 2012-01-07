@@ -19,9 +19,9 @@ import javax.sound.sampled.*;
  * 4. You can use the static variable SoundEffect.volume to mute the sound.
  */
 public enum SoundEffect {
-   EXPLODE("eau_001.wav"),      // explosion
-   GONG("eau_001.wav"),         // gong
-   SHOOT("eau_001.wav");        // bullet
+   THEME("themeMusic.wav"),      // explosion
+   ERASE("eraseLineSound.wav"),         // gong
+   FALL("fallDownSound.wav");        // bullet
 
    // Nested class for specifying volume
    // Each sound effect has its own clip, loaded with its own sound file.
@@ -31,7 +31,7 @@ public enum SoundEffect {
    SoundEffect(String soundFileName) {
       try {
          // Use URL (instead of File) to read from disk and JAR.
-         URL url = this.getClass().getClassLoader().getResource(soundFileName);
+         URL url = this.getClass().getResource(soundFileName);
          // Set up an audio input stream piped from the sound file.
          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(url);
          // Get a clip resource.

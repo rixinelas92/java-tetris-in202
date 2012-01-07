@@ -61,15 +61,15 @@ public class Main  {
                 Layout1.addGameViewReady(game.new GameViewReadyListener());
             }
         });
-        startThemeMusic();
+        //startThemeMusic();
     }
 
-    private static void startThemeMusic() {
+  /*  private static void startThemeMusic() {
         Runnable r = new Runnable() {
 
             public void run() {
                 try {
-                    SoundEffect.EXPLODE.play();
+                    SoundEffect.THEME.play();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -77,7 +77,7 @@ public class Main  {
         };
         Thread t = new Thread(r);
         t.start();
-    }
+    }*/
     
     
     public static void updatePiecesPositions(){

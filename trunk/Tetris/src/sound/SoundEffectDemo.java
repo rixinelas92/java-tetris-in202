@@ -25,7 +25,7 @@ public class SoundEffectDemo extends JFrame {
       btnSound1.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-            SoundEffect.EXPLODE.play();
+            SoundEffect.THEME.play();
          }
       });
       cp.add(btnSound1);
@@ -33,7 +33,7 @@ public class SoundEffectDemo extends JFrame {
       btnSound2.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-            SoundEffect.GONG.play();
+            SoundEffect.FALL.play();
          }
       });
       cp.add(btnSound2);
@@ -41,7 +41,7 @@ public class SoundEffectDemo extends JFrame {
       btnSound3.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-            SoundEffect.SHOOT.play();
+            SoundEffect.ERASE.play();
          }
       });
       cp.add(btnSound3);

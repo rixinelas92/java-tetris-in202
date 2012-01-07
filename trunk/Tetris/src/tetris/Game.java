@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
+import sound.SoundEffect;
 import tetris.Screen.BorderRetriever;
 import tetris.Screen.NotAvailablePlaceForPieceException;
 import tetris.Screen.OutOfScreenBoundsException;
@@ -96,6 +97,7 @@ public class Game extends Controller implements ActionListener{
     }
 
     public void initGame(){
+        SoundEffect.THEME.play();
         screen = new Screen();
         Position.setBorderRetriever(screen.new BorderRetriever());
         Position.setFilledRetriever(screen.new FilledRetriever());
@@ -118,6 +120,7 @@ public class Game extends Controller implements ActionListener{
         Main.setPointsAndLevel(points, level, pointsToNextLevel);
         timer = new Timer(timeBefore(level),this);
         timer.start();
+        
 
     }
 
@@ -197,9 +200,11 @@ public class Game extends Controller implements ActionListener{
             } catch (OutOfScreenBoundsException ex) {
                 System.out.println("Cant Floor");
                 isFallingFinished = true;
+                SoundEffect.FALL.play();
             } catch (NotAvailablePlaceForPieceException ex) {
                 System.out.println("Cant Piece");
                 isFallingFinished = true;
+                SoundEffect.FALL.play();
             }
             if(isFallingFinished){
                 Position[] all = currentPiece.getAllPosition();
@@ -227,6 +232,7 @@ public class Game extends Controller implements ActionListener{
                 if(lineC == -1)
                     break;
                 screen.removeLine(lineC);
+                SoundEffect.ERASE.play();
                 Main.callScreenRemoveLine(lineC);
                 numLinesFull++;
             }

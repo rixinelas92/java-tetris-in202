@@ -12,6 +12,7 @@ import java.awt.Font;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -53,6 +54,8 @@ public class Layout1 extends JFrame {
     static ActionListener gameViewReady = null;
     private static final int X_BASE = 30;
     private static final int Y_BASE = 30;
+    public Clock clock;
+
 
     public Layout1() {
 
@@ -392,7 +395,7 @@ public class Layout1 extends JFrame {
         timeLabel.setFont(new Font("Neuropol", 0, 14));
         game1pPanel.add(timeLabel, new AbsoluteConstraints(275, 130, -1, -1));
 
-        timePassed = new JTextField("01:02");
+        timePassed = new JTextField("00:00");
         timePassed.setBackground(new java.awt.Color(0, 0, 0));
         timePassed.setFont(new java.awt.Font("Neuropol", 0, 14)); // NOI18N
         timePassed.setForeground(new java.awt.Color(51, 255, 0));
@@ -419,6 +422,7 @@ public class Layout1 extends JFrame {
         });
         game1pPanel.add(apply, new AbsoluteConstraints(215, 230, 100, 30));
         game1pPanel.add(cancel, new AbsoluteConstraints(215, 260, 100, -1));
+
 
     }
 
@@ -584,6 +588,7 @@ public class Layout1 extends JFrame {
         for(int i=0;i<4;i++){
             gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(X_BASE + ( newpiece[i].getX()-min.getX()) * pieceSize, Y_BASE - (newpiece[i].getY()-min.getY()) * pieceSize, pieceSize, pieceSize));
         }
+        clock = new Clock();
     }
 
     public void newPiece(Position[] newPosCurrentPiece, Position[] newPosNextPiece, String colorPiece) {
@@ -664,19 +669,7 @@ public class Layout1 extends JFrame {
 
 
 
-    void verifiIntegrity(String str){
-        for (int j = 0; j < screenHeight; j++) {
-            for (int i = 0; i < screenWidth; i++) {
-                if(screen[i][j] != null){
-                    if(screen[i][j].getCX() != i || screen[i][j].getCY() != j){
-                        System.out.println(str+" HEYNHEY HEYH! POBREMA!"+i+" "+j+" =/= "+screen[i][j].getCX()+" "+screen[i][j].getCY());
-                    }
-                }
 
-            }
-        }
-
-    }
     public void toggleVisiblePropOnGame(){
         gameNext1pPanel.setVisible(false);
         gameNext1pPanel.setVisible(true);
@@ -764,4 +757,26 @@ public class Layout1 extends JFrame {
         }
 
     }
+    public class Clock implements ActionListener{
+        Timer timer;
+        long time;
+        public Clock(){
+            timer = new Timer(1000,this);
+            time = 0;
+            timer.start();
+        }
+
+        public void actionPerformed(ActionEvent ae) {
+            time+=1000;
+            timePassed.setText(String.format("%1$tM:%1$tS",time,time));
+        }
+        public void togglePause(){
+            if(!timer.isRunning()){
+                timer.start();
+            }else{
+                timer.stop();
+            }
+        }
+    }
+
 }

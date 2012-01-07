@@ -99,5 +99,11 @@ public class Main {
     public static void togglePause(){
         game.stopToggle();
         screen.requestFocusInWindow();
+        screen.clock.togglePause();
+        
+    }
+
+    static void setPointsAndLevel(int points, int level, int pointsToNextLevel) {
+        screen.setScore(points, level, 0, pointsToNextLevel);
     }
 }

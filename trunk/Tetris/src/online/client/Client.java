@@ -216,6 +216,13 @@ abstract public class Client extends Thread {
         send(PlayerQueryCodes.GAMEOVER+"");
     }
 
+    public void sayBye(){
+        try {
+            send("\n\n");
+        } catch (IOException ex) {
+        }
+    }
+
     private void cleanServer() {
         try{
             send("\n\n");

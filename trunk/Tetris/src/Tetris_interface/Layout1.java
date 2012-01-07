@@ -14,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
+import java.util.Set;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,7 +36,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.TitledBorder;
-import online.util.Player;
+import online.util.PlayerDescriptor;
 import tetris.Main;
 import tetris.Position;
 import tetris.Screen;
@@ -454,23 +455,8 @@ public class Layout1 extends JFrame {
         JScrollPane scrollPane = new JScrollPane(playersList);
 
         game2pPanel.add(scrollPane, new AbsoluteConstraints(10, 60, 300, 250));
-        /*
+        
         Main.start2pConnection();
-
-           Player p1 = new Player("p1", null, 1);
-           Player p2 = new Player("p2", null, 2);
-           Player p3 = new Player("p3", null, 3);
-           Player p4 = new Player("p4", null, 4);
-           Player p5 = new Player("p5", null, 5);
-
-
-
-        ((DefaultListModel)(playersList.getModel())).addElement(p1);
-        ((DefaultListModel)(playersList.getModel())).addElement(p2);
-        ((DefaultListModel)(playersList.getModel())).addElement(p3);
-        ((DefaultListModel)(playersList.getModel())).addElement(p4);
-        ((DefaultListModel)(playersList.getModel())).addElement(p5);
-        */
 
   //      game2pPanel = new JPanel(new AbsoluteLayout());
     //    JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
@@ -568,6 +554,7 @@ public class Layout1 extends JFrame {
     }
 
     private void func_exit() {
+        Main.terminateInternetConnection();
         System.exit(0);
     }
 
@@ -770,6 +757,13 @@ public class Layout1 extends JFrame {
         gameViewReady = newGameViewReady;
     }
 
+    public void setPlayerList(Set<PlayerDescriptor> set){
+        ((DefaultListModel)(playersList.getModel())).removeAllElements();
+        for(PlayerDescriptor pd: set){
+            ((DefaultListModel)(playersList.getModel())).addElement(pd);
+        }
+    }
+
     public static void main(String[] args) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -860,7 +854,7 @@ public class Layout1 extends JFrame {
                 boolean cellHasFocus) // the list and the cell have the focus
         {
 
-            Player player = (Player) value;
+            PlayerDescriptor player = (PlayerDescriptor) value;
 
 
             String s = value.toString();

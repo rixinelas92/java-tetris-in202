@@ -87,7 +87,10 @@ public class Server extends Thread {
                     sleep(100);
                 } catch (InterruptedException e1) {}
                 timeout++;
-
+                if(clientConnection.isClosed())
+                    break;
+                if(!clientConnection.isConnected())
+                    break;
                 if (br.ready()) {
                     String q = br.readLine();
                     q = q.trim();
@@ -230,6 +233,8 @@ public class Server extends Thread {
         try {
             p1.getServer().send(ServerQueryCodes.MATCHSTART + " " + mid);
             p2.getServer().send(ServerQueryCodes.MATCHSTART + " " + mid);
+            p1.setState(Player.PlayerState.PLAYING);
+            p2.setState(Player.PlayerState.PLAYING);
         } catch (IOException ex) {
             cleanMatch(m);
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -284,6 +289,9 @@ public class Server extends Thread {
 
     private void sendGameOver() throws IOException {
         Match m = player.getMatch();
+        m.getPlayerWithid(m.getPlayersIds()[0]).setState(Player.PlayerState.ONLINE);
+        m.getPlayerWithid(m.getPlayersIds()[1]).setState(Player.PlayerState.ONLINE);
+
         m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.ENDGAME+" "+m.getMatchid());
     }
 

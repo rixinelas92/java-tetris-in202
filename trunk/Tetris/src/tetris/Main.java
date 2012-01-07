@@ -30,7 +30,7 @@ public class Main  {
 
     static Client internet;
 
-    static String playerName = "TetrisPlauer";
+    static String playerName = "TetrisPlayer";
 
     /**
      * @param args the command line arguments
@@ -106,6 +106,9 @@ public class Main  {
         screen.toggleVisiblePropOnGame();
     }
 
+    public static void terminateInternetConnection(){
+        internet.sayBye();
+    }
     static void callScreenRemoveLine(int lineC) {
         screen.eraseLine(lineC);
     }
@@ -137,13 +140,14 @@ public class Main  {
         
         public ClientImpl(String serverAddress, String playername) throws UnknownHostException, IOException {
             super(serverAddress,playername);
+            playerSet = new HashSet<PlayerDescriptor>();
         }
 
         @Override
         public void receivePlayerList(String list) {
             list = list.trim();
             String[] players = list.split("#");
-            System.out.println(" no \t| Player \t| State");
+            
             playerSet.clear();
             for (String s : players) {
                 String[] data = s.split(">");
@@ -156,6 +160,7 @@ public class Main  {
                 PlayerDescriptor pd = new PlayerDescriptor(name, state.ONLINE, key);
                 playerSet.add(pd);
             }
+            screen.setPlayerList(playerSet);
         }
 
         @Override

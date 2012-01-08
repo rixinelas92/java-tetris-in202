@@ -47,7 +47,7 @@ public class Layout1 extends JFrame {
     private JLabelCont[] currentPiece, nextPiece; //array with the position of the 4 boxes of the 2 pieces
     private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
     //constants
-    private int pieceSize = 20, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
+    private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
     private JTextField leftKey, rightKey, downKey, rotateKey, playerName;
     private JCheckBox mouseBox;
@@ -61,8 +61,8 @@ public class Layout1 extends JFrame {
     private JLabel level;
     //listenets
     static ActionListener gameViewReady = null;
-    private static final int X_BASE = 45;
-    private static final int Y_BASE = 35;
+    private static final int X_BASE = 42;
+    private static final int Y_BASE = 33;
     public Clock clock;
     Random r = new Random();
 
@@ -380,31 +380,31 @@ public class Layout1 extends JFrame {
         gameNext1pPanel = new JPanel(new AbsoluteLayout());
         gameNext1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
 
-        game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(0, 50, 200, 400));
-        game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 50, 90, 70));
+        game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(10, 60, 10*pieceSize, 20*pieceSize));
+        game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 60, 85, 67));
         //game status
         scoreBar = new JProgressBar();
         scoreBar.setValue(0);
-        game1pPanel.add(scoreBar, new AbsoluteConstraints(205, 210, 120, -1));
+        game1pPanel.add(scoreBar, new AbsoluteConstraints(205, 260, 120, -1));
 
         level = new JLabel("Level: 0");
         level.setFont(new java.awt.Font("Neuropol", 0, 14));
-        game1pPanel.add(level, new AbsoluteConstraints(235, 190, -1, -1));
+        game1pPanel.add(level, new AbsoluteConstraints(238, 240, -1, -1));
 
         score = new JTextField();
         score.setText("0");
         score.setFont(new Font("Neuropol", 0, 14)); // NOI18N
         score.setHorizontalAlignment(JTextField.CENTER);
         score.setEditable(false);
-        game1pPanel.add(score, new AbsoluteConstraints(205, 150, 60, 25));
+        game1pPanel.add(score, new AbsoluteConstraints(235, 210, 60, 25));
 
         JLabel scoreLabel = new JLabel("SCORE");
         scoreLabel.setFont(new Font("Neuropol", 0, 14));
-        game1pPanel.add(scoreLabel, new AbsoluteConstraints(210, 130, -1, -1));
+        game1pPanel.add(scoreLabel, new AbsoluteConstraints(240, 190, -1, -1));
 
         JLabel timeLabel = new JLabel("TIME");
         timeLabel.setFont(new Font("Neuropol", 0, 14));
-        game1pPanel.add(timeLabel, new AbsoluteConstraints(275, 130, -1, -1));
+        game1pPanel.add(timeLabel, new AbsoluteConstraints(245, 130, -1, -1));
 
         timePassed = new JTextField("00:00");
         timePassed.setBackground(new java.awt.Color(0, 0, 0));
@@ -412,27 +412,27 @@ public class Layout1 extends JFrame {
         timePassed.setForeground(new java.awt.Color(51, 255, 0));
         timePassed.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         timePassed.setEditable(false);
-        game1pPanel.add(timePassed, new AbsoluteConstraints(265, 150, 60, 25));
+        game1pPanel.add(timePassed, new AbsoluteConstraints(235, 150, 60, 25));
 
         //buttons
-        JButton apply = new JButton("Pause");
-        apply.setFont(new Font("Planet Benson 2", 0, 14));
-        apply.addActionListener(new ActionListener() {
+        JButton pauseButton = new JButton("Pause");
+        pauseButton.setFont(new Font("Planet Benson 2", 0, 14));
+        pauseButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
                 func_pause();
             }
         });
-        JButton cancel = new JButton("Restart");
-        cancel.setFont(new Font("Planet Benson 2", 0, 14));
-        cancel.addActionListener(new ActionListener() {
+        JButton restartButton = new JButton("Restart");
+        restartButton.setFont(new Font("Planet Benson 2", 0, 14));
+        restartButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
                 func_restart();
             }
         });
-        game1pPanel.add(apply, new AbsoluteConstraints(215, 230, 100, 30));
-        game1pPanel.add(cancel, new AbsoluteConstraints(215, 260, 100, -1));
+        game1pPanel.add(pauseButton, new AbsoluteConstraints(220, 280, 100, 30));
+        game1pPanel.add(restartButton, new AbsoluteConstraints(220, 310, 100, -1));
 
 
     }
@@ -468,16 +468,16 @@ public class Layout1 extends JFrame {
 
         base = new JPanel(new AbsoluteLayout());
         base.add(topPanel, new AbsoluteConstraints(0, 0));
-        base.add(initialPanel, new AbsoluteConstraints(0, 0, 330, 460));
-        base.add(selectionPanel, new AbsoluteConstraints(0, 10, 330, 460));
+        base.add(initialPanel, new AbsoluteConstraints(0, 0, 330, 450));
+        base.add(selectionPanel, new AbsoluteConstraints(0, 10, 330, 450));
         selectionPanel.setVisible(false);
-        base.add(optionsPanel, new AbsoluteConstraints(0, 10, 330, 460));
+        base.add(optionsPanel, new AbsoluteConstraints(0, 10, 330, 450));
         optionsPanel.setVisible(false);
-        base.add(somPanel, new AbsoluteConstraints(0, 10, 330, 460));
+        base.add(somPanel, new AbsoluteConstraints(0, 10, 330, 450));
         somPanel.setVisible(false);
-        base.add(game1pPanel, new AbsoluteConstraints(0, 10, 330, 460));
+        base.add(game1pPanel, new AbsoluteConstraints(0, 10, 330, 450));
         game1pPanel.setVisible(false);
-        base.add(game2pPanel, new AbsoluteConstraints(0, 10, 330, 460));
+        base.add(game2pPanel, new AbsoluteConstraints(0, 10, 330, 450));
         game2pPanel.setVisible(false);
 
     }

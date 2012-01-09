@@ -1,4 +1,6 @@
-
+/**
+ * Java doc sendo feito
+ */
 
 package tetris;
 
@@ -27,13 +29,15 @@ public class Screen {
      * or setter of this parameter on the central/top of the screen.
      * @return middle with the initial position of generation of boxes. 
      */
+
+    /**
+     * Returns the middle position of the screen
+     * @return 
+     */
     static public Position getMiddlePosition(){
         if(middle != null)
             return middle;
-        
             middle = new Position((short) SIZE_X/2 - 2, (short) SIZE_Y+1,0);
-        
-        
         return middle;
     }
     /**

@@ -37,6 +37,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.TitledBorder;
 import online.util.PlayerDescriptor;
+import sound.SoundEffect;
 import tetris.Main;
 import tetris.Position;
 import tetris.Screen;
@@ -520,15 +521,21 @@ public class Layout1 extends JFrame {
         somPanel.setVisible(false);
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
+        
+        rightKey.getText();
+               
     }
 
     private void func_som() {
+        
         initialPanel.setVisible(false);
         selectionPanel.setVisible(false);
         optionsPanel.setVisible(false);
         somPanel.setVisible(true);
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
+        
+        SoundEffect.setGlobalVolume(volumeSlider.getValue());
     }
 
     private void func_1player() {
@@ -713,9 +720,6 @@ public class Layout1 extends JFrame {
         }
         toggleVisiblePropOnGame();
     }
-
-
-
 
     public void toggleVisiblePropOnGame(){
         gameNext1pPanel.setVisible(false);

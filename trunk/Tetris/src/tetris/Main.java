@@ -109,6 +109,10 @@ public class Main  {
         screen.requestFocusInWindow();
         screen.clock.togglePause();
     }
+    public static void pauseGame(){
+        game.pauseGame();
+        screen.clock.pauseScreen();
+    }
 
     static void setPointsAndLevel(int points, int level, int pointsToNextLevel) {
         screen.setScore(points, level, 0, pointsToNextLevel);

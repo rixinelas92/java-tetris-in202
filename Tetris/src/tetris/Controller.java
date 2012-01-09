@@ -29,7 +29,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
         keyGoRight=KeyEvent.VK_RIGHT;
         keyDown=KeyEvent.VK_DOWN;
         keyGoDown=KeyEvent.VK_UP;
-        keyRotate=KeyEvent.VK_SPACE;
+        keyRotate=KeyEvent.VK_SPACE;   
 
  
 
@@ -42,11 +42,12 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     * @param newDown defines the action 'go down' in according to the user event.
     * @param newRotate defines the action 'rotate' in according to the user event.
     */
-    public void setControllers(int newLeft, int newRight, int newDown, int newRotate){
-        keyGoLeft=newLeft;
-        keyGoRight=newRight;
-        keyGoDown=newDown;
-        keyRotate=newRotate;
+    public void setControllers(int[] newControls){
+        keyGoLeft=newControls[0];        
+        keyDown=newControls[1];
+        keyGoRight=newControls[2];
+        keyGoDown=newControls[3];
+        keyRotate=newControls[4];
     }
     /**
      * It returns the state of the mouse, if its static or moving.

@@ -13,6 +13,10 @@ import java.awt.Font;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
@@ -52,8 +56,9 @@ public class Layout1 extends JFrame {
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
-    private JTextField leftKey, rightKey, downKey, rotateKey, playerName;
+    private JTextField leftKey, rightKey, downKey, rotateKey,goToBottonKey, playerName;
     private JCheckBox mouseBox;
+    private static JButton applyOptions,cancelOptions;
     //sound components
     private JComboBox themeBox;
     private JSlider volumeSlider;
@@ -68,8 +73,8 @@ public class Layout1 extends JFrame {
     private static final int Y_BASE = 33;
     public Clock clock;
     Random r = new Random();
-
     private JList playersList;
+    public Font font;
 
     public Layout1() {
 
@@ -82,9 +87,19 @@ public class Layout1 extends JFrame {
         make_game2p();
         make_base();
         make_UI();
-        screen = new JLabelCont[screenWidth][screenHeight+3];
+        screen = new JLabelCont[screenWidth][screenHeight + 3];
         currentPiece = new JLabelCont[4];
         nextPiece = new JLabelCont[4];
+
+        //
+        /*try {
+            URL url = this.getClass().getResource("NEUROPOL.TTF");
+            File file = new File("C:/Users/Felipe/Nouveau dossier/ENSTA/Prog C++/Tetris/trunk/Tetris/src/Tetris_interface/NEUROPOL.TTF");
+            FileInputStream fis = new FileInputStream(file);
+            font = Font.createFont(Font.TRUETYPE_FONT, fis);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
     }
     //cria os panels usados
 
@@ -154,7 +169,7 @@ public class Layout1 extends JFrame {
             initialPanel.add(menuImage, new AbsoluteConstraints(0, 100, 260, 250));
 
             JLabel initialMenu = new JLabel("TETRIS");
-            initialMenu.setFont(new java.awt.Font("Neuropol", 0, 48));
+            initialMenu.setFont(new Font("Neuropol", 0, 48));
 
             initialPanel.add(initialMenu, new AbsoluteConstraints(70, 30, -1, -1));
 
@@ -255,6 +270,14 @@ public class Layout1 extends JFrame {
         rotateKey.setHorizontalAlignment(JTextField.CENTER);
         rotateKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
+        JLabel goBotton = new JLabel("Go to Botton");
+        goBotton.setFont(new Font("Segoe Print", 0, 12));
+        
+        goToBottonKey = new JTextField("O");
+        goToBottonKey.setFont(new Font("Segoe Print", 0, 12));
+        goToBottonKey.setHorizontalAlignment(JTextField.CENTER);
+        goToBottonKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
+
 
         mouseBox = new JCheckBox("Use mouse");
         mouseBox.setFont(new Font("Segoe Print", 0, 12));
@@ -270,8 +293,11 @@ public class Layout1 extends JFrame {
 
         controlsPanel.add(rotate, new AbsoluteConstraints(160, 60, -1, -1));
         controlsPanel.add(rotateKey, new AbsoluteConstraints(240, 63, 25, 22));
+        
+        controlsPanel.add(goBotton, new AbsoluteConstraints(30, 90, -1, -1));
+        controlsPanel.add(goToBottonKey, new AbsoluteConstraints(115, 90, 25, 22));
 
-        controlsPanel.add(mouseBox, new AbsoluteConstraints(30, 90, -1, -1));
+        controlsPanel.add(mouseBox, new AbsoluteConstraints(160, 85, -1, -1));
 
         optionsPanel.add(controlsPanel, new AbsoluteConstraints(20, 60, 290, 120));
 
@@ -293,24 +319,19 @@ public class Layout1 extends JFrame {
 
         //bottons
 
-        JButton apply = new JButton("Apply");
-        apply.setFont(new Font("Planet Benson 2", 0, 14));
-        apply.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent event) {
-                func_changeConfig();
-            }
-        });
-        JButton cancel = new JButton("Cancel");
-        cancel.setFont(new Font("Planet Benson 2", 0, 14));
-        cancel.addActionListener(new ActionListener() {
+        applyOptions = new JButton("Apply");
+        applyOptions.setFont(new Font("Planet Benson 2", 0, 14));
+        
+        JButton cancelOptions = new JButton("Cancel");
+        cancelOptions.setFont(new Font("Planet Benson 2", 0, 14));
+        cancelOptions.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
                 func_initial();
             }
         });
-        optionsPanel.add(apply, new AbsoluteConstraints(60, 250, -1, -1));
-        optionsPanel.add(cancel, new AbsoluteConstraints(180, 250, -1, -1));
+        optionsPanel.add(applyOptions, new AbsoluteConstraints(60, 250, -1, -1));
+        optionsPanel.add(cancelOptions, new AbsoluteConstraints(180, 250, -1, -1));
 
     }
 
@@ -345,12 +366,7 @@ public class Layout1 extends JFrame {
         //buttons
         JButton apply = new JButton("Apply");
         apply.setFont(new Font("Planet Benson 2", 0, 14));
-        apply.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent event) {
-                func_changeConfig();
-            }
-        });
+        
         JButton cancel = new JButton("Cancel");
         cancel.setFont(new Font("Planet Benson 2", 0, 14));
         cancel.addActionListener(new ActionListener() {
@@ -383,7 +399,7 @@ public class Layout1 extends JFrame {
         gameNext1pPanel = new JPanel(new AbsoluteLayout());
         gameNext1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
 
-        game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(10, 60, 10*pieceSize, 20*pieceSize));
+        game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(10, 60, 10 * pieceSize, 20 * pieceSize));
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 60, 85, 67));
         //game status
         scoreBar = new JProgressBar();
@@ -458,12 +474,12 @@ public class Layout1 extends JFrame {
         JScrollPane scrollPane = new JScrollPane(playersList);
 
         game2pPanel.add(scrollPane, new AbsoluteConstraints(10, 60, 300, 250));
-        
+
         Main.start2pConnection();
 
-  //      game2pPanel = new JPanel(new AbsoluteLayout());
-    //    JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
-      //  game2pPanel.add(menu, new AbsoluteConstraints(0, 0));
+        //      game2pPanel = new JPanel(new AbsoluteLayout());
+        //    JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
+        //  game2pPanel.add(menu, new AbsoluteConstraints(0, 0));
 
     }
 
@@ -523,13 +539,14 @@ public class Layout1 extends JFrame {
         somPanel.setVisible(false);
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
+
         Main.pauseGame();
         Main.removeListeners();
-        rightKey.getText();
+        
     }
 
     private void func_som() {
-        
+
         initialPanel.setVisible(false);
         selectionPanel.setVisible(false);
         optionsPanel.setVisible(false);
@@ -569,19 +586,19 @@ public class Layout1 extends JFrame {
         System.exit(0);
     }
 
-    private void func_changeConfig() {
-        //atualiza hotkeys
-        if (mouseBox.isSelected()) {
-            //habilita movimento pelo mouse
-        } else {
-            //desabilita o mouse
-        }
-
-        func_initial();
+    public int[] getConfigChange() {
+        int  i[]= new int[5];
+        i[0]=Integer.parseInt(rightKey.getText());
+        i[1]=Integer.parseInt(leftKey.getText());
+        i[2]=Integer.parseInt(rotateKey.getText());
+        i[3]=Integer.parseInt(downKey.getText());
+        i[4]=Integer.parseInt(goToBottonKey.getText());
+        return i;
+        
     }
 
     private void func_pause() {
-       Main.togglePause();
+        Main.togglePause();
     }
 
     private void func_restart() {
@@ -594,29 +611,28 @@ public class Layout1 extends JFrame {
 
     public void setPiecePosition(Position[] newPiece) {
         //if the bloc shouldn't keep hide, pass position X or/and Y =-1
-        for(int i=0;i<4;i++){
+        for (int i = 0; i < 4; i++) {
             gameScreen1pPanel.remove(currentPiece[i]);
             gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
         }
-        for(int i=0;i<4;i++){
+        for (int i = 0; i < 4; i++) {
             try {
                 screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
             } catch (Exception ex) {
             }
         }
-        for(int i=0;i<4;i++){
+        for (int i = 0; i < 4; i++) {
             screen[newPiece[i].getX()][newPiece[i].getY()] = currentPiece[i];
-            screen[newPiece[i].getX()][newPiece[i].getY()].setP(newPiece[i].getX(),newPiece[i].getY());
+            screen[newPiece[i].getX()][newPiece[i].getY()].setP(newPiece[i].getX(), newPiece[i].getY());
         }
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
-  
+
     }
 
-    public String getStringForColor(String color){
-        return "imgs/" + color + r.nextInt(5)+".png";
+    public String getStringForColor(String color) {
+        return "imgs/" + color + r.nextInt(5) + ".png";
     }
-
 
     public void restart1pScreen(){
         if(clock != null){
@@ -636,7 +652,7 @@ public class Layout1 extends JFrame {
     public void newFirstPiece(Position[] newpiece, String c){
         for(int i=0;i<4;i++){
             nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(c))));
-        }      
+        }
         setNextPiecePosition(newpiece);
     }
 
@@ -662,31 +678,31 @@ public class Layout1 extends JFrame {
 
     public void newPiece(Position[] newPosCurrentPiece, Position[] newPosNextPiece, String colorPiece) {
         //this function receive the 4 positions of the new piece and her color
-        for(int i=0;i<4;i++){
+        for (int i = 0; i < 4; i++) {
             currentPiece[i] = nextPiece[i];
         }
         //put the piece in the game
         if (currentPiece[0] != null) {
-            for(int i=0;i<4;i++){
+            for (int i = 0; i < 4; i++) {
                 gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPosCurrentPiece[i].getX()), yPos(newPosCurrentPiece[i].getY()), pieceSize, pieceSize));
             }
-            for(int i=0;i<4;i++){
+            for (int i = 0; i < 4; i++) {
                 try {
                     screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
                 } catch (Exception ex) {
                 }
             }
-            for(int i=0;i<4;i++){   
+            for (int i = 0; i < 4; i++) {
                 screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()] = currentPiece[i];
-                screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()].setP(newPosCurrentPiece[i].getX(),newPosCurrentPiece[i].getY());
+                screen[newPosCurrentPiece[i].getX()][newPosCurrentPiece[i].getY()].setP(newPosCurrentPiece[i].getX(), newPosCurrentPiece[i].getY());
             }
-            for(int i=0;i<4;i++){
+            for (int i = 0; i < 4; i++) {
                 gameNext1pPanel.remove(currentPiece[i]);
             }
             //add one new piece in NextPiece box   
         }
-        
-        for(int i=0;i<4;i++){
+
+        for (int i = 0; i < 4; i++) {
             nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(colorPiece))));
         }
         setNextPiecePosition(newPosNextPiece);
@@ -696,11 +712,11 @@ public class Layout1 extends JFrame {
     private void setNextPiecePosition(Position[] newPosNextPiece) {
         Position min = Position.getMinCoord(newPosNextPiece);
         Position max = Position.getMaxCoord(newPosNextPiece);
-        int yd = Y_BASE -((-(max.getY()+min.getY()-1)) * pieceSize)/2;
-        int xd = X_BASE +((-(max.getX()+min.getX()+1)) * pieceSize)/2;
+        int yd = Y_BASE - ((-(max.getY() + min.getY() - 1)) * pieceSize) / 2;
+        int xd = X_BASE + ((-(max.getX() + min.getX() + 1)) * pieceSize) / 2;
         for (int i = 0; i < 4; i++) {
-            int xx =xd + ( newPosNextPiece[i].getX() ) * pieceSize;
-            int yy =yd - ( newPosNextPiece[i].getY() ) * pieceSize;
+            int xx = xd + (newPosNextPiece[i].getX()) * pieceSize;
+            int yy = yd - (newPosNextPiece[i].getY()) * pieceSize;
             gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(xx, yy, pieceSize, pieceSize));
         }
     }
@@ -710,11 +726,11 @@ public class Layout1 extends JFrame {
         //linhas começam do zero
         int i, j;
 
-        for (j = screenHeight-1; j >=0; j--) {
+        for (j = screenHeight - 1; j >= 0; j--) {
             for (i = 0; i < screenWidth; i++) {
-                if(screen[i][j] != null){
+                if (screen[i][j] != null) {
                     System.out.print(".");
-                }else{
+                } else {
                     System.out.print(" ");
                 }
             }
@@ -722,36 +738,37 @@ public class Layout1 extends JFrame {
         }
 
         for (i = 0; i < screenWidth; i++) {
-            if(screen[i][line] != null){
+            if (screen[i][line] != null) {
                 screen[i][line].setVisible(false);
                 screen[i][line].setEnabled(false);
                 gameScreen1pPanel.remove(screen[i][line]);
-            }else{
-                System.out.println("   +++++ "+i+" "+line);
+            } else {
+                System.out.println("   +++++ " + i + " " + line);
             }
         }
-        
+
         for (j = line; j < screenHeight; j++) {
             int count = 0;
-            for (i=0; i < screenWidth; i++) {
-                screen[i][j] = screen[i][j+1];
-                if(screen[i][j] != null){
+            for (i = 0; i < screenWidth; i++) {
+                screen[i][j] = screen[i][j + 1];
+                if (screen[i][j] != null) {
                     screen[i][j].setP(i, j);
                     count++;
                     gameScreen1pPanel.remove(screen[i][j]);
-                    gameScreen1pPanel.add(screen[i][j], new AbsoluteConstraints(xPos(i),yPos(j), pieceSize, pieceSize));
+                    gameScreen1pPanel.add(screen[i][j], new AbsoluteConstraints(xPos(i), yPos(j), pieceSize, pieceSize));
                 }
             }
-            for (i=0; i < screenWidth; i++) {
-                screen[i][j+1] = null;
+            for (i = 0; i < screenWidth; i++) {
+                screen[i][j + 1] = null;
             }
-            if(count == 0)
+            if (count == 0) {
                 break;
+            }
         }
         toggleVisiblePropOnGame();
     }
 
-    public void toggleVisiblePropOnGame(){
+    public void toggleVisiblePropOnGame() {
         gameNext1pPanel.setVisible(false);
         gameNext1pPanel.setVisible(true);
         gameScreen1pPanel.setVisible(false);
@@ -791,10 +808,14 @@ public class Layout1 extends JFrame {
         gameViewReady = newGameViewReady;
     }
 
-    public void setPlayerList(Set<PlayerDescriptor> set){
-        ((DefaultListModel)(playersList.getModel())).removeAllElements();
-        for(PlayerDescriptor pd: set){
-            ((DefaultListModel)(playersList.getModel())).addElement(pd);
+    public static void addConfigChanger(ActionListener newConfigChanger) {
+        applyOptions.addActionListener(newConfigChanger);
+    }
+    
+    public void setPlayerList(Set<PlayerDescriptor> set) {
+        ((DefaultListModel) (playersList.getModel())).removeAllElements();
+        for (PlayerDescriptor pd : set) {
+            ((DefaultListModel) (playersList.getModel())).addElement(pd);
         }
     }
 
@@ -825,9 +846,6 @@ public class Layout1 extends JFrame {
         });
     }
 
-
-
-
     public class JLabelCont extends JLabel{
         int x=-1;
         int y=-1;
@@ -835,28 +853,35 @@ public class Layout1 extends JFrame {
         private JLabelCont(ImageIcon imageIcon) {
             super(imageIcon);
         }
-        public void setP(int x, int y){
-            this.x =x;
-            this.y =y;
-        }
-        public int getCX() throws Exception{
-            if(x == -1)
-                throw new Exception("x null");
-            return x;
-        }
-        public int getCY() throws Exception{
-            if(y == -1)
-                throw new Exception("y null");
-            return y;
+
+        public void setP(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
 
+        public int getCX() throws Exception {
+            if (x == -1) {
+                throw new Exception("x null");
+            }
+            return x;
+        }
+
+        public int getCY() throws Exception {
+            if (y == -1) {
+                throw new Exception("y null");
+            }
+            return y;
+        }
     }
-    public class Clock implements ActionListener{
+
+    public class Clock implements ActionListener {
+
         Timer timer;
         long time;
         static final int delay = 500;
-        public Clock(){
-            timer = new Timer(delay,this);
+
+        public Clock() {
+            timer = new Timer(delay, this);
             time = 0;
             timer.start();
         }
@@ -867,13 +892,14 @@ public class Layout1 extends JFrame {
         }
 
         public void actionPerformed(ActionEvent ae) {
-            time+=delay;
-            timePassed.setText(String.format("%1$tM:%1$tS",time,time));
+            time += delay;
+            timePassed.setText(String.format("%1$tM:%1$tS", time, time));
         }
-        public void togglePause(){
-            if(!timer.isRunning()){
+
+        public void togglePause() {
+            if (!timer.isRunning()) {
                 timer.start();
-            }else{
+            } else {
                 timer.stop();
             }
         }
@@ -929,5 +955,4 @@ public class Layout1 extends JFrame {
             return this;
         }
     }
-
 }

@@ -97,7 +97,6 @@ public class Game extends Controller implements ActionListener{
     }
 
     public void initGame(){
-        SoundEffect.THEME.play();
         screen = new Screen();
         Position.setBorderRetriever(screen.new BorderRetriever());
         Position.setFilledRetriever(screen.new FilledRetriever());

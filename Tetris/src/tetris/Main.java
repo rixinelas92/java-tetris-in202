@@ -59,6 +59,11 @@ public class Main  {
                 screen.setVisible(true);
                 game = new Game();
                 Layout1.addGameViewReady(game.new GameViewReadyListener());
+                try{
+                    SoundEffect.THEME.setLoop();
+                    SoundEffect.THEME.play();
+                }catch(Exception e){
+                }
             }
         });
         //startThemeMusic();
@@ -107,7 +112,10 @@ public class Main  {
     }
 
     public static void terminateInternetConnection(){
-        internet.sayBye();
+        try{
+            internet.sayBye();
+        }catch(Exception e){
+        }
     }
     static void callScreenRemoveLine(int lineC) {
         screen.eraseLine(lineC);

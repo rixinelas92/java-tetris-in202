@@ -22,7 +22,7 @@ import tetris.Screen.OutOfScreenBoundsException;
  * @author gustavo
  */
 public abstract class Controller implements KeyListener, MouseMotionListener, MouseListener {
-    private int keyPause,keyGoLeft,keyGoRight,keyGoDown,keyRotate;
+    protected int keyPause,keyGoLeft,keyGoRight,keyGoDown,keyRotate;
     private boolean mouseController;
 
    public Controller(){

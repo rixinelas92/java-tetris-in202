@@ -177,6 +177,9 @@ public class Game extends Controller implements ActionListener{
     }
 
     public void stopToggle() {
+        Main.togglePause();
+    }
+    public void stopToggleVariable(){
         isPaused = !isPaused;
     }
 

@@ -66,23 +66,7 @@ public class Main  {
                 }
             }
         });
-        //startThemeMusic();
     }
-
-  /*  private static void startThemeMusic() {
-        Runnable r = new Runnable() {
-
-            public void run() {
-                try {
-                    SoundEffect.THEME.play();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        Thread t = new Thread(r);
-        t.start();
-    }*/
     
     
     public static void updatePiecesPositions(){
@@ -121,7 +105,7 @@ public class Main  {
         screen.eraseLine(lineC);
     }
     public static void togglePause(){
-        game.stopToggle();
+        game.stopToggleVariable();
         screen.requestFocusInWindow();
         screen.clock.togglePause();
     }

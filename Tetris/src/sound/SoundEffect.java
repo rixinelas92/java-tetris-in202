@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.URL;
 import javax.sound.sampled.*;
 
+
 /**
  * This enum encapsulates all the sound effects of a game, so as to separate the sound playing
  * codes from the game codes.
@@ -53,9 +54,11 @@ public enum SoundEffect {
     // Play or Re-play the sound effect from the beginning, by rewinding.
     public void setVolume(int newVolume) {
         float volume;
-        volume = volumeControl.getMaximum() - volumeControl.getMinimum();
-        volume *= (float) newVolume / 100;
-        volumeControl.setValue(volumeControl.getMinimum() + volume);
+        volume = (float) (volumeControl.getMaximum() - volumeControl.getMinimum());
+        volume *= (float) Math.log(2*newVolume) /Math.log(2*100);
+        
+        System.out.println(volume);
+        volumeControl.setValue(volume+volumeControl.getMinimum());
     }
 
     static public void setGlobalVolume(int newVolume) {

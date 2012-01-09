@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Java doc OK.
  */
 package tetris;
 
@@ -13,7 +12,9 @@ import tetris.Screen.NotAvailablePlaceForPieceException;
 import tetris.Screen.OutOfScreenBoundsException;
 
 /**
- * This class was designed to control...
+ * This class was designed to manage the keys of the interface with the user 
+ * and to determine the movements that must be executed in according to the user
+ * action.
  * @author gustavo
  */
 public abstract class Controller implements KeyListener, MouseMotionListener, MouseListener {
@@ -35,10 +36,10 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     /**
     * Default setter to the class to the attributes <em>keyGoLeft</em> 
     * em>keyGoRight</em> <em>keyGoDown</em> <em>keyRotate</em>.
-    * @param newLeft defines the action 'go left' in according with the user event.
-    * @param newRight defines the action 'go right' in according with the user event.
-    * @param newDown defines the action 'go down' in according with the user event.
-    * @param newRotate defines the action 'rotate' in according with the user event.
+    * @param newLeft defines the action 'go left' in according to the user event.
+    * @param newRight defines the action 'go right' in according to the user event.
+    * @param newDown defines the action 'go down' in according to the user event.
+    * @param newRotate defines the action 'rotate' in according to the user event.
     */
     public void setControllers(int newLeft, int newRight, int newDown, int newRotate){
         keyGoLeft=newLeft;
@@ -48,13 +49,13 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     }
     /**
      * It returns the state of the mouse, if its static or moving.
-     * @return true if it is moving or false if it's static. 
+     * @return true if it is moving or false if it is static. 
      */
     public boolean isMouseController() {
         return mouseController;
     }
     /**
-     * Default setter of the parameter <em>mouseControler</em> in according with
+     * Default setter of the parameter <em>mouseControler</em> in according to
      * the new condition.
      * @param newMouseController defines the new state of the mouse. 
      */
@@ -74,8 +75,8 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     protected abstract void goToX()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
     
     /**
-     * Listeners functions, they check the action that must be executed in according with the key 
-     * pressed by the user.
+     * Listeners functions, they check the action that must be executed in according 
+     * to the key pressed by the user.
      * @param e verifies if there is an user action.
      */
     public void keyPressed(KeyEvent e) {
@@ -116,7 +117,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     }
     /**
      * It determines the movement of translation that will be executed in 
-     * accoding with the action produced by the user.
+     * accoding to the action produced by the user.
      * @param e verifies if there is an user action.
      */
     public void mouseMoved(MouseEvent e) {
@@ -129,15 +130,20 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
         }
     }
     /**
-     * It determines the movement 
-     * @param e 
+     * It determines if the movement of rotation will be executed in according 
+     * to the action produced by the user.
+     * @param e verifies if there is an user action.
      */
     public void mouseClicked(MouseEvent e) {
         if(mouseController){
             rotate();
         }
     }  
-    //not used
+    /**
+     * Theese methodes do not have a use in this class, but must be included 
+     * because of restrictions among class comunication.
+     * @param e verifies if there is an user action.
+     */
     public abstract void keyTyped(KeyEvent e);
     public abstract void keyReleased(KeyEvent e);
     public abstract void mouseDragged(MouseEvent e);

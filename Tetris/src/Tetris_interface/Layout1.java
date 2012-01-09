@@ -15,6 +15,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -505,7 +507,7 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(false);
     }
 
-    private void func_newgame() {
+    public void func_newgame() {
         initialPanel.setVisible(false);
         selectionPanel.setVisible(true);
         optionsPanel.setVisible(false);
@@ -637,6 +639,26 @@ public class Layout1 extends JFrame {
         }      
         setNextPiecePosition(newpiece);
     }
+
+    public JLabel showGameOver(){
+        JLabel gameover = null;
+
+        gameover = new JLabel(new ImageIcon(getClass().getResource("imgs/gameover.png")));
+        game1pPanel.add(gameover, new AbsoluteConstraints(0, 0, -1, -1));
+        gameover.setVisible(true);
+        game1pPanel.setVisible(false);
+        game1pPanel.setVisible(true);
+        return gameover;
+    }
+    public void removeGameOver(JLabel gameover){
+            if(gameover != null){
+                gameover.setVisible(false);
+                game1pPanel.remove(gameover);
+                game1pPanel.setVisible(false);
+                game1pPanel.setVisible(true);
+            }
+    }
+
 
     public void newPiece(Position[] newPosCurrentPiece, Position[] newPosNextPiece, String colorPiece) {
         //this function receive the 4 positions of the new piece and her color

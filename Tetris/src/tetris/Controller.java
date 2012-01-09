@@ -29,7 +29,8 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
         keyGoRight=KeyEvent.VK_RIGHT;
         keyDown=KeyEvent.VK_DOWN;
         keyGoDown=KeyEvent.VK_UP;
-        keyRotate=KeyEvent.VK_SPACE;       
+        keyRotate=KeyEvent.VK_SPACE;
+
  
 
     }

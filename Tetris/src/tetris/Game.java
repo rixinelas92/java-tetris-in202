@@ -300,8 +300,8 @@ public class Game extends Controller implements ActionListener{
                 }
             }
             if(isFinished){
-                System.out.println("ACABOU!!!");
-                timer.stop();
+                Main.pauseGame();
+                Main.showGameOverAndReturnToNewGame();
                 return;
 
             }

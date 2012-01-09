@@ -1,5 +1,5 @@
 /*
- * Java doc
+ * Java doc OK, mas função em constantte modificação.
  */
 
 package tetris;

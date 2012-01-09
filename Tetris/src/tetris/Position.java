@@ -1,6 +1,5 @@
  /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Java doc
  */
 
 package tetris;
@@ -28,7 +27,7 @@ public class Position {
     * Setter of the position to the current piece with reference from the last one.
     * @param old defines the coordanates of the old position.
     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
-    * screen is not respected.
+    * screen are not respected.
     */
     public Position(Position old) throws OutOfScreenBoundsException{
         setX(old.getX());
@@ -40,7 +39,7 @@ public class Position {
     * @param newX defines the next coordenate of the parameter <em>x</em>.
     * @param newY defines the next coordanate of the parameter <em>y</em>.
     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
-    * screen is not respected.
+    * screen are not respected.
     */
     public Position(int newX,int newY) throws OutOfScreenBoundsException{
         setX((short)newX);
@@ -51,7 +50,7 @@ public class Position {
     * @param newX defines the next coordenate of the parameter <em>x</em>.
     * @param newY defines the next coordanate of the parameter <em>y</em>.
     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
-    * screen is not respected.
+    * screen are not respected.
     */
     public Position(short newX, short newY) throws OutOfScreenBoundsException{
         setX(newX);
@@ -196,6 +195,11 @@ public class Position {
     public String toString(){
         return "["+x+";"+y+"]";
     }
+    /**
+     * Returns the minimum values in each coordinate for the input vector. 
+     * @param vector is the vector to be analysed. 
+     * @return the minimum coordinates.
+     */
     public static Position getMinCoord(Position[] vector){
         try {
             Position p=new Position(borderRetriever.getMaxX(),borderRetriever.getMaxY());
@@ -211,7 +215,11 @@ public class Position {
         p.x = p.y = 0;
         return p;
     }
-
+    /**
+     * Returns the maximum values in each coordinate for the input vector. 
+     * @param vector is the vector to be analysed. 
+     * @return the maximum coordinates.
+     */
 
     public static Position getMaxCoord(Position[] vector){
         try {

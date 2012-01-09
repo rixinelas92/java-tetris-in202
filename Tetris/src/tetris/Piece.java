@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Java doc 
  */
 
 package tetris;
@@ -10,6 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import tetris.Screen.NotAvailablePlaceForPieceException;
 import tetris.Screen.OutOfScreenBoundsException;
+
+
 /**
  *
  * @author felipeteles
@@ -26,24 +27,41 @@ public class Piece {
 
     public static final Color[]  shapeColors = {Color.PINK, Color.MAGENTA, Color.BLUE, Color.CYAN,Color.YELLOW,Color.GREEN,Color.ORANGE,Box.getEmptyColor()};
     public static final String[] shapeCNames = {"Purple",   "Red",         "Blue",     "Ciano",   "Yellow",    "Green",    "Brown",     "close"};
-
+    /**
+     * Creates a new piece with the parameters <em>currentRotation</em> <em>currentShape</em> 
+     * <em>position</em> setted.
+     * @param s informes the type of the piece.
+     * @param p informes the position of the piece that will be created.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen are not respected and the piece cannot be created. 
+     */
     public Piece(ShapeType s, Position p) throws OutOfScreenBoundsException{
         currentRotation = 1;
         currentShape = s;
         position = new Position(p);
     }
-
+    /**
+     * Default getter of the coordinate y of the position selected.
+     * @return the coordinate y.
+     */
     public short getY(){
         return position.getY();
     }
     /**
-     * Returns the coordinate X for the position selected.
-     * @return x
+     * Default getter of the coordinate x of the position selected.
+     * @return the coordinate x.
      */
     public short getX(){
         return position.getX();
     }
-
+    /**
+     * Default setter of the coordenate y if the operation is possible.
+     * @param newY defines the new coordinate y.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen are not respected. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit with static pieces.
+     */
     public void setY(short newY) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException{
         int tyleN = currentShape.ordinal();
         int x,y;
@@ -55,6 +73,15 @@ public class Piece {
         }
         position.setY(newY);
     }
+    /**
+     * Default setter of the coordenate x if the operation is possible.
+     * @param newX defines the new coordinate x.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen are not respected. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit with static pieces.
+     */
+    
     public void setX(short newX) throws NotAvailablePlaceForPieceException, OutOfScreenBoundsException{
         int tyleN = currentShape.ordinal();
         int x,y;
@@ -66,7 +93,14 @@ public class Piece {
         }
         position.setX(newX);
     }
-
+     /**
+     * Default setter of the position of the piece with a updated values of x and y. 
+     * @param newPos informes the updated position.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen are not respected. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit with static pieces.
+     */
     public void setPosition(Position newPos) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException{
         int tyleN = currentShape.ordinal();
         int x,y;
@@ -78,17 +112,34 @@ public class Piece {
         }
         position = newPos;
     }
+    /**
+     * Default setter of the parameter <em>currentShape</em>.
+     * @param newShape informes the new type shape.
+     */
     public void setShape(ShapeType newShape){
         this.currentShape = newShape;
     }
+    /**
+     * Default getter of the color correspondent to the current shape.
+     * @return the color in according to the type of shape and the table order
+     * of colors.
+     */
     public Color getColor(){
         return shapeColors[currentShape.ordinal()];
     }
+    /**
+     * Default getter of the color correspondent to the current shape.
+     * @return the name of color in according to the type of shape and the 
+     * table order of names of colors.
+     */    
     public String getColorName(){
         return shapeCNames[currentShape.ordinal()];
     }
-
-
+    /**
+     * Informes the position of each box of the piece, considering its shape and
+     * rotation.
+     * @return the position of each box.
+     */
     public Position[] getAllPosition(){
         Position[] pos = new Position[4];
         int tyleN = currentShape.ordinal();
@@ -101,12 +152,17 @@ public class Piece {
         }
         return pos;
     }
+    /**
+     * Implements the rotation of the piece if it is possible, accessing the table
+     * with relative positions and updating the new configuration of the piece.
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit that does not allow the movement of rotation.
+     */
     public void rotation() throws NotAvailablePlaceForPieceException{
         int tyleN = currentShape.ordinal();
         int x,y;
         short rot = (short) (currentRotation + 1);
         rot%=4;
-
         for(int i = 0;i<4;i++){
             x = this.position.getX() + shape[tyleN][rot][i][0];
             y = this.position.getY() - shape[tyleN][rot][i][1];
@@ -115,6 +171,13 @@ public class Piece {
         }
         currentRotation=rot;
     }
+    /**
+     * Implements the rotation of the piece in reversed diretion if it is possible, 
+     * accessing the table with relative positions and updating the new configuration 
+     * of the piece. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit that does not allow the movement of rotation.
+     */
     public void rotationInversed() throws NotAvailablePlaceForPieceException{
         int tyleN = currentShape.ordinal();
         int x,y;
@@ -129,8 +192,12 @@ public class Piece {
         }
         currentRotation=rot;
     }
-
     static char[][] model = new char[4][4];
+    /**
+     * Test fonction to test types.
+     * @param s is the shape type.
+     * @param rot is the current rotation.
+     */
     synchronized public static void printTyle(ShapeType s,int rot){
         for(int a = 0;a<4;a++){
             for(int b = 0;b<4;b++)
@@ -148,7 +215,10 @@ public class Piece {
         }
     }
 
-
+    /**
+     * This class is designed to informe the features of the piece (shape, rotation
+     * block and the relative coordinates of each block
+     */
     static private short[][][][] shape = { // [Shape][rotation][block][x,y]
         {
             { { 1, 0 }, { 1, 1 }, { 0, 1 }, { 2, 0 } }, // ... .x. ... .x.
@@ -210,6 +280,6 @@ public class Piece {
             { { 1, 1 }, { 1, 1 }, { 1, 1 }, { 1, 1 } },
 
         }
-    };//lista de peças, rotaçoes,cada quadrado,coordenadas
+    };
 }
 

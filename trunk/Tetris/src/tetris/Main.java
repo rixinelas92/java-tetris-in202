@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import online.client.Client;
 import online.util.Player.PlayerState;
@@ -136,6 +137,16 @@ public class Main  {
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void showGameOverAndReturnToNewGame(){
+        Main.removeListeners();
+        JLabel go = screen.showGameOver();
+        try{
+            Thread.sleep(5000);
+        }catch(Exception e){}
+        screen.removeGameOver(go);
+        screen.func_newgame();
     }
 
 

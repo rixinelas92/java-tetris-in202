@@ -126,7 +126,8 @@ public class Main {
     }
     public static void pauseGame(){
         game.pauseGame();
-        screen.clock.pauseScreen();
+        if(screen != null && screen.clock != null)
+            screen.clock.pauseScreen();
     }
 
     static void setPointsAndLevel(int points, int level, int pointsToNextLevel) {

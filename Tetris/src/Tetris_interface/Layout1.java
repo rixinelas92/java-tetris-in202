@@ -521,9 +521,8 @@ public class Layout1 extends JFrame {
         somPanel.setVisible(false);
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
-        
+        Main.pauseGame();
         rightKey.getText();
-               
     }
 
     private void func_som() {
@@ -534,8 +533,9 @@ public class Layout1 extends JFrame {
         somPanel.setVisible(true);
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
-        
+        Main.pauseGame();
         SoundEffect.setGlobalVolume(volumeSlider.getValue());
+
     }
 
     private void func_1player() {
@@ -802,6 +802,8 @@ public class Layout1 extends JFrame {
     }
 
 
+
+
     public class JLabelCont extends JLabel{
         int x=-1;
         int y=-1;
@@ -836,6 +838,7 @@ public class Layout1 extends JFrame {
         }
         public void restart(){
             time = 0;
+            timer.restart();
             timePassed.setText(String.format("%1$tM:%1$tS",time,time));
         }
 
@@ -849,6 +852,10 @@ public class Layout1 extends JFrame {
             }else{
                 timer.stop();
             }
+        }
+
+        public void pauseScreen() {
+            timer.stop();
         }
     }
 

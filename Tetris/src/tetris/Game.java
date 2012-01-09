@@ -123,6 +123,7 @@ public class Game extends Controller implements ActionListener{
         if(timer == null)
             timer = new Timer(timeBefore(level),this);
         timer.setDelay(timeBefore(level));
+        isPaused = false;
         timer.start();
     }
 
@@ -299,6 +300,10 @@ public class Game extends Controller implements ActionListener{
     @Override
     public void mouseExited(MouseEvent e) {
         
+    }
+
+    void pauseGame() {
+        isPaused = true;
     }
 
 

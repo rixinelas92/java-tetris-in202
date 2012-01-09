@@ -522,6 +522,7 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
         Main.pauseGame();
+        Main.removeListeners();
         rightKey.getText();
     }
 
@@ -534,6 +535,7 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
         Main.pauseGame();
+        Main.removeListeners();
         SoundEffect.setGlobalVolume(volumeSlider.getValue());
 
     }
@@ -545,7 +547,7 @@ public class Layout1 extends JFrame {
         somPanel.setVisible(false);
         game1pPanel.setVisible(true);
         game2pPanel.setVisible(false);
-
+        
         if (gameViewReady != null) {
             gameViewReady.actionPerformed(null);
         }

@@ -9,10 +9,14 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -21,6 +25,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Action;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -333,6 +338,21 @@ public class Layout1 extends JFrame {
         optionsPanel.add(applyOptions, new AbsoluteConstraints(60, 250, -1, -1));
         optionsPanel.add(cancelOptions, new AbsoluteConstraints(180, 250, -1, -1));
 
+
+        goToBottonKey.addFocusListener(new FocusListener(){
+
+            public void focusGained(FocusEvent fe) {
+                goToBottonKey.setText(KeyEvent.getKeyText(getKeyEvent(1)));
+            }
+
+            public void focusLost(FocusEvent fe) {
+                System.out.println("kkkkff");
+
+            }
+
+
+        });
+       
     }
 
     private void make_som() {
@@ -583,6 +603,45 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(true);
     }
+
+    int keyPressedOnEvent;
+    private int getKeyEvent(int def){
+        
+        keyPressedOnEvent = -1;
+        KeyListener kl = new KeyListener() {
+
+            public void keyTyped(KeyEvent ke) {
+
+                keyPressedOnEvent = ke.getKeyCode();
+            }
+
+            public void keyPressed(KeyEvent ke) {
+                System.out.println("kkkllll");
+                keyPressedOnEvent = ke.getKeyCode();
+            }
+
+            public void keyReleased(KeyEvent ke) {
+            }
+        };
+        this.addKeyListener(kl);
+        for(int i = 0;i<100;i++){
+            if(keyPressedOnEvent != -1){
+                def = keyPressedOnEvent;
+                break;
+            }
+            try{
+                Thread.sleep(100);
+            }catch(Exception e){
+
+            }
+        }
+
+        this.removeKeyListener(kl);
+        
+        return def;
+    }
+
+
 
     private void func_exit() {
         Main.terminateInternetConnection();

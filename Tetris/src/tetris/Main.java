@@ -114,6 +114,9 @@ public class Main  {
         screen.setScore(points, level, 0, pointsToNextLevel);
     }
 
+    public static void restart1pScreen(){
+        screen.restart1pScreen();
+    }
     public static void start2pConnection(){
         try {
             internet = new ClientImpl("localhost", playerName);

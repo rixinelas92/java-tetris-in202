@@ -582,19 +582,9 @@ public class Layout1 extends JFrame {
 
     private void func_restart() {
         //just for test
-        Position[] tester = new Position[4];
-        try {
-            tester[0] = new Position(5, 5);
-            tester[1] = new Position(3, 5);
-            tester[2] = new Position(4, 5);
-            tester[3] = new Position(5, 6);
-
-            setPiecePosition(tester);
-
-            System.out.println("xau");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if(gameViewReady != null)
+            gameViewReady.actionPerformed(null);
+ 
     }
     //publics functions
 
@@ -622,12 +612,28 @@ public class Layout1 extends JFrame {
     public String getStringForColor(String color){
         return "imgs/" + color + r.nextInt(5)+".png";
     }
+
+
+    public void restart1pScreen(){
+        if(clock != null){
+            clock.restart();
+        }else{
+            clock = new Clock();
+        }
+        gameScreen1pPanel.removeAll();
+        gameNext1pPanel.removeAll();
+        screen = new JLabelCont[screenWidth][screenHeight+3];
+        currentPiece = new JLabelCont[4];
+        nextPiece = new JLabelCont[4];
+
+    }
+
+
     public void newFirstPiece(Position[] newpiece, String c){
         for(int i=0;i<4;i++){
             nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(c))));
         }      
         setNextPiecePosition(newpiece);
-        clock = new Clock();
     }
 
     public void newPiece(Position[] newPosCurrentPiece, Position[] newPosNextPiece, String colorPiece) {
@@ -827,6 +833,10 @@ public class Layout1 extends JFrame {
             timer = new Timer(delay,this);
             time = 0;
             timer.start();
+        }
+        public void restart(){
+            time = 0;
+            timePassed.setText(String.format("%1$tM:%1$tS",time,time));
         }
 
         public void actionPerformed(ActionEvent ae) {

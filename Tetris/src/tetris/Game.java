@@ -29,7 +29,7 @@ public class Game extends Controller implements ActionListener{
     private Piece nextPiece;
     private RandomEnum<Piece.ShapeType> randomShape = new RandomEnum<Piece.ShapeType>(Piece.ShapeType.class);
 
-    Timer timer;
+    Timer timer = null;
     int timeBeforeNextPiece = 400;
     boolean isFallingFinished = false;
     boolean isStarted = false;
@@ -97,7 +97,10 @@ public class Game extends Controller implements ActionListener{
     }
 
     public void initGame(){
+        if(timer != null)
+            timer.stop();
         screen = new Screen();
+        Main.restart1pScreen();
         Position.setBorderRetriever(screen.new BorderRetriever());
         Position.setFilledRetriever(screen.new FilledRetriever());
         try {
@@ -117,10 +120,10 @@ public class Game extends Controller implements ActionListener{
         Main.setListeners(this);
         int pointsToNextLevel = pointsToLevel(level+1);
         Main.setPointsAndLevel(points, level, pointsToNextLevel);
-        timer = new Timer(timeBefore(level),this);
+        if(timer == null)
+            timer = new Timer(timeBefore(level),this);
+        timer.setDelay(timeBefore(level));
         timer.start();
-        
-
     }
 
     public Position[] getCurrentPiecePositions(){
@@ -300,7 +303,6 @@ public class Game extends Controller implements ActionListener{
 
 
     public class GameViewReadyListener implements ActionListener{
-
         public void actionPerformed(ActionEvent ae) {
             initGame();
         }

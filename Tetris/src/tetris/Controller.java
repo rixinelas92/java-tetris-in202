@@ -18,7 +18,7 @@ import tetris.Screen.NotAvailablePlaceForPieceException;
 import tetris.Screen.OutOfScreenBoundsException;
 
 /**
- *
+ * This class was designed to control...
  * @author gustavo
  */
 public abstract class Controller implements KeyListener, MouseMotionListener, MouseListener {
@@ -26,36 +26,30 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     private boolean mouseController;
 
    public Controller(){
-        //test
-       /*
-        setSize(100,100);
-        JPanel typingArea = new JPanel(new AbsoluteLayout());
-        JPanel typingPanel = new JPanel(new AbsoluteLayout());
-        typingArea.setFocusable(true);
-        typingArea.addKeyListener(this);
-        typingArea.addMouseMotionListener(this);
-        typingArea.addMouseListener(this);
-        getContentPane().setLayout(new AbsoluteLayout());
-        getContentPane().add(typingArea, new AbsoluteConstraints(10,10,50,50));
-        getContentPane().add(typingPanel, new AbsoluteConstraints(10,30,50,50));
-        *  * 
-        */
-        
-        //usefull
         keyPause=KeyEvent.VK_P;
         keyGoLeft=KeyEvent.VK_LEFT;
         keyGoRight=KeyEvent.VK_RIGHT;
         keyGoDown=KeyEvent.VK_DOWN;
-        keyRotate=KeyEvent.VK_UP;
-       
-       
+        keyRotate=KeyEvent.VK_UP;   
     }
+    /**
+    * Default setter to the class to the attributes <em>keyGoLeft</em> 
+    * em>keyGoRight</em> <em>keyGoDown</em> <em>keyRotate</em>.
+    * @param newLeft defines the action 'go left' in according with the user event.
+    * @param newRight defines the action 'go right' in according with the user event.
+    * @param newDown defines the action 'go down' in according with the user event.
+    * @param newRotate defines the action 'rotate' in according with the user event.
+    */
     public void setControllers(int newLeft, int newRight, int newDown, int newRotate){
         keyGoLeft=newLeft;
         keyGoRight=newRight;
         keyGoDown=newDown;
         keyRotate=newRotate;
     }
+    /**
+     * It returns the state of the Mouse.
+     * @return true if 
+     */
      public boolean isMouseController() {
         return mouseController;
     }
@@ -72,23 +66,11 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     public abstract void stopToggle()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
     protected abstract void goToX()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
 
-    //test function
-    
-    public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Controller frame = new Game();
-                /*
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setVisible(true);
-                 * 
-                 */
-            }
-        });
-    }
-     
     //Listeners functions
+    /**
+     * 
+     * @param e verifies if there is an user action.
+     */
     public void keyPressed(KeyEvent e) {
         int keyUsed = e.getKeyCode();
         

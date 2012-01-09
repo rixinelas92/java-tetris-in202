@@ -64,7 +64,6 @@ public class Main {
                 });
                 try {
                     SoundEffect.THEME.setLoop();
-                    SoundEffect.THEME.play();
                 } catch (Exception e) {
                 }
             }

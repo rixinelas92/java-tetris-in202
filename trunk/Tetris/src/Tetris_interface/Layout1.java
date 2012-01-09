@@ -16,6 +16,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Random;
 import java.util.Set;
 import javax.swing.Timer;
@@ -51,12 +53,13 @@ public class Layout1 extends JFrame {
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
     private JLabelCont[] currentPiece, nextPiece; //array with the position of the 4 boxes of the 2 pieces
     private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
+    public Font neuropol14,neuropol24,segoePrint12,planetBenson14,sevenSegments14 ;
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
-    private JTextField leftKey, rightKey, downKey, rotateKey,goToBottonKey, playerName;
+    private JTextField leftKey, rightKey, downKey, rotateKey, goToBottonKey, playerName;
     private JCheckBox mouseBox;
-    private static JButton applyOptions,cancelOptions;
+    private static JButton applyOptions, cancelOptions;
     //sound components
     private JComboBox themeBox;
     private JSlider volumeSlider;
@@ -64,7 +67,7 @@ public class Layout1 extends JFrame {
     private JPanel gameScreen1pPanel, gameNext1pPanel;
     private JProgressBar scoreBar;
     private JTextField score, timePassed;
-    private JLabel level,gameover;
+    private JLabel level, gameover;
     //listenets
     static ActionListener gameViewReady = null;
     private static final int X_BASE = 42;
@@ -72,11 +75,12 @@ public class Layout1 extends JFrame {
     public Clock clock;
     Random r = new Random();
     private JList playersList;
-    public Font font;
+    
     private int[] keys = Controller.keysStart;
 
     public Layout1() {
 
+        make_fonts();
         make_top();
         make_initial();
         make_selection();
@@ -90,18 +94,37 @@ public class Layout1 extends JFrame {
         currentPiece = new JLabelCont[4];
         nextPiece = new JLabelCont[4];
         keys = new int[5];
-        //
-        /*try {
-            URL url = this.getClass().getResource("NEUROPOL.TTF");
-            File file = new File("C:/Users/Felipe/Nouveau dossier/ENSTA/Prog C++/Tetris/trunk/Tetris/src/Tetris_interface/NEUROPOL.TTF");
-            FileInputStream fis = new FileInputStream(file);
-            font = Font.createFont(Font.TRUETYPE_FONT, fis);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
     //cria os panels usados
 
+    
+    private void make_fonts() {
+       try {
+            File f = new File("src/Tetris_interface/fightingspiritTBS.ttf");
+            FileInputStream in = new FileInputStream(f);
+            Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
+            neuropol24 = dynamicFont.deriveFont(24f);
+            neuropol14 = dynamicFont.deriveFont(18f);
+            
+            f = new File("src/Tetris_interface/segoepr.ttf");
+            in = new FileInputStream(f);
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
+            segoePrint12 = dynamicFont.deriveFont(12f);
+            
+            f = new File("src/Tetris_interface/PLANETBE.TTF");
+            in = new FileInputStream(f);
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
+            planetBenson14 = dynamicFont.deriveFont(14f);
+            
+            f = new File("src/Tetris_interface/DS-DIGI.TTF");
+            in = new FileInputStream(f);
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
+            sevenSegments14 = dynamicFont.deriveFont(18f);
+                        
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+    }
     private void make_top() {
 
         topPanel = new JPanel(new AbsoluteLayout());
@@ -173,11 +196,11 @@ public class Layout1 extends JFrame {
             initialPanel.add(initialMenu, new AbsoluteConstraints(70, 30, -1, -1));
 
             JLabel credits1 = new JLabel("By: Gustavo PACIANOTTO G.");
-            credits1.setFont(new Font("Segoe Print", 0, 13));
+            credits1.setFont(segoePrint12);
             JLabel credits2 = new JLabel("     Adriano Tacilo RIBEIRO");
-            credits2.setFont(new Font("Segoe Print", 0, 13));
+            credits2.setFont(segoePrint12);
             JLabel credits3 = new JLabel("     Ademir Felipe TELES");
-            credits3.setFont(new Font("Segoe Print", 0, 13));
+            credits3.setFont(segoePrint12);
 
             initialPanel.add(credits1, new AbsoluteConstraints(10, 390, -1, -1));
             initialPanel.add(credits2, new AbsoluteConstraints(10, 410, -1, -1));
@@ -193,7 +216,7 @@ public class Layout1 extends JFrame {
         selectionPanel = new JPanel(new AbsoluteLayout());
 
         JLabel selectionMenu = new JLabel("Game Mode");
-        selectionMenu.setFont(new java.awt.Font("Neuropol", 0, 24));
+        selectionMenu.setFont(neuropol24);
 
         JSeparator separator = new JSeparator();
 
@@ -226,7 +249,7 @@ public class Layout1 extends JFrame {
         optionsPanel = new JPanel(new AbsoluteLayout());
 
         JLabel optionTitle = new JLabel("Options");
-        optionTitle.setFont(new java.awt.Font("Neuropol", 0, 24));
+        optionTitle.setFont(neuropol24);
 
         JSeparator separator = new JSeparator();
 
@@ -238,74 +261,74 @@ public class Layout1 extends JFrame {
         controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Sybil Green", 0, 14)));
 
         JLabel moveLeft = new JLabel("Move Left");
-        moveLeft.setFont(new Font("Segoe Print", 0, 12));
+        moveLeft.setFont(segoePrint12);
 
         leftKey = new JTextField(KeyEvent.getKeyText(keys[0]));
-        leftKey.setFont(new Font("Segoe Print", 0, 12));
+        leftKey.setFont(segoePrint12);
         leftKey.setHorizontalAlignment(JTextField.CENTER);
         leftKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
         JLabel moveRight = new JLabel("Move Right");
-        moveRight.setFont(new Font("Segoe Print", 0, 12));
+        moveRight.setFont(segoePrint12);
 
         rightKey = new JTextField(KeyEvent.getKeyText(keys[2]));
-        rightKey.setFont(new Font("Segoe Print", 0, 12));
+        rightKey.setFont(segoePrint12);
         rightKey.setHorizontalAlignment(JTextField.CENTER);
         rightKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
         JLabel moveDown = new JLabel("Move Down");
-        moveDown.setFont(new Font("Segoe Print", 0, 12));
+        moveDown.setFont(segoePrint12);
 
         downKey = new JTextField(KeyEvent.getKeyText(keys[1]));
-        downKey.setFont(new Font("Segoe Print", 0, 12));
+        downKey.setFont(segoePrint12);
         downKey.setHorizontalAlignment(JTextField.CENTER);
         downKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
         JLabel rotate = new JLabel("Rotate");
-        rotate.setFont(new Font("Segoe Print", 0, 12));
+        rotate.setFont(segoePrint12);
 
         rotateKey = new JTextField(KeyEvent.getKeyText(keys[4]));
-        rotateKey.setFont(new Font("Segoe Print", 0, 12));
+        rotateKey.setFont(segoePrint12);
         rotateKey.setHorizontalAlignment(JTextField.CENTER);
         rotateKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
-        JLabel goBotton = new JLabel("Go to Botton");
-        goBotton.setFont(new Font("Segoe Print", 0, 12));
-        
+        JLabel goBotton = new JLabel("To Botton");
+        goBotton.setFont(segoePrint12);
+
         goToBottonKey = new JTextField(KeyEvent.getKeyText(keys[3]));
-        goToBottonKey.setFont(new Font("Segoe Print", 0, 12));
+        goToBottonKey.setFont(segoePrint12);
         goToBottonKey.setHorizontalAlignment(JTextField.CENTER);
         goToBottonKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
 
         mouseBox = new JCheckBox("Use mouse");
-        mouseBox.setFont(new Font("Segoe Print", 0, 12));
+        mouseBox.setFont(segoePrint12);
 
-        controlsPanel.add(moveLeft, new AbsoluteConstraints(30, 30, -1, -1));
-        controlsPanel.add(leftKey, new AbsoluteConstraints(115, 32, 40, 22));
+        controlsPanel.add(moveLeft, new AbsoluteConstraints(15, 30, -1, -1));
+        controlsPanel.add(leftKey, new AbsoluteConstraints(95, 32, 55, 25));
 
         controlsPanel.add(moveRight, new AbsoluteConstraints(160, 30, -1, -1));
-        controlsPanel.add(rightKey, new AbsoluteConstraints(240, 32, 40, 22));
+        controlsPanel.add(rightKey, new AbsoluteConstraints(240, 32, 55, 25));
 
-        controlsPanel.add(moveDown, new AbsoluteConstraints(30, 60, -1, -1));
-        controlsPanel.add(downKey, new AbsoluteConstraints(115, 63, 40, 22));
+        controlsPanel.add(moveDown, new AbsoluteConstraints(15, 60, -1, -1));
+        controlsPanel.add(downKey, new AbsoluteConstraints(95, 63, 55, 25));
 
         controlsPanel.add(rotate, new AbsoluteConstraints(160, 60, -1, -1));
-        controlsPanel.add(rotateKey, new AbsoluteConstraints(240, 63, 40, 22));
-        
-        controlsPanel.add(goBotton, new AbsoluteConstraints(30, 90, -1, -1));
-        controlsPanel.add(goToBottonKey, new AbsoluteConstraints(115, 90, 40, 22));
+        controlsPanel.add(rotateKey, new AbsoluteConstraints(240, 63, 55, 25));
 
-        controlsPanel.add(mouseBox, new AbsoluteConstraints(160, 85, -1, -1));
+        controlsPanel.add(goBotton, new AbsoluteConstraints(15, 90, -1, -1));
+        controlsPanel.add(goToBottonKey, new AbsoluteConstraints(95, 91, 55, 25));
 
-        optionsPanel.add(controlsPanel, new AbsoluteConstraints(20, 60, 290, 120));
+        controlsPanel.add(mouseBox, new AbsoluteConstraints(160, 91, -1, -1));
+
+        optionsPanel.add(controlsPanel, new AbsoluteConstraints(10, 60, 310, 130));
 
         //begin of the player name panel
         JPanel playerPanel = new JPanel(new AbsoluteLayout());
         playerPanel.setBorder(BorderFactory.createTitledBorder(null, "Player Name", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Sybil Green", 0, 14)));
 
         playerName = new JTextField("ENSTA Project");
-        playerName.setFont(new Font("Segoe Print", 0, 12));
+        playerName.setFont(segoePrint12);
         playerName.setHorizontalAlignment(JTextField.CENTER);
         playerName.setBorder(null);
         playerName.setBackground(new Color(playerPanel.getBackground().getRed(), playerPanel.getBackground().getGreen(), playerPanel.getBackground().getBlue()));
@@ -314,15 +337,15 @@ public class Layout1 extends JFrame {
 
         playerPanel.add(playerName, new AbsoluteConstraints(12, 20, 260, 30));
 
-        optionsPanel.add(playerPanel, new AbsoluteConstraints(20, 190, 290, 60));
+        optionsPanel.add(playerPanel, new AbsoluteConstraints(10, 190, 310, 60));
 
         //bottons
 
         applyOptions = new JButton("Apply");
-        applyOptions.setFont(new Font("Planet Benson 2", 0, 14));
-        
+        applyOptions.setFont(planetBenson14);
+
         JButton cancelOptions = new JButton("Cancel");
-        cancelOptions.setFont(new Font("Planet Benson 2", 0, 14));
+        cancelOptions.setFont(planetBenson14);
         cancelOptions.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
@@ -331,11 +354,6 @@ public class Layout1 extends JFrame {
         });
         optionsPanel.add(applyOptions, new AbsoluteConstraints(60, 250, -1, -1));
         optionsPanel.add(cancelOptions, new AbsoluteConstraints(180, 250, -1, -1));
-
-
-
-
-
 
 
         goToBottonKey.addFocusListener(new FocusListener(){
@@ -368,13 +386,13 @@ public class Layout1 extends JFrame {
             }
             public void focusLost(FocusEvent fe) {            }
         });
-       
+
     }
 
     private void make_som() {
         somPanel = new JPanel(new AbsoluteLayout());
         JLabel optionTitle = new JLabel("Sound");
-        optionTitle.setFont(new java.awt.Font("Neuropol", 0, 24));
+        optionTitle.setFont(neuropol24);
 
         JSeparator separator = new JSeparator();
 
@@ -386,7 +404,7 @@ public class Layout1 extends JFrame {
         themeTitle.setFont(new Font("Segoe Print", 0, 14));
 
         themeBox = new JComboBox();
-        themeBox.setFont(new Font("Segoe Print", 0, 12));
+        themeBox.setFont(segoePrint12);
         themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Bomberman"}));
 
         JLabel volumeTitle = new JLabel("Volume");
@@ -401,10 +419,18 @@ public class Layout1 extends JFrame {
 
         //buttons
         JButton apply = new JButton("Apply");
-        apply.setFont(new Font("Planet Benson 2", 0, 14));
-        
+        apply.setFont(planetBenson14);
+        apply.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent event) {
+                SoundEffect.setGlobalVolume(volumeSlider.getValue());
+                func_initial();
+            }
+        });
+
+
         JButton cancel = new JButton("Cancel");
-        cancel.setFont(new Font("Planet Benson 2", 0, 14));
+        cancel.setFont(planetBenson14);
         cancel.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
@@ -420,7 +446,7 @@ public class Layout1 extends JFrame {
         game1pPanel = new JPanel(new AbsoluteLayout());
 
         JLabel game1pTitle = new JLabel("1 Player");
-        game1pTitle.setFont(new java.awt.Font("Neuropol", 0, 24));
+        game1pTitle.setFont(neuropol24);
 
         JSeparator separator = new JSeparator();
 
@@ -440,38 +466,38 @@ public class Layout1 extends JFrame {
         //game status
         scoreBar = new JProgressBar();
         scoreBar.setValue(0);
-        game1pPanel.add(scoreBar, new AbsoluteConstraints(205, 260, 120, -1));
+        game1pPanel.add(scoreBar, new AbsoluteConstraints(202, 260, 120, -1));
 
         level = new JLabel("Level: 0");
-        level.setFont(new java.awt.Font("Neuropol", 0, 14));
-        game1pPanel.add(level, new AbsoluteConstraints(238, 240, -1, -1));
+        level.setFont(neuropol14);
+        game1pPanel.add(level, new AbsoluteConstraints(225, 240, -1, -1));
 
         score = new JTextField();
         score.setText("0");
-        score.setFont(new Font("Neuropol", 0, 14)); // NOI18N
+        score.setFont(neuropol14); // NOI18N
         score.setHorizontalAlignment(JTextField.CENTER);
         score.setEditable(false);
-        game1pPanel.add(score, new AbsoluteConstraints(235, 210, 60, 25));
+        game1pPanel.add(score, new AbsoluteConstraints(232, 210, 60, 25));
 
         JLabel scoreLabel = new JLabel("SCORE");
-        scoreLabel.setFont(new Font("Neuropol", 0, 14));
-        game1pPanel.add(scoreLabel, new AbsoluteConstraints(240, 190, -1, -1));
+        scoreLabel.setFont(neuropol14);
+        game1pPanel.add(scoreLabel, new AbsoluteConstraints(230, 190, -1, -1));
 
         JLabel timeLabel = new JLabel("TIME");
-        timeLabel.setFont(new Font("Neuropol", 0, 14));
-        game1pPanel.add(timeLabel, new AbsoluteConstraints(245, 130, -1, -1));
+        timeLabel.setFont(neuropol14);
+        game1pPanel.add(timeLabel, new AbsoluteConstraints(235, 135, -1, -1));
 
         timePassed = new JTextField("00:00");
         timePassed.setBackground(new java.awt.Color(0, 0, 0));
-        timePassed.setFont(new java.awt.Font("Neuropol", 0, 14)); // NOI18N
+        timePassed.setFont(sevenSegments14); // NOI18N
         timePassed.setForeground(new java.awt.Color(51, 255, 0));
         timePassed.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         timePassed.setEditable(false);
-        game1pPanel.add(timePassed, new AbsoluteConstraints(235, 150, 60, 25));
+        game1pPanel.add(timePassed, new AbsoluteConstraints(232, 155, 60, 25));
 
         //buttons
         JButton pauseButton = new JButton("Pause");
-        pauseButton.setFont(new Font("Planet Benson 2", 0, 14));
+        pauseButton.setFont(planetBenson14);
         pauseButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
@@ -479,17 +505,17 @@ public class Layout1 extends JFrame {
             }
         });
         JButton restartButton = new JButton("Restart");
-        restartButton.setFont(new Font("Planet Benson 2", 0, 14));
+        restartButton.setFont(planetBenson14);
         restartButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
                 func_restart();
             }
         });
-        game1pPanel.add(pauseButton, new AbsoluteConstraints(220, 280, 100, 30));
-        game1pPanel.add(restartButton, new AbsoluteConstraints(220, 310, 100, -1));
+        game1pPanel.add(pauseButton, new AbsoluteConstraints(212, 280, 100, 35));
+        game1pPanel.add(restartButton, new AbsoluteConstraints(212, 315, 100, 35));
 
-        gameover = new JLabel(new ImageIcon(getClass().getResource("imgs/gameover.png")));        
+        gameover = new JLabel(new ImageIcon(getClass().getResource("imgs/gameover.png")));
         game1pPanel.add(gameover, new AbsoluteConstraints(0, 100, -1, -1));
         game1pPanel.setComponentZOrder(gameover, 1);
         gameover.setVisible(false);
@@ -499,7 +525,7 @@ public class Layout1 extends JFrame {
         game2pPanel = new JPanel(new AbsoluteLayout());
 
         JLabel game2pTitle = new JLabel("2 Player");
-        game2pTitle.setFont(new java.awt.Font("Neuropol", 0, 24));
+        game2pTitle.setFont(neuropol24);
 
         JSeparator separator = new JSeparator();
 
@@ -581,7 +607,7 @@ public class Layout1 extends JFrame {
 
         Main.pauseGame();
         Main.removeListeners();
-        
+
     }
 
     private void func_som() {
@@ -594,7 +620,6 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(false);
         Main.pauseGame();
         Main.removeListeners();
-        SoundEffect.setGlobalVolume(volumeSlider.getValue());
 
     }
 
@@ -605,7 +630,7 @@ public class Layout1 extends JFrame {
         somPanel.setVisible(false);
         game1pPanel.setVisible(true);
         game2pPanel.setVisible(false);
-        
+
         if (gameViewReady != null) {
             gameViewReady.actionPerformed(null);
         }
@@ -620,8 +645,8 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(true);
     }
 
-    
 
+    
     private void getKeyEvent(int def, int keyNumber,JTextField field){
         KeyListener kl = new KeyListener(){
             int keyNumber;
@@ -672,9 +697,10 @@ public class Layout1 extends JFrame {
 
     private void func_restart() {
         //just for test
-        if(gameViewReady != null)
+        if (gameViewReady != null) {
             gameViewReady.actionPerformed(null);
- 
+        }
+
     }
     //publics functions
 
@@ -703,44 +729,44 @@ public class Layout1 extends JFrame {
         return "imgs/" + color + r.nextInt(5) + ".png";
     }
 
-    public void restart1pScreen(){
-        if(clock != null){
+    public void restart1pScreen() {
+        if (clock != null) {
             clock.restart();
-        }else{
+        } else {
             clock = new Clock();
         }
         gameScreen1pPanel.removeAll();
         gameNext1pPanel.removeAll();
-        screen = new JLabelCont[screenWidth][screenHeight+3];
+        screen = new JLabelCont[screenWidth][screenHeight + 3];
         currentPiece = new JLabelCont[4];
         nextPiece = new JLabelCont[4];
 
     }
 
-
-    public void newFirstPiece(Position[] newpiece, String c){
-        for(int i=0;i<4;i++){
+    public void newFirstPiece(Position[] newpiece, String c) {
+        for (int i = 0; i < 4; i++) {
             nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(c))));
         }
         setNextPiecePosition(newpiece);
     }
 
-    public JLabel showGameOver(){
-        
-        game1pPanel.setVisible(false);game1pPanel.setVisible(true);
+    public JLabel showGameOver() {
+
+        game1pPanel.setVisible(false);
+        game1pPanel.setVisible(true);
         gameover.setVisible(true);
         gameover.setComponentZOrder(gameover, 1);
         return gameover;
     }
-    public void removeGameOver(JLabel gameover){
-            if(gameover != null){
-                gameover.setVisible(false);
-                game1pPanel.remove(gameover);
-                game1pPanel.setVisible(false);
-                game1pPanel.setVisible(true);
-            }
-    }
 
+    public void removeGameOver(JLabel gameover) {
+        if (gameover != null) {
+            gameover.setVisible(false);
+            game1pPanel.remove(gameover);
+            game1pPanel.setVisible(false);
+            game1pPanel.setVisible(true);
+        }
+    }
 
     public void newPiece(Position[] newPosCurrentPiece, Position[] newPosNextPiece, String colorPiece) {
         //this function receive the 4 positions of the new piece and her color
@@ -877,7 +903,7 @@ public class Layout1 extends JFrame {
     public static void addConfigChanger(ActionListener newConfigChanger) {
         applyOptions.addActionListener(newConfigChanger);
     }
-    
+
     public void setPlayerList(Set<PlayerDescriptor> set) {
         ((DefaultListModel) (playersList.getModel())).removeAllElements();
         for (PlayerDescriptor pd : set) {
@@ -912,9 +938,11 @@ public class Layout1 extends JFrame {
         });
     }
 
-    public class JLabelCont extends JLabel{
-        int x=-1;
-        int y=-1;
+
+    public class JLabelCont extends JLabel {
+
+        int x = -1;
+        int y = -1;
 
         private JLabelCont(ImageIcon imageIcon) {
             super(imageIcon);
@@ -951,10 +979,11 @@ public class Layout1 extends JFrame {
             time = 0;
             timer.start();
         }
-        public void restart(){
+
+        public void restart() {
             time = 0;
             timer.restart();
-            timePassed.setText(String.format("%1$tM:%1$tS",time,time));
+            timePassed.setText(String.format("%1$tM:%1$tS", time, time));
         }
 
         public void actionPerformed(ActionEvent ae) {

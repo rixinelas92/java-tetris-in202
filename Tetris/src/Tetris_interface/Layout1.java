@@ -16,16 +16,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.Random;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.Action;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -49,6 +41,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.border.TitledBorder;
 import online.util.PlayerDescriptor;
 import sound.SoundEffect;
+import tetris.Controller;
 import tetris.Main;
 import tetris.Position;
 import tetris.Screen;
@@ -80,6 +73,7 @@ public class Layout1 extends JFrame {
     Random r = new Random();
     private JList playersList;
     public Font font;
+    private int[] keys = Controller.keysStart;
 
     public Layout1() {
 
@@ -95,7 +89,7 @@ public class Layout1 extends JFrame {
         screen = new JLabelCont[screenWidth][screenHeight + 3];
         currentPiece = new JLabelCont[4];
         nextPiece = new JLabelCont[4];
-
+        keys = new int[5];
         //
         /*try {
             URL url = this.getClass().getResource("NEUROPOL.TTF");
@@ -246,7 +240,7 @@ public class Layout1 extends JFrame {
         JLabel moveLeft = new JLabel("Move Left");
         moveLeft.setFont(new Font("Segoe Print", 0, 12));
 
-        leftKey = new JTextField("Q");
+        leftKey = new JTextField(KeyEvent.getKeyText(keys[0]));
         leftKey.setFont(new Font("Segoe Print", 0, 12));
         leftKey.setHorizontalAlignment(JTextField.CENTER);
         leftKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
@@ -254,7 +248,7 @@ public class Layout1 extends JFrame {
         JLabel moveRight = new JLabel("Move Right");
         moveRight.setFont(new Font("Segoe Print", 0, 12));
 
-        rightKey = new JTextField("D");
+        rightKey = new JTextField(KeyEvent.getKeyText(keys[2]));
         rightKey.setFont(new Font("Segoe Print", 0, 12));
         rightKey.setHorizontalAlignment(JTextField.CENTER);
         rightKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
@@ -262,7 +256,7 @@ public class Layout1 extends JFrame {
         JLabel moveDown = new JLabel("Move Down");
         moveDown.setFont(new Font("Segoe Print", 0, 12));
 
-        downKey = new JTextField("S");
+        downKey = new JTextField(KeyEvent.getKeyText(keys[1]));
         downKey.setFont(new Font("Segoe Print", 0, 12));
         downKey.setHorizontalAlignment(JTextField.CENTER);
         downKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
@@ -270,7 +264,7 @@ public class Layout1 extends JFrame {
         JLabel rotate = new JLabel("Rotate");
         rotate.setFont(new Font("Segoe Print", 0, 12));
 
-        rotateKey = new JTextField("Z");
+        rotateKey = new JTextField(KeyEvent.getKeyText(keys[4]));
         rotateKey.setFont(new Font("Segoe Print", 0, 12));
         rotateKey.setHorizontalAlignment(JTextField.CENTER);
         rotateKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
@@ -278,7 +272,7 @@ public class Layout1 extends JFrame {
         JLabel goBotton = new JLabel("Go to Botton");
         goBotton.setFont(new Font("Segoe Print", 0, 12));
         
-        goToBottonKey = new JTextField("O");
+        goToBottonKey = new JTextField(KeyEvent.getKeyText(keys[3]));
         goToBottonKey.setFont(new Font("Segoe Print", 0, 12));
         goToBottonKey.setHorizontalAlignment(JTextField.CENTER);
         goToBottonKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
@@ -288,19 +282,19 @@ public class Layout1 extends JFrame {
         mouseBox.setFont(new Font("Segoe Print", 0, 12));
 
         controlsPanel.add(moveLeft, new AbsoluteConstraints(30, 30, -1, -1));
-        controlsPanel.add(leftKey, new AbsoluteConstraints(115, 32, 25, 22));
+        controlsPanel.add(leftKey, new AbsoluteConstraints(115, 32, 40, 22));
 
         controlsPanel.add(moveRight, new AbsoluteConstraints(160, 30, -1, -1));
-        controlsPanel.add(rightKey, new AbsoluteConstraints(240, 32, 25, 22));
+        controlsPanel.add(rightKey, new AbsoluteConstraints(240, 32, 40, 22));
 
         controlsPanel.add(moveDown, new AbsoluteConstraints(30, 60, -1, -1));
-        controlsPanel.add(downKey, new AbsoluteConstraints(115, 63, 25, 22));
+        controlsPanel.add(downKey, new AbsoluteConstraints(115, 63, 40, 22));
 
         controlsPanel.add(rotate, new AbsoluteConstraints(160, 60, -1, -1));
-        controlsPanel.add(rotateKey, new AbsoluteConstraints(240, 63, 25, 22));
+        controlsPanel.add(rotateKey, new AbsoluteConstraints(240, 63, 40, 22));
         
         controlsPanel.add(goBotton, new AbsoluteConstraints(30, 90, -1, -1));
-        controlsPanel.add(goToBottonKey, new AbsoluteConstraints(115, 90, 25, 22));
+        controlsPanel.add(goToBottonKey, new AbsoluteConstraints(115, 90, 40, 22));
 
         controlsPanel.add(mouseBox, new AbsoluteConstraints(160, 85, -1, -1));
 
@@ -339,18 +333,40 @@ public class Layout1 extends JFrame {
         optionsPanel.add(cancelOptions, new AbsoluteConstraints(180, 250, -1, -1));
 
 
+
+
+
+
+
         goToBottonKey.addFocusListener(new FocusListener(){
-
             public void focusGained(FocusEvent fe) {
-                goToBottonKey.setText(KeyEvent.getKeyText(getKeyEvent(1)));
+                getKeyEvent(keys[3],3,goToBottonKey);
             }
-
-            public void focusLost(FocusEvent fe) {
-                System.out.println("kkkkff");
-
+            public void focusLost(FocusEvent fe) {     }
+        });
+        leftKey.addFocusListener(new FocusListener(){
+            public void focusGained(FocusEvent fe) {
+                getKeyEvent(keys[0],0,leftKey);
             }
-
-
+            public void focusLost(FocusEvent fe) {            }
+        });
+        rightKey.addFocusListener(new FocusListener(){
+            public void focusGained(FocusEvent fe) {
+                getKeyEvent(keys[2],2,rightKey);
+            }
+            public void focusLost(FocusEvent fe) {            }
+        });
+        downKey.addFocusListener(new FocusListener(){
+            public void focusGained(FocusEvent fe) {
+                getKeyEvent(keys[1],1,downKey);
+            }
+            public void focusLost(FocusEvent fe) {            }
+        });
+        rotateKey.addFocusListener(new FocusListener(){
+            public void focusGained(FocusEvent fe) {
+                getKeyEvent(keys[4],4,rotateKey);
+            }
+            public void focusLost(FocusEvent fe) {            }
         });
        
     }
@@ -604,44 +620,42 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(true);
     }
 
-    int keyPressedOnEvent;
-    private int getKeyEvent(int def){
-        
-        keyPressedOnEvent = -1;
-        KeyListener kl = new KeyListener() {
+    
 
+    private void getKeyEvent(int def, int keyNumber,JTextField field){
+        KeyListener kl = new KeyListener(){
+            int keyNumber;
+            JTextField field;
             public void keyTyped(KeyEvent ke) {
-
-                keyPressedOnEvent = ke.getKeyCode();
+            }
+            public KeyListener setKeyNumberAndField(int keyNumber,JTextField field){
+                this.keyNumber = keyNumber;
+                this.field = field;
+                return this;
             }
 
             public void keyPressed(KeyEvent ke) {
-                System.out.println("kkkllll");
-                keyPressedOnEvent = ke.getKeyCode();
+                keys[keyNumber] = ke.getKeyCode();
+                field.setText(ke.getKeyText(ke.getKeyCode()));
+                field.setBackground(Color.LIGHT_GRAY);
+                removeKeyListener(this);
             }
 
             public void keyReleased(KeyEvent ke) {
             }
-        };
-        this.addKeyListener(kl);
-        for(int i = 0;i<100;i++){
-            if(keyPressedOnEvent != -1){
-                def = keyPressedOnEvent;
-                break;
-            }
-            try{
-                Thread.sleep(100);
-            }catch(Exception e){
 
+            @Override
+            public int hashCode() {
+                return keyNumber;
             }
-        }
 
-        this.removeKeyListener(kl);
-        
-        return def;
+        }.setKeyNumberAndField(keyNumber,field);
+        addKeyListener(kl);
+
+        field.setBackground(Color.yellow);
+        requestFocusInWindow();
+
     }
-
-
 
     private void func_exit() {
         Main.terminateInternetConnection();
@@ -649,14 +663,7 @@ public class Layout1 extends JFrame {
     }
 
     public int[] getConfigChange() {
-        int  i[]= new int[5];
-        i[0]=Integer.parseInt(rightKey.getText());
-        i[1]=Integer.parseInt(leftKey.getText());
-        i[2]=Integer.parseInt(rotateKey.getText());
-        i[3]=Integer.parseInt(downKey.getText());
-        i[4]=Integer.parseInt(goToBottonKey.getText());
-        return i;
-        
+        return keys;
     }
 
     private void func_pause() {

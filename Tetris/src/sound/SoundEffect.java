@@ -66,6 +66,8 @@ public enum SoundEffect {
     }
 
     public void play() {
+        if(volumeControl == null)
+            return ;
         if (volumeControl.getValue() != volumeControl.getMinimum()) {
             if (clip.isRunning()) {
                 clip.stop();   // Stop the player if it is still running

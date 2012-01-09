@@ -66,7 +66,7 @@ public class Layout1 extends JFrame {
     private JPanel gameScreen1pPanel, gameNext1pPanel;
     private JProgressBar scoreBar;
     private JTextField score, timePassed;
-    private JLabel level;
+    private JLabel level,gameover;
     //listenets
     static ActionListener gameViewReady = null;
     private static final int X_BASE = 42;
@@ -453,7 +453,10 @@ public class Layout1 extends JFrame {
         game1pPanel.add(pauseButton, new AbsoluteConstraints(220, 280, 100, 30));
         game1pPanel.add(restartButton, new AbsoluteConstraints(220, 310, 100, -1));
 
-
+        gameover = new JLabel(new ImageIcon(getClass().getResource("imgs/gameover.png")));        
+        game1pPanel.add(gameover, new AbsoluteConstraints(0, 100, -1, -1));
+        game1pPanel.setComponentZOrder(gameover, 1);
+        gameover.setVisible(false);
     }
 
     private void make_game2p() {
@@ -657,13 +660,10 @@ public class Layout1 extends JFrame {
     }
 
     public JLabel showGameOver(){
-        JLabel gameover = null;
-
-        gameover = new JLabel(new ImageIcon(getClass().getResource("imgs/gameover.png")));
-        game1pPanel.add(gameover, new AbsoluteConstraints(0, 0, -1, -1));
+        
+        game1pPanel.setVisible(false);game1pPanel.setVisible(true);
         gameover.setVisible(true);
-        game1pPanel.setVisible(false);
-        game1pPanel.setVisible(true);
+        gameover.setComponentZOrder(gameover, 1);
         return gameover;
     }
     public void removeGameOver(JLabel gameover){

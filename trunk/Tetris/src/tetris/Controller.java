@@ -9,11 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-
-import javax.swing.*;
-import Tetris_interface.AbsoluteConstraints;
-import Tetris_interface.AbsoluteLayout;
 import tetris.Screen.NotAvailablePlaceForPieceException;
 import tetris.Screen.OutOfScreenBoundsException;
 
@@ -22,15 +17,20 @@ import tetris.Screen.OutOfScreenBoundsException;
  * @author gustavo
  */
 public abstract class Controller implements KeyListener, MouseMotionListener, MouseListener {
-    protected int keyPause,keyGoLeft,keyGoRight,keyGoDown,keyRotate;
+
+    protected int keyPause,keyGoLeft,keyGoRight,keyGoDown,keyRotate,keyDown;
     private boolean mouseController;
 
    public Controller(){
-        keyPause=KeyEvent.VK_P;
+
+       keyPause=KeyEvent.VK_P;
         keyGoLeft=KeyEvent.VK_LEFT;
         keyGoRight=KeyEvent.VK_RIGHT;
-        keyGoDown=KeyEvent.VK_DOWN;
-        keyRotate=KeyEvent.VK_UP;   
+        keyDown=KeyEvent.VK_DOWN;
+        keyGoDown=KeyEvent.VK_UP;
+        keyRotate=KeyEvent.VK_SPACE;       
+ 
+
     }
     /**
     * Default setter to the class to the attributes <em>keyGoLeft</em> 
@@ -98,6 +98,11 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
         }
         try{
             if (keyUsed==keyGoDown) goToBottom();
+        } catch(Exception ex){
+            System.out.println("Cant "+e.getKeyChar());
+        }
+        try{
+            if (keyUsed==keyDown) goDown();
         } catch(Exception ex){
             System.out.println("Cant "+e.getKeyChar());
         }

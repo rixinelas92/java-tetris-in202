@@ -1,5 +1,5 @@
  /*
- * Java doc
+ * Java doc OK
  */
 
 package tetris;

@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Java doc
  */
 
 package tetris;
@@ -42,7 +41,11 @@ public class Game extends Controller implements ActionListener{
     int level;
 
 
-
+    /**
+     * It determines the dead line to the game in according to the level.
+     * @param level informes the actual level of the game.
+     * @return the dead line of the game.
+     */
     public int timeBefore(int level){
         if(level > 12)
             level = 12;
@@ -55,6 +58,12 @@ public class Game extends Controller implements ActionListener{
              *  * 3 lignes qui sont supprimées rapportent 300 points
              *  * 4 lignes (on ne peut pas plus) rapportent 1200 points.
              */
+    /**
+     * It determines the game score in according with the level of the game and
+     * the number of the lines that were completed.
+     * @param numL informes the number of lines completed.
+     * @return the partial score to be added to the total value. 
+     */
     public int ponctuation(int numL){
         switch(numL){
             case 1: return 40*level;
@@ -64,10 +73,22 @@ public class Game extends Controller implements ActionListener{
             default: return 0*level;
         }
     }
-
+    
+    /**
+     * The score that are obtained by passing the level.
+     * @param level informes the actual level of the game.
+     * @return the partial score to be added to the total value. 
+     */
     public int pointsToLevel(int level){
         return level*level*160 ;
     }
+    /**
+     * Verifies if in the position x and y already occupied or not.   
+     * @param x defines the coordinate x of the position. 
+     * @param y defines the coordinate y of the position.
+     * @return true if the coordinate x and y analyzed is already occupied, or
+     * false if it is empty.
+     */
     boolean isFilled(short x, short y){
         Position[] piece = currentPiece.getAllPosition();
         for(Position p: piece){
@@ -81,7 +102,12 @@ public class Game extends Controller implements ActionListener{
            return true; 
         return false;
     }
-
+    /**
+     * Default getter of the color and constructor of the boxes in the screen.
+     * @param x informes the coodinate x of the piece.
+     * @param y informes the coodinates y of the piece.
+     * @return the consistent construction of the box in the screen.
+     */
     Color getColor(short x, short y){
         Position[] piece = currentPiece.getAllPosition();
         for(Position p: piece){
@@ -95,7 +121,10 @@ public class Game extends Controller implements ActionListener{
            return box.getColor();
         return Box.getEmptyColor();
     }
-
+    /**
+     * This class initialize the game. Giving the basic default configurations
+     * of the user screen and determining the genation of new piece.   
+     */
     public void initGame(){
         if(timer != null)
             timer.stop();
@@ -109,7 +138,6 @@ public class Game extends Controller implements ActionListener{
             nextPiece = new Piece(cs, Screen.getMiddlePosition());
             Main.setNewFirstPiece();
             currentPiece = nextPiece;
-            
             nextPiece = new Piece(ns, Screen.getMiddlePosition());
             Main.setNewPiece();
         } catch (OutOfScreenBoundsException ex) {
@@ -126,22 +154,37 @@ public class Game extends Controller implements ActionListener{
         isPaused = false;
         timer.start();
     }
-
+    /**
+     * Default getter of the positons of the piece.
+     * @return the positions.
+     */
     public Position[] getCurrentPiecePositions(){
         return currentPiece.getAllPosition();
     }
-
+    /**
+     * Default getter of the positions of the next piece.
+     * @return the positions.
+     */
     public Position[] getNextPiecePositions(){
         return nextPiece.getAllPosition();
     }
-
+    /**
+     * Default getter of the parameter color of the current piece. 
+     * @return a string with the name. 
+     */
     public String getCurrentPieceColorName(){
         return currentPiece.getColorName();
     }
+    /**
+     * Default getter of the parameter color of the next piece. 
+     * @return a string with the name. 
+     */
     public String getNextPieceColorName(){
         return nextPiece.getColorName();
     }
-
+    /**
+     * Executes rotation of the piece if it is possible.
+     */
     public void rotate() {
         try {
             currentPiece.rotation();
@@ -149,7 +192,9 @@ public class Game extends Controller implements ActionListener{
             System.out.println("Cant Rotate");
         }
     }
-
+    /**
+     * Executes the direct downward movement when it is possible.
+     */
     public void goToBottom() {
         while(true){
             try{
@@ -159,27 +204,51 @@ public class Game extends Controller implements ActionListener{
             }
         }
     }
-
+    /**
+     * Executes the downward movement in steps, decrementing the coordinate y 
+     * and refreshing the new position.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen is not respected. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit with static pieces.
+     */
     public void goDown() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException{
         int x = currentPiece.getX();
         int y = currentPiece.getY();
         y--;
         currentPiece.setPosition(new Position(x,y));
     }
+    /**
+     * Executes the movement to the left in steps, decrementing the coordinate x 
+     * and refreshing the new position.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen is not respected. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit with static pieces.
+     */
     public void goLeft() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException{
         int x = currentPiece.getX();
         int y = currentPiece.getY();
         x--;
         currentPiece.setPosition(new Position(x,y));
     }
-
+    /**
+     * Executes the movement to the right in steps, decrementing the coordinate x 
+     * and refreshing the new position.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen is not respected. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit with static pieces.
+     */
     public void goRight() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException{
         int x = currentPiece.getX();
         int y = currentPiece.getY();
         x++;
         currentPiece.setPosition(new Position(x,y));
     }
-
+    /**
+     * Inversor of condition.
+     */
     public void stopToggle() {
         Main.togglePause();
     }
@@ -256,62 +325,41 @@ public class Game extends Controller implements ActionListener{
             int pointsToNextLevel = pointsToLevel(level+1);
             timer.setDelay(timeBefore(level));
             Main.setPointsAndLevel(points, level, pointsToNextLevel);
-
-
         }
-
     }
-
     @Override
     protected void goToX() {
-        
     }
-
     @Override
     public void keyTyped(KeyEvent e) {
-        
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
-        
     }
-
     @Override
     public void mouseDragged(MouseEvent e) {
-        
     }
-
     @Override
     public void mousePressed(MouseEvent e) {
-        
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
-        
     }
-
     @Override
     public void mouseEntered(MouseEvent e) {
-        
     }
-
     @Override
     public void mouseExited(MouseEvent e) {
-        
     }
-
     void pauseGame() {
         isPaused = true;
     }
-
-
+    /**
+    * Class to implement the fonctions listener.
+    */
     public class GameViewReadyListener implements ActionListener{
         public void actionPerformed(ActionEvent ae) {
             initGame();
         }
     }
-    
-
 }

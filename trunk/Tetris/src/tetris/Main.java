@@ -5,6 +5,8 @@
 package tetris;
 
 import Tetris_interface.Layout1;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashSet;
@@ -21,16 +23,12 @@ import sound.SoundEffect;
  *
  * @author felipeteles
  */
-public class Main  {
+public class Main {
 
     static SoundEffect theme;
-
     static Layout1 screen;
-
     static Game game;
-
     static Client internet;
-
     static String playerName = "TetrisPlayer";
 
     /**
@@ -60,26 +58,34 @@ public class Main  {
                 screen.setVisible(true);
                 game = new Game();
                 Layout1.addGameViewReady(game.new GameViewReadyListener());
-                try{
+                Layout1.addConfigChanger(new ActionListener() {
+                    public void actionPerformed(ActionEvent event) {
+                        ConfigChanger();
+                    }
+                });
+                try {
                     SoundEffect.THEME.setLoop();
                     SoundEffect.THEME.play();
-                }catch(Exception e){
+                } catch (Exception e) {
                 }
             }
         });
     }
-    
-    
-    public static void updatePiecesPositions(){
+
+    public static void updatePiecesPositions() {
+
         screen.setPiecePosition(game.getCurrentPiecePositions());
     }
-    public static void setNewPiece(){
-        screen.newPiece(game.getCurrentPiecePositions(),game.getNextPiecePositions(), game.getNextPieceColorName());
+
+    public static void setNewPiece() {
+        screen.newPiece(game.getCurrentPiecePositions(), game.getNextPiecePositions(), game.getNextPieceColorName());
     }
-    public static void setNewFirstPiece(){
+
+    public static void setNewFirstPiece() {
         screen.newFirstPiece(game.getNextPiecePositions(), game.getNextPieceColorName());
     }
-    public static void setListeners(Controller c){
+
+    public static void setListeners(Controller c) {
         screen.setFocusable(true);
         /*
          * Requesting focus so that the menu dont get the actual focus from the 
@@ -102,16 +108,18 @@ public class Main  {
         screen.toggleVisiblePropOnGame();
     }
 
-    public static void terminateInternetConnection(){
-        try{
+    public static void terminateInternetConnection() {
+        try {
             internet.sayBye();
-        }catch(Exception e){
+        } catch (Exception e) {
         }
     }
+
     static void callScreenRemoveLine(int lineC) {
         screen.eraseLine(lineC);
     }
-    public static void togglePause(){
+
+    public static void togglePause() {
         game.stopToggleVariable();
         screen.requestFocusInWindow();
         screen.clock.togglePause();
@@ -124,11 +132,11 @@ public class Main  {
     static void setPointsAndLevel(int points, int level, int pointsToNextLevel) {
         screen.setScore(points, level, 0, pointsToNextLevel);
     }
-
-    public static void restart1pScreen(){
+public static void restart1pScreen(){
         screen.restart1pScreen();
     }
     public static void start2pConnection(){
+
         try {
             internet = new ClientImpl("localhost", playerName);
             internet.start();
@@ -152,10 +160,11 @@ public class Main  {
 
     static class ClientImpl extends Client{
 
+
         HashSet<PlayerDescriptor> playerSet;
-        
+
         public ClientImpl(String serverAddress, String playername) throws UnknownHostException, IOException {
-            super(serverAddress,playername);
+            super(serverAddress, playername);
             playerSet = new HashSet<PlayerDescriptor>();
         }
 
@@ -163,7 +172,7 @@ public class Main  {
         public void receivePlayerList(String list) {
             list = list.trim();
             String[] players = list.split("#");
-            
+
             playerSet.clear();
             for (String s : players) {
                 String[] data = s.split(">");
@@ -203,8 +212,10 @@ public class Main  {
         public void receivedError() {
             throw new UnsupportedOperationException("Not supported yet.");
         }
-
     }
 
+    public static void ConfigChanger() {
+        game.setControllers(screen.getConfigChange());
 
+    }
 }

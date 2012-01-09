@@ -85,9 +85,15 @@ public class Main  {
          * keyboard annoying the user with useless actions.
          */
         screen.requestFocusInWindow();
+        Main.removeListeners();
         screen.addKeyListener(c);
         screen.addMouseMotionListener(c);
         screen.addMouseListener(c);
+    }
+    public static void removeListeners(){
+        screen.removeKeyListener(game);
+        screen.removeMouseMotionListener(game);
+        screen.removeMouseListener(game);
     }
 
     static void terminateControllerAction() {

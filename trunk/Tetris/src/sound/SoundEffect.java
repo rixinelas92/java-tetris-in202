@@ -66,6 +66,10 @@ public enum SoundEffect {
       }
    }
 
+   public void setLoop(){
+       clip.loop(clip.LOOP_CONTINUOUSLY);
+   }
+
    // Optional static method to pre-load all the sound files.
    static void init() {
       values(); // calls the constructor for all the elements

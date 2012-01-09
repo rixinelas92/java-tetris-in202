@@ -180,6 +180,12 @@ public class Game extends Controller implements ActionListener{
         isPaused = !isPaused;
     }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+       if(isPaused && keyPause != e.getKeyCode())
+           return;
+       super.keyPressed(e);
+    }
     public void actionPerformed(ActionEvent ae) {
         if(isPaused){
             return;

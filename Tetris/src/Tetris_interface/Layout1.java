@@ -1,4 +1,3 @@
-
 package Tetris_interface;
 
 import java.awt.event.ActionEvent;
@@ -48,7 +47,7 @@ import tetris.Screen;
 public class Layout1 extends JFrame {
 
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
-    private JLabelCont[] currentPiece, nextPiece; //array with the position of the 4 boxes of the 2 pieces
+    private JLabelCont[] currentPiece, nextPiece, holdPiece; //array with the position of the 4 boxes of the 2 pieces
     private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
     public Font neuropol14, neuropol24, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
     //constants
@@ -61,7 +60,7 @@ public class Layout1 extends JFrame {
     private JComboBox themeBox;
     private JSlider volumeSlider;
     //1 players components
-    private JPanel gameScreen1pPanel, gameNext1pPanel;
+    private JPanel gameScreen1pPanel, gameNext1pPanel,gameHold1pPanel;
     private JProgressBar scoreBar;
     private JTextField score, timePassed;
     private JLabel level, gameover, tester;
@@ -88,7 +87,7 @@ public class Layout1 extends JFrame {
         make_UI();
         screen = new JLabelCont[screenWidth][screenHeight + 3];
         currentPiece = new JLabelCont[4];
-        nextPiece = new JLabelCont[4];
+        holdPiece = new JLabelCont[4];
         keys = new int[5];
     }
     //cria os panels usados
@@ -478,8 +477,12 @@ public class Layout1 extends JFrame {
         gameNext1pPanel = new JPanel(new AbsoluteLayout());
         gameNext1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
 
+        gameHold1pPanel = new JPanel(new AbsoluteLayout());
+        gameHold1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+
         game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(10, 60, 10 * pieceSize, 20 * pieceSize));
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 60, 85, 67));
+        game1pPanel.add(gameHold1pPanel, new AbsoluteConstraints(220, 400, 85, 67));
         //game status
         scoreBar = new JProgressBar();
         scoreBar.setValue(0);
@@ -678,9 +681,9 @@ public class Layout1 extends JFrame {
             }
 
             public KeyListener setKeyNumberAndField(int keyNumber, JTextField field) {
-                    this.keyNumber = keyNumber;
-                    this.field = field;
-                    return this;
+                this.keyNumber = keyNumber;
+                this.field = field;
+                return this;
             }
 
             public void keyPressed(KeyEvent ke) {
@@ -823,7 +826,46 @@ public class Layout1 extends JFrame {
         toggleVisiblePropOnGame();
     }
 
-    private void setNextPiecePosition(Position[] newPosNextPiece) {
+    public void holdPiece(Position[] currentPiecePos, Position[] holdNextPiecePos) {
+        //this function receive the 4 positions of the new piece and her color
+        JLabelCont[] auxPiece= new JLabelCont[4];
+        if (holdPiece == null) {}
+            for (int i = 0; i < 4; i++) {
+                auxPiece[i]=currentPiece[i];
+                currentPiece[i]= nextPiece[i];
+                nextPiece[i]=auxPiece[1];
+            }
+            //put the piece in the game
+            if (currentPiece[0] != null) {
+                for (int i = 0; i < 4; i++) {
+                    gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(currentPiecePos[i].getX()), yPos(currentPiecePos[i].getY()), pieceSize, pieceSize));
+                }
+                for (int i = 0; i < 4; i++) {
+                    try {
+                        screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+                    } catch (Exception ex) {
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
+                    screen[currentPiecePos[i].getX()][currentPiecePos[i].getY()] = currentPiece[i];
+                    screen[currentPiecePos[i].getX()][currentPiecePos[i].getY()].setP(currentPiecePos[i].getX(), currentPiecePos[i].getY());
+                }
+                for (int i = 0; i < 4; i++) {
+                    gameHold1pPanel.remove(currentPiece[i]);
+                }
+                //add one new piece in NextPiece box
+            }
+
+            for (int i = 0; i < 4; i++) {
+                nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(colorPiece))));
+            }
+            setNextPiecePosition(newPosNextPiece);
+            toggleVisiblePropOnGame();
+        }
+
+    private
+
+     void setNextPiecePosition(Position[] newPosNextPiece) {
         Position min = Position.getMinCoord(newPosNextPiece);
         Position max = Position.getMaxCoord(newPosNextPiece);
         int yd = Y_BASE - ((-(max.getY() + min.getY() - 1)) * pieceSize) / 2;

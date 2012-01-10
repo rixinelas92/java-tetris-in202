@@ -63,6 +63,9 @@ public class Main {
     public static void setNewPiece() {
         screen.newPiece(game.getCurrentPiecePositions(), game.getNextPiecePositions(), game.getNextPieceColorName());
     }
+    public static void setHold() {
+        screen.holdPiece(game.getCurrentPiecePositions(), game.getNextPiecePositions(), game.getNextPieceColorName());
+    }
 
     public static void setNewFirstPiece() {
         screen.newFirstPiece(game.getNextPiecePositions(), game.getNextPieceColorName());

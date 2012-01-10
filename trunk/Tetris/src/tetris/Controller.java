@@ -19,7 +19,7 @@ import tetris.Screen.OutOfScreenBoundsException;
  */
 public abstract class Controller implements KeyListener, MouseMotionListener, MouseListener {
 
-    protected int keyPause, keyGoLeft, keyGoRight, keyGoDown, keyRotate, keyDown;
+    protected int keyPause, keyGoLeft, keyGoRight, keyGoDown, keyRotate, keyDown,keyHold;
     static final public int keysStart[] = {KeyEvent.VK_LEFT, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_SPACE};
     private boolean mouseController = false;
 
@@ -31,6 +31,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
         keyDown = KeyEvent.VK_DOWN;
         keyGoDown = KeyEvent.VK_UP;
         keyRotate = KeyEvent.VK_SPACE;
+        keyHold=KeyEvent.VK_H;
 
 
 
@@ -87,6 +88,8 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
 
     protected abstract void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
 
+    protected abstract void hold() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+
     /**
      * Listeners functions, they check the action that must be executed in according 
      * to the key pressed by the user.
@@ -137,6 +140,13 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
         } catch (Exception ex) {
             System.out.println("Cant " + e.getKeyChar());
         }
+        try {
+            if (keyUsed == keyHold && mouseController == false) {
+                hold();
+            }
+        } catch (Exception ex) {
+            System.out.println("Cant " + e.getKeyChar());
+        }
         Main.terminateControllerAction();
 
     }
@@ -154,6 +164,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
                 ex.printStackTrace();
             }
         }
+        Main.terminateControllerAction();
     }
 
     /**
@@ -178,6 +189,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
                 System.out.println(e.getButton());
             }
         }
+        Main.terminateControllerAction();
     }
 
     /**

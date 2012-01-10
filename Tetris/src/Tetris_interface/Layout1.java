@@ -88,7 +88,6 @@ public class Layout1 extends JFrame {
         screen = new JLabelCont[screenWidth][screenHeight + 3];
         currentPiece = new JLabelCont[4];
         holdPiece = new JLabelCont[4];
-        keys = new int[5];
     }
     //cria os panels usados
 
@@ -358,7 +357,7 @@ public class Layout1 extends JFrame {
         goToBottonKey.addFocusListener(new FocusListener() {
 
             public void focusGained(FocusEvent fe) {
-                getKeyEvent(keys[3], 3, goToBottonKey);
+                getKeyEvent( 3, goToBottonKey);
             }
 
             public void focusLost(FocusEvent fe) {
@@ -367,7 +366,7 @@ public class Layout1 extends JFrame {
         leftKey.addFocusListener(new FocusListener() {
 
             public void focusGained(FocusEvent fe) {
-                getKeyEvent(keys[0], 0, leftKey);
+                getKeyEvent(0, leftKey);
             }
 
             public void focusLost(FocusEvent fe) {
@@ -376,7 +375,7 @@ public class Layout1 extends JFrame {
         rightKey.addFocusListener(new FocusListener() {
 
             public void focusGained(FocusEvent fe) {
-                getKeyEvent(keys[2], 2, rightKey);
+                getKeyEvent(2, rightKey);
             }
 
             public void focusLost(FocusEvent fe) {
@@ -385,7 +384,7 @@ public class Layout1 extends JFrame {
         downKey.addFocusListener(new FocusListener() {
 
             public void focusGained(FocusEvent fe) {
-                getKeyEvent(keys[1], 1, downKey);
+                getKeyEvent(1, downKey);
             }
 
             public void focusLost(FocusEvent fe) {
@@ -394,12 +393,13 @@ public class Layout1 extends JFrame {
         rotateKey.addFocusListener(new FocusListener() {
 
             public void focusGained(FocusEvent fe) {
-                getKeyEvent(keys[4], 4, rotateKey);
+                getKeyEvent(4, rotateKey);
             }
 
             public void focusLost(FocusEvent fe) {
             }
         });
+
 
     }
 
@@ -671,7 +671,7 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(true);
     }
 
-    private void getKeyEvent(int def, int keyNumber, JTextField field) {
+    private void getKeyEvent(int keyNumber, JTextField field) {
         KeyListener kl = new KeyListener() {
 
             int keyNumber;

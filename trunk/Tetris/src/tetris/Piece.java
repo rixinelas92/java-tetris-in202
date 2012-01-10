@@ -152,6 +152,20 @@ public class Piece {
         }
         return pos;
     }
+    
+    public Position getPosition(){
+        return position;
+    }
+    public ShapeType getShapeType(){
+        return currentShape;
+    }
+    public short getRotation(){
+        return currentRotation;
+    }
+    public void setRotation(short newRotation){
+        currentRotation=newRotation;
+    }
+    
     /**
      * Implements the rotation of the piece if it is possible, accessing the table
      * with relative positions and updating the new configuration of the piece.

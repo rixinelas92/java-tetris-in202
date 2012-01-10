@@ -31,9 +31,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
         keyDown = KeyEvent.VK_DOWN;
         keyGoDown = KeyEvent.VK_UP;
         keyRotate = KeyEvent.VK_SPACE;
-        keyHold=KeyEvent.VK_H;
-
-
+        keyHold = KeyEvent.VK_H;
 
     }
 
@@ -86,10 +84,11 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
 
     public abstract void stopToggle() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
 
+    public abstract void hold() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+
     protected abstract void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
 
-    protected abstract void hold() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
-
+    
     /**
      * Listeners functions, they check the action that must be executed in according 
      * to the key pressed by the user.

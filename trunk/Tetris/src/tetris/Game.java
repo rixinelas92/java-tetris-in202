@@ -302,8 +302,9 @@ public class Game extends Controller implements ActionListener {
         super.keyPressed(e);
     }
 
-    protected void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
-
+    synchronized protected void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
+        if(isFallingFinished)
+            return;
         Position[] vector = currentPiece.getAllPosition();
         int x = -2 + newX / pieceSize;
         //int x = -((Position.getMaxCoord(vector).getX() +Position.getMinCoord(vector).getX())/2) + newX/pieceSize;

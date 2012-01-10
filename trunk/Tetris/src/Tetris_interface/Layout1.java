@@ -399,9 +399,11 @@ public class Layout1 extends JFrame {
             public void focusLost(FocusEvent fe) {
             }
         });
-
-
     }
+
+
+
+
 
     private void make_som() {
         somPanel = new JPanel(new AbsoluteLayout());
@@ -671,6 +673,36 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(true);
     }
 
+
+    private void checkAndIfCaseSetOtherKeyOnConfig(int keyNumber, int keyValue){
+        for(int i = 0;i<keys.length;i++){
+            if(keyNumber == i)
+                continue;
+            if(keyValue == keys[i]){
+                switch(i){
+                    case 0:
+                        getKeyEvent(0,leftKey);
+                        break;
+                    case 1:
+                        getKeyEvent(1,downKey);
+                        break;
+                    case 2:
+                        getKeyEvent(2,rightKey);
+                        break;
+                    case 3:
+                        getKeyEvent(3,goToBottonKey);
+                        break;
+                    case 4:
+                        getKeyEvent(4,rotateKey);
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        }
+    }
+
     private void getKeyEvent(int keyNumber, JTextField field) {
         KeyListener kl = new KeyListener() {
 
@@ -691,6 +723,7 @@ public class Layout1 extends JFrame {
                 field.setText(ke.getKeyText(ke.getKeyCode()));
                 field.setBackground(Color.LIGHT_GRAY);
                 removeKeyListener(this);
+                checkAndIfCaseSetOtherKeyOnConfig(keyNumber,ke.getKeyCode());
             }
 
             public void keyReleased(KeyEvent ke) {

@@ -763,6 +763,7 @@ public class Layout1 extends JFrame {
         }
         gameScreen1pPanel.removeAll();
         gameNext1pPanel.removeAll();
+        gameHold1pPanel.removeAll();
         screen = new JLabelCont[screenWidth][screenHeight + 3];
         currentPiece = new JLabelCont[4];
         nextPiece = new JLabelCont[4];

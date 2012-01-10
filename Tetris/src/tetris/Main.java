@@ -1,5 +1,5 @@
 /*
-Ainda não feita, em contante modificação.
+Java doc em construcao.
  */
 package tetris;
 

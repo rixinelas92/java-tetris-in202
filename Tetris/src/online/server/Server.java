@@ -1,3 +1,34 @@
+/**
+ *
+ * Anotacoes de coisas a fazer:
+ *
+ * 
+ * Memorizar configuracoes.
+ * Nao permitir mesma teclas de configuracao.
+ * Condicao de parada.
+ * Segurando a tecla durante um bom tempo comeca a apresentar problemas.
+ * Fazer os testes.
+ * Calcular la couveture jcover.
+ *
+ *
+ * Comunication.
+ * java romoting.
+ * socket UTP.
+ * informacao serie.
+ * pattern view controler.
+ * corba-dificil de utilizar <<<<<<RMI>>>>define interfqces.
+ * client proxy serverWeb services wisdl.
+ *
+ */
+
+
+
+
+
+
+
+
+
 
 
 package online.server;

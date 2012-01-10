@@ -34,6 +34,7 @@ public class Game extends Controller implements ActionListener {
     boolean isStarted = false;
     boolean isPaused = false;
     boolean isFinished = false;
+    boolean alreadyHolded = false;
     int numLinesRemoved = 0;
     int curX = 0;
     int curY = 0;
@@ -190,6 +191,14 @@ public class Game extends Controller implements ActionListener {
     }
 
     /**
+     * Default getter of the positions of the hold piece.
+     * @return the positions.
+     */
+    public Position[] getHoldPiecePositions() {
+        return holdPiece.getAllPosition();
+    }
+
+    /**
      * Default getter of the parameter color of the current piece. 
      * @return a string with the name. 
      */
@@ -295,14 +304,14 @@ public class Game extends Controller implements ActionListener {
 
     protected void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
 
-        Position [] vector = currentPiece.getAllPosition();
-        int x = -2 + newX/pieceSize;
+        Position[] vector = currentPiece.getAllPosition();
+        int x = -2 + newX / pieceSize;
         //int x = -((Position.getMaxCoord(vector).getX() +Position.getMinCoord(vector).getX())/2) + newX/pieceSize;
-        System.out.println(Position.getMaxCoord(vector).getX()+" "+Position.getMinCoord(vector).getX());
+        System.out.println(Position.getMaxCoord(vector).getX() + " " + Position.getMinCoord(vector).getX());
         int y = currentPiece.getY();
-        try{
+        try {
             currentPiece.setPosition(new Position(x, y));
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.print("mouse not");
         }
 
@@ -318,6 +327,7 @@ public class Game extends Controller implements ActionListener {
                 currentPiece = nextPiece;
                 nextPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
                 Main.setNewPiece();
+                alreadyHolded = false;
             } catch (OutOfScreenBoundsException ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -375,17 +385,32 @@ public class Game extends Controller implements ActionListener {
         }
     }
 
-    public void hold(KeyEvent e) {
-        Piece auxiliar = null;
+    public void hold() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
+        Piece auxiliar = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
         if (holdPiece != null) {
-            auxiliar = holdPiece;
-            holdPiece = currentPiece;
-            currentPiece = holdPiece;
+            if (!alreadyHolded) {
+                alreadyHolded = true;
+                try {
+                    auxiliar.setRotation(currentPiece.getRotation());
+                    auxiliar.setShape(currentPiece.getShapeType());
+                    currentPiece.setRotation(holdPiece.getRotation());
+                    currentPiece.setShape(holdPiece.getShapeType());
+                    holdPiece.setRotation(auxiliar.getRotation());
+                    holdPiece.setShape(auxiliar.getShapeType());
+                    Main.setHold();
+                } catch (Exception en) {
+                    en.printStackTrace();
+                    System.out.println("oi " + currentPiece.getX() + " " + currentPiece.getY());
+                    System.out.println("xau " + holdPiece.getX() + " " + holdPiece.getY());
+                }
+            }
         } else {
             try {
-                holdPiece = currentPiece;
+                holdPiece = new Piece(currentPiece.getShapeType(), Screen.getMiddlePosition());
+                holdPiece.setPosition(Screen.getMiddlePosition());
                 currentPiece = nextPiece;
                 nextPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
+                Main.setFirstHold();
                 Main.setNewPiece();
             } catch (Exception en) {
                 en.printStackTrace();
@@ -423,11 +448,6 @@ public class Game extends Controller implements ActionListener {
 
     void pauseGame() {
         isPaused = true;
-    }
-
-    @Override
-    protected void hold() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

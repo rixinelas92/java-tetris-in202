@@ -60,7 +60,7 @@ public class Layout1 extends JFrame {
     private JComboBox themeBox;
     private JSlider volumeSlider;
     //1 players components
-    private JPanel gameScreen1pPanel, gameNext1pPanel,gameHold1pPanel;
+    private JPanel gameScreen1pPanel, gameNext1pPanel, gameHold1pPanel;
     private JProgressBar scoreBar;
     private JTextField score, timePassed;
     private JLabel level, gameover, tester;
@@ -482,30 +482,30 @@ public class Layout1 extends JFrame {
 
         game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(10, 60, 10 * pieceSize, 20 * pieceSize));
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 60, 85, 67));
-        game1pPanel.add(gameHold1pPanel, new AbsoluteConstraints(220, 400, 85, 67));
+        game1pPanel.add(gameHold1pPanel, new AbsoluteConstraints(220, 140, 85, 67));
         //game status
         scoreBar = new JProgressBar();
         scoreBar.setValue(0);
-        game1pPanel.add(scoreBar, new AbsoluteConstraints(202, 260, 120, -1));
+        game1pPanel.add(scoreBar, new AbsoluteConstraints(202, 340, 120, -1));
 
         level = new JLabel("Level: 0");
         level.setFont(neuropol14);
-        game1pPanel.add(level, new AbsoluteConstraints(225, 240, -1, -1));
+        game1pPanel.add(level, new AbsoluteConstraints(225, 320, -1, -1));
 
         score = new JTextField();
         score.setText("0");
         score.setFont(neuropol14); // NOI18N
         score.setHorizontalAlignment(JTextField.CENTER);
         score.setEditable(false);
-        game1pPanel.add(score, new AbsoluteConstraints(232, 210, 60, 25));
+        game1pPanel.add(score, new AbsoluteConstraints(232, 290, 60, 25));
 
         JLabel scoreLabel = new JLabel("SCORE");
         scoreLabel.setFont(neuropol14);
-        game1pPanel.add(scoreLabel, new AbsoluteConstraints(230, 190, -1, -1));
+        game1pPanel.add(scoreLabel, new AbsoluteConstraints(230, 270, -1, -1));
 
         JLabel timeLabel = new JLabel("TIME");
         timeLabel.setFont(neuropol14);
-        game1pPanel.add(timeLabel, new AbsoluteConstraints(235, 135, -1, -1));
+        game1pPanel.add(timeLabel, new AbsoluteConstraints(235, 215, -1, -1));
 
         timePassed = new JTextField("00:00");
         timePassed.setBackground(new java.awt.Color(0, 0, 0));
@@ -513,7 +513,7 @@ public class Layout1 extends JFrame {
         timePassed.setForeground(new java.awt.Color(51, 255, 0));
         timePassed.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         timePassed.setEditable(false);
-        game1pPanel.add(timePassed, new AbsoluteConstraints(232, 155, 60, 25));
+        game1pPanel.add(timePassed, new AbsoluteConstraints(232, 235, 60, 25));
 
         //buttons
         JButton pauseButton = new JButton("Pause");
@@ -532,8 +532,8 @@ public class Layout1 extends JFrame {
                 func_restart();
             }
         });
-        game1pPanel.add(pauseButton, new AbsoluteConstraints(212, 285, 100, 35));
-        game1pPanel.add(restartButton, new AbsoluteConstraints(212, 325, 100, 35));
+        game1pPanel.add(pauseButton, new AbsoluteConstraints(212, 365, 100, 35));
+        game1pPanel.add(restartButton, new AbsoluteConstraints(212, 405, 100, 35));
 
         ImageIcon backim = new ImageIcon(getClass().getResource("backGround.png"));
 
@@ -826,46 +826,7 @@ public class Layout1 extends JFrame {
         toggleVisiblePropOnGame();
     }
 
-    public void holdPiece(Position[] currentPiecePos, Position[] holdNextPiecePos) {
-        //this function receive the 4 positions of the new piece and her color
-        JLabelCont[] auxPiece= new JLabelCont[4];
-        if (holdPiece == null) {}
-            for (int i = 0; i < 4; i++) {
-                auxPiece[i]=currentPiece[i];
-                currentPiece[i]= nextPiece[i];
-                nextPiece[i]=auxPiece[1];
-            }
-            //put the piece in the game
-            if (currentPiece[0] != null) {
-                for (int i = 0; i < 4; i++) {
-                    gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(currentPiecePos[i].getX()), yPos(currentPiecePos[i].getY()), pieceSize, pieceSize));
-                }
-                for (int i = 0; i < 4; i++) {
-                    try {
-                        screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
-                    } catch (Exception ex) {
-                    }
-                }
-                for (int i = 0; i < 4; i++) {
-                    screen[currentPiecePos[i].getX()][currentPiecePos[i].getY()] = currentPiece[i];
-                    screen[currentPiecePos[i].getX()][currentPiecePos[i].getY()].setP(currentPiecePos[i].getX(), currentPiecePos[i].getY());
-                }
-                for (int i = 0; i < 4; i++) {
-                    gameHold1pPanel.remove(currentPiece[i]);
-                }
-                //add one new piece in NextPiece box
-            }
-
-            for (int i = 0; i < 4; i++) {
-                nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(colorPiece))));
-            }
-            setNextPiecePosition(newPosNextPiece);
-            toggleVisiblePropOnGame();
-        }
-
-    private
-
-     void setNextPiecePosition(Position[] newPosNextPiece) {
+    private void setNextPiecePosition(Position[] newPosNextPiece) {
         Position min = Position.getMinCoord(newPosNextPiece);
         Position max = Position.getMaxCoord(newPosNextPiece);
         int yd = Y_BASE - ((-(max.getY() + min.getY() - 1)) * pieceSize) / 2;
@@ -875,6 +836,84 @@ public class Layout1 extends JFrame {
             int yy = yd - (newPosNextPiece[i].getY()) * pieceSize;
             gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(xx, yy, pieceSize, pieceSize));
         }
+    }
+
+    public void holdPiece(Position[] currentPiecePos, Position[] holdPiecePos, String colorCurrentPiece) {
+        //this function receive the 4 positions of the new piece and her color
+        JLabelCont[] auxPiece;
+//remove the labels of the panels
+        for (int i = 0; i < 4; i++) {
+            gameScreen1pPanel.remove(currentPiece[i]);
+        }
+        for (int i = 0; i < 4; i++) {
+            gameHold1pPanel.remove(holdPiece[i]);
+        }
+        for (int i = 0; i < 4; i++) {
+            try {
+                screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+            } catch (Exception ex) {
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            holdPiece[i] = currentPiece[i];
+        }
+        for (int i = 0; i < 4; i++) {
+            currentPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(colorCurrentPiece))));
+        }
+        
+        
+        
+        for (int i = 0; i < 4; i++) {
+            gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(currentPiecePos[i].getX()), yPos(currentPiecePos[i].getY()), pieceSize, pieceSize));
+        }
+        for (int i = 0; i < 4; i++) {
+            screen[currentPiecePos[i].getX()][currentPiecePos[i].getY()] = currentPiece[i];
+            screen[currentPiecePos[i].getX()][currentPiecePos[i].getY()].setP(currentPiecePos[i].getX(), currentPiecePos[i].getY());
+        }
+
+        //add one new piece in NextPiece box
+
+        setHoldPiecePosition(holdPiecePos);
+        gameHold1pPanel.setVisible(false);
+        gameHold1pPanel.setVisible(true);
+        gameScreen1pPanel.setVisible(false);
+        gameScreen1pPanel.setVisible(true);
+    }
+
+    private void setHoldPiecePosition(Position[] newPosHoldPiece) {
+        Position min = Position.getMinCoord(newPosHoldPiece);
+        Position max = Position.getMaxCoord(newPosHoldPiece);
+        int yd = Y_BASE - ((-(max.getY() + min.getY() - 1)) * pieceSize) / 2;
+        int xd = X_BASE + ((-(max.getX() + min.getX() + 1)) * pieceSize) / 2;
+        for (int i = 0; i < 4; i++) {
+            int xx = xd + (newPosHoldPiece[i].getX()) * pieceSize;
+            int yy = yd - (newPosHoldPiece[i].getY()) * pieceSize;
+            System.out.println(holdPiece[i].getX());
+            gameHold1pPanel.add(holdPiece[i], new AbsoluteConstraints(xx, yy, pieceSize, pieceSize));
+        }
+    }
+
+    public void holdFirstPiece(Position[] newPosHoldPiece) {
+
+        for (int i = 0; i < 4; i++) {
+            try {
+                screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
+            } catch (Exception ex) {
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            gameScreen1pPanel.remove(currentPiece[i]);
+        }
+        for (int i = 0; i < 4; i++) {
+            holdPiece[i] = currentPiece[i];
+        }
+        
+        setHoldPiecePosition(newPosHoldPiece);
+        gameHold1pPanel.setVisible(false);
+        gameHold1pPanel.setVisible(true);
+        gameScreen1pPanel.setVisible(false);
+        gameScreen1pPanel.setVisible(true);
+
     }
 
     public void eraseLine(int line) {

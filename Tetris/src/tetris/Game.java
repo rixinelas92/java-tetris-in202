@@ -39,6 +39,7 @@ public class Game extends Controller implements ActionListener{
     int curY = 0;
     int points;
     int level;
+    int pieceSize=19;
 
 
     /**
@@ -328,7 +329,11 @@ public class Game extends Controller implements ActionListener{
         }
     }
     @Override
-    protected void goToX() {
+    protected void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException{
+        int x = newX/pieceSize;
+        int y = currentPiece.getY();
+        currentPiece.setPosition(new Position(x,y));
+
     }
     @Override
     public void keyTyped(KeyEvent e) {

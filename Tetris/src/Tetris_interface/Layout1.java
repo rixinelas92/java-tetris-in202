@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Tetris_interface;
 
 import java.awt.event.ActionEvent;
@@ -53,7 +50,7 @@ public class Layout1 extends JFrame {
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
     private JLabelCont[] currentPiece, nextPiece; //array with the position of the 4 boxes of the 2 pieces
     private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
-    public Font neuropol14,neuropol24,segoePrint12,planetBenson14,sevenSegments14 ;
+    public Font neuropol14, neuropol24, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
@@ -67,7 +64,7 @@ public class Layout1 extends JFrame {
     private JPanel gameScreen1pPanel, gameNext1pPanel;
     private JProgressBar scoreBar;
     private JTextField score, timePassed;
-    private JLabel level, gameover;
+    private JLabel level, gameover, tester;
     //listenets
     static ActionListener gameViewReady = null;
     private static final int X_BASE = 42;
@@ -75,7 +72,6 @@ public class Layout1 extends JFrame {
     public Clock clock;
     Random r = new Random();
     private JList playersList;
-    
     private int[] keys = Controller.keysStart;
 
     public Layout1() {
@@ -97,34 +93,35 @@ public class Layout1 extends JFrame {
     }
     //cria os panels usados
 
-    
     private void make_fonts() {
-       try {
+        try {
             File f = new File("src/Tetris_interface/fightingspiritTBS.ttf");
             FileInputStream in = new FileInputStream(f);
             Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
             neuropol24 = dynamicFont.deriveFont(24f);
             neuropol14 = dynamicFont.deriveFont(18f);
-            
+
             f = new File("src/Tetris_interface/segoepr.ttf");
             in = new FileInputStream(f);
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
             segoePrint12 = dynamicFont.deriveFont(12f);
-            
+            segoePrint11 = dynamicFont.deriveFont(11f);
+
             f = new File("src/Tetris_interface/PLANETBE.TTF");
             in = new FileInputStream(f);
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
-            planetBenson14 = dynamicFont.deriveFont(14f);
-            
+            planetBenson14 = dynamicFont.deriveFont(13f);
+
             f = new File("src/Tetris_interface/DS-DIGI.TTF");
             in = new FileInputStream(f);
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
             sevenSegments14 = dynamicFont.deriveFont(18f);
-                        
+
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
     }
+
     private void make_top() {
 
         topPanel = new JPanel(new AbsoluteLayout());
@@ -138,10 +135,13 @@ public class Layout1 extends JFrame {
             ImageIcon closeIcon = new ImageIcon(getClass().getResource("close.png"));
 
             JButton newgame = new JButton("New Game", newgameIcon);
+            newgame.setFont(segoePrint11);
             JButton config = new JButton("Configuration", configIcon);
+            config.setFont(segoePrint11);
             JButton som = new JButton("Sound", somIcon);
+            som.setFont(segoePrint11);
             JButton close = new JButton("Exit", closeIcon);
-
+            close.setFont(segoePrint11);
             newgame.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent event) {
@@ -171,11 +171,11 @@ public class Layout1 extends JFrame {
             });
 
             toolbar.add(newgame, new AbsoluteConstraints(20, 20));
-            toolbar.add(config, new AbsoluteConstraints(80, 20));
-            toolbar.add(som, new AbsoluteConstraints(140, 20));
-            toolbar.add(close, new AbsoluteConstraints(200, 20));
+            toolbar.add(config, new AbsoluteConstraints(70, 20));
+            toolbar.add(som, new AbsoluteConstraints(120, 20));
+            toolbar.add(close, new AbsoluteConstraints(160, 20));
 
-            topPanel.add(toolbar, new AbsoluteConstraints(0, 0));
+            topPanel.add(toolbar, new AbsoluteConstraints(0, 0, -1, 30));
         } catch (Exception e) {
             System.out.println("Problem in top icons load");
             e.printStackTrace();
@@ -236,7 +236,7 @@ public class Layout1 extends JFrame {
             }
         });
 
-        selectionPanel.add(selectionMenu, new AbsoluteConstraints(80, 20));
+        selectionPanel.add(selectionMenu, new AbsoluteConstraints(100, 20));
         selectionPanel.add(separator, new AbsoluteConstraints(15, 50, 290, 11));
 
         selectionPanel.add(player1, new AbsoluteConstraints(2, 55, 320, 130));
@@ -356,35 +356,50 @@ public class Layout1 extends JFrame {
         optionsPanel.add(cancelOptions, new AbsoluteConstraints(180, 250, -1, -1));
 
 
-        goToBottonKey.addFocusListener(new FocusListener(){
+        goToBottonKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
-                getKeyEvent(keys[3],3,goToBottonKey);
+                getKeyEvent(keys[3], 3, goToBottonKey);
             }
-            public void focusLost(FocusEvent fe) {     }
+
+            public void focusLost(FocusEvent fe) {
+            }
         });
-        leftKey.addFocusListener(new FocusListener(){
+        leftKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
-                getKeyEvent(keys[0],0,leftKey);
+                getKeyEvent(keys[0], 0, leftKey);
             }
-            public void focusLost(FocusEvent fe) {            }
+
+            public void focusLost(FocusEvent fe) {
+            }
         });
-        rightKey.addFocusListener(new FocusListener(){
+        rightKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
-                getKeyEvent(keys[2],2,rightKey);
+                getKeyEvent(keys[2], 2, rightKey);
             }
-            public void focusLost(FocusEvent fe) {            }
+
+            public void focusLost(FocusEvent fe) {
+            }
         });
-        downKey.addFocusListener(new FocusListener(){
+        downKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
-                getKeyEvent(keys[1],1,downKey);
+                getKeyEvent(keys[1], 1, downKey);
             }
-            public void focusLost(FocusEvent fe) {            }
+
+            public void focusLost(FocusEvent fe) {
+            }
         });
-        rotateKey.addFocusListener(new FocusListener(){
+        rotateKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
-                getKeyEvent(keys[4],4,rotateKey);
+                getKeyEvent(keys[4], 4, rotateKey);
             }
-            public void focusLost(FocusEvent fe) {            }
+
+            public void focusLost(FocusEvent fe) {
+            }
         });
 
     }
@@ -458,6 +473,8 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel = new JPanel(new AbsoluteLayout());
         gameScreen1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         gameScreen1pPanel.setFocusable(true);
+        gameScreen1pPanel.setOpaque(false);
+
         gameNext1pPanel = new JPanel(new AbsoluteLayout());
         gameNext1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
 
@@ -512,12 +529,18 @@ public class Layout1 extends JFrame {
                 func_restart();
             }
         });
-        game1pPanel.add(pauseButton, new AbsoluteConstraints(212, 280, 100, 35));
-        game1pPanel.add(restartButton, new AbsoluteConstraints(212, 315, 100, 35));
+        game1pPanel.add(pauseButton, new AbsoluteConstraints(212, 285, 100, 35));
+        game1pPanel.add(restartButton, new AbsoluteConstraints(212, 325, 100, 35));
+
+        ImageIcon backim = new ImageIcon(getClass().getResource("backGround.png"));
+
+        JLabel back = new JLabel(backim);
+        game1pPanel.add(back, new AbsoluteConstraints(10, 59, 10 * pieceSize, 20 * pieceSize));
 
         gameover = new JLabel(new ImageIcon(getClass().getResource("imgs/gameover.png")));
-        game1pPanel.add(gameover, new AbsoluteConstraints(0, 100, -1, -1));
-        game1pPanel.setComponentZOrder(gameover, 1);
+        //tester =new JLabel("");
+        game1pPanel.add(gameover, new AbsoluteConstraints(-5, 220, -1, -1));
+        game1pPanel.setComponentZOrder(gameover, 0);
         gameover.setVisible(false);
     }
 
@@ -645,18 +668,19 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(true);
     }
 
+    private void getKeyEvent(int def, int keyNumber, JTextField field) {
+        KeyListener kl = new KeyListener() {
 
-    
-    private void getKeyEvent(int def, int keyNumber,JTextField field){
-        KeyListener kl = new KeyListener(){
             int keyNumber;
             JTextField field;
+
             public void keyTyped(KeyEvent ke) {
             }
-            public KeyListener setKeyNumberAndField(int keyNumber,JTextField field){
-                this.keyNumber = keyNumber;
-                this.field = field;
-                return this;
+
+            public KeyListener setKeyNumberAndField(int keyNumber, JTextField field) {
+                    this.keyNumber = keyNumber;
+                    this.field = field;
+                    return this;
             }
 
             public void keyPressed(KeyEvent ke) {
@@ -673,8 +697,7 @@ public class Layout1 extends JFrame {
             public int hashCode() {
                 return keyNumber;
             }
-
-        }.setKeyNumberAndField(keyNumber,field);
+        }.setKeyNumberAndField(keyNumber, field);
         addKeyListener(kl);
 
         field.setBackground(Color.yellow);
@@ -754,17 +777,16 @@ public class Layout1 extends JFrame {
 
         game1pPanel.setVisible(false);
         game1pPanel.setVisible(true);
+        game1pPanel.setComponentZOrder(gameover, 0);
         gameover.setVisible(true);
-        gameover.setComponentZOrder(gameover, 1);
         return gameover;
     }
 
     public void removeGameOver(JLabel gameover) {
         if (gameover != null) {
-            gameover.setVisible(false);
-            game1pPanel.remove(gameover);
             game1pPanel.setVisible(false);
             game1pPanel.setVisible(true);
+            gameover.setVisible(false);
         }
     }
 
@@ -912,22 +934,6 @@ public class Layout1 extends JFrame {
     }
 
     public static void main(String[] args) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Layout1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Layout1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Layout1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Layout1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
 
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -938,6 +944,9 @@ public class Layout1 extends JFrame {
         });
     }
 
+    public boolean getMouseControler() {
+        return mouseBox.isSelected();
+    }
 
     public class JLabelCont extends JLabel {
 

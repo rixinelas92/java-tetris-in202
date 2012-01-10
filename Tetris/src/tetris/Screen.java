@@ -29,11 +29,6 @@ public class Screen {
      * or setter of this parameter on the central/top of the screen.
      * @return middle with the initial position of generation of boxes. 
      */
-
-    /**
-     * Returns the middle position of the screen
-     * @return 
-     */
     static public Position getMiddlePosition(){
         if(middle != null)
             return middle;
@@ -41,7 +36,7 @@ public class Screen {
         return middle;
     }
     /**
-     * Creates a new screen with parameters defined by default.
+     * Creates a new screen with parameters size x and size y defined by default.
      */
     public Screen(){ 
         grid = new Box[SIZE_X][SIZE_Y+3];
@@ -63,10 +58,11 @@ public class Screen {
         }
     }
     /**
-     * 
-     * @param x defines the parameter <em>x</em> of a table of pieces.
-     * @param y defines the parameter <em>y</em> of a table of pieces.
-     * @param color defines the color of the selected piece.
+     * Creates a box in the coordinate x and y with the parameter <em>color</em>
+     * setted.
+     * @param x defines the parameter <em>x</em> of the table of box.
+     * @param y defines the parameter <em>y</em> of the table of box.
+     * @param color defines the color wanted to the current box.
      */
     public void joinPiece(int x, int y, Color color){
         grid[x][y].setFull(true);
@@ -75,14 +71,13 @@ public class Screen {
     /**
      * Returns -1 if no line were affected and i >= 0 if the i-nary line
      * were afected. (starting from 0).
-     * @return number of line affected.
+     * @return number of the line affected.
      */
     public short checkLine(){
         for(int i = 0;i<SIZE_Y;i++){
             int j;
             for(j = 0;j<SIZE_X;j++){
-               
-                if(!grid[j][i].isFull())
+               if(!grid[j][i].isFull())
                     break;
             }
             if(j == SIZE_X) // all lines filled.
@@ -91,7 +86,7 @@ public class Screen {
         return -1;
     }
     /**
-     * Removes the line that are filled.
+     * Removes the lines that are filled.
      * @param line informes the line to be remove.
      */
     synchronized public void removeLine(int line){
@@ -109,8 +104,6 @@ public class Screen {
                 grid[j][i].setFull(false);
             }
         }
-     //   for(int j = 0;j<SIZE_X;j++)
-      //      grid[j][SIZE_Y-1].setFull(false);
     }
     /**
      * Returns colision in bord of the screen like false.
@@ -127,12 +120,12 @@ public class Screen {
         return false;
     }
     /**
-     * 
+     * No implemented.
      */
     public void clearPosition(){
     }
     /**
-     * Default getter of boxes.
+     * Default getter of boxes actives.
      * @param x defines the parameter <em>x</em> of the table of box.
      * @param y defines the parameter <em>y</em> of the table of box.
      * @return the box correspondent of the table.
@@ -144,16 +137,37 @@ public class Screen {
             return null;
         return grid[x][y];
     }
-    
+    /**
+     * Inner class BorderRetriver
+     */
     public class BorderRetriever{
+        /**
+         * Returns the with of the screen, defined by default.
+         * @return the value of the with.
+         */
         public short getMaxX(){
             return SIZE_X;
         }
+        /**
+         * Returns the lenght of the screen, defined by default.
+         * @return the value of the lenght.
+         */
         public short getMaxY(){
             return SIZE_Y;
         }
     }
+    /**
+     * Inner class FilledRetriever
+     */
     public class FilledRetriever{
+        /**
+         * Returns informations about limits of screen. If the coordinates is out of
+         * boards, returns true (is full with static boxes) or update the status
+         * of the current box to true (full).
+         * @param x defines the parameter <em>x</em> of the table of box.
+         * @param y defines the parameter <em>y</em> of the table of box.
+         * @return true if it is static or return true to the current box.
+         */
         public boolean isFilledWithStaticBloc(int x, int y){
             if(x >= grid.length || x < 0)
                 return true;
@@ -162,9 +176,19 @@ public class Screen {
             return grid[x][y].isFull();
         }
     }
+    /**
+     * Methode in according to Java standard
+     */
     static public class OutOfScreenBoundsException extends Exception{
     }
+    /**
+     * Inner class NotAvailablePlaceForPieceException
+     */
     static public class NotAvailablePlaceForPieceException extends Exception{
+        /**
+         * Informes the occurence of conflits among piece and static parts.
+         * @param error infrmes the status.
+         */
         public NotAvailablePlaceForPieceException(String error){
             super(error);
         }

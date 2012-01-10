@@ -45,6 +45,17 @@ public class Screen {
                 grid[i][j] = new Box();
         
     }
+    public void clean(){
+        for(int i = 0;i<grid.length;i++)
+            for(int j = 0;j<grid[i].length;j++)
+                grid[i][j] = new Box();
+        System.out.println("CLEANING!!!!!");
+    }
+    public void printScreen(){
+        for(int j = 0;j<grid[0].length;j++, System.out.println())
+        for(int i = 0;i<grid.length;i++)
+                System.out.print(grid[i][j].isFull()?'#':' ');
+    }
     /**
      * Creates a clone of a previous screen.
      * @param s defines de original screen.

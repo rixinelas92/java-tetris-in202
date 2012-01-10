@@ -93,26 +93,26 @@ public class Layout1 extends JFrame {
 
     private void make_fonts() {
         try {
-            File f = new File("src/Tetris_interface/fightingspiritTBS.ttf");
-            FileInputStream in = new FileInputStream(f);
-            Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
+          //  File f = new File("src/Tetris_interface/fightingspiritTBS.ttf");
+          //  FileInputStream in = new FileInputStream(f);
+            Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("fightingspiritTBS.ttf"));
             neuropol24 = dynamicFont.deriveFont(24f);
             neuropol14 = dynamicFont.deriveFont(18f);
 
-            f = new File("src/Tetris_interface/segoepr.ttf");
-            in = new FileInputStream(f);
-            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
+         //   f = new File("src/Tetris_interface/segoepr.ttf");
+         //   in = new FileInputStream(f);
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("segoepr.ttf"));
             segoePrint12 = dynamicFont.deriveFont(12f);
             segoePrint11 = dynamicFont.deriveFont(11f);
 
-            f = new File("src/Tetris_interface/PLANETBE.TTF");
-            in = new FileInputStream(f);
-            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
+       //     f = new File("src/Tetris_interface/PLANETBE.TTF");
+       //     in = new FileInputStream(f);
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT,  getClass().getResourceAsStream("PLANETBE.TTF"));
             planetBenson14 = dynamicFont.deriveFont(13f);
 
-            f = new File("src/Tetris_interface/DS-DIGI.TTF");
-            in = new FileInputStream(f);
-            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, in);
+         //   f = new File("src/Tetris_interface/DS-DIGI.TTF");
+         //   in = new FileInputStream(f);
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("DS-DIGI.TTF"));
             sevenSegments14 = dynamicFont.deriveFont(18f);
 
         } catch (Exception e) {
@@ -785,7 +785,7 @@ public class Layout1 extends JFrame {
     }
 
     public String getStringForColor(String color) {
-        return "imgs/" + color + r.nextInt(5) + ".png";
+        return "imgs/"  + color + r.nextInt(5) + ".png";
     }
 
     public void restart1pScreen() {

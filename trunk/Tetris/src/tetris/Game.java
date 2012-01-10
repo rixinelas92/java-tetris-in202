@@ -145,7 +145,11 @@ public class Game extends Controller implements ActionListener {
         if (timer != null) {
             timer.stop();
         }
-        screen = new Screen();
+        if(screen == null)
+            screen = new Screen();
+        else
+            screen.clean();
+        nextPiece = currentPiece = null;
         Main.restart1pScreen();
         Position.setBorderRetriever(screen.new BorderRetriever());
         Position.setFilledRetriever(screen.new FilledRetriever());
@@ -171,6 +175,9 @@ public class Game extends Controller implements ActionListener {
         }
         timer.setDelay(timeBefore(level));
         isPaused = false;
+        isFinished = false;
+        isFallingFinished = false;
+        alreadyHolded = false;
         timer.start();
     }
 
@@ -299,6 +306,8 @@ public class Game extends Controller implements ActionListener {
         if (isPaused && keyPause != e.getKeyCode()) {
             return;
         }
+        if(isFallingFinished && keyPause != e.getKeyCode())
+            return;
         super.keyPressed(e);
     }
 
@@ -348,7 +357,7 @@ public class Game extends Controller implements ActionListener {
                 Position[] all = currentPiece.getAllPosition();
                 for (Position p : all) {
                     Box b = screen.getBoxAt(p.getX(), p.getY());
-                    if (b == null) {
+                    if (b == null || p.getY() >= Position.borderRetriever.getMaxY()) {
                         isFinished = true;
                         continue;
                     }
@@ -360,7 +369,6 @@ public class Game extends Controller implements ActionListener {
                 Main.pauseGame();
                 Main.showGameOverAndReturnToNewGame();
                 return;
-
             }
             Main.updatePiecesPositions();
             int numLinesFull = 0;

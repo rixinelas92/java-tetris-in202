@@ -19,42 +19,39 @@ import tetris.Screen.OutOfScreenBoundsException;
  */
 public abstract class Controller implements KeyListener, MouseMotionListener, MouseListener {
 
-    protected int keyPause,keyGoLeft,keyGoRight,keyGoDown,keyRotate,keyDown;
-
-       
-
-
+    protected int keyPause, keyGoLeft, keyGoRight, keyGoDown, keyRotate, keyDown;
     static final public int keysStart[] = {KeyEvent.VK_LEFT, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_SPACE};
+    private boolean mouseController = false;
 
-    private boolean mouseController;
+    public Controller() {
 
-   public Controller(){
+        keyPause = KeyEvent.VK_P;
+        keyGoLeft = KeyEvent.VK_LEFT;
+        keyGoRight = KeyEvent.VK_RIGHT;
+        keyDown = KeyEvent.VK_DOWN;
+        keyGoDown = KeyEvent.VK_UP;
+        keyRotate = KeyEvent.VK_SPACE;
 
-       keyPause=KeyEvent.VK_P;
-        keyGoLeft=KeyEvent.VK_LEFT;
-        keyGoRight=KeyEvent.VK_RIGHT;
-        keyDown=KeyEvent.VK_DOWN;
-        keyGoDown=KeyEvent.VK_UP;
-        keyRotate=KeyEvent.VK_SPACE;   
 
- 
 
     }
+
     /**
-    * Default setter to the class to the attributes <em>keyGoLeft</em> 
-    * em>keyGoRight</em> <em>keyGoDown</em> <em>keyRotate</em>.
-    * @param newLeft defines the action 'go left' in according to the user event.
-    * @param newRight defines the action 'go right' in according to the user event.
-    * @param newDown defines the action 'go down' in according to the user event.
-    * @param newRotate defines the action 'rotate' in according to the user event.
-    */
-    public void setControllers(int[] newControls){
-        keyGoLeft=newControls[0];        
-        keyDown=newControls[1];
-        keyGoRight=newControls[2];
-        keyGoDown=newControls[3];
-        keyRotate=newControls[4];
+     * Default setter to the class to the attributes <em>keyGoLeft</em>
+     * em>keyGoRight</em> <em>keyGoDown</em> <em>keyRotate</em>.
+     * @param newLeft defines the action 'go left' in according to the user event.
+     * @param newRight defines the action 'go right' in according to the user event.
+     * @param newDown defines the action 'go down' in according to the user event.
+     * @param newRotate defines the action 'rotate' in according to the user event.
+     */
+    public void setControllers(int[] newControls) {
+        keyGoLeft = newControls[0];
+        keyDown = newControls[1];
+        keyGoRight = newControls[2];
+        keyGoDown = newControls[3];
+        keyRotate = newControls[4];
     }
+
     /**
      * It returns the state of the mouse, if its static or moving.
      * @return true if it is moving or false if it is static. 
@@ -62,6 +59,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     public boolean isMouseController() {
         return mouseController;
     }
+
     /**
      * Default setter of the parameter <em>mouseControler</em> in according to
      * the new condition.
@@ -70,18 +68,25 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     public void setMouseController(boolean newMouseController) {
         mouseController = newMouseController;
     }
-     /**
+
+    /**
      * Classes to be overwrite, that are used but not implemented in this class
      * Controller.java.
      */
     public abstract void rotate();
+
     public abstract void goDown() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+
     public abstract void goToBottom() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
-    public abstract void goLeft()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
-    public abstract void goRight()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
-    public abstract void stopToggle()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
-    protected abstract void goToX()throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
-    
+
+    public abstract void goLeft() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+
+    public abstract void goRight() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+
+    public abstract void stopToggle() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+
+    protected abstract void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException;
+
     /**
      * Listeners functions, they check the action that must be executed in according 
      * to the key pressed by the user.
@@ -89,74 +94,108 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
      */
     public void keyPressed(KeyEvent e) {
         int keyUsed = e.getKeyCode();
-        
-        try{
-            if (keyUsed==keyPause) stopToggle();
-        } catch(Exception ex){
-            System.out.println("Cant "+e.getKeyChar());
+
+        try {
+            if (keyUsed == keyPause) {
+                stopToggle();
+            }
+        } catch (Exception ex) {
+            System.out.println("Cant " + e.getKeyChar());
         }
-        try{
-            if (keyUsed==keyGoLeft) goLeft();
-        } catch(Exception ex){
-            System.out.println("Cant "+e.getKeyChar());
+        try {
+            if (keyUsed == keyGoLeft && mouseController == false) {
+                goLeft();
+            }
+        } catch (Exception ex) {
+            System.out.println("Cant " + e.getKeyChar());
         }
-        try{
-            if (keyUsed==keyGoRight) goRight();
-        } catch(Exception ex){
-            System.out.println("Cant "+e.getKeyChar());
+        try {
+            if (keyUsed == keyGoRight && mouseController == false) {
+                goRight();
+            }
+        } catch (Exception ex) {
+            System.out.println("Cant " + e.getKeyChar());
         }
-        try{
-            if (keyUsed==keyGoDown) goToBottom();
-        } catch(Exception ex){
-            System.out.println("Cant "+e.getKeyChar());
+        try {
+            if (keyUsed == keyGoDown && mouseController == false) {
+                goToBottom();
+            }
+        } catch (Exception ex) {
+            System.out.println("Cant " + e.getKeyChar());
         }
-        try{
-            if (keyUsed==keyDown) goDown();
-        } catch(Exception ex){
-            System.out.println("Cant "+e.getKeyChar());
+        try {
+            if (keyUsed == keyDown && mouseController == false) {
+                goDown();
+            }
+        } catch (Exception ex) {
+            System.out.println("Cant " + e.getKeyChar());
         }
-        try{
-            if (keyUsed==keyRotate) rotate();
-        } catch(Exception ex){
-            System.out.println("Cant "+e.getKeyChar());
+        try {
+            if (keyUsed == keyRotate && mouseController == false) {
+                rotate();
+            }
+        } catch (Exception ex) {
+            System.out.println("Cant " + e.getKeyChar());
         }
         Main.terminateControllerAction();
-         
+
     }
+
     /**
      * It determines the movement of translation that will be executed in 
      * accoding to the action produced by the user.
      * @param e verifies if there is an user action.
      */
     public void mouseMoved(MouseEvent e) {
-        if(mouseController){
-            try{
-                goToX();
-            }catch(Exception ex){
+        if (mouseController) {
+            try {
+                goToX(e.getX());
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
+
     /**
      * It determines if the movement of rotation will be executed in according 
      * to the action produced by the user.
      * @param e verifies if there is an user action.
      */
     public void mouseClicked(MouseEvent e) {
-        if(mouseController){
-            rotate();
+        if (mouseController) {
+            try {
+                if (e.getButton() == e.BUTTON1) {
+                    rotate();
+                }
+            } catch (Exception ex) {
+                System.out.println(e.getButton());
+            }
+            try {
+                if (e.getButton() == e.BUTTON3) {
+                    goToBottom();
+                }
+            } catch (Exception ex) {
+                System.out.println(e.getButton());
+            }
         }
-    }  
+    }
+
     /**
      * Theese methodes do not have a use in this class, but must be included 
      * because of restrictions among class comunication.
      * @param e verifies if there is an user action.
      */
     public abstract void keyTyped(KeyEvent e);
+
     public abstract void keyReleased(KeyEvent e);
+
     public abstract void mouseDragged(MouseEvent e);
+
     public abstract void mousePressed(MouseEvent e);
+
     public abstract void mouseReleased(MouseEvent e);
+
     public abstract void mouseEntered(MouseEvent e);
+
     public abstract void mouseExited(MouseEvent e);
 }

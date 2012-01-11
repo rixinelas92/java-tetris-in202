@@ -335,9 +335,18 @@ public class Game extends Controller implements ActionListener {
             try {
                 isFallingFinished = false;
                 currentPiece = nextPiece;
+                short xx = currentPiece.getX();
+                short yy = currentPiece.getY();
+                currentPiece.setX(xx);
+                currentPiece.setY(yy);
                 nextPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
                 Main.setNewPiece();
                 alreadyHolded = false;
+            } catch (NotAvailablePlaceForPieceException ex) {
+                System.out.println("ACABOU OUTRA VEZ!!!");
+                Main.pauseGame();
+                Main.showGameOverAndReturnToNewGame();
+                return;
             } catch (OutOfScreenBoundsException ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -256,7 +256,7 @@ public class Layout1 extends JFrame {
 
         //controls panel
         JPanel controlsPanel = new JPanel(new AbsoluteLayout());
-        controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Sybil Green", 0, 14)));
+        controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,neuropol14));
 
         JLabel moveLeft = new JLabel("Move Left");
         moveLeft.setFont(segoePrint12);
@@ -323,7 +323,7 @@ public class Layout1 extends JFrame {
 
         //begin of the player name panel
         JPanel playerPanel = new JPanel(new AbsoluteLayout());
-        playerPanel.setBorder(BorderFactory.createTitledBorder(null, "Player Name", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Sybil Green", 0, 14)));
+        playerPanel.setBorder(BorderFactory.createTitledBorder(null, "Player Name", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
 
         playerName = new JTextField("ENSTA Project");
         playerName.setFont(segoePrint12);
@@ -477,10 +477,10 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setOpaque(false);
 
         gameNext1pPanel = new JPanel(new AbsoluteLayout());
-        gameNext1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        gameNext1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Next", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
 
         gameHold1pPanel = new JPanel(new AbsoluteLayout());
-        gameHold1pPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        gameHold1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Hold", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
 
         game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(10, 60, 10 * pieceSize, 20 * pieceSize));
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 60, 85, 67));

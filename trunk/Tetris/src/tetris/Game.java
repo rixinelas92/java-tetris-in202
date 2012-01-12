@@ -425,7 +425,7 @@ public class Game extends Controller implements ActionListener {
         } else {
             try {
                 holdPiece = new Piece(currentPiece.getShapeType(), Screen.getMiddlePosition());
-                holdPiece.setPosition(Screen.getMiddlePosition());
+                holdPiece.setRotation(currentPiece.getRotation());
                 currentPiece = nextPiece;
                 nextPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
                 Main.setFirstHold();

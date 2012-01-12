@@ -49,7 +49,7 @@ public class Layout1 extends JFrame {
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
     private JLabelCont[] currentPiece, nextPiece, holdPiece; //array with the position of the 4 boxes of the 2 pieces
     private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
-    public Font neuropol14, neuropol24, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
+    public Font neuropol14,neuropol18, neuropol24, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
@@ -66,8 +66,8 @@ public class Layout1 extends JFrame {
     private JLabel level, gameover, tester;
     //listenets
     static ActionListener gameViewReady = null;
-    private static final int X_BASE = 42;
-    private static final int Y_BASE = 33;
+    private static final int X_BASE = 43;
+    private static final int Y_BASE = 49;
     public Clock clock;
     Random r = new Random();
     private JList playersList;
@@ -97,7 +97,9 @@ public class Layout1 extends JFrame {
           //  FileInputStream in = new FileInputStream(f);
             Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("fightingspiritTBS.ttf"));
             neuropol24 = dynamicFont.deriveFont(24f);
-            neuropol14 = dynamicFont.deriveFont(18f);
+            neuropol18 = dynamicFont.deriveFont(18f);
+            neuropol14 = dynamicFont.deriveFont(14f);
+            
 
          //   f = new File("src/Tetris_interface/segoepr.ttf");
          //   in = new FileInputStream(f);
@@ -235,7 +237,7 @@ public class Layout1 extends JFrame {
         });
 
         selectionPanel.add(selectionMenu, new AbsoluteConstraints(100, 20));
-        selectionPanel.add(separator, new AbsoluteConstraints(15, 50, 290, 11));
+        selectionPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
 
         selectionPanel.add(player1, new AbsoluteConstraints(2, 55, 320, 130));
         selectionPanel.add(player2, new AbsoluteConstraints(2, 182, 320, 130));
@@ -252,11 +254,11 @@ public class Layout1 extends JFrame {
         JSeparator separator = new JSeparator();
 
         optionsPanel.add(optionTitle, new AbsoluteConstraints(110, 20, -1, -1));
-        optionsPanel.add(separator, new AbsoluteConstraints(15, 50, 290, 11));
+        optionsPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
 
         //controls panel
         JPanel controlsPanel = new JPanel(new AbsoluteLayout());
-        controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,neuropol14));
+        controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,neuropol18));
 
         JLabel moveLeft = new JLabel("Move Left");
         moveLeft.setFont(segoePrint12);
@@ -323,7 +325,7 @@ public class Layout1 extends JFrame {
 
         //begin of the player name panel
         JPanel playerPanel = new JPanel(new AbsoluteLayout());
-        playerPanel.setBorder(BorderFactory.createTitledBorder(null, "Player Name", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
+        playerPanel.setBorder(BorderFactory.createTitledBorder(null, "Player Name", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
 
         playerName = new JTextField("ENSTA Project");
         playerName.setFont(segoePrint12);
@@ -413,7 +415,7 @@ public class Layout1 extends JFrame {
         JSeparator separator = new JSeparator();
 
         somPanel.add(optionTitle, new AbsoluteConstraints(110, 20, -1, -1));
-        somPanel.add(separator, new AbsoluteConstraints(15, 50, 290, 11));
+        somPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
         //options of sounds
 
         JLabel themeTitle = new JLabel("Theme");
@@ -465,9 +467,10 @@ public class Layout1 extends JFrame {
         game1pTitle.setFont(neuropol24);
 
         JSeparator separator = new JSeparator();
-
-        game1pPanel.add(game1pTitle, new AbsoluteConstraints(110, 20, -1, -1));
-        game1pPanel.add(separator, new AbsoluteConstraints(5, 50, 330, 10));
+        separator.setOpaque(false);
+        
+        game1pPanel.add(game1pTitle, new AbsoluteConstraints(110, 22, -1, -1));
+        game1pPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
 
         //panels
 
@@ -483,31 +486,31 @@ public class Layout1 extends JFrame {
         gameHold1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Hold", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
 
         game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(10, 60, 10 * pieceSize, 20 * pieceSize));
-        game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 60, 85, 67));
-        game1pPanel.add(gameHold1pPanel, new AbsoluteConstraints(220, 140, 85, 67));
+        game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 52, 85, 90));
+        game1pPanel.add(gameHold1pPanel, new AbsoluteConstraints(220, 140, 85, 90));
         //game status
         scoreBar = new JProgressBar();
         scoreBar.setValue(0);
-        game1pPanel.add(scoreBar, new AbsoluteConstraints(202, 340, 120, -1));
+        game1pPanel.add(scoreBar, new AbsoluteConstraints(202, 345, 120, -1));
 
         level = new JLabel("Level: 0");
         level.setFont(neuropol14);
-        game1pPanel.add(level, new AbsoluteConstraints(225, 320, -1, -1));
+        game1pPanel.add(level, new AbsoluteConstraints(235, 325, -1, -1));
 
         score = new JTextField();
         score.setText("0");
-        score.setFont(neuropol14); // NOI18N
+        score.setFont(neuropol18); // NOI18N
         score.setHorizontalAlignment(JTextField.CENTER);
         score.setEditable(false);
-        game1pPanel.add(score, new AbsoluteConstraints(232, 290, 60, 25));
+        game1pPanel.add(score, new AbsoluteConstraints(232, 295, 60, 25));
 
         JLabel scoreLabel = new JLabel("SCORE");
         scoreLabel.setFont(neuropol14);
-        game1pPanel.add(scoreLabel, new AbsoluteConstraints(230, 270, -1, -1));
+        game1pPanel.add(scoreLabel, new AbsoluteConstraints(235, 278, -1, -1));
 
         JLabel timeLabel = new JLabel("TIME");
         timeLabel.setFont(neuropol14);
-        game1pPanel.add(timeLabel, new AbsoluteConstraints(235, 215, -1, -1));
+        game1pPanel.add(timeLabel, new AbsoluteConstraints(240, 230, -1, -1));
 
         timePassed = new JTextField("00:00");
         timePassed.setBackground(new java.awt.Color(0, 0, 0));
@@ -515,7 +518,7 @@ public class Layout1 extends JFrame {
         timePassed.setForeground(new java.awt.Color(51, 255, 0));
         timePassed.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         timePassed.setEditable(false);
-        game1pPanel.add(timePassed, new AbsoluteConstraints(232, 235, 60, 25));
+        game1pPanel.add(timePassed, new AbsoluteConstraints(232, 248, 60, 25));
 
         //buttons
         JButton pauseButton = new JButton("Pause");
@@ -534,8 +537,8 @@ public class Layout1 extends JFrame {
                 func_restart();
             }
         });
-        game1pPanel.add(pauseButton, new AbsoluteConstraints(212, 365, 100, 35));
-        game1pPanel.add(restartButton, new AbsoluteConstraints(212, 405, 100, 35));
+        game1pPanel.add(pauseButton, new AbsoluteConstraints(212, 370, 100, 35));
+        game1pPanel.add(restartButton, new AbsoluteConstraints(212, 410, 100, 35));
 
         ImageIcon backim = new ImageIcon(getClass().getResource("backGround.png"));
 
@@ -544,7 +547,7 @@ public class Layout1 extends JFrame {
 
         gameover = new JLabel(new ImageIcon(getClass().getResource("imgs/gameover.png")));
         //tester =new JLabel("");
-        game1pPanel.add(gameover, new AbsoluteConstraints(-5, 220, -1, -1));
+        game1pPanel.add(gameover, new AbsoluteConstraints(-5, 240, -1, -1));
         game1pPanel.setComponentZOrder(gameover, 0);
         gameover.setVisible(false);
     }

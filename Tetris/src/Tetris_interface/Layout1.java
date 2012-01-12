@@ -53,7 +53,7 @@ public class Layout1 extends JFrame {
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
-    private JTextField leftKey, rightKey, downKey, rotateKey, goToBottonKey, playerName;
+    private JTextField leftKey, rightKey, downKey, rotateKey, goToBottonKey,holdKey,pauseKey, playerName;
     private JCheckBox mouseBox;
     private static JButton applyOptions, cancelOptions;
     //sound components
@@ -260,68 +260,90 @@ public class Layout1 extends JFrame {
         JPanel controlsPanel = new JPanel(new AbsoluteLayout());
         controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,neuropol18));
 
-        JLabel moveLeft = new JLabel("Move Left");
-        moveLeft.setFont(segoePrint12);
+        JLabel moveLeftLabel = new JLabel("Move Left");
+        moveLeftLabel.setFont(segoePrint12);
 
         leftKey = new JTextField(KeyEvent.getKeyText(keys[0]));
         leftKey.setFont(segoePrint12);
         leftKey.setHorizontalAlignment(JTextField.CENTER);
         leftKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
-        JLabel moveRight = new JLabel("Move Right");
-        moveRight.setFont(segoePrint12);
+        JLabel moveRightLabel = new JLabel("Move Right");
+        moveRightLabel.setFont(segoePrint12);
 
         rightKey = new JTextField(KeyEvent.getKeyText(keys[2]));
         rightKey.setFont(segoePrint12);
         rightKey.setHorizontalAlignment(JTextField.CENTER);
         rightKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
-        JLabel moveDown = new JLabel("Move Down");
-        moveDown.setFont(segoePrint12);
+        JLabel moveDownLabel = new JLabel("Move Down");
+        moveDownLabel.setFont(segoePrint12);
 
         downKey = new JTextField(KeyEvent.getKeyText(keys[1]));
         downKey.setFont(segoePrint12);
         downKey.setHorizontalAlignment(JTextField.CENTER);
         downKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
-        JLabel rotate = new JLabel("Rotate");
-        rotate.setFont(segoePrint12);
+        JLabel rotateLabel = new JLabel("Rotate");
+        rotateLabel.setFont(segoePrint12);
 
         rotateKey = new JTextField(KeyEvent.getKeyText(keys[4]));
         rotateKey.setFont(segoePrint12);
         rotateKey.setHorizontalAlignment(JTextField.CENTER);
         rotateKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
-        JLabel goBotton = new JLabel("To Botton");
-        goBotton.setFont(segoePrint12);
+        JLabel goBottonLabel = new JLabel("To Botton");
+        goBottonLabel.setFont(segoePrint12);
 
         goToBottonKey = new JTextField(KeyEvent.getKeyText(keys[3]));
         goToBottonKey.setFont(segoePrint12);
         goToBottonKey.setHorizontalAlignment(JTextField.CENTER);
         goToBottonKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
+        JLabel holdLabel = new JLabel("Hold");
+        holdLabel.setFont(segoePrint12);
+        
+        holdKey = new JTextField(KeyEvent.getKeyText(keys[5]));
+        holdKey.setFont(segoePrint12);
+        holdKey.setHorizontalAlignment(JTextField.CENTER);
+        holdKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
+
+        JLabel pauseLabel = new JLabel("Rotate");
+        pauseLabel.setFont(segoePrint12);
+        
+        pauseKey = new JTextField(KeyEvent.getKeyText(keys[6]));
+        pauseKey.setFont(segoePrint12);
+        pauseKey.setHorizontalAlignment(JTextField.CENTER);
+        pauseKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
+
 
         mouseBox = new JCheckBox("Use mouse");
         mouseBox.setFont(segoePrint12);
 
-        controlsPanel.add(moveLeft, new AbsoluteConstraints(15, 30, -1, -1));
+        controlsPanel.add(moveLeftLabel, new AbsoluteConstraints(15, 30, -1, -1));
         controlsPanel.add(leftKey, new AbsoluteConstraints(95, 32, 55, 25));
 
-        controlsPanel.add(moveRight, new AbsoluteConstraints(160, 30, -1, -1));
+        controlsPanel.add(moveRightLabel, new AbsoluteConstraints(160, 30, -1, -1));
         controlsPanel.add(rightKey, new AbsoluteConstraints(240, 32, 55, 25));
 
-        controlsPanel.add(moveDown, new AbsoluteConstraints(15, 60, -1, -1));
+        controlsPanel.add(moveDownLabel, new AbsoluteConstraints(15, 60, -1, -1));
         controlsPanel.add(downKey, new AbsoluteConstraints(95, 63, 55, 25));
 
-        controlsPanel.add(rotate, new AbsoluteConstraints(160, 60, -1, -1));
+        controlsPanel.add(rotateLabel, new AbsoluteConstraints(160, 60, -1, -1));
         controlsPanel.add(rotateKey, new AbsoluteConstraints(240, 63, 55, 25));
 
-        controlsPanel.add(goBotton, new AbsoluteConstraints(15, 90, -1, -1));
+        controlsPanel.add(goBottonLabel, new AbsoluteConstraints(15, 90, -1, -1));
         controlsPanel.add(goToBottonKey, new AbsoluteConstraints(95, 91, 55, 25));
 
-        controlsPanel.add(mouseBox, new AbsoluteConstraints(160, 91, -1, -1));
+        controlsPanel.add(holdLabel, new AbsoluteConstraints(160, 90, -1, -1));
+        controlsPanel.add(holdKey, new AbsoluteConstraints(240, 91, 55, 25));
 
-        optionsPanel.add(controlsPanel, new AbsoluteConstraints(10, 60, 310, 130));
+        controlsPanel.add(pauseLabel, new AbsoluteConstraints(15, 120, -1, -1));
+        controlsPanel.add(pauseKey, new AbsoluteConstraints(95, 121, 55, 25));
+
+        controlsPanel.add(mouseBox, new AbsoluteConstraints(157, 117, -1, -1));
+
+        optionsPanel.add(controlsPanel, new AbsoluteConstraints(10, 60, 310, 160));
 
         //begin of the player name panel
         JPanel playerPanel = new JPanel(new AbsoluteLayout());
@@ -335,9 +357,9 @@ public class Layout1 extends JFrame {
 
 
 
-        playerPanel.add(playerName, new AbsoluteConstraints(12, 20, 260, 30));
+        playerPanel.add(playerName, new AbsoluteConstraints(12, 20, 290, 30));
 
-        optionsPanel.add(playerPanel, new AbsoluteConstraints(10, 190, 310, 60));
+        optionsPanel.add(playerPanel, new AbsoluteConstraints(10, 220, 310, 55));
 
         //bottons
 
@@ -352,8 +374,8 @@ public class Layout1 extends JFrame {
                 func_initial();
             }
         });
-        optionsPanel.add(applyOptions, new AbsoluteConstraints(60, 250, -1, -1));
-        optionsPanel.add(cancelOptions, new AbsoluteConstraints(180, 250, -1, -1));
+        optionsPanel.add(applyOptions, new AbsoluteConstraints(60, 280, -1, -1));
+        optionsPanel.add(cancelOptions, new AbsoluteConstraints(180, 280, -1, -1));
 
 
         goToBottonKey.addFocusListener(new FocusListener() {
@@ -396,6 +418,24 @@ public class Layout1 extends JFrame {
 
             public void focusGained(FocusEvent fe) {
                 getKeyEvent(4, rotateKey);
+            }
+
+            public void focusLost(FocusEvent fe) {
+            }
+        });
+        holdKey.addFocusListener(new FocusListener() {
+
+            public void focusGained(FocusEvent fe) {
+                getKeyEvent(5, holdKey);
+            }
+
+            public void focusLost(FocusEvent fe) {
+            }
+        });
+        pauseKey.addFocusListener(new FocusListener() {
+
+            public void focusGained(FocusEvent fe) {
+                getKeyEvent(6, pauseKey);
             }
 
             public void focusLost(FocusEvent fe) {
@@ -455,8 +495,8 @@ public class Layout1 extends JFrame {
                 func_initial();
             }
         });
-        somPanel.add(apply, new AbsoluteConstraints(60, 250, -1, -1));
-        somPanel.add(cancel, new AbsoluteConstraints(180, 250, -1, -1));
+        somPanel.add(apply, new AbsoluteConstraints(60, 280, -1, -1));
+        somPanel.add(cancel, new AbsoluteConstraints(180, 280, -1, -1));
 
     }
 

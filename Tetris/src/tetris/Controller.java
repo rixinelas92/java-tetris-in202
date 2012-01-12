@@ -178,10 +178,11 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     rotate();
                 }
-            } catch (Exception ex) {
-                System.out.println(e.getButton());
-            }
-            try {
+            
+                if (e.getButton() == MouseEvent.BUTTON2) {
+                    hold();
+                }
+            
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     goToBottom();
                 }

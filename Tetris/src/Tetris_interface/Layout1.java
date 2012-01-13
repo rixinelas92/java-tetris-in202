@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.RoundRectangle2D;
 import java.util.Random;
 import java.util.Set;
 import javax.swing.Timer;
@@ -32,6 +33,7 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JProgressBar;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.TitledBorder;
@@ -42,16 +44,16 @@ import tetris.Main;
 import tetris.Position;
 import tetris.Screen;
 
-public class Layout1 extends JFrame{
+public class Layout1 extends JFrame {
 
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
     private JLabelCont[] currentPiece, nextPiece, holdPiece; //array with the position of the 4 boxes of the 2 pieces
     private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use
-    public Font neuropol14,neuropol18, neuropol24, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
+    public Font neuropol14, neuropol18, neuropol24, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
-    private JTextField leftKey, rightKey, downKey, rotateKey, goToBottonKey,holdKey,pauseKey, playerName;
+    private JTextField leftKey, rightKey, downKey, rotateKey, goToBottonKey, holdKey, pauseKey, playerName;
     private JCheckBox mouseBox;
     private static JButton applyOptions, cancelOptions;
     //sound components
@@ -91,27 +93,27 @@ public class Layout1 extends JFrame{
 
     private void make_fonts() {
         try {
-          //  File f = new File("src/Tetris_interface/fightingspiritTBS.ttf");
-          //  FileInputStream in = new FileInputStream(f);
+            //  File f = new File("src/Tetris_interface/fightingspiritTBS.ttf");
+            //  FileInputStream in = new FileInputStream(f);
             Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("fightingspiritTBS.ttf"));
             neuropol24 = dynamicFont.deriveFont(24f);
             neuropol18 = dynamicFont.deriveFont(18f);
             neuropol14 = dynamicFont.deriveFont(14f);
-            
 
-         //   f = new File("src/Tetris_interface/segoepr.ttf");
-         //   in = new FileInputStream(f);
+
+            //   f = new File("src/Tetris_interface/segoepr.ttf");
+            //   in = new FileInputStream(f);
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("segoepr.ttf"));
             segoePrint12 = dynamicFont.deriveFont(12f);
             segoePrint11 = dynamicFont.deriveFont(11f);
 
-       //     f = new File("src/Tetris_interface/PLANETBE.TTF");
-       //     in = new FileInputStream(f);
-            dynamicFont = Font.createFont(Font.TRUETYPE_FONT,  getClass().getResourceAsStream("PLANETBE.TTF"));
+            //     f = new File("src/Tetris_interface/PLANETBE.TTF");
+            //     in = new FileInputStream(f);
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("PLANETBE.TTF"));
             planetBenson14 = dynamicFont.deriveFont(13f);
 
-         //   f = new File("src/Tetris_interface/DS-DIGI.TTF");
-         //   in = new FileInputStream(f);
+            //   f = new File("src/Tetris_interface/DS-DIGI.TTF");
+            //   in = new FileInputStream(f);
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("DS-DIGI.TTF"));
             sevenSegments14 = dynamicFont.deriveFont(18f);
 
@@ -256,7 +258,7 @@ public class Layout1 extends JFrame{
 
         //controls panel
         JPanel controlsPanel = new JPanel(new AbsoluteLayout());
-        controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,neuropol18));
+        controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
 
         JLabel moveLeftLabel = new JLabel("Move Left");
         moveLeftLabel.setFont(segoePrint12);
@@ -300,7 +302,7 @@ public class Layout1 extends JFrame{
 
         JLabel holdLabel = new JLabel("Hold");
         holdLabel.setFont(segoePrint12);
-        
+
         holdKey = new JTextField(KeyEvent.getKeyText(keys[5]));
         holdKey.setFont(segoePrint12);
         holdKey.setHorizontalAlignment(JTextField.CENTER);
@@ -308,7 +310,7 @@ public class Layout1 extends JFrame{
 
         JLabel pauseLabel = new JLabel("Rotate");
         pauseLabel.setFont(segoePrint12);
-        
+
         pauseKey = new JTextField(KeyEvent.getKeyText(keys[6]));
         pauseKey.setFont(segoePrint12);
         pauseKey.setHorizontalAlignment(JTextField.CENTER);
@@ -379,7 +381,7 @@ public class Layout1 extends JFrame{
         goToBottonKey.addFocusListener(new FocusListener() {
 
             public void focusGained(FocusEvent fe) {
-                getKeyEvent( 3, goToBottonKey);
+                getKeyEvent(3, goToBottonKey);
             }
 
             public void focusLost(FocusEvent fe) {
@@ -440,10 +442,6 @@ public class Layout1 extends JFrame{
             }
         });
     }
-
-
-
-
 
     private void make_som() {
         somPanel = new JPanel(new AbsoluteLayout());
@@ -506,7 +504,7 @@ public class Layout1 extends JFrame{
 
         JSeparator separator = new JSeparator();
         separator.setOpaque(false);
-        
+
         game1pPanel.add(game1pTitle, new AbsoluteConstraints(110, 22, -1, -1));
         game1pPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
 
@@ -638,10 +636,15 @@ public class Layout1 extends JFrame{
 
     private void make_UI() {
         getContentPane().setLayout(new AbsoluteLayout());
-        add(base, new AbsoluteConstraints(0, 0));
+        setSize(360, 490);
+        this.setUndecorated(true);
+        this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+        
+        setShape(new RoundRectangle2D.Float(35, 50, 330, 455, 30, 30));
+        add(base, new AbsoluteConstraints(30, 30));
         pack();
         setTitle("Tetris");
-        setSize(330, 460);
+
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);
@@ -714,27 +717,27 @@ public class Layout1 extends JFrame{
         game2pPanel.setVisible(true);
     }
 
-
-    private void checkAndIfCaseSetOtherKeyOnConfig(int keyNumber, int keyValue){
-        for(int i = 0;i<keys.length;i++){
-            if(keyNumber == i)
+    private void checkAndIfCaseSetOtherKeyOnConfig(int keyNumber, int keyValue) {
+        for (int i = 0; i < keys.length; i++) {
+            if (keyNumber == i) {
                 continue;
-            if(keyValue == keys[i]){
-                switch(i){
+            }
+            if (keyValue == keys[i]) {
+                switch (i) {
                     case 0:
-                        getKeyEvent(0,leftKey);
+                        getKeyEvent(0, leftKey);
                         break;
                     case 1:
-                        getKeyEvent(1,downKey);
+                        getKeyEvent(1, downKey);
                         break;
                     case 2:
-                        getKeyEvent(2,rightKey);
+                        getKeyEvent(2, rightKey);
                         break;
                     case 3:
-                        getKeyEvent(3,goToBottonKey);
+                        getKeyEvent(3, goToBottonKey);
                         break;
                     case 4:
-                        getKeyEvent(4,rotateKey);
+                        getKeyEvent(4, rotateKey);
                         break;
                     default:
                         break;
@@ -764,7 +767,7 @@ public class Layout1 extends JFrame{
                 field.setText(ke.getKeyText(ke.getKeyCode()));
                 field.setBackground(Color.LIGHT_GRAY);
                 removeKeyListener(this);
-                checkAndIfCaseSetOtherKeyOnConfig(keyNumber,ke.getKeyCode());
+                checkAndIfCaseSetOtherKeyOnConfig(keyNumber, ke.getKeyCode());
             }
 
             public void keyReleased(KeyEvent ke) {
@@ -826,7 +829,7 @@ public class Layout1 extends JFrame{
     }
 
     public String getStringForColor(String color) {
-        return "imgs/"  + color + r.nextInt(5) + ".png";
+        return "imgs/" + color + r.nextInt(5) + ".png";
     }
 
     public void restart1pScreen() {
@@ -935,9 +938,9 @@ public class Layout1 extends JFrame{
         for (int i = 0; i < 4; i++) {
             currentPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(colorCurrentPiece))));
         }
-        
-        
-        
+
+
+
         for (int i = 0; i < 4; i++) {
             gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(currentPiecePos[i].getX()), yPos(currentPiecePos[i].getY()), pieceSize, pieceSize));
         }
@@ -982,7 +985,7 @@ public class Layout1 extends JFrame{
         for (int i = 0; i < 4; i++) {
             holdPiece[i] = currentPiece[i];
         }
-        
+
         setHoldPiecePosition(newPosHoldPiece);
         gameHold1pPanel.setVisible(false);
         gameHold1pPanel.setVisible(true);

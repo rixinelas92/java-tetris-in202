@@ -413,14 +413,13 @@ public class Game extends Controller implements ActionListener {
                     auxiliar.setShape(currentPiece.getShapeType());
                     currentPiece.setRotation(holdPiece.getRotation());
                     currentPiece.setShape(holdPiece.getShapeType());
+                    currentPiece.setPosition(Screen.getMiddlePosition());
                     holdPiece.setRotation(auxiliar.getRotation());
                     holdPiece.setShape(auxiliar.getShapeType());
                     Main.setHold();
                 } catch (Exception en) {
                     en.printStackTrace();
-                    System.out.println("oi " + currentPiece.getX() + " " + currentPiece.getY());
-                    System.out.println("xau " + holdPiece.getX() + " " + holdPiece.getY());
-                }
+                    }
             }
         } else {
             try {

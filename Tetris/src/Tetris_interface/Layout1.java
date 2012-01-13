@@ -12,8 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Random;
 import java.util.Set;
 import javax.swing.Timer;
@@ -44,7 +42,7 @@ import tetris.Main;
 import tetris.Position;
 import tetris.Screen;
 
-public class Layout1 extends JFrame {
+public class Layout1 extends JFrame{
 
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
     private JLabelCont[] currentPiece, nextPiece, holdPiece; //array with the position of the 4 boxes of the 2 pieces
@@ -643,7 +641,7 @@ public class Layout1 extends JFrame {
         add(base, new AbsoluteConstraints(0, 0));
         pack();
         setTitle("Tetris");
-        setSize(330, 490);
+        setSize(330, 460);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);

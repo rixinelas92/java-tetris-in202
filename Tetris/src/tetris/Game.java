@@ -145,10 +145,11 @@ public class Game extends Controller implements ActionListener {
         if (timer != null) {
             timer.stop();
         }
-        if(screen == null)
+        if (screen == null) {
             screen = new Screen();
-        else
+        } else {
             screen.clean();
+        }
         nextPiece = currentPiece = null;
         Main.restart1pScreen();
         Position.setBorderRetriever(screen.new BorderRetriever());
@@ -306,14 +307,16 @@ public class Game extends Controller implements ActionListener {
         if (isPaused && keyPause != e.getKeyCode()) {
             return;
         }
-        if(isFallingFinished && keyPause != e.getKeyCode())
+        if (isFallingFinished && keyPause != e.getKeyCode()) {
             return;
+        }
         super.keyPressed(e);
     }
 
     synchronized protected void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
-        if(isFallingFinished)
+        if (isFallingFinished) {
             return;
+        }
         Position[] vector = currentPiece.getAllPosition();
         int x = -2 + newX / pieceSize;
         //int x = -((Position.getMaxCoord(vector).getX() +Position.getMinCoord(vector).getX())/2) + newX/pieceSize;
@@ -409,17 +412,22 @@ public class Game extends Controller implements ActionListener {
             if (!alreadyHolded) {
                 alreadyHolded = true;
                 try {
-                    auxiliar.setRotation(currentPiece.getRotation());
-                    auxiliar.setShape(currentPiece.getShapeType());
-                    currentPiece.setRotation(holdPiece.getRotation());
-                    currentPiece.setShape(holdPiece.getShapeType());
-                    currentPiece.setPosition(Screen.getMiddlePosition());
-                    holdPiece.setRotation(auxiliar.getRotation());
-                    holdPiece.setShape(auxiliar.getShapeType());
-                    Main.setHold();
+                    Position[] aux = holdPiece.getAllPosition();
+                    if (!screen.getBoxAt(aux[0].getX(), aux[0].getY()).isFull() && !screen.getBoxAt(aux[1].getX(), aux[1].getY()).isFull() && !screen.getBoxAt(aux[2].getX(), aux[2].getY()).isFull() && !screen.getBoxAt(aux[3].getX(), aux[3].getY()).isFull()) {
+
+                        auxiliar.setRotation(currentPiece.getRotation());
+                        auxiliar.setShape(currentPiece.getShapeType());
+                        currentPiece.setRotation(holdPiece.getRotation());
+                        currentPiece.setShape(holdPiece.getShapeType());
+                        currentPiece.setPosition(Screen.getMiddlePosition());
+                        holdPiece.setRotation(auxiliar.getRotation());
+                        holdPiece.setShape(auxiliar.getShapeType());
+
+                        Main.setHold();
+                    }
                 } catch (Exception en) {
                     en.printStackTrace();
-                    }
+                }
             }
         } else {
             try {

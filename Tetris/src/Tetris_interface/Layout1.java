@@ -630,7 +630,7 @@ public class Layout1 extends JFrame {
     private void make_base() {
 
         base = new JPanel(new AbsoluteLayout());
-        base.add(topPanel, new AbsoluteConstraints(0, 0,350,-1));
+        base.add(topPanel, new AbsoluteConstraints(0, 0));
         base.add(initialPanel, new AbsoluteConstraints(0, 0, 330, 450));
         base.add(selectionPanel, new AbsoluteConstraints(0, 10, 330, 450));
         selectionPanel.setVisible(false);
@@ -648,15 +648,16 @@ public class Layout1 extends JFrame {
 
     private void make_UI() {
         getContentPane().setLayout(new AbsoluteLayout());
-        setSize(360, 490);
-        this.setUndecorated(true);
-        this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
         
-        setShape(new RoundRectangle2D.Float(35, 50, 330, 455, 30, 30));
-        add(base, new AbsoluteConstraints(30, 30));
+        
+        //setUndecorated(true);
+        //getRootPane().setWindowDecorationStyle(JRootPane.FRAME);        
+        //setShape(new RoundRectangle2D.Float(35, 50, 330, 455, 30, 30));
+        
+        add(base, new AbsoluteConstraints(0, 0));
         pack();
         setTitle("Tetris");
-
+setSize(330, 460);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);

@@ -127,6 +127,8 @@ public class Layout1 extends JFrame {
         topPanel = new JPanel(new AbsoluteLayout());
 
         JToolBar toolbar = new JToolBar();
+        toolbar.setOpaque(false);
+        toolbar.setBorderPainted(false);
         try {
             toolbar.setFloatable(false);
             ImageIcon newgameIcon = new ImageIcon(getClass().getResource("newgame.png"));
@@ -142,6 +144,16 @@ public class Layout1 extends JFrame {
             som.setFont(segoePrint11);
             JButton close = new JButton("Exit", closeIcon);
             close.setFont(segoePrint11);
+                        
+            newgame.setBorderPainted(false);
+            newgame.setOpaque(false);
+            config.setBorderPainted(false);
+            config.setOpaque(false);
+            som.setBorderPainted(false);
+            som.setOpaque(false);
+            close.setOpaque(false);
+            close.setBorderPainted(false);
+            
             newgame.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent event) {
@@ -618,7 +630,7 @@ public class Layout1 extends JFrame {
     private void make_base() {
 
         base = new JPanel(new AbsoluteLayout());
-        base.add(topPanel, new AbsoluteConstraints(0, 0));
+        base.add(topPanel, new AbsoluteConstraints(0, 0,350,-1));
         base.add(initialPanel, new AbsoluteConstraints(0, 0, 330, 450));
         base.add(selectionPanel, new AbsoluteConstraints(0, 10, 330, 450));
         selectionPanel.setVisible(false);

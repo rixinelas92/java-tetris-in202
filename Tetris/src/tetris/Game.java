@@ -229,7 +229,20 @@ public class Game extends Controller implements ActionListener {
         try {
             currentPiece.rotation();
         } catch (NotAvailablePlaceForPieceException ex) {
-            System.out.println("Cant Rotate");
+            for(int i = 0;i<2;i++){
+                try {
+                    short x = currentPiece.getX();
+                    x-=i+1;
+                    currentPiece.setXandRotate(x);
+                    break;
+                } catch (Exception ex1) {}
+                try {
+                    short x = currentPiece.getX();
+                    x+=i+1;
+                    currentPiece.setXandRotate(x);
+                    break;
+                } catch (Exception ex1) {}
+            }
         }
     }
 

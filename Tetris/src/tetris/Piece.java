@@ -93,6 +93,24 @@ public class Piece {
         }
         position.setX(newX);
     }
+
+    public void setXandRotate(short newX) throws NotAvailablePlaceForPieceException, OutOfScreenBoundsException{
+        int tyleN = currentShape.ordinal();
+        int x,y;
+        short rot = (short) (currentRotation + 1);
+        rot%=4;
+        for(int i = 0;i<4;i++){
+            x = newX + shape[tyleN][rot][i][0];
+            y = position.getY() - shape[tyleN][rot][i][1];
+            if(Position.isFilled(x, y))
+                throw new Screen.NotAvailablePlaceForPieceException("("+x+","+y+")");
+        }
+        currentRotation = rot;
+        position.setX(newX);
+
+    }
+
+
      /**
      * Default setter of the position of the piece with a updated values of x and y. 
      * @param newPos informes the updated position.

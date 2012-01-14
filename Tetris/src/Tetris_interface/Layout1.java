@@ -657,7 +657,7 @@ public class Layout1 extends JFrame {
         add(base, new AbsoluteConstraints(0, 0));
         pack();
         setTitle("Tetris");
-setSize(330, 460);
+        setSize(330, 480);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);

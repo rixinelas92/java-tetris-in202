@@ -141,11 +141,11 @@ public static void restart1pScreen(){
     public static void showGameOverAndReturnToNewGame(){
         Main.removeListeners();
         JLabel go = screen.showGameOver();
-        try{
-            Thread.sleep(5000);
-        }catch(Exception e){}
-        screen.removeGameOver(go);
-        screen.func_newgame();
+  //      try{
+  //          Thread.sleep(5000);
+  //      }catch(Exception e){}
+  //      screen.removeGameOver(go);
+  //      screen.func_newgame();
     }
 
 

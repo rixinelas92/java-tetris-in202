@@ -857,6 +857,7 @@ public class Layout1 extends JFrame {
         screen = new JLabelCont[screenWidth][screenHeight + 3];
         currentPiece = new JLabelCont[4];
         nextPiece = new JLabelCont[4];
+        removeGameOver(gameover);
 
     }
 
@@ -868,11 +869,9 @@ public class Layout1 extends JFrame {
     }
 
     public JLabel showGameOver() {
-
+        gameover.setVisible(true);
         game1pPanel.setVisible(false);
         game1pPanel.setVisible(true);
-        game1pPanel.setComponentZOrder(gameover, 0);
-        gameover.setVisible(true);
         return gameover;
     }
 

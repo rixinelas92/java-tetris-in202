@@ -488,6 +488,32 @@ public class Game extends Controller implements ActionListener {
         isPaused = true;
     }
 
+
+    public int[] getGameMask(){
+        int[] mask = new int[Screen.SIZE_X];
+        for(int i = 0;i<Screen.SIZE_X;i++)
+            for(int j = 0;j<Screen.SIZE_Y;j++){
+                try{
+                    mask[i] |= (screen.getBoxAt((short)i,(short) j).isFull())?(1<<j):0;
+                }catch(Exception e){
+                }
+            }
+        Position[] pos = currentPiece.getAllPosition();
+        for(Position p:pos){
+            mask[p.getX()] |= (1<<p.getY());
+        }
+        return mask;
+    }
+    
+    static public boolean[][] getGameDescWithMask(int[] mask){
+        boolean[][] desc = new boolean[Screen.SIZE_X][Screen.SIZE_Y];
+        for(int i = 0;i<Screen.SIZE_X;i++)
+            for(int j = 0;j<Screen.SIZE_Y;j++){
+                desc[i][j] = (mask[i]&(1<<j))>0;
+            }
+        return desc;
+    }
+
     /**
      * Class to implement the fonctions listener.
      */
@@ -497,4 +523,6 @@ public class Game extends Controller implements ActionListener {
             initGame();
         }
     }
+
+
 }

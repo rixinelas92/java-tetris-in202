@@ -1,10 +1,13 @@
 package Tetris_interface;
 
+import java.awt.Canvas;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -12,7 +15,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.RoundRectangle2D;
 import java.util.Random;
 import java.util.Set;
 import javax.swing.Timer;
@@ -33,7 +35,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JProgressBar;
-import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.TitledBorder;
@@ -1228,6 +1229,31 @@ public class Layout1 extends JFrame {
             setFont(list.getFont());
             setOpaque(true);
             return this;
+        }
+    }
+
+    static class SmallTetrisCanvas extends Canvas {
+        boolean[][] isFilled;
+        int pxlsize = 4;
+        public SmallTetrisCanvas() {
+            setBackground(Color.GRAY);
+            isFilled = new boolean[Screen.SIZE_X][Screen.SIZE_Y];
+            setSize(Screen.SIZE_X*pxlsize, Screen.SIZE_Y*pxlsize);
+        }
+
+
+        public void paint(Graphics g) {
+            Graphics2D g2;
+            g2 = (Graphics2D) g;
+            for(int i = 0;i<Screen.SIZE_X;i++)
+                for(int j = 0;j<Screen.SIZE_Y;j++)
+                    if(isFilled[i][j]){
+                        g2.setColor(Color.yellow);
+                        g2.drawRect(i*pxlsize, j*pxlsize, pxlsize, pxlsize);
+                    }else{
+                        g2.setColor(Color.RED);
+                        g2.drawRect(i*pxlsize, j*pxlsize, pxlsize, pxlsize);
+                    }
         }
     }
 }

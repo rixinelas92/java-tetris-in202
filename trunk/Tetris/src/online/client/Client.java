@@ -93,7 +93,7 @@ abstract public class Client extends Thread {
         try {
             int timeout = 0;
             boolean barN = false;
-
+            int counter = 0;
             while (timeout < 20000) {
                 try {
                     sleep(100);
@@ -118,6 +118,17 @@ abstract public class Client extends Thread {
                         consume(q);
                     }
 
+                }
+                int[] board = returnBoard();
+
+                if(counter%5 == 2){
+                    if(board.length > 0)
+                        sendBoard(board);
+                }
+                if(counter++ > 20){
+                 
+                    send(PlayerQueryCodes.ALIVE+"");
+                    counter = 0;
                 }
             }
         } catch (Exception e) {
@@ -168,6 +179,8 @@ abstract public class Client extends Thread {
             case ERROR:
                 receivedError();
                 break;
+             case BOARD:
+                 receiveBoard(query[1]);
             default:
                 break;
         }
@@ -187,6 +200,8 @@ abstract public class Client extends Thread {
     abstract public void endGame(String mid) throws IOException;
 
     abstract public void receivedError();
+    
+    abstract public void receiveBoard(String board);
 /*****************
  * RECEIVERS - END
  */
@@ -216,6 +231,18 @@ abstract public class Client extends Thread {
         send(PlayerQueryCodes.GAMEOVER+"");
     }
 
+    public void sendBoard(int[] board) throws IOException{
+        StringBuilder sb = new StringBuilder();
+        sb.append(PlayerQueryCodes.BOARD);
+
+        sb.append(" ");
+        for(int i: board){
+            sb.append(i);
+            sb.append("#");
+        }
+        send(sb.toString());
+    }
+    
     public void sayBye(){
         try {
             send("\n\n");
@@ -230,6 +257,10 @@ abstract public class Client extends Thread {
 
         }
     }
+
+    protected abstract int[] returnBoard();
+
+
 
     static public class ClientTest extends Client {
 
@@ -272,6 +303,20 @@ abstract public class Client extends Thread {
 
         public void receivedError() {
             System.out.println("ERROR!");
+        }
+
+        @Override
+        public void receiveBoard(String board) {
+            System.out.println(" Received Board: " + board);
+        }
+
+        @Override
+        protected int[] returnBoard() {
+            int[] board = new int[10];
+            for(int i = 0;i<10;i++){
+                board[i] = i;
+            }
+            return board;
         }
     }
 }

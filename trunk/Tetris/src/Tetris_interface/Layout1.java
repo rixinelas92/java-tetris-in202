@@ -13,6 +13,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
@@ -37,6 +39,7 @@ import javax.swing.JList;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import javax.swing.border.TitledBorder;
 import online.util.PlayerDescriptor;
 import sound.SoundEffect;
@@ -73,6 +76,11 @@ public class Layout1 extends JFrame {
     Random r = new Random();
     private JList playersList;
     private int[] keys = Controller.keysStart;
+
+    private boolean is2PlayerGame;
+    private JLabel scoreLabel;
+    private JLabel timeLabel;
+    private SmallTetrisCanvas secondPlayerScreen;
 
     public Layout1() {
 
@@ -237,6 +245,7 @@ public class Layout1 extends JFrame {
         player1.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
+                configureScreenForGameType(false);
                 func_1player();
             }
         });
@@ -379,7 +388,7 @@ public class Layout1 extends JFrame {
         applyOptions = new JButton("Apply");
         applyOptions.setFont(planetBenson14);
 
-        JButton cancelOptions = new JButton("Cancel");
+        cancelOptions = new JButton("Cancel");
         cancelOptions.setFont(planetBenson14);
         cancelOptions.addActionListener(new ActionListener() {
 
@@ -553,11 +562,11 @@ public class Layout1 extends JFrame {
         score.setEditable(false);
         game1pPanel.add(score, new AbsoluteConstraints(232, 295, 60, 25));
 
-        JLabel scoreLabel = new JLabel("SCORE");
+        scoreLabel = new JLabel("SCORE");
         scoreLabel.setFont(neuropol14);
         game1pPanel.add(scoreLabel, new AbsoluteConstraints(235, 278, -1, -1));
 
-        JLabel timeLabel = new JLabel("TIME");
+        timeLabel = new JLabel("TIME");
         timeLabel.setFont(neuropol14);
         game1pPanel.add(timeLabel, new AbsoluteConstraints(240, 230, -1, -1));
 
@@ -568,6 +577,10 @@ public class Layout1 extends JFrame {
         timePassed.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         timePassed.setEditable(false);
         game1pPanel.add(timePassed, new AbsoluteConstraints(232, 248, 60, 25));
+
+
+        secondPlayerScreen = new SmallTetrisCanvas();
+        game1pPanel.add(secondPlayerScreen, new AbsoluteConstraints(232, 240, -1,-1));
 
         //buttons
         JButton pauseButton = new JButton("Pause");
@@ -616,12 +629,13 @@ public class Layout1 extends JFrame {
         playersList = new JList();
         playersList.setCellRenderer(new MyCellRenderer());
         playersList.setModel(new DefaultListModel());
+        playersList.addMouseListener(new ActionJList(playersList));
         JScrollPane scrollPane = new JScrollPane(playersList);
 
         game2pPanel.add(scrollPane, new AbsoluteConstraints(10, 60, 300, 250));
 
         Main.start2pConnection();
-
+        
         //      game2pPanel = new JPanel(new AbsoluteLayout());
         //    JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
         //  game2pPanel.add(menu, new AbsoluteConstraints(0, 0));
@@ -709,7 +723,7 @@ public class Layout1 extends JFrame {
 
     }
 
-    private void func_1player() {
+    public void func_1player() {
         initialPanel.setVisible(false);
         selectionPanel.setVisible(false);
         optionsPanel.setVisible(false);
@@ -730,6 +744,21 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(true);
     }
+
+
+
+    public void configureScreenForGameType(boolean is2PlayerGame){
+        this.is2PlayerGame = is2PlayerGame;
+        score.setVisible(!is2PlayerGame);
+        scoreLabel.setVisible(!is2PlayerGame);
+        level.setVisible(!is2PlayerGame);
+        scoreBar.setVisible(!is2PlayerGame);
+        timePassed.setVisible(!is2PlayerGame);
+        timeLabel.setVisible(!is2PlayerGame);
+        secondPlayerScreen.setVisible(is2PlayerGame);
+    }
+
+
 
     private void checkAndIfCaseSetOtherKeyOnConfig(int keyNumber, int keyValue) {
         for (int i = 0; i < keys.length; i++) {
@@ -778,7 +807,7 @@ public class Layout1 extends JFrame {
 
             public void keyPressed(KeyEvent ke) {
                 keys[keyNumber] = ke.getKeyCode();
-                field.setText(ke.getKeyText(ke.getKeyCode()));
+                field.setText(KeyEvent.getKeyText(ke.getKeyCode()));
                 field.setBackground(Color.LIGHT_GRAY);
                 removeKeyListener(this);
                 checkAndIfCaseSetOtherKeyOnConfig(keyNumber, ke.getKeyCode());
@@ -791,6 +820,19 @@ public class Layout1 extends JFrame {
             public int hashCode() {
                 return keyNumber;
             }
+
+            @Override
+            @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+            public boolean equals(Object o){
+                if(!this.getClass().isInstance(o))
+                    return false;
+                if(o.hashCode() == this.hashCode()) // hashCode is unique!
+                    return true;
+                return false;
+            }
+
+
+
         }.setKeyNumberAndField(keyNumber, field);
         addKeyListener(kl);
 
@@ -1103,6 +1145,7 @@ public class Layout1 extends JFrame {
         for (PlayerDescriptor pd : set) {
             ((DefaultListModel) (playersList.getModel())).addElement(pd);
         }
+        System.out.println("MUDEOU!!!!");
     }
 
     public static void main(String[] args) {
@@ -1119,6 +1162,11 @@ public class Layout1 extends JFrame {
     public boolean getMouseControler() {
         return mouseBox.isSelected();
     }
+
+    public void set2pScreenGame(boolean[][] isFilled){
+        secondPlayerScreen.setIsFilled(isFilled);
+    }
+
 
     public class JLabelCont extends JLabel {
 
@@ -1232,16 +1280,58 @@ public class Layout1 extends JFrame {
         }
     }
 
+
+    class ActionJList extends MouseAdapter {
+
+        protected JList list;
+
+        public ActionJList(JList l) {
+            list = l;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                int index = list.locationToIndex(e.getPoint());
+                ListModel dlm = list.getModel();
+                Object item = dlm.getElementAt(index);
+                list.ensureIndexIsVisible(index);
+
+                Main.requestMatchWith((PlayerDescriptor)item);
+       
+                System.out.println("Double clicked on " + item);
+            }
+        }
+    }
+
     static class SmallTetrisCanvas extends Canvas {
         boolean[][] isFilled;
-        int pxlsize = 4;
+        boolean[][] isFilledNew;
+        int pxlsize = 6;
         public SmallTetrisCanvas() {
             setBackground(Color.GRAY);
             isFilled = new boolean[Screen.SIZE_X][Screen.SIZE_Y];
             setSize(Screen.SIZE_X*pxlsize, Screen.SIZE_Y*pxlsize);
         }
 
+        public void setIsFilled( boolean[][] isFilled){
+            Graphics2D g2;
+            g2 = (Graphics2D) getGraphics();
+            for(int i = 0;i<Screen.SIZE_X;i++)
+                for(int j = 0;j<Screen.SIZE_Y;j++)
+                    if( this.isFilled[i][j]  !=  isFilled[i][j] ){
+                        if(isFilled[i][j]){
+                            g2.setColor(Color.yellow);
+                            g2.fillRect(i*pxlsize, (Screen.SIZE_Y-j-1)*pxlsize, pxlsize, pxlsize);
+                        }else{
+                            g2.setColor(Color.RED);
+                            g2.fillRect(i*pxlsize, (Screen.SIZE_Y-j-1)*pxlsize, pxlsize, pxlsize);
+                        }
+                        this.isFilled[i][j] = isFilled[i][j];
+                    }
+        }
 
+        @Override
         public void paint(Graphics g) {
             Graphics2D g2;
             g2 = (Graphics2D) g;
@@ -1249,10 +1339,10 @@ public class Layout1 extends JFrame {
                 for(int j = 0;j<Screen.SIZE_Y;j++)
                     if(isFilled[i][j]){
                         g2.setColor(Color.yellow);
-                        g2.drawRect(i*pxlsize, j*pxlsize, pxlsize, pxlsize);
+                        g2.fillRect(i*pxlsize, (Screen.SIZE_Y-j-1)*pxlsize, pxlsize, pxlsize);
                     }else{
                         g2.setColor(Color.RED);
-                        g2.drawRect(i*pxlsize, j*pxlsize, pxlsize, pxlsize);
+                        g2.fillRect(i*pxlsize, (Screen.SIZE_Y-j-1)*pxlsize, pxlsize, pxlsize);
                     }
         }
     }

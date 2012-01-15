@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashSet;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import online.client.Client;
 import online.util.Player.PlayerState;
@@ -123,7 +125,7 @@ public class Main {
     static void setPointsAndLevel(int points, int level, int pointsToNextLevel) {
         screen.setScore(points, level, 0, pointsToNextLevel);
     }
-public static void restart1pScreen(){
+    public static void restart1pScreen(){
         screen.restart1pScreen();
     }
     public static void start2pConnection(){
@@ -136,6 +138,15 @@ public static void restart1pScreen(){
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void requestMatchWith(PlayerDescriptor pd){
+        try {
+            internet.requestMatchWith(((Integer) pd.getId()).toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public static void showGameOverAndReturnToNewGame(){
@@ -173,20 +184,32 @@ public static void restart1pScreen(){
                 int key = Integer.valueOf(data[0]);
                 String name = data[1];
                 PlayerState state = PlayerState.valueOf(data[2]);
-                PlayerDescriptor pd = new PlayerDescriptor(name, state.ONLINE, key);
+                PlayerDescriptor pd = new PlayerDescriptor(name, state, key);
                 playerSet.add(pd);
+            }
+            while(screen ==  null){
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                }
             }
             screen.setPlayerList(playerSet);
         }
 
         @Override
         public void receiveMatchRequest(String uid) throws IOException {
-            throw new UnsupportedOperationException("Not supported yet.");
+
+            int response = JOptionPane.showConfirmDialog(screen, "Game Request From User " + uid + "\n Do you Accept?", "dd", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            if(response == JOptionPane.OK_OPTION){
+                acceptMatchWith(uid);
+            }
+
         }
 
         @Override
         public void matchStart(String mid) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            screen.configureScreenForGameType(true);
+            screen.func_1player();
         }
 
         @Override
@@ -202,6 +225,32 @@ public static void restart1pScreen(){
         @Override
         public void receivedError() {
             throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void receiveBoard(String str) {
+            str = str.trim();
+            String[] ints = str.split("#");
+            Vector<Integer> values = new Vector<Integer>();
+            for (String s : ints) {
+                s = s.trim();
+                if (s.length() == 0) {
+                    continue;
+                }
+                int key = Integer.valueOf(s);
+                values.add(key);
+            }
+            Integer[] v;
+            v = (Integer[])values.toArray(new Integer[values.size()]);
+            boolean[][] desc = Game.getGameDescWithMask(v);
+            screen.set2pScreenGame(desc);
+        }
+
+        @Override
+        protected int[] returnBoard() {
+            if(game == null)
+                return new int[0];
+            return game.getGameMask();
         }
     }
 

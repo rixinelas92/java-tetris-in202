@@ -180,6 +180,8 @@ public class Game extends Controller implements ActionListener {
         isFallingFinished = false;
         alreadyHolded = false;
         timer.start();
+        isStarted = true;
+
     }
 
     /**
@@ -393,6 +395,7 @@ public class Game extends Controller implements ActionListener {
             if (isFinished) {
                 Main.pauseGame();
                 Main.showGameOverAndReturnToNewGame();
+                isStarted = false;
                 return;
             }
             Main.updatePiecesPositions();
@@ -490,6 +493,8 @@ public class Game extends Controller implements ActionListener {
 
 
     public int[] getGameMask(){
+        if(!isStarted)
+            return new int[0];
         int[] mask = new int[Screen.SIZE_X];
         for(int i = 0;i<Screen.SIZE_X;i++)
             for(int j = 0;j<Screen.SIZE_Y;j++){
@@ -505,7 +510,7 @@ public class Game extends Controller implements ActionListener {
         return mask;
     }
     
-    static public boolean[][] getGameDescWithMask(int[] mask){
+    static public boolean[][] getGameDescWithMask(Integer[] mask){
         boolean[][] desc = new boolean[Screen.SIZE_X][Screen.SIZE_Y];
         for(int i = 0;i<Screen.SIZE_X;i++)
             for(int j = 0;j<Screen.SIZE_Y;j++){

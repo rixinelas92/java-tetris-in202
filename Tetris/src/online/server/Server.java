@@ -112,7 +112,7 @@ public class Server extends Thread {
             int timeout = 0;
             boolean barN = false;
 
-
+            int counter = 0;
             while (timeout < 2000) {
                 try {
                     sleep(100);
@@ -140,6 +140,10 @@ public class Server extends Thread {
                         consume(q);
                     }
 
+                }
+                if(counter++ > 10){
+                    counter = 0;
+                    sendPlayerList();
                 }
             }
         } catch (Exception e) {
@@ -199,7 +203,8 @@ public class Server extends Thread {
         }catch(Exception e){
             e.printStackTrace();
         }
-        
+        if(code == null)
+            return;
         switch(code){
             case CREATECLIENT:
                 createClient(this,query[1]);
@@ -222,6 +227,8 @@ public class Server extends Thread {
             case MATCHDECLINE:
                 sendMatchDeclined(query[1]);
                 break;
+            case BOARD:
+                sendBoard(query[1]);
             default:
                 break;
         }
@@ -230,6 +237,7 @@ public class Server extends Thread {
 
 
     private void send(String str) throws IOException{
+        System.out.println(">>> FROM ("+getId()+"): "+str);
         os.write(str+"\n");
         os.flush();
     }
@@ -239,6 +247,8 @@ public class Server extends Thread {
         sb.append(ServerQueryCodes.PLIST.toString());
         sb.append(" ");
         for(Entry<Integer,Player> entry: playerMap.entrySet()){
+            if(entry.getKey().equals(this.player.getPlayerId()))
+                continue;
             sb.append(entry.getKey());
             sb.append(">");
             sb.append(entry.getValue().getName());
@@ -341,6 +351,18 @@ public class Server extends Thread {
             if(id == -1){
                 send(ServerQueryCodes.ERROR+" "+ServerQueryCodes.MATCHDECLINED+"#"+player.getPlayerId());
             }
+        }
+    }
+
+    private void sendBoard(String string) {
+        try {
+            Match m = player.getMatch();
+            if (m == null) {
+                return;
+            }
+            m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.BOARD + " " + string);
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

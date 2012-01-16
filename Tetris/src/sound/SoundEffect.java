@@ -20,7 +20,7 @@ import javax.sound.sampled.*;
  */
 public enum SoundEffect {
 
-    CTHEME("ClassicTheme.wav"),      // explosion
+    CTHEME("ClassicTheme2.wav"),      // explosion
     CERASE("ClassicErase.wav"),      // gong
     CFALL("ClassicFall.wav"),        // bullet
     MTHEME("Mariotheme.wav"),      // explosion

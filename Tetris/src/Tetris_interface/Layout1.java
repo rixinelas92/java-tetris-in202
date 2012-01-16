@@ -32,7 +32,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSlider;
-import javax.swing.SwingUtilities;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -42,7 +41,6 @@ import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.border.TitledBorder;
 import online.util.PlayerDescriptor;
-import sound.SoundEffect;
 import tetris.Controller;
 import tetris.Main;
 import tetris.Position;
@@ -59,10 +57,11 @@ public class Layout1 extends JFrame {
     //options components
     private JTextField leftKey, rightKey, downKey, rotateKey, goToBottonKey, holdKey, pauseKey, playerName;
     private JCheckBox mouseBox;
-    private static JButton applyOptions, cancelOptions;
+    private static JButton applyOptions;
     //sound components
     private JComboBox themeBox;
     private JSlider volumeSlider;
+    private static JButton applySom;
     //1 players components
     private JPanel gameScreen1pPanel, gameNext1pPanel, gameHold1pPanel;
     private JProgressBar scoreBar;
@@ -136,8 +135,6 @@ public class Layout1 extends JFrame {
         topPanel = new JPanel(new AbsoluteLayout());
 
         JToolBar toolbar = new JToolBar();
-        toolbar.setOpaque(false);
-        toolbar.setBorderPainted(false);
         try {
             toolbar.setFloatable(false);
             ImageIcon newgameIcon = new ImageIcon(getClass().getResource("newgame.png"));
@@ -388,7 +385,7 @@ public class Layout1 extends JFrame {
         applyOptions = new JButton("Apply");
         applyOptions.setFont(planetBenson14);
 
-        cancelOptions = new JButton("Cancel");
+        JButton cancelOptions = new JButton("Cancel");
         cancelOptions.setFont(planetBenson14);
         cancelOptions.addActionListener(new ActionListener() {
 
@@ -481,7 +478,7 @@ public class Layout1 extends JFrame {
 
         themeBox = new JComboBox();
         themeBox.setFont(segoePrint12);
-        themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Bomberman"}));
+        themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Star Wars"}));
 
         JLabel volumeTitle = new JLabel("Volume");
         volumeTitle.setFont(new Font("Segoe Print", 0, 14));
@@ -494,17 +491,9 @@ public class Layout1 extends JFrame {
         somPanel.add(volumeSlider, new AbsoluteConstraints(110, 140, -1, -1));
 
         //buttons
-        JButton apply = new JButton("Apply");
-        apply.setFont(planetBenson14);
-        apply.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent event) {
-                SoundEffect.setGlobalVolume(volumeSlider.getValue());
-                func_initial();
-            }
-        });
-
-
+        applySom = new JButton("Apply");
+        applySom.setFont(planetBenson14);
+        
         JButton cancel = new JButton("Cancel");
         cancel.setFont(planetBenson14);
         cancel.addActionListener(new ActionListener() {
@@ -513,7 +502,7 @@ public class Layout1 extends JFrame {
                 func_initial();
             }
         });
-        somPanel.add(apply, new AbsoluteConstraints(60, 280, -1, -1));
+        somPanel.add(applySom, new AbsoluteConstraints(60, 280, -1, -1));
         somPanel.add(cancel, new AbsoluteConstraints(180, 280, -1, -1));
 
     }
@@ -672,7 +661,7 @@ public class Layout1 extends JFrame {
         add(base, new AbsoluteConstraints(0, 0));
         pack();
         setTitle("Tetris");
-        setSize(330, 480);
+        setSize(330, 490);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);
@@ -848,6 +837,13 @@ public class Layout1 extends JFrame {
 
     public int[] getConfigChange() {
         return keys;
+    }
+    public int getSomVolume() {
+        return volumeSlider.getValue();
+    }
+     public int getSomTheme() {
+        System.out.println(themeBox.getSelectedIndex());
+        return themeBox.getSelectedIndex();
     }
 
     private void func_pause() {
@@ -1139,6 +1135,9 @@ public class Layout1 extends JFrame {
     public static void addConfigChanger(ActionListener newConfigChanger) {
         applyOptions.addActionListener(newConfigChanger);
     }
+    public static void addSomChanger(ActionListener newSomChanger) {
+        applySom.addActionListener(newSomChanger);
+    }
 
     public void setPlayerList(Set<PlayerDescriptor> set) {
         ((DefaultListModel) (playersList.getModel())).removeAllElements();
@@ -1146,17 +1145,6 @@ public class Layout1 extends JFrame {
             ((DefaultListModel) (playersList.getModel())).addElement(pd);
         }
         System.out.println("MUDEOU!!!!");
-    }
-
-    public static void main(String[] args) {
-
-        SwingUtilities.invokeLater(new Runnable() {
-
-            public void run() {
-                Layout1 ex = new Layout1();
-                ex.setVisible(true);
-            }
-        });
     }
 
     public boolean getMouseControler() {

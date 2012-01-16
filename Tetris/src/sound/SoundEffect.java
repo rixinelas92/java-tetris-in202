@@ -20,9 +20,22 @@ import javax.sound.sampled.*;
  */
 public enum SoundEffect {
 
-    THEME("testTheme.wav"), // explosion
-    ERASE("eraseLineSound.wav"), // gong
-    FALL("fallDownSound.wav");        // bullet
+    CTHEME("ClassicTheme.wav"),      // explosion
+    CERASE("ClassicErase.wav"),      // gong
+    CFALL("ClassicFall.wav"),        // bullet
+    MTHEME("Mariotheme.wav"),      // explosion
+    MERASE("MarioErase.wav"),      // gong
+    MFALL("MarioFall.wav"),  
+    MGAMEOVER5("MarioGameover.wav"),
+    MPAUSE("MarioPause.wav"),      // explosion
+    PERASE("PacmanErase.wav"),      // gong
+    PFALL("PacmanFallt.wav"),  
+    PGAMEOVER5("Pacmangameover.wav"),
+    PPAUSE("PacmanPause.wav"),
+    STHEME("StarwarsTheme.wav"),      // explosion
+    SERASE("StarwarsErase.wav"),      // gong
+    SFALL("StarwarsFall.wav"),    
+    NOTHING("Nothing .wav");  
     // Nested class for specifying volume
     // Each sound effect has its own clip, loaded with its own sound file.
     private Clip clip;
@@ -83,6 +96,9 @@ public enum SoundEffect {
 
     public void setLoop() {
         clip.loop(clip.LOOP_CONTINUOUSLY);
+    }
+    public void setStop(){
+        clip.stop();
     }
 
     // Optional static method to pre-load all the sound files.

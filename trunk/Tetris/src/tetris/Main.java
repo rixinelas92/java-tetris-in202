@@ -31,12 +31,13 @@ public class Main {
     static Game game;
     static Client internet;
     static String playerName = "TetrisPlayer";
+    private static SoundEffect themeSom=SoundEffect.CTHEME;;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       
+
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
@@ -45,12 +46,20 @@ public class Main {
                 game = new Game();
                 Layout1.addGameViewReady(game.new GameViewReadyListener());
                 Layout1.addConfigChanger(new ActionListener() {
+
                     public void actionPerformed(ActionEvent event) {
                         ConfigChanger();
                     }
                 });
+                Layout1.addSomChanger(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent event) {
+                        SomChanger();
+                    }
+                });
+                game.setSomTheme(0);
                 try {
-                    SoundEffect.THEME.setLoop();
+                    themeSom.setLoop();
                 } catch (Exception e) {
                 }
             }
@@ -65,10 +74,11 @@ public class Main {
     public static void setNewPiece() {
         screen.newPiece(game.getCurrentPiecePositions(), game.getNextPiecePositions(), game.getNextPieceColorName());
     }
+
     public static void setHold() {
-        screen.holdPiece(game.getCurrentPiecePositions(), game.getHoldPiecePositions(),game.getCurrentPieceColorName());
+        screen.holdPiece(game.getCurrentPiecePositions(), game.getHoldPiecePositions(), game.getCurrentPieceColorName());
     }
-    
+
     public static void setFirstHold() {
         screen.holdFirstPiece(game.getHoldPiecePositions());
     }
@@ -89,7 +99,8 @@ public class Main {
         screen.addMouseMotionListener(c);
         screen.addMouseListener(c);
     }
-    public static void removeListeners(){
+
+    public static void removeListeners() {
         screen.removeKeyListener(game);
         screen.removeMouseMotionListener(game);
         screen.removeMouseListener(game);
@@ -116,19 +127,23 @@ public class Main {
         screen.requestFocusInWindow();
         screen.clock.togglePause();
     }
-    public static void pauseGame(){
+
+    public static void pauseGame() {
         game.pauseGame();
-        if(screen != null && screen.clock != null)
+        if (screen != null && screen.clock != null) {
             screen.clock.pauseScreen();
+        }
     }
 
     static void setPointsAndLevel(int points, int level, int pointsToNextLevel) {
         screen.setScore(points, level, 0, pointsToNextLevel);
     }
-    public static void restart1pScreen(){
+
+    public static void restart1pScreen() {
         screen.restart1pScreen();
     }
-    public static void start2pConnection(){
+
+    public static void start2pConnection() {
 
         try {
             internet = new ClientImpl("localhost", playerName);
@@ -140,7 +155,7 @@ public class Main {
         }
     }
 
-    public static void requestMatchWith(PlayerDescriptor pd){
+    public static void requestMatchWith(PlayerDescriptor pd) {
         try {
             internet.requestMatchWith(((Integer) pd.getId()).toString());
         } catch (IOException ex) {
@@ -149,19 +164,17 @@ public class Main {
 
     }
 
-    public static void showGameOverAndReturnToNewGame(){
+    public static void showGameOverAndReturnToNewGame() {
         Main.removeListeners();
         JLabel go = screen.showGameOver();
-  //      try{
-  //          Thread.sleep(5000);
-  //      }catch(Exception e){}
-  //      screen.removeGameOver(go);
-  //      screen.func_newgame();
+        //      try{
+        //          Thread.sleep(5000);
+        //      }catch(Exception e){}
+        //      screen.removeGameOver(go);
+        //      screen.func_newgame();
     }
 
-
-    static class ClientImpl extends Client{
-
+    static class ClientImpl extends Client {
 
         HashSet<PlayerDescriptor> playerSet;
 
@@ -187,7 +200,7 @@ public class Main {
                 PlayerDescriptor pd = new PlayerDescriptor(name, state, key);
                 playerSet.add(pd);
             }
-            while(screen ==  null){
+            while (screen == null) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex) {
@@ -200,7 +213,7 @@ public class Main {
         public void receiveMatchRequest(String uid) throws IOException {
 
             int response = JOptionPane.showConfirmDialog(screen, "Game Request From User " + uid + "\n Do you Accept?", "dd", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            if(response == JOptionPane.OK_OPTION){
+            if (response == JOptionPane.OK_OPTION) {
                 acceptMatchWith(uid);
             }
 
@@ -241,15 +254,16 @@ public class Main {
                 values.add(key);
             }
             Integer[] v;
-            v = (Integer[])values.toArray(new Integer[values.size()]);
+            v = (Integer[]) values.toArray(new Integer[values.size()]);
             boolean[][] desc = Game.getGameDescWithMask(v);
             screen.set2pScreenGame(desc);
         }
 
         @Override
         protected int[] returnBoard() {
-            if(game == null)
+            if (game == null) {
                 return new int[0];
+            }
             return game.getGameMask();
         }
     }
@@ -257,5 +271,25 @@ public class Main {
     public static void ConfigChanger() {
         game.setControllers(screen.getConfigChange());
         game.setMouseController(screen.getMouseControler());
+    }
+
+    public static void SomChanger() {
+        SoundEffect.setGlobalVolume(screen.getSomVolume());
+        int aux = screen.getSomTheme();
+        themeSom.setStop();
+        if (aux == 0) {
+            themeSom = SoundEffect.CTHEME;
+        }
+        if (aux == 1) {
+            themeSom = SoundEffect.MTHEME;
+        }
+        if (aux == 2) {
+            themeSom = SoundEffect.NOTHING;
+        }
+        if (aux == 3) {
+            themeSom = SoundEffect.STHEME;
+        }
+        themeSom.setLoop();
+        game.setSomTheme(aux);
     }
 }

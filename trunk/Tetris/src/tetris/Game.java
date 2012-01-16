@@ -41,6 +41,7 @@ public class Game extends Controller implements ActionListener {
     int points;
     int level;
     int pieceSize = 19;
+    SoundEffect fallSom, eraseSom, gameoverSom, pauseSom;
 
     /**
      * It determines the dead line to the game in according to the level.
@@ -182,6 +183,7 @@ public class Game extends Controller implements ActionListener {
         timer.start();
         isStarted = true;
 
+
     }
 
     /**
@@ -231,19 +233,21 @@ public class Game extends Controller implements ActionListener {
         try {
             currentPiece.rotation();
         } catch (NotAvailablePlaceForPieceException ex) {
-            for(int i = 0;i<2;i++){
+            for (int i = 0; i < 2; i++) {
                 try {
                     short x = currentPiece.getX();
-                    x-=i+1;
+                    x -= i + 1;
                     currentPiece.setXandRotate(x);
                     break;
-                } catch (Exception ex1) {}
+                } catch (Exception ex1) {
+                }
                 try {
                     short x = currentPiece.getX();
-                    x+=i+1;
+                    x += i + 1;
                     currentPiece.setXandRotate(x);
                     break;
-                } catch (Exception ex1) {}
+                } catch (Exception ex1) {
+                }
             }
         }
     }
@@ -364,6 +368,7 @@ public class Game extends Controller implements ActionListener {
                 System.out.println("ACABOU OUTRA VEZ!!!");
                 Main.pauseGame();
                 Main.showGameOverAndReturnToNewGame();
+                gameoverSom.play();
                 return;
             } catch (OutOfScreenBoundsException ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
@@ -374,11 +379,11 @@ public class Game extends Controller implements ActionListener {
             } catch (OutOfScreenBoundsException ex) {
                 System.out.println("Cant Floor");
                 isFallingFinished = true;
-                SoundEffect.FALL.play();
+                fallSom.play();
             } catch (NotAvailablePlaceForPieceException ex) {
                 System.out.println("Cant Piece");
                 isFallingFinished = true;
-                SoundEffect.FALL.play();
+                fallSom.play();
             }
             if (isFallingFinished) {
                 Position[] all = currentPiece.getAllPosition();
@@ -395,6 +400,7 @@ public class Game extends Controller implements ActionListener {
             if (isFinished) {
                 Main.pauseGame();
                 Main.showGameOverAndReturnToNewGame();
+                gameoverSom.play();
                 isStarted = false;
                 return;
             }
@@ -407,7 +413,7 @@ public class Game extends Controller implements ActionListener {
                     break;
                 }
                 screen.removeLine(lineC);
-                SoundEffect.ERASE.play();
+                eraseSom.play();
                 Main.callScreenRemoveLine(lineC);
                 numLinesFull++;
             }
@@ -489,33 +495,36 @@ public class Game extends Controller implements ActionListener {
 
     void pauseGame() {
         isPaused = true;
+        pauseSom.play();
     }
 
-
-    public int[] getGameMask(){
-        if(!isStarted)
+    public int[] getGameMask() {
+        if (!isStarted) {
             return new int[0];
+        }
         int[] mask = new int[Screen.SIZE_X];
-        for(int i = 0;i<Screen.SIZE_X;i++)
-            for(int j = 0;j<Screen.SIZE_Y;j++){
-                try{
-                    mask[i] |= (screen.getBoxAt((short)i,(short) j).isFull())?(1<<j):0;
-                }catch(Exception e){
+        for (int i = 0; i < Screen.SIZE_X; i++) {
+            for (int j = 0; j < Screen.SIZE_Y; j++) {
+                try {
+                    mask[i] |= (screen.getBoxAt((short) i, (short) j).isFull()) ? (1 << j) : 0;
+                } catch (Exception e) {
                 }
             }
+        }
         Position[] pos = currentPiece.getAllPosition();
-        for(Position p:pos){
-            mask[p.getX()] |= (1<<p.getY());
+        for (Position p : pos) {
+            mask[p.getX()] |= (1 << p.getY());
         }
         return mask;
     }
-    
-    static public boolean[][] getGameDescWithMask(Integer[] mask){
+
+    static public boolean[][] getGameDescWithMask(Integer[] mask) {
         boolean[][] desc = new boolean[Screen.SIZE_X][Screen.SIZE_Y];
-        for(int i = 0;i<Screen.SIZE_X;i++)
-            for(int j = 0;j<Screen.SIZE_Y;j++){
-                desc[i][j] = (mask[i]&(1<<j))>0;
+        for (int i = 0; i < Screen.SIZE_X; i++) {
+            for (int j = 0; j < Screen.SIZE_Y; j++) {
+                desc[i][j] = (mask[i] & (1 << j)) > 0;
             }
+        }
         return desc;
     }
 
@@ -529,5 +538,31 @@ public class Game extends Controller implements ActionListener {
         }
     }
 
+    public void setSomTheme(int somTheme) {
 
+        if (somTheme == 0) {
+            fallSom = SoundEffect.CFALL;
+            eraseSom = SoundEffect.CERASE;
+            gameoverSom = SoundEffect.NOTHING;
+            pauseSom = SoundEffect.NOTHING;
+        }
+        if (somTheme == 1) {
+            fallSom = SoundEffect.MFALL;
+            eraseSom = SoundEffect.MERASE;
+            gameoverSom = SoundEffect.MGAMEOVER5;
+            pauseSom = SoundEffect.MPAUSE;
+        }
+        if (somTheme == 2) {
+            fallSom = SoundEffect.PFALL;
+            eraseSom = SoundEffect.PERASE;
+            gameoverSom = SoundEffect.PGAMEOVER5;
+            pauseSom = SoundEffect.PPAUSE;
+        }
+        if (somTheme == 3) {
+            fallSom = SoundEffect.SFALL;
+            eraseSom = SoundEffect.SERASE;
+            gameoverSom = SoundEffect.NOTHING;
+            pauseSom = SoundEffect.NOTHING;
+        }
+    }
 }

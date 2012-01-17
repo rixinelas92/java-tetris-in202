@@ -31,7 +31,7 @@ public class Main {
     static Game game;
     static Client internet;
     static String playerName = "TetrisPlayer";
-    private static SoundEffect themeSom=SoundEffect.CTHEME;
+    private static SoundEffect themeSom = SoundEffect.CTHEME;
 
     /**
      * @param args the command line arguments
@@ -57,9 +57,11 @@ public class Main {
                         SomChanger();
                     }
                 });
-                game.setSomTheme(0);
+                game.setSomTheme(4);
                 try {
-                    themeSom.setLoop();
+                    if (themeSom != null) {
+                        themeSom.setLoop();
+                    }
                 } catch (Exception e) {
                 }
             }
@@ -71,9 +73,10 @@ public class Main {
         screen.setPiecePosition(game.getCurrentPiecePositions());
         screen.setShadowPosition(game.getShadowPiecePositions());
     }
+
     public static void updateShadowPositions() {
 
-       screen.setShadowPosition(game.getShadowPiecePositions());
+        screen.setShadowPosition(game.getShadowPiecePositions());
     }
 
     public static void setNewPiece() {
@@ -285,15 +288,15 @@ public class Main {
         themeSom.setStop();
         if (aux == 0) {
             themeSom = SoundEffect.CTHEME;
-        }
-        if (aux == 1) {
+        } else if (aux == 1) {
             themeSom = SoundEffect.NOTHING;
-        }
-        if (aux == 2) {
+        } else if (aux == 2) {
             themeSom = SoundEffect.NOTHING;
-        }
-        if (aux == 3) {
+        } else if (aux == 3) {
             themeSom = SoundEffect.STHEME;
+        }
+        if (aux == 4) {
+            themeSom = SoundEffect.NOTHING;
         }
         themeSom.setLoop();
         game.setSomTheme(aux);

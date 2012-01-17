@@ -242,9 +242,6 @@ public class Game extends Controller implements ActionListener {
     public String getNextPieceColorName() {
         return nextPiece.getColorName();
     }
-    public String getColorOfPosition(int x, int y) {
-        return screen.getBoxAt((short)x,(short) y).getColor().toString();
-    }
 
     /**
      * Executes rotation of the piece if it is possible.
@@ -356,7 +353,9 @@ public class Game extends Controller implements ActionListener {
 
     public void stopToggleVariable() {
         isPaused = !isPaused;
-        pauseSom.play();
+        if (pauseSom != null) {
+            pauseSom.play();
+        }
     }
 
     @Override
@@ -410,7 +409,9 @@ public class Game extends Controller implements ActionListener {
                 System.out.println("ACABOU OUTRA VEZ!!!");
                 Main.pauseGame();
                 Main.showGameOverAndReturnToNewGame();
-                gameoverSom.play();
+                if (pauseSom != null) {
+                    gameoverSom.play();
+                }
                 return;
             } catch (OutOfScreenBoundsException ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
@@ -421,11 +422,15 @@ public class Game extends Controller implements ActionListener {
             } catch (OutOfScreenBoundsException ex) {
                 System.out.println("Cant Floor");
                 isFallingFinished = true;
-                fallSom.play();
+                if (pauseSom != null) {
+                    fallSom.play();
+                }
             } catch (NotAvailablePlaceForPieceException ex) {
                 System.out.println("Cant Piece");
                 isFallingFinished = true;
-                fallSom.play();
+                if (pauseSom != null) {
+                    fallSom.play();
+                }
             }
             if (isFallingFinished) {
                 Position[] all = currentPiece.getAllPosition();
@@ -442,7 +447,9 @@ public class Game extends Controller implements ActionListener {
             if (isFinished) {
                 Main.pauseGame();
                 Main.showGameOverAndReturnToNewGame();
-                gameoverSom.play();
+                if (pauseSom != null) {
+                    gameoverSom.play();
+                }
                 isStarted = false;
                 return;
             }
@@ -455,7 +462,9 @@ public class Game extends Controller implements ActionListener {
                     break;
                 }
                 screen.removeLine(lineC);
-                eraseSom.play();
+                if (pauseSom != null) {
+                    eraseSom.play();
+                }
                 Main.callScreenRemoveLine(lineC);
                 numLinesFull++;
             }
@@ -608,6 +617,12 @@ public class Game extends Controller implements ActionListener {
             eraseSom = SoundEffect.SERASE;
             gameoverSom = SoundEffect.NOTHING;
             pauseSom = SoundEffect.NOTHING;
+        }
+        if (somTheme == 4) {
+            fallSom = null;
+            eraseSom = null;
+            gameoverSom = null;
+            pauseSom = null;
         }
     }
 }

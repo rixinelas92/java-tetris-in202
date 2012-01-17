@@ -242,6 +242,9 @@ public class Game extends Controller implements ActionListener {
     public String getNextPieceColorName() {
         return nextPiece.getColorName();
     }
+    public String getColorOfPosition(int x, int y) {
+        return screen.getBoxAt((short)x,(short) y).getColor().toString();
+    }
 
     /**
      * Executes rotation of the piece if it is possible.

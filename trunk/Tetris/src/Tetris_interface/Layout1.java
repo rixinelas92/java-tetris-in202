@@ -1421,10 +1421,10 @@ public class Layout1 extends JFrame {
                 for (int j = 0; j < Screen.SIZE_Y; j++) {
                     if (this.isFilled[i][j] != isFilled[i][j]) {
                         if (isFilled[i][j]) {
-                            g2.setColor(Color.yellow);
+                            g2.setColor(Color.WHITE);
                             g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
                         } else {
-                            g2.setColor(Color.RED);
+                            g2.setColor(Color.WHITE);
                             g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
                         }
                         this.isFilled[i][j] = isFilled[i][j];

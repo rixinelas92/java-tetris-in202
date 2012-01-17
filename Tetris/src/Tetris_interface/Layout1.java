@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -18,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.VolatileImage;
 import java.util.Random;
 import java.util.Set;
 import javax.swing.Timer;
@@ -80,6 +82,7 @@ public class Layout1 extends JFrame {
     private JLabel scoreLabel;
     private JLabel timeLabel;
     private SmallTetrisCanvas secondPlayerScreen;
+
     /**
      * Initialize the configuration of the screen.
      */
@@ -99,6 +102,7 @@ public class Layout1 extends JFrame {
         holdPiece = new JLabelCont[4];
         shadowPiece = new JLabelCont[4];
     }
+
     /**
      * The following methods create the panel that will be used.
      */
@@ -130,6 +134,7 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
+
     /**
      * Initialize the main screen, configuring the way in wich the icons are 
      * displayed in the initial screen and managing the action on theese icons.
@@ -162,6 +167,7 @@ public class Layout1 extends JFrame {
             close.setBorderPainted(false);
             //Managing the actions on the icons.
             newgame.addActionListener(new ActionListener() {
+
                 /**
                  * Method to manager the button new game.
                  */
@@ -170,6 +176,7 @@ public class Layout1 extends JFrame {
                 }
             });
             config.addActionListener(new ActionListener() {
+
                 /**
                  * Method to manager the button confiration.
                  */
@@ -178,6 +185,7 @@ public class Layout1 extends JFrame {
                 }
             });
             som.addActionListener(new ActionListener() {
+
                 /**
                  * Method to manager the button sound.
                  */
@@ -186,6 +194,7 @@ public class Layout1 extends JFrame {
                 }
             });
             close.addActionListener(new ActionListener() {
+
                 /**
                  * Method to manager the button exit.
                  */
@@ -203,6 +212,7 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
+
     /**
      * Configuring, managing actions and setting the game's presentation screen.
      */
@@ -230,6 +240,7 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
+
     /**
      * Configuring, managing actions and setting the selection screen.
      */
@@ -240,6 +251,7 @@ public class Layout1 extends JFrame {
         JSeparator separator = new JSeparator();
         JButton player1 = new JButton("1 Player");
         player1.addActionListener(new ActionListener() {
+
             /**
              * Method to manager the button 1 player.
              */
@@ -250,6 +262,7 @@ public class Layout1 extends JFrame {
         });
         JButton player2 = new JButton("2 Players");
         player2.addActionListener(new ActionListener() {
+
             /**
              * Method to manager the button 2 players.
              */
@@ -262,6 +275,7 @@ public class Layout1 extends JFrame {
         selectionPanel.add(player1, new AbsoluteConstraints(2, 55, 320, 130));
         selectionPanel.add(player2, new AbsoluteConstraints(2, 182, 320, 130));
     }
+
     /**
      * Configuring, managing actions and setting the options screen.
      */
@@ -444,6 +458,7 @@ public class Layout1 extends JFrame {
             }
         });
     }
+
     /**
      * Configuring, managing actions and setting the sound screen.
      */
@@ -459,7 +474,7 @@ public class Layout1 extends JFrame {
         themeTitle.setFont(new Font("Segoe Print", 0, 14));
         themeBox = new JComboBox();
         themeBox.setFont(segoePrint12);
-        themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Star Wars","Silence"}));
+        themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Star Wars", "Silence"}));
         JLabel volumeTitle = new JLabel("Volume");
         volumeTitle.setFont(new Font("Segoe Print", 0, 14));
         volumeSlider = new JSlider();
@@ -473,6 +488,7 @@ public class Layout1 extends JFrame {
         JButton cancel = new JButton("Cancel");
         cancel.setFont(planetBenson14);
         cancel.addActionListener(new ActionListener() {
+
             /**
              * Method to manager the buttons apply and cancel to return the initial 
              * screen after configuration of the keys.
@@ -484,6 +500,7 @@ public class Layout1 extends JFrame {
         somPanel.add(applySom, new AbsoluteConstraints(60, 280, -1, -1));
         somPanel.add(cancel, new AbsoluteConstraints(180, 280, -1, -1));
     }
+
     /**
      * Configuring, managing actions and setting the screen to one player.
      */
@@ -539,6 +556,7 @@ public class Layout1 extends JFrame {
         JButton pauseButton = new JButton("Pause");
         pauseButton.setFont(planetBenson14);
         pauseButton.addActionListener(new ActionListener() {
+
             /**
              * Method to manager the button pause.
              */
@@ -549,6 +567,7 @@ public class Layout1 extends JFrame {
         JButton restartButton = new JButton("Restart");
         restartButton.setFont(planetBenson14);
         restartButton.addActionListener(new ActionListener() {
+
             /**
              * Method to manager the button restart.
              */
@@ -568,6 +587,7 @@ public class Layout1 extends JFrame {
         game1pPanel.setComponentZOrder(gameover, 0);
         gameover.setVisible(false);
     }
+
     /**
      * Configuring, managing actions and setting the screen to two players.
      */
@@ -589,6 +609,7 @@ public class Layout1 extends JFrame {
         // JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
         // game2pPanel.add(menu, new AbsoluteConstraints(0, 0));
     }
+
     /**
      * This method allows to set the base of panel, calling basic panels and hiding
      * others that we are not interested in the moment.
@@ -623,6 +644,7 @@ public class Layout1 extends JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);
     }
+
     /**
      * This method sets the painel in the initial screen. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -636,6 +658,7 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
     }
+
     /**
      * This method sets the painel in the selection screen. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -649,6 +672,7 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
     }
+
     /**
      * This method sets the painel in the configuration screen. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -664,6 +688,7 @@ public class Layout1 extends JFrame {
         Main.pauseGame();
         Main.removeListeners();
     }
+
     /**
      * This method sets the painel in the sound's configuration screen. Making 
      * visible panels that we are interested and hiding - setvisible(false)- those 
@@ -679,6 +704,7 @@ public class Layout1 extends JFrame {
         Main.pauseGame();
         Main.removeListeners();
     }
+
     /**
      * This method sets the painel configured to one player. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -695,6 +721,7 @@ public class Layout1 extends JFrame {
             gameViewReady.actionPerformed(null);
         }
     }
+
     /**
      * This method sets the painel configured to two players. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -708,6 +735,7 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(true);
     }
+
     /**
      * This method sets the painel to two players. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -725,6 +753,7 @@ public class Layout1 extends JFrame {
         secondPlayerScreen.setVisible(is2PlayerGame);
     }
     // ########################################################
+
     /**
      * Configures the keys fo the game.
      * @param keyNumber index of the key.
@@ -759,6 +788,7 @@ public class Layout1 extends JFrame {
             }
         }
     }
+
     /**
      *
      * @param keyNumber
@@ -769,11 +799,13 @@ public class Layout1 extends JFrame {
 
             int keyNumber;
             JTextField field;
+
             /**
              * Method that must be implemented but without executing anything.
              */
             public void keyTyped(KeyEvent ke) {
             }
+
             /**
              * Default setter of the parameters <em>keyNumber</em> and <field</em>.
              */
@@ -782,6 +814,7 @@ public class Layout1 extends JFrame {
                 this.field = field;
                 return this;
             }
+
             /**
              * Analises the key pressed and sets the key in the index keyNumber
              * in according with it.
@@ -793,11 +826,13 @@ public class Layout1 extends JFrame {
                 removeKeyListener(this);
                 checkAndIfCaseSetOtherKeyOnConfig(keyNumber, ke.getKeyCode());
             }
+
             /**
              * Method that must be implemented but without executing anything.
              */
             public void keyReleased(KeyEvent ke) {
             }
+
             @Override
             /**
              * Defalut getter of the parameter <em>keyNumber</em>.
@@ -805,12 +840,13 @@ public class Layout1 extends JFrame {
             public int hashCode() {
                 return keyNumber;
             }
+
             @Override
             @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
             /**
              * Checks if there is another key already setted for the same action.
              */
-            public boolean equals(Object o){
+            public boolean equals(Object o) {
                 if (!this.getClass().isInstance(o)) {
                     return false;
                 }
@@ -825,6 +861,7 @@ public class Layout1 extends JFrame {
         field.setBackground(Color.yellow);
         requestFocusInWindow();
     }
+
     /**
      * Implements the function exit.
      */
@@ -833,6 +870,7 @@ public class Layout1 extends JFrame {
         Main.saveProp();
         System.exit(0);
     }
+
     /**
      * Default getter of the chagement of configurations.
      * @return the keys configureted.
@@ -840,6 +878,7 @@ public class Layout1 extends JFrame {
     public Integer[] getConfigChange() {
         return keys;
     }
+
     /**
      * Default getter of the sound volume.
      * @return the actual value of the sound.
@@ -852,18 +891,18 @@ public class Layout1 extends JFrame {
         return playerName.getText();
     }
 
-
-    public void setUserName(String str){
+    public void setUserName(String str) {
         playerName.setText(str);
     }
 
-    public void setIP(String str){
+    public void setIP(String str) {
         ipName.setText(str);
     }
-    
+
     public int getSomVolume() {
         return volumeSlider.getValue();
     }
+
     /**
      * Default getter of the theme sound.
      * @return the actual theme of the sound.
@@ -872,12 +911,14 @@ public class Layout1 extends JFrame {
         System.out.println(themeBox.getSelectedIndex());
         return themeBox.getSelectedIndex();
     }
+
     /**
      * Implements the function pause.
      */
     private void func_pause() {
         Main.togglePause();
     }
+
     /**
      * Implements the function pause.
      */
@@ -887,6 +928,7 @@ public class Layout1 extends JFrame {
             gameViewReady.actionPerformed(null);
         }
     }
+
     /**
      * Default setter of the piece position, updating the new coordinates.
      * @param newPiece definies the coordinates of each box of the newpiece.
@@ -910,6 +952,7 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
     }
+
     /**
      * Deafult getter of the string with an relative path corresponding with
      * the parameter <em>color</em>.
@@ -925,9 +968,11 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
     }
+
     public String getStringForColor(String color) {
         return "imgs/" + color + r.nextInt(5) + ".png";
     }
+
     /**
      * Reconfigures the one player screen in according to the action restart.
      */
@@ -945,6 +990,7 @@ public class Layout1 extends JFrame {
         nextPiece = new JLabelCont[4];
         removeGameOver(gameover);
     }
+
     /**
      * Generates the image of the new piece in the screen
      * @param newpiece defines the parameters of the new piece.
@@ -956,6 +1002,7 @@ public class Layout1 extends JFrame {
         }
         setNextPiecePosition(newpiece);
     }
+
     /**
      * Implements the case 'Game over', setting the panels game one player and
      * and game over: visible.
@@ -967,6 +1014,7 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(true);
         return gameover;
     }
+
     /**
      * Removes the panel configured to game, preparing the screen to another
      * cofiguration, restart for example.
@@ -979,6 +1027,7 @@ public class Layout1 extends JFrame {
             gameover.setVisible(false);
         }
     }
+
     /**
      * Creates the interface with the user showing the generated logical piece
      * in the screen with its features already defined.
@@ -1014,17 +1063,18 @@ public class Layout1 extends JFrame {
             for (int i = 0; i < 4; i++) {
                 gameNext1pPanel.remove(currentPiece[i]);
             }
-        //Add one new piece in NextPiece box
+            //Add one new piece in NextPiece box
         }
         for (int i = 0; i < 4; i++) {
             nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(colorPiece))));
-            shadowPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(shadowColor))));
+            shadowPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor("shadow"))));//shadowColor))));
         }
         setNextPiecePosition(newPosNextPiece);
         Main.updateShadowPositions();
         toggleVisiblePropOnGame();
     }
     //#######################################################"
+
     /**
      * Default setter of the position of the next piece.
      * @param newPosNextPiece defines the positons of the next piece.
@@ -1041,6 +1091,7 @@ public class Layout1 extends JFrame {
         }
     }
     //####################################################"
+
     /**
      * Updates the holdPiece and the nextPiece, in according to the generation of
      * the new pieces.
@@ -1085,6 +1136,7 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
     }
+
     /**
      * Default setter of the position of the newPosHoldPiece.
      * @param newPosHoldPiece defines the parameters 
@@ -1102,6 +1154,7 @@ public class Layout1 extends JFrame {
         }
     }
     //##################################################
+
     /**
      *
      * @param newPosHoldPiece
@@ -1126,15 +1179,17 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
     }
+
     /**
      * Removes the specified line of the screen.
      * @param line specifies the line to be removed.
      */
     public void eraseLine(int line) {
-        if(shadowPiece != null && shadowPiece[0] != null)
+        if (shadowPiece != null && shadowPiece[0] != null) {
             for (int i = 0; i < 4; i++) {
                 shadowPiece[i].setVisible(false);
             }
+        }
         //Lines begin in 0.
         int i, j;
         for (j = screenHeight - 1; j >= 0; j--) {
@@ -1176,6 +1231,7 @@ public class Layout1 extends JFrame {
         }
         toggleVisiblePropOnGame();
     }
+
     /**
      * Sets the panel prepared to the game.
      */
@@ -1185,6 +1241,7 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
     }
+
     /**
      * Sets the score, the level and the score bar in screen with updated values.
      * @param newScore defines the actual value of the score.
@@ -1198,6 +1255,7 @@ public class Layout1 extends JFrame {
         level.setText("Level:" + newLevel);
         scoreBar.setValue((newScore - scoreMin) * 100 / (scoreMax - scoreMin));
     }
+
     /**
      * Default setter of listeners to the keys configured to the actions.
      * @param newListener defines the key to be observed.
@@ -1205,6 +1263,7 @@ public class Layout1 extends JFrame {
     public void setKeyListener(KeyListener newListener) {
         gameScreen1pPanel.addKeyListener(newListener);
     }
+
     /**
      * Default setter of listeners to the mouse actions.
      * @param newListener defines the mouse to be observed.
@@ -1212,6 +1271,7 @@ public class Layout1 extends JFrame {
     public void setMouseListener(MouseListener newListener) {
         gameScreen1pPanel.addMouseListener(newListener);
     }
+
     /**
      * Default setter of listeners to the mouse actions.
      * @param newListener defines the mouse to be observed.
@@ -1220,14 +1280,17 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.addMouseMotionListener(newListener);
     }
     //Internal use funcition.
+
     private int xPos(int newX) {
         return newX * pieceSize;
     }
+
     private int yPos(int newY) {
         newY++;
         return gameScreen1pPanel.getHeight() - newY * pieceSize;
     }
     //############################################################"
+
     /**
      *
      */
@@ -1235,6 +1298,7 @@ public class Layout1 extends JFrame {
         gameViewReady = newGameViewReady;
     }
     //############################################################"
+
     /**
      *
      */
@@ -1242,12 +1306,14 @@ public class Layout1 extends JFrame {
         applyOptions.addActionListener(newConfigChanger);
     }
     //############################################################"
+
     /**
      *
      */
     public static void addSomChanger(ActionListener newSomChanger) {
         applySom.addActionListener(newSomChanger);
     }
+
     /**#########################################################
     /**
      *
@@ -1260,6 +1326,7 @@ public class Layout1 extends JFrame {
         }
         System.out.println("MUDEOU!!!!");
     }
+
     /**
      * Checks if the mouse was selected like control.
      * @return true if it was selected.
@@ -1268,22 +1335,27 @@ public class Layout1 extends JFrame {
         return mouseBox.isSelected();
     }
     //Esta chamando um metodo que esta defino embaixo, checar depois
+
     /**
      * Checks
      * @param isFilled
      */
-    public void set2pScreenGame(boolean[][] isFilled) {
+    public void set2pScreenGame(int[] isFilled) {
         secondPlayerScreen.setIsFilled(isFilled);
     }
+
     /**
      * Default inner of the class JLabel.
      */
     public class JLabelCont extends JLabel {
+
         int x = -1;
         int y = -1;
+
         private JLabelCont(ImageIcon imageIcon) {
             super(imageIcon);
         }
+
         /**
          * Default setter of the coordinates of the positon.
          * @param x defines the coordinate x.
@@ -1293,6 +1365,7 @@ public class Layout1 extends JFrame {
             this.x = x;
             this.y = y;
         }
+
         /**
          * Default getter of the coordinate x.
          * @return the value of the coordinate.
@@ -1304,6 +1377,7 @@ public class Layout1 extends JFrame {
             }
             return x;
         }
+
         /**
          * Default getter of the coordinate y.
          * @return the value of the coordinate.
@@ -1316,13 +1390,16 @@ public class Layout1 extends JFrame {
             return y;
         }
     }
+
     /**
      * Default inner to the class ActionListener.
      */
     public class Clock implements ActionListener {
+
         Timer timer;
         long time;
         static final int delay = 500;
+
         /**
          * Creates a new clock with parameters defined by default.
          */
@@ -1331,6 +1408,7 @@ public class Layout1 extends JFrame {
             time = 0;
             timer.start();
         }
+
         /**
          * Resets the parameters of the clock and updates the time passed.
          */
@@ -1340,6 +1418,7 @@ public class Layout1 extends JFrame {
             timePassed.setText(String.format("%1$tM:%1$tS", time, time));
         }
         //############################################################
+
         /**
          *
          * @param ae
@@ -1348,6 +1427,7 @@ public class Layout1 extends JFrame {
             time += delay;
             timePassed.setText(String.format("%1$tM:%1$tS", time, time));
         }
+
         /**
          * Implements the case pause in the timer. If the game is stopped, it restarts
          * or it stops if it is was running.
@@ -1359,6 +1439,7 @@ public class Layout1 extends JFrame {
                 timer.stop();
             }
         }
+
         /**
          * Implements the pause in the reference of the time to the screen -timer-
          * and with this, it stops to be updated.
@@ -1367,6 +1448,7 @@ public class Layout1 extends JFrame {
             timer.stop();
         }
     }
+
     /**
      * Inner of the class Jlabel.
      */
@@ -1388,11 +1470,10 @@ public class Layout1 extends JFrame {
          */
         public Component getListCellRendererComponent(
                 JList list,
-                Object value, 
-                int index, 
+                Object value,
+                int index,
                 boolean isSelected,
-                boolean cellHasFocus) 
-        {
+                boolean cellHasFocus) {
             PlayerDescriptor player = (PlayerDescriptor) value;
             String s = value.toString();
             setText(s);
@@ -1420,19 +1501,23 @@ public class Layout1 extends JFrame {
             return this;
         }
     }
+
     /**
      * Inner of the class MouseAdapter.
      */
     class ActionJList extends MouseAdapter {
+
         protected JList list;
+
         /**
          * Setter of the parameter <em>list</em>.
-         //########################################################
+        //########################################################
          * @param l defines the player
          */
         public ActionJList(JList l) {
             list = l;
         }
+
         @Override
         //############################################################
         public void mouseClicked(MouseEvent e) {
@@ -1448,57 +1533,137 @@ public class Layout1 extends JFrame {
             }
         }
     }
+
     /**
      * Inner of the class Canvas.
      */
     static class SmallTetrisCanvas extends Canvas {
-        boolean[][] isFilled;
-        boolean[][] isFilledNew;
+
+        int[] isFilled;
         int pxlsize = 6;
+        private VolatileImage volatileImg;
+
         //############################################################""
         /**
          *
          */
         public SmallTetrisCanvas() {
             setBackground(Color.GRAY);
-            isFilled = new boolean[Screen.SIZE_X][Screen.SIZE_Y];
+            isFilled = new int[Screen.SIZE_X];
             setSize(Screen.SIZE_X * pxlsize, Screen.SIZE_Y * pxlsize);
+
+            
         }
 
-        public void setIsFilled(boolean[][] isFilled) {
+        public void setIsFilled(int[] isFilled) {
+
+
+
+
+            createBackBuffer();
+
+            do {
+                GraphicsConfiguration gc = this.getGraphicsConfiguration();
+                int valCode = volatileImg.validate(gc);
+
+                // This means the device doesn't match up to this hardware accelerated image.
+                if (valCode == VolatileImage.IMAGE_INCOMPATIBLE) {
+                    createBackBuffer(); // recreate the hardware accelerated image.
+                }
+
+
+
+
+
             Graphics2D g2;
             g2 = (Graphics2D) getGraphics();
-            for (int i = 0; i < Screen.SIZE_X; i++) {
-                for (int j = 0; j < Screen.SIZE_Y; j++) {
-                    if (this.isFilled[i][j] != isFilled[i][j]) {
-                        if (isFilled[i][j]) {
-                            g2.setColor(Color.WHITE);
-                            g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
-                        } else {
-                            g2.setColor(Color.WHITE);
-                            g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
+            g2.setColor(Color.BLACK);
+            synchronized (this) {
+                for (int i = 0; i < Screen.SIZE_X; i++) {
+                    int diff = this.isFilled[i] ^ isFilled[i];
+                    if (diff == 0) {
+                        continue;
+                    }
+                    for (int j = 0; j < Screen.SIZE_Y; j++) {
+                        if ((diff & (1 << j)) > 0) {
+                            if ((isFilled[i] & (1 << j)) > 0) {
+                                g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
+                            }
                         }
-                        this.isFilled[i][j] = isFilled[i][j];
                     }
                 }
             }
+            g2.setColor(Color.WHITE);
+            synchronized (this) {
+                for (int i = 0; i < Screen.SIZE_X; i++) {
+                    int diff = this.isFilled[i] ^ isFilled[i];
+                    if (diff == 0) {
+                        continue;
+                    }
+                    for (int j = 0; j < Screen.SIZE_Y; j++) {
+                        if ((diff & (1 << j)) > 0) {
+                            if (!((isFilled[i] & (1 << j)) > 0)) {
+
+                                synchronized (this) {
+                                    g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
+                                }
+                            }
+                        }
+                    }
+                    this.isFilled[i] = isFilled[i];
+                }
+            }
+
+            } while (volatileImg.contentsLost());
+
+
         }
 
         @Override
         public void paint(Graphics g) {
-            Graphics2D g2;
-            g2 = (Graphics2D) g;
-            for (int i = 0; i < Screen.SIZE_X; i++) {
-                for (int j = 0; j < Screen.SIZE_Y; j++) {
-                    if (isFilled[i][j]) {
-                        g2.setColor(Color.yellow);
-                        g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
-                    } else {
-                        g2.setColor(Color.RED);
-                        g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
+
+
+            createBackBuffer();
+
+            do {
+                GraphicsConfiguration gc = this.getGraphicsConfiguration();
+                int valCode = volatileImg.validate(gc);
+
+                // This means the device doesn't match up to this hardware accelerated image.
+                if (valCode == VolatileImage.IMAGE_INCOMPATIBLE) {
+                    createBackBuffer(); // recreate the hardware accelerated image.
+                }
+
+                Graphics2D g2;
+                g2 = (Graphics2D) g;
+                g2.setColor(Color.BLACK);
+
+                for (int i = 0; i < Screen.SIZE_X; i++) {
+                    for (int j = 0; j < Screen.SIZE_Y; j++) {
+
+                        if (((isFilled[i] & (1 << j)) > 0)) {
+                            g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
+                        }
                     }
                 }
-            }
+
+
+                g2.setColor(Color.WHITE);
+                for (int i = 0; i < Screen.SIZE_X; i++) {
+                    for (int j = 0; j < Screen.SIZE_Y; j++) {
+
+                        if (!((isFilled[i] & (1 << j)) > 0)) {
+                            g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
+                        }
+                    }
+                }
+
+            } while (volatileImg.contentsLost());
+        }
+
+        private void createBackBuffer() {
+            GraphicsConfiguration gc = getGraphicsConfiguration();
+            volatileImg = gc.createCompatibleVolatileImage(getWidth(), getHeight());
         }
     }
 }

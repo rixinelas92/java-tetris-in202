@@ -1,6 +1,4 @@
 //Java doc OK
-
-
 package Tetris_interface;
 
 import java.awt.Canvas;
@@ -50,14 +48,15 @@ import tetris.Position;
 import tetris.Screen;
 
 public class Layout1 extends JFrame {
+
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
-    private JLabelCont[] currentPiece, nextPiece, holdPiece; //array with the position of the 4 boxes of the 2 pieces.
+    private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece; //array with the position of the 4 boxes of the 2 pieces.
     private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use.
     public Font neuropol14, neuropol18, neuropol24, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
-    private JTextField leftKey, rightKey, downKey, rotateKey, goToBottonKey, holdKey, pauseKey, playerName;
+    private JTextField leftKey, rightKey, downKey, rotateKey, goToBottonKey, holdKey, pauseKey, playerName, ipName;
     private JCheckBox mouseBox;
     private static JButton applyOptions;
     //sound components
@@ -81,6 +80,7 @@ public class Layout1 extends JFrame {
     private JLabel scoreLabel;
     private JLabel timeLabel;
     private SmallTetrisCanvas secondPlayerScreen;
+
     /**
      * Initialize the configuration of the screen.
      */
@@ -98,7 +98,9 @@ public class Layout1 extends JFrame {
         screen = new JLabelCont[screenWidth][screenHeight + 3];
         currentPiece = new JLabelCont[4];
         holdPiece = new JLabelCont[4];
+        shadowPiece = new JLabelCont[4];
     }
+
     /**
      * The following methods create the panel that will be used.
      */
@@ -130,6 +132,7 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
+
     /**
      * Initialize the main screen, configuring the way in wich the icons are 
      * displayed in the initial screen and managing the action on theese icons.
@@ -162,14 +165,16 @@ public class Layout1 extends JFrame {
             close.setBorderPainted(false);
             //Managing the actions on the icons.
             newgame.addActionListener(new ActionListener() {
+
                 /**
                  * Method to manager the button new game.
                  */
                 public void actionPerformed(ActionEvent event) {
-                  func_newgame();
+                    func_newgame();
                 }
             });
             config.addActionListener(new ActionListener() {
+
                 /**
                  * Method to manager the button confiration.
                  */
@@ -178,6 +183,7 @@ public class Layout1 extends JFrame {
                 }
             });
             som.addActionListener(new ActionListener() {
+
                 /**
                  * Method to manager the button sound.
                  */
@@ -186,6 +192,7 @@ public class Layout1 extends JFrame {
                 }
             });
             close.addActionListener(new ActionListener() {
+
                 /**
                  * Method to manager the button exit.
                  */
@@ -203,6 +210,7 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
+
     /**
      * Configuring, managing actions and setting the game's presentation screen.
      */
@@ -230,6 +238,7 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
+
     /**
      * Configuring, managing actions and setting the selection screen.
      */
@@ -240,6 +249,7 @@ public class Layout1 extends JFrame {
         JSeparator separator = new JSeparator();
         JButton player1 = new JButton("1 Player");
         player1.addActionListener(new ActionListener() {
+
             /**
              * Method to manager the button 1 player.
              */
@@ -250,6 +260,7 @@ public class Layout1 extends JFrame {
         });
         JButton player2 = new JButton("2 Players");
         player2.addActionListener(new ActionListener() {
+
             /**
              * Method to manager the button 2 players.
              */
@@ -262,9 +273,10 @@ public class Layout1 extends JFrame {
         selectionPanel.add(player1, new AbsoluteConstraints(2, 55, 320, 130));
         selectionPanel.add(player2, new AbsoluteConstraints(2, 182, 320, 130));
     }
+
     /**
-    * Configuring, managing actions and setting the options screen.
-    */
+     * Configuring, managing actions and setting the options screen.
+     */
     private void make_options() {
         optionsPanel = new JPanel(new AbsoluteLayout());
         JLabel optionTitle = new JLabel("Options");
@@ -357,71 +369,97 @@ public class Layout1 extends JFrame {
         playerName.setBackground(new Color(playerPanel.getBackground().getRed(), playerPanel.getBackground().getGreen(), playerPanel.getBackground().getBlue()));
         playerPanel.add(playerName, new AbsoluteConstraints(12, 20, 290, 30));
         optionsPanel.add(playerPanel, new AbsoluteConstraints(10, 220, 310, 55));
+
+        JPanel ipPanel = new JPanel(new AbsoluteLayout());
+        ipPanel.setBorder(BorderFactory.createTitledBorder(null, "IP Number", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
+        ipName = new JTextField("Ip to 2 Players Mode");
+        ipName.setFont(sevenSegments14);
+        ipName.setHorizontalAlignment(JTextField.CENTER);
+        ipName.setBorder(null);
+        ipName.setBackground(new Color(playerPanel.getBackground().getRed(), playerPanel.getBackground().getGreen(), playerPanel.getBackground().getBlue()));
+        ipPanel.add(ipName, new AbsoluteConstraints(12, 20, 290, 30));
+        optionsPanel.add(ipPanel, new AbsoluteConstraints(10, 280, 310, 55));
         //Buttons.
         applyOptions = new JButton("Apply");
         applyOptions.setFont(planetBenson14);
         JButton cancelOptions = new JButton("Cancel");
         cancelOptions.setFont(planetBenson14);
         cancelOptions.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent event) {
                 func_initial();
             }
         });
-        optionsPanel.add(applyOptions, new AbsoluteConstraints(60, 280, -1, -1));
-        optionsPanel.add(cancelOptions, new AbsoluteConstraints(180, 280, -1, -1));
+        optionsPanel.add(applyOptions, new AbsoluteConstraints(60, 340, -1, -1));
+        optionsPanel.add(cancelOptions, new AbsoluteConstraints(180, 340, -1, -1));
         goToBottonKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
                 getKeyEvent(3, goToBottonKey);
             }
+
             public void focusLost(FocusEvent fe) {
             }
         });
         leftKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
                 getKeyEvent(0, leftKey);
             }
+
             public void focusLost(FocusEvent fe) {
             }
         });
         rightKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
                 getKeyEvent(2, rightKey);
             }
+
             public void focusLost(FocusEvent fe) {
             }
         });
         downKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
                 getKeyEvent(1, downKey);
             }
+
             public void focusLost(FocusEvent fe) {
             }
         });
         rotateKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
                 getKeyEvent(4, rotateKey);
             }
+
             public void focusLost(FocusEvent fe) {
             }
         });
         holdKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
                 getKeyEvent(5, holdKey);
             }
+
             public void focusLost(FocusEvent fe) {
             }
         });
         pauseKey.addFocusListener(new FocusListener() {
+
             public void focusGained(FocusEvent fe) {
                 getKeyEvent(6, pauseKey);
             }
+
             public void focusLost(FocusEvent fe) {
             }
         });
     }
+
     /**
-    * Configuring, managing actions and setting the sound screen.
-    */
+     * Configuring, managing actions and setting the sound screen.
+     */
     private void make_som() {
         somPanel = new JPanel(new AbsoluteLayout());
         JLabel optionTitle = new JLabel("Sound");
@@ -448,6 +486,7 @@ public class Layout1 extends JFrame {
         JButton cancel = new JButton("Cancel");
         cancel.setFont(planetBenson14);
         cancel.addActionListener(new ActionListener() {
+
             /**
              * Method to manager the buttons apply and cancel to return the initial 
              * screen after configuration of the keys.
@@ -459,9 +498,10 @@ public class Layout1 extends JFrame {
         somPanel.add(applySom, new AbsoluteConstraints(60, 280, -1, -1));
         somPanel.add(cancel, new AbsoluteConstraints(180, 280, -1, -1));
     }
+
     /**
-    * Configuring, managing actions and setting the screen to one player.
-    */
+     * Configuring, managing actions and setting the screen to one player.
+     */
     private void make_game1p() {
         game1pPanel = new JPanel(new AbsoluteLayout());
         JLabel game1pTitle = new JLabel("1 Player");
@@ -509,11 +549,12 @@ public class Layout1 extends JFrame {
         timePassed.setEditable(false);
         game1pPanel.add(timePassed, new AbsoluteConstraints(232, 248, 60, 25));
         secondPlayerScreen = new SmallTetrisCanvas();
-        game1pPanel.add(secondPlayerScreen, new AbsoluteConstraints(232, 240, -1,-1));
+        game1pPanel.add(secondPlayerScreen, new AbsoluteConstraints(232, 240, -1, -1));
         //Buttons.
         JButton pauseButton = new JButton("Pause");
         pauseButton.setFont(planetBenson14);
         pauseButton.addActionListener(new ActionListener() {
+
             /**
              * Method to manager the button pause.
              */
@@ -524,6 +565,7 @@ public class Layout1 extends JFrame {
         JButton restartButton = new JButton("Restart");
         restartButton.setFont(planetBenson14);
         restartButton.addActionListener(new ActionListener() {
+
             /**
              * Method to manager the button restart.
              */
@@ -543,9 +585,10 @@ public class Layout1 extends JFrame {
         game1pPanel.setComponentZOrder(gameover, 0);
         gameover.setVisible(false);
     }
+
     /**
-    * Configuring, managing actions and setting the screen to two players.
-    */
+     * Configuring, managing actions and setting the screen to two players.
+     */
     private void make_game2p() {
         game2pPanel = new JPanel(new AbsoluteLayout());
         JLabel game2pTitle = new JLabel("2 Player");
@@ -559,11 +602,12 @@ public class Layout1 extends JFrame {
         JScrollPane scrollPane = new JScrollPane(playersList);
         game2pPanel.add(scrollPane, new AbsoluteConstraints(10, 60, 300, 250));
         Main.start2pConnection();
-       
+
         // game2pPanel = new JPanel(new AbsoluteLayout());
         // JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
         // game2pPanel.add(menu, new AbsoluteConstraints(0, 0));
     }
+
     /**
      * This method allows to set the base of panel, calling basic panels and hiding
      * others that we are not interested in the moment.
@@ -584,6 +628,7 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(false);
     }
     //Creates the interface of the Jpanel.
+
     private void make_UI() {
         getContentPane().setLayout(new AbsoluteLayout());
         //setUndecorated(true);
@@ -597,6 +642,7 @@ public class Layout1 extends JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);
     }
+
     /**
      * This method sets the painel in the initial screen. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -610,6 +656,7 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
     }
+
     /**
      * This method sets the painel in the selection screen. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -623,6 +670,7 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
     }
+
     /**
      * This method sets the painel in the configuration screen. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -638,6 +686,7 @@ public class Layout1 extends JFrame {
         Main.pauseGame();
         Main.removeListeners();
     }
+
     /**
      * This method sets the painel in the sound's configuration screen. Making 
      * visible panels that we are interested and hiding - setvisible(false)- those 
@@ -654,6 +703,7 @@ public class Layout1 extends JFrame {
         Main.removeListeners();
 
     }
+
     /**
      * This method sets the painel configured to one player. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -670,6 +720,7 @@ public class Layout1 extends JFrame {
             gameViewReady.actionPerformed(null);
         }
     }
+
     /**
      * This method sets the painel configured to two players. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -683,13 +734,14 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(true);
     }
+
     /**
      * This method sets the painel to two players. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
      * compose this screen. In this case just the secondPlayerScreen is setted 
      * true. The others panels are hidden.
      */
-    public void configureScreenForGameType(boolean is2PlayerGame){
+    public void configureScreenForGameType(boolean is2PlayerGame) {
         this.is2PlayerGame = is2PlayerGame;
         score.setVisible(!is2PlayerGame);
         scoreLabel.setVisible(!is2PlayerGame);
@@ -699,7 +751,8 @@ public class Layout1 extends JFrame {
         timeLabel.setVisible(!is2PlayerGame);
         secondPlayerScreen.setVisible(is2PlayerGame);
     }
-  // ########################################################
+    // ########################################################
+
     /**
      * Configuring keys to the game.
      * @param keyNumber number of the key.
@@ -737,15 +790,19 @@ public class Layout1 extends JFrame {
 
     private void getKeyEvent(int keyNumber, JTextField field) {
         KeyListener kl = new KeyListener() {
+
             int keyNumber;
             JTextField field;
+
             public void keyTyped(KeyEvent ke) {
             }
+
             public KeyListener setKeyNumberAndField(int keyNumber, JTextField field) {
                 this.keyNumber = keyNumber;
                 this.field = field;
                 return this;
             }
+
             public void keyPressed(KeyEvent ke) {
                 keys[keyNumber] = ke.getKeyCode();
                 field.setText(KeyEvent.getKeyText(ke.getKeyCode()));
@@ -753,19 +810,25 @@ public class Layout1 extends JFrame {
                 removeKeyListener(this);
                 checkAndIfCaseSetOtherKeyOnConfig(keyNumber, ke.getKeyCode());
             }
+
             public void keyReleased(KeyEvent ke) {
             }
+
             @Override
             public int hashCode() {
                 return keyNumber;
             }
+
             @Override
             @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-            public boolean equals(Object o){
-                if(!this.getClass().isInstance(o))
+            public boolean equals(Object o) {
+                if (!this.getClass().isInstance(o)) {
                     return false;
-                if(o.hashCode() == this.hashCode()) // hashCode is unique!
+                }
+                if (o.hashCode() == this.hashCode()) // hashCode is unique!
+                {
                     return true;
+                }
                 return false;
             }
         }.setKeyNumberAndField(keyNumber, field);
@@ -773,17 +836,25 @@ public class Layout1 extends JFrame {
         field.setBackground(Color.yellow);
         requestFocusInWindow();
     }
+
     private void func_exit() {
         Main.terminateInternetConnection();
         System.exit(0);
     }
+
     public int[] getConfigChange() {
         return keys;
     }
+
+    public String getIPChange() {
+        return ipName.getText();
+    }
+
     public int getSomVolume() {
         return volumeSlider.getValue();
     }
-     public int getSomTheme() {
+
+    public int getSomTheme() {
         System.out.println(themeBox.getSelectedIndex());
         return themeBox.getSelectedIndex();
     }
@@ -817,6 +888,18 @@ public class Layout1 extends JFrame {
             screen[newPiece[i].getX()][newPiece[i].getY()] = currentPiece[i];
             screen[newPiece[i].getX()][newPiece[i].getY()].setP(newPiece[i].getX(), newPiece[i].getY());
         }
+        gameScreen1pPanel.setVisible(false);
+        gameScreen1pPanel.setVisible(true);
+
+    }
+
+    public void setShadowPosition(Position[] newPiece) {
+        //if the bloc shouldn't keep hide, pass position X or/and Y =-1
+        for (int i = 0; i < 4; i++) {
+            gameScreen1pPanel.remove(shadowPiece[i]);
+            gameScreen1pPanel.add(shadowPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
+        }
+        
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
 
@@ -864,8 +947,13 @@ public class Layout1 extends JFrame {
         }
     }
 
-    public void newPiece(Position[] newPosCurrentPiece, Position[] newPosNextPiece, String colorPiece) {
+    public void newPiece(Position[] newPosCurrentPiece, Position[] newPosNextPiece, String colorPiece, String shadowColor) {
         //this function receive the 4 positions of the new piece and her color
+        if (shadowPiece[0] != null) {
+            for (int i = 0; i < 4; i++) {
+                gameScreen1pPanel.remove(shadowPiece[i]);
+            }
+        }
         for (int i = 0; i < 4; i++) {
             currentPiece[i] = nextPiece[i];
         }
@@ -892,8 +980,10 @@ public class Layout1 extends JFrame {
 
         for (int i = 0; i < 4; i++) {
             nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(colorPiece))));
+            shadowPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(shadowColor))));
         }
         setNextPiecePosition(newPosNextPiece);
+        Main.updateShadowPositions();
         toggleVisiblePropOnGame();
     }
 
@@ -945,6 +1035,7 @@ public class Layout1 extends JFrame {
         //add one new piece in NextPiece box
 
         setHoldPiecePosition(holdPiecePos);
+        gameHold1pPanel.setOpaque(is2PlayerGame);
         gameHold1pPanel.setVisible(false);
         gameHold1pPanel.setVisible(true);
         gameScreen1pPanel.setVisible(false);
@@ -988,7 +1079,10 @@ public class Layout1 extends JFrame {
     }
 
     public void eraseLine(int line) {
-
+        if(shadowPiece != null && shadowPiece[0] != null)
+            for (int i = 0; i < 4; i++) {
+                shadowPiece[i].setVisible(false);
+            }
         //linhas começam do zero
         int i, j;
 
@@ -1077,6 +1171,7 @@ public class Layout1 extends JFrame {
     public static void addConfigChanger(ActionListener newConfigChanger) {
         applyOptions.addActionListener(newConfigChanger);
     }
+
     public static void addSomChanger(ActionListener newSomChanger) {
         applySom.addActionListener(newSomChanger);
     }
@@ -1093,10 +1188,9 @@ public class Layout1 extends JFrame {
         return mouseBox.isSelected();
     }
 
-    public void set2pScreenGame(boolean[][] isFilled){
+    public void set2pScreenGame(boolean[][] isFilled) {
         secondPlayerScreen.setIsFilled(isFilled);
     }
-
 
     public class JLabelCont extends JLabel {
 
@@ -1162,7 +1256,9 @@ public class Layout1 extends JFrame {
             timer.stop();
         }
     }
+
     static class MyCellRenderer extends JLabel implements ListCellRenderer {
+
         final static ImageIcon offline = new ImageIcon(MyCellRenderer.class.getResource("OFFLINE.png"));
         final static ImageIcon playing = new ImageIcon(MyCellRenderer.class.getResource("PLAYING.png"));
         final static ImageIcon online = new ImageIcon(MyCellRenderer.class.getResource("ONLINE.png"));
@@ -1203,6 +1299,7 @@ public class Layout1 extends JFrame {
             return this;
         }
     }
+
     class ActionJList extends MouseAdapter {
 
         protected JList list;
@@ -1210,6 +1307,7 @@ public class Layout1 extends JFrame {
         public ActionJList(JList l) {
             list = l;
         }
+
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
@@ -1218,50 +1316,59 @@ public class Layout1 extends JFrame {
                 Object item = dlm.getElementAt(index);
                 list.ensureIndexIsVisible(index);
 
-                Main.requestMatchWith((PlayerDescriptor)item);
-       
+                Main.requestMatchWith((PlayerDescriptor) item);
+
                 System.out.println("Double clicked on " + item);
             }
         }
     }
+
     static class SmallTetrisCanvas extends Canvas {
+
         boolean[][] isFilled;
         boolean[][] isFilledNew;
         int pxlsize = 6;
+
         public SmallTetrisCanvas() {
             setBackground(Color.GRAY);
             isFilled = new boolean[Screen.SIZE_X][Screen.SIZE_Y];
-            setSize(Screen.SIZE_X*pxlsize, Screen.SIZE_Y*pxlsize);
+            setSize(Screen.SIZE_X * pxlsize, Screen.SIZE_Y * pxlsize);
         }
-        public void setIsFilled( boolean[][] isFilled){
+
+        public void setIsFilled(boolean[][] isFilled) {
             Graphics2D g2;
             g2 = (Graphics2D) getGraphics();
-            for(int i = 0;i<Screen.SIZE_X;i++)
-                for(int j = 0;j<Screen.SIZE_Y;j++)
-                    if( this.isFilled[i][j]  !=  isFilled[i][j] ){
-                        if(isFilled[i][j]){
+            for (int i = 0; i < Screen.SIZE_X; i++) {
+                for (int j = 0; j < Screen.SIZE_Y; j++) {
+                    if (this.isFilled[i][j] != isFilled[i][j]) {
+                        if (isFilled[i][j]) {
                             g2.setColor(Color.yellow);
-                            g2.fillRect(i*pxlsize, (Screen.SIZE_Y-j-1)*pxlsize, pxlsize, pxlsize);
-                        }else{
+                            g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
+                        } else {
                             g2.setColor(Color.RED);
-                            g2.fillRect(i*pxlsize, (Screen.SIZE_Y-j-1)*pxlsize, pxlsize, pxlsize);
+                            g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
                         }
                         this.isFilled[i][j] = isFilled[i][j];
                     }
+                }
+            }
         }
+
         @Override
         public void paint(Graphics g) {
             Graphics2D g2;
             g2 = (Graphics2D) g;
-            for(int i = 0;i<Screen.SIZE_X;i++)
-                for(int j = 0;j<Screen.SIZE_Y;j++)
-                    if(isFilled[i][j]){
+            for (int i = 0; i < Screen.SIZE_X; i++) {
+                for (int j = 0; j < Screen.SIZE_Y; j++) {
+                    if (isFilled[i][j]) {
                         g2.setColor(Color.yellow);
-                        g2.fillRect(i*pxlsize, (Screen.SIZE_Y-j-1)*pxlsize, pxlsize, pxlsize);
-                    }else{
+                        g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
+                    } else {
                         g2.setColor(Color.RED);
-                        g2.fillRect(i*pxlsize, (Screen.SIZE_Y-j-1)*pxlsize, pxlsize, pxlsize);
+                        g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
                     }
+                }
+            }
         }
     }
 }

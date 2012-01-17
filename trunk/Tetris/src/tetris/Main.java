@@ -69,10 +69,15 @@ public class Main {
     public static void updatePiecesPositions() {
 
         screen.setPiecePosition(game.getCurrentPiecePositions());
+        screen.setShadowPosition(game.getShadowPiecePositions());
+    }
+    public static void updateShadowPositions() {
+
+       screen.setShadowPosition(game.getShadowPiecePositions());
     }
 
     public static void setNewPiece() {
-        screen.newPiece(game.getCurrentPiecePositions(), game.getNextPiecePositions(), game.getNextPieceColorName());
+        screen.newPiece(game.getCurrentPiecePositions(), game.getNextPiecePositions(), game.getNextPieceColorName(), game.getCurrentPieceColorName());
     }
 
     public static void setHold() {
@@ -271,6 +276,7 @@ public class Main {
     public static void ConfigChanger() {
         game.setControllers(screen.getConfigChange());
         game.setMouseController(screen.getMouseControler());
+        ///mandar o IP
     }
 
     public static void SomChanger() {
@@ -281,7 +287,7 @@ public class Main {
             themeSom = SoundEffect.CTHEME;
         }
         if (aux == 1) {
-            themeSom = SoundEffect.MTHEME;
+            themeSom = SoundEffect.NOTHING;
         }
         if (aux == 2) {
             themeSom = SoundEffect.NOTHING;

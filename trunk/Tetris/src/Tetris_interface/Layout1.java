@@ -1,4 +1,4 @@
-//Java doc ja realizado, mas classe em modificacao.
+//Java doc ja comecado, mas classe em modificacao.
 package Tetris_interface;
 
 import java.awt.Canvas;
@@ -1112,8 +1112,8 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setVisible(true);
     }
     /**
-     * 
-     * @param line
+     * Removes the specified line of the screen.
+     * @param line specifies the line to be removed.
      */
     public void eraseLine(int line) {
         if(shadowPiece != null && shadowPiece[0] != null)
@@ -1141,7 +1141,6 @@ public class Layout1 extends JFrame {
                 System.out.println("   +++++ " + i + " " + line);
             }
         }
-
         for (j = line; j < screenHeight; j++) {
             int count = 0;
             for (i = 0; i < screenWidth; i++) {
@@ -1162,55 +1161,83 @@ public class Layout1 extends JFrame {
         }
         toggleVisiblePropOnGame();
     }
-
+    /**
+     * Sets the panel prepared to the game.
+     */
     public void toggleVisiblePropOnGame() {
         gameNext1pPanel.setVisible(false);
         gameNext1pPanel.setVisible(true);
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
     }
-
+    /**
+     * Sets the score, the level and the score bar in screen with updated values.
+     * @param newScore defines the actual value of the score.
+     * @param newLevel defines the actual level of the game.
+     * @param scoreMin defines the minimum value of the score.
+     * @param scoreMax defines the maximum value of the score.
+     */
     public void setScore(int newScore, int newLevel, int scoreMin, int scoreMax) {
-        //if change of level, set the new level maximum score and change the label
+        //If change of level, set the new level maximum score and change the label.
         score.setText(String.valueOf(newScore));
         level.setText("Level:" + newLevel);
         scoreBar.setValue((newScore - scoreMin) * 100 / (scoreMax - scoreMin));
     }
-
+    /**
+     * Default setter of listeners to the keys configured to the actions.
+     * @param newListener defines the key to be observed.
+     */
     public void setKeyListener(KeyListener newListener) {
         gameScreen1pPanel.addKeyListener(newListener);
     }
-
+    /**
+     * Default setter of listeners to the mouse actions.
+     * @param newListener defines the mouse to be observed.
+     */
     public void setMouseListener(MouseListener newListener) {
         gameScreen1pPanel.addMouseListener(newListener);
     }
-
+    /**
+     * Default setter of listeners to the mouse actions.
+     * @param newListener defines the mouse to be observed.
+     */
     public void setMouseMotionListener(MouseMotionListener newListener) {
         gameScreen1pPanel.addMouseMotionListener(newListener);
     }
-    //internal use funcition
-
+    //Internal use funcition.
     private int xPos(int newX) {
         return newX * pieceSize;
     }
-
     private int yPos(int newY) {
         newY++;
         return gameScreen1pPanel.getHeight() - newY * pieceSize;
     }
-
+    //############################################################"
+    /**
+     *
+     */
     public static void addGameViewReady(ActionListener newGameViewReady) {
         gameViewReady = newGameViewReady;
     }
-
+    //############################################################"
+    /**
+     *
+     */
     public static void addConfigChanger(ActionListener newConfigChanger) {
         applyOptions.addActionListener(newConfigChanger);
     }
-
+    //############################################################"
+    /**
+     *
+     */
     public static void addSomChanger(ActionListener newSomChanger) {
         applySom.addActionListener(newSomChanger);
     }
-
+    /**#########################################################
+    /**
+     *
+     * @param set
+     */
     public void setPlayerList(Set<PlayerDescriptor> set) {
         ((DefaultListModel) (playersList.getModel())).removeAllElements();
         for (PlayerDescriptor pd : set) {
@@ -1218,36 +1245,55 @@ public class Layout1 extends JFrame {
         }
         System.out.println("MUDEOU!!!!");
     }
-
+    /**
+     * Checks if the mouse was selected like control.
+     * @return true if it was selected.
+     */
     public boolean getMouseControler() {
         return mouseBox.isSelected();
     }
-
+    //Esta chamando um metodo que esta defino embaixo, checar depois
+    /**
+     * Checks
+     * @param isFilled
+     */
     public void set2pScreenGame(boolean[][] isFilled) {
         secondPlayerScreen.setIsFilled(isFilled);
     }
-
+    /**
+     * Default inner of the class JLabel.
+     */
     public class JLabelCont extends JLabel {
-
         int x = -1;
         int y = -1;
-
         private JLabelCont(ImageIcon imageIcon) {
             super(imageIcon);
         }
-
+        /**
+         * Default setter of the coordinates of the positon.
+         * @param x defines the coordinate x.
+         * @param y defines the coordinate y.
+         */
         public void setP(int x, int y) {
             this.x = x;
             this.y = y;
         }
-
+        /**
+         * Default getter of the coordinate x.
+         * @return the value of the coordinate.
+         * @throws Exception if position x is -1.#############################################
+         */
         public int getCX() throws Exception {
             if (x == -1) {
                 throw new Exception("x null");
             }
             return x;
         }
-
+        /**
+         * Default getter of the coordinate y.
+         * @return the value of the coordinate.
+         * @throws Exception if position y is -1.#############################################
+         */
         public int getCY() throws Exception {
             if (y == -1) {
                 throw new Exception("y null");
@@ -1255,30 +1301,42 @@ public class Layout1 extends JFrame {
             return y;
         }
     }
-
+    /**
+     * Default inner to the class ActionListener.
+     */
     public class Clock implements ActionListener {
-
         Timer timer;
         long time;
         static final int delay = 500;
-
+        /**
+         * Creates a new clock with parameters defined by default.
+         */
         public Clock() {
             timer = new Timer(delay, this);
             time = 0;
             timer.start();
         }
-
+        /**
+         * Resets the parameters of the clock and updates the time passed.
+         */
         public void restart() {
             time = 0;
             timer.restart();
             timePassed.setText(String.format("%1$tM:%1$tS", time, time));
         }
-
+        //############################################################
+        /**
+         *
+         * @param ae
+         */
         public void actionPerformed(ActionEvent ae) {
             time += delay;
             timePassed.setText(String.format("%1$tM:%1$tS", time, time));
         }
-
+        /**
+         * Implements the case pause in the timer. If the game is stopped, it restarts
+         * or it stops if it is was running.
+         */
         public void togglePause() {
             if (!timer.isRunning()) {
                 timer.start();
@@ -1286,26 +1344,39 @@ public class Layout1 extends JFrame {
                 timer.stop();
             }
         }
-
+        /**
+         * Implements the pause in the reference of the time to the screen -timer-
+         * and with this, it stops to be updated.
+         */
         public void pauseScreen() {
             timer.stop();
         }
     }
-
+    /**
+     * Inner of the class Jlabel.
+     */
     static class MyCellRenderer extends JLabel implements ListCellRenderer {
 
         final static ImageIcon offline = new ImageIcon(MyCellRenderer.class.getResource("OFFLINE.png"));
         final static ImageIcon playing = new ImageIcon(MyCellRenderer.class.getResource("PLAYING.png"));
         final static ImageIcon online = new ImageIcon(MyCellRenderer.class.getResource("ONLINE.png"));
 
-        // This is the only method defined by ListCellRenderer.
-        // We just reconfigure the JLabel each time we're called.
+        /**
+         * This is the only method defined by ListCellRenderer.
+         * We just reconfigure the JLabel each time we're called.
+         * @param list defines the list of the players.
+         * @param value to be displayed.
+         * @param index cell index.
+         * @param isSelected informes if the cell is selected.
+         * @param cellHasFocus the list and the cell have the focus.
+         * @return
+         */
         public Component getListCellRendererComponent(
                 JList list,
-                Object value, // value to display
-                int index, // cell index
-                boolean isSelected, // is the cell selected
-                boolean cellHasFocus) // the list and the cell have the focus
+                Object value, 
+                int index, 
+                boolean isSelected,
+                boolean cellHasFocus) 
         {
             PlayerDescriptor player = (PlayerDescriptor) value;
             String s = value.toString();
@@ -1334,16 +1405,21 @@ public class Layout1 extends JFrame {
             return this;
         }
     }
-
+    /**
+     * Inner of the class MouseAdapter.
+     */
     class ActionJList extends MouseAdapter {
-
         protected JList list;
-
+        /**
+         * Setter of the parameter <em>list</em>.
+         //########################################################
+         * @param l defines the player
+         */
         public ActionJList(JList l) {
             list = l;
         }
-
         @Override
+        //############################################################
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 int index = list.locationToIndex(e.getPoint());
@@ -1357,13 +1433,17 @@ public class Layout1 extends JFrame {
             }
         }
     }
-
+    /**
+     * Inner of the class Canvas.
+     */
     static class SmallTetrisCanvas extends Canvas {
-
         boolean[][] isFilled;
         boolean[][] isFilledNew;
         int pxlsize = 6;
-
+        //############################################################""
+        /**
+         *
+         */
         public SmallTetrisCanvas() {
             setBackground(Color.GRAY);
             isFilled = new boolean[Screen.SIZE_X][Screen.SIZE_Y];

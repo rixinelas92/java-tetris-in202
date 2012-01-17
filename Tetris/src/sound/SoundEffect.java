@@ -61,6 +61,8 @@ public enum SoundEffect {
             e.printStackTrace();
         } catch (LineUnavailableException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

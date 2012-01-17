@@ -754,8 +754,8 @@ public class Layout1 extends JFrame {
     // ########################################################
 
     /**
-     * Configuring keys to the game.
-     * @param keyNumber number of the key.
+     * Configures the keys fo the game.
+     * @param keyNumber index of the key.
      * @param keyValue value of the key.
      */
     private void checkAndIfCaseSetOtherKeyOnConfig(int keyNumber, int keyValue) {
@@ -787,15 +787,31 @@ public class Layout1 extends JFrame {
             }
         }
     }
-
+    /**
+     *
+     * @param keyNumber
+     * @param field
+     */
     private void getKeyEvent(int keyNumber, JTextField field) {
         KeyListener kl = new KeyListener() {
 
             int keyNumber;
             JTextField field;
 
+            /**
+             * Method that must be implemented but without executing anything.
+             */
+
+
+
             public void keyTyped(KeyEvent ke) {
             }
+
+            /**
+             * Default setter of the parameters <em>keyNumber</em> and <field</em>.
+             */
+
+
 
             public KeyListener setKeyNumberAndField(int keyNumber, JTextField field) {
                 this.keyNumber = keyNumber;
@@ -803,6 +819,10 @@ public class Layout1 extends JFrame {
                 return this;
             }
 
+            /**
+             * Analises the key pressed and sets the key in the index keyNumber
+             * in according with it.
+             */
             public void keyPressed(KeyEvent ke) {
                 keys[keyNumber] = ke.getKeyCode();
                 field.setText(KeyEvent.getKeyText(ke.getKeyCode()));
@@ -811,17 +831,28 @@ public class Layout1 extends JFrame {
                 checkAndIfCaseSetOtherKeyOnConfig(keyNumber, ke.getKeyCode());
             }
 
+            /**
+             * Method that must be implemented but without executing anything.
+             */
+
             public void keyReleased(KeyEvent ke) {
             }
 
             @Override
+            /**
+             * Defalut getter of the parameter <em>keyNumber</em>.
+             */
             public int hashCode() {
                 return keyNumber;
             }
 
             @Override
             @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-            public boolean equals(Object o) {
+
+            /**
+             * Checks if there is another key already setted for the same action.
+             */
+            public boolean equals(Object o){
                 if (!this.getClass().isInstance(o)) {
                     return false;
                 }
@@ -837,43 +868,60 @@ public class Layout1 extends JFrame {
         requestFocusInWindow();
     }
 
+    /**
+     * Implements the function exit.
+     */
     private void func_exit() {
         Main.terminateInternetConnection();
         System.exit(0);
     }
-
+    /**
+     * Default getter of the chagement of configurations.
+     * @return the keys configureted.
+     */
     public int[] getConfigChange() {
         return keys;
     }
-
+    /**
+     * Default getter of the sound volume.
+     * @return the actual value of the sound.
+     */
     public String getIPChange() {
         return ipName.getText();
     }
-
     public int getSomVolume() {
         return volumeSlider.getValue();
     }
 
+    /**
+     * Default getter of the theme sound.
+     * @return the actual theme of the sound.
+     */
     public int getSomTheme() {
         System.out.println(themeBox.getSelectedIndex());
         return themeBox.getSelectedIndex();
     }
-
+    /**
+     * Implements the function pause.
+     */
     private void func_pause() {
         Main.togglePause();
     }
-
+    /**
+     * Implements the function pause.
+     */
     private void func_restart() {
         //just for test
         if (gameViewReady != null) {
             gameViewReady.actionPerformed(null);
         }
-
     }
-    //publics functions
-
+    /**
+     * Default setter of the piece position, updating the new coordinates.
+     * @param newPiece definies the coordinates of each box of the newpiece.
+     */
     public void setPiecePosition(Position[] newPiece) {
-        //if the bloc shouldn't keep hide, pass position X or/and Y =-1
+        //If the bloc shouldn't keep hide, pass position X or/and Y =-1
         for (int i = 0; i < 4; i++) {
             gameScreen1pPanel.remove(currentPiece[i]);
             gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
@@ -890,9 +938,13 @@ public class Layout1 extends JFrame {
         }
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
-
     }
-
+    /**
+     * Deafult getter of the string with an relative path corresponding with
+     * the parameter <em>color</em>.
+     * @param color definies the color.
+     * @return the relative path of the color.
+     */
     public void setShadowPosition(Position[] newPiece) {
         //if the bloc shouldn't keep hide, pass position X or/and Y =-1
         for (int i = 0; i < 4; i++) {
@@ -908,7 +960,9 @@ public class Layout1 extends JFrame {
     public String getStringForColor(String color) {
         return "imgs/" + color + r.nextInt(5) + ".png";
     }
-
+    /**
+     * Reconfigures the one player screen in according to the action restart.
+     */
     public void restart1pScreen() {
         if (clock != null) {
             clock.restart();
@@ -924,21 +978,33 @@ public class Layout1 extends JFrame {
         removeGameOver(gameover);
 
     }
-
+    /**
+     * Generates the image of the new piece in the screen
+     * @param newpiece
+     * @param c
+     */
     public void newFirstPiece(Position[] newpiece, String c) {
         for (int i = 0; i < 4; i++) {
             nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(c))));
         }
         setNextPiecePosition(newpiece);
     }
-
+    /**
+     * Implements the case 'Game over', setting the panels game one player and
+     * and game over: visible.
+     * @return the panel showing the case 'game over'.
+     */
     public JLabel showGameOver() {
         gameover.setVisible(true);
         game1pPanel.setVisible(false);
         game1pPanel.setVisible(true);
         return gameover;
     }
-
+    /**
+     * Removes the panel configured to game, preparing the screen to another
+     * cofiguration, restart for example.
+     * @return the one player panel setted visible.
+     */
     public void removeGameOver(JLabel gameover) {
         if (gameover != null) {
             game1pPanel.setVisible(false);
@@ -946,9 +1012,15 @@ public class Layout1 extends JFrame {
             gameover.setVisible(false);
         }
     }
-
+    /**
+     * Creates the interface with the user showing the generated logical piece
+     * in the screen with its features already defined.
+     * @param newPosCurrentPiece defines the new position to the current piece.
+     * @param newPosNextPiece defines the position to the next generates piece.
+     * @param colorPiece defines the grafic features of the piece.
+     */
     public void newPiece(Position[] newPosCurrentPiece, Position[] newPosNextPiece, String colorPiece, String shadowColor) {
-        //this function receive the 4 positions of the new piece and her color
+        //This function receive the 4 positions of the new piece and her color
         if (shadowPiece[0] != null) {
             for (int i = 0; i < 4; i++) {
                 gameScreen1pPanel.remove(shadowPiece[i]);
@@ -957,7 +1029,7 @@ public class Layout1 extends JFrame {
         for (int i = 0; i < 4; i++) {
             currentPiece[i] = nextPiece[i];
         }
-        //put the piece in the game
+        //Put the piece in the game
         if (currentPiece[0] != null) {
             for (int i = 0; i < 4; i++) {
                 gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPosCurrentPiece[i].getX()), yPos(newPosCurrentPiece[i].getY()), pieceSize, pieceSize));
@@ -975,9 +1047,8 @@ public class Layout1 extends JFrame {
             for (int i = 0; i < 4; i++) {
                 gameNext1pPanel.remove(currentPiece[i]);
             }
-            //add one new piece in NextPiece box   
+        //Add one new piece in NextPiece box
         }
-
         for (int i = 0; i < 4; i++) {
             nextPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(colorPiece))));
             shadowPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(shadowColor))));
@@ -986,7 +1057,11 @@ public class Layout1 extends JFrame {
         Main.updateShadowPositions();
         toggleVisiblePropOnGame();
     }
-
+    //#######################################################"
+    /**
+     * Default setter of the position of the next piece.
+     * @param newPosNextPiece defines the positons of the next piece.
+     */
     private void setNextPiecePosition(Position[] newPosNextPiece) {
         Position min = Position.getMinCoord(newPosNextPiece);
         Position max = Position.getMaxCoord(newPosNextPiece);
@@ -998,11 +1073,18 @@ public class Layout1 extends JFrame {
             gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(xx, yy, pieceSize, pieceSize));
         }
     }
-
+    //####################################################"
+    /**
+     * Updates the holdPiece and the nextPiece, in according to the generation of
+     * the new pieces.
+     * @param currentPiecePos defines the position of the current piece.
+     * @param holdPiecePos defines the position of the hold piece.
+     * @param colorCurrentPiece defines the grafic features of the current piece.
+     */
     public void holdPiece(Position[] currentPiecePos, Position[] holdPiecePos, String colorCurrentPiece) {
-        //this function receive the 4 positions of the new piece and her color
+        //This function receive the 4 positions of the new piece and her color.
         JLabelCont[] auxPiece;
-//remove the labels of the panels
+        //Remove the labels of the panels.
         for (int i = 0; i < 4; i++) {
             gameScreen1pPanel.remove(currentPiece[i]);
         }
@@ -1021,9 +1103,6 @@ public class Layout1 extends JFrame {
         for (int i = 0; i < 4; i++) {
             currentPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor(colorCurrentPiece))));
         }
-
-
-
         for (int i = 0; i < 4; i++) {
             gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(currentPiecePos[i].getX()), yPos(currentPiecePos[i].getY()), pieceSize, pieceSize));
         }
@@ -1031,9 +1110,7 @@ public class Layout1 extends JFrame {
             screen[currentPiecePos[i].getX()][currentPiecePos[i].getY()] = currentPiece[i];
             screen[currentPiecePos[i].getX()][currentPiecePos[i].getY()].setP(currentPiecePos[i].getX(), currentPiecePos[i].getY());
         }
-
-        //add one new piece in NextPiece box
-
+        //Add one new piece in NextPiece box.
         setHoldPiecePosition(holdPiecePos);
         gameHold1pPanel.setOpaque(is2PlayerGame);
         gameHold1pPanel.setVisible(false);
@@ -1041,7 +1118,10 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
     }
-
+    /**
+     * Default setter of the position of the newPosHoldPiece.
+     * @param newPosHoldPiece defines the parameters 
+     */
     private void setHoldPiecePosition(Position[] newPosHoldPiece) {
         Position min = Position.getMinCoord(newPosHoldPiece);
         Position max = Position.getMaxCoord(newPosHoldPiece);
@@ -1077,7 +1157,6 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setVisible(true);
 
     }
-
     public void eraseLine(int line) {
         if(shadowPiece != null && shadowPiece[0] != null)
             for (int i = 0; i < 4; i++) {

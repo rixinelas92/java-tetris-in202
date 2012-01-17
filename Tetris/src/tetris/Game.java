@@ -27,6 +27,7 @@ public class Game extends Controller implements ActionListener {
     private Piece currentPiece;
     private Piece nextPiece;
     private Piece holdPiece;
+    private Piece shadowPiece;
     private RandomEnum<Piece.ShapeType> randomShape = new RandomEnum<Piece.ShapeType>(Piece.ShapeType.class);
     Timer timer = null;
     int timeBeforeNextPiece = 400;
@@ -162,10 +163,15 @@ public class Game extends Controller implements ActionListener {
             Main.setNewFirstPiece();
             currentPiece = nextPiece;
             nextPiece = new Piece(ns, Screen.getMiddlePosition());
+            shadowPiece = new Piece(currentPiece.getShapeType(), currentPiece.getPosition());
+            shadowPiece.setRotation(currentPiece.getRotation());
+
+
             Main.setNewPiece();
         } catch (OutOfScreenBoundsException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         holdPiece = null;
         level = 1;
         points = 0;
@@ -192,6 +198,17 @@ public class Game extends Controller implements ActionListener {
      */
     public Position[] getCurrentPiecePositions() {
         return currentPiece.getAllPosition();
+    }
+
+    public Position[] getShadowPiecePositions() {
+        try {
+            shadowPiece.setPosition(currentPiece.getPosition());
+            shadowPiece.setRotation(currentPiece.getRotation());
+        } catch (Exception ev) {
+            ev.printStackTrace();
+        }
+        goToBottomShadow();
+        return shadowPiece.getAllPosition();
     }
 
     /**
@@ -265,6 +282,16 @@ public class Game extends Controller implements ActionListener {
         }
     }
 
+    public void goToBottomShadow() {
+        while (true) {
+            try {
+                goDownShadow();
+            } catch (Exception e) {
+                break;
+            }
+        }
+    }
+
     /**
      * Executes the downward movement in steps, decrementing the coordinate y 
      * and refreshing the new position.
@@ -278,6 +305,13 @@ public class Game extends Controller implements ActionListener {
         int y = currentPiece.getY();
         y--;
         currentPiece.setPosition(new Position(x, y));
+    }
+
+    public void goDownShadow() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
+        int x = shadowPiece.getX();
+        int y = shadowPiece.getY();
+        y--;
+        shadowPiece.setPosition(new Position(x, y));
     }
 
     /**
@@ -319,6 +353,7 @@ public class Game extends Controller implements ActionListener {
 
     public void stopToggleVariable() {
         isPaused = !isPaused;
+        pauseSom.play();
     }
 
     @Override
@@ -362,6 +397,10 @@ public class Game extends Controller implements ActionListener {
                 currentPiece.setX(xx);
                 currentPiece.setY(yy);
                 nextPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
+                shadowPiece.setPosition(currentPiece.getPosition());
+                shadowPiece.setRotation(currentPiece.getRotation());
+                shadowPiece.setShape(currentPiece.getShapeType());
+
                 Main.setNewPiece();
                 alreadyHolded = false;
             } catch (NotAvailablePlaceForPieceException ex) {
@@ -458,6 +497,10 @@ public class Game extends Controller implements ActionListener {
                 currentPiece = nextPiece;
                 nextPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
                 Main.setFirstHold();
+                shadowPiece.setPosition(currentPiece.getPosition());
+                shadowPiece.setRotation(currentPiece.getRotation());
+                shadowPiece.setShape(currentPiece.getShapeType());
+
                 Main.setNewPiece();
             } catch (Exception en) {
                 en.printStackTrace();
@@ -495,7 +538,6 @@ public class Game extends Controller implements ActionListener {
 
     void pauseGame() {
         isPaused = true;
-        pauseSom.play();
     }
 
     public int[] getGameMask() {
@@ -548,7 +590,7 @@ public class Game extends Controller implements ActionListener {
         }
         if (somTheme == 1) {
             fallSom = SoundEffect.MFALL;
-            eraseSom = SoundEffect.MERASE;
+            eraseSom = SoundEffect.NOTHING;
             gameoverSom = SoundEffect.MGAMEOVER5;
             pauseSom = SoundEffect.MPAUSE;
         }

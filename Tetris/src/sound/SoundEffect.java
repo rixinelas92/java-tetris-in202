@@ -23,8 +23,8 @@ public enum SoundEffect {
     CTHEME("ClassicTheme2.wav"),      // explosion
     CERASE("ClassicErase.wav"),      // gong
     CFALL("ClassicFall.wav"),        // bullet
-    MTHEME("Mariotheme.wav"),      // explosion
-    MERASE("MarioErase.wav"),      // gong
+//    MTHEME("Mariotheme.wav"),      // explosion
+//MERASE("MarioErase.wav"),      // gong
     MFALL("MarioFall.wav"),  
     MGAMEOVER5("MarioGameover.wav"),
     MPAUSE("MarioPause.wav"),      // explosion

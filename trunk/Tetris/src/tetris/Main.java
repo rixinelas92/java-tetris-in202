@@ -31,7 +31,7 @@ public class Main {
     static Game game;
     static Client internet;
     static String playerName = "TetrisPlayer";
-    private static SoundEffect themeSom=SoundEffect.CTHEME;;
+    private static SoundEffect themeSom=SoundEffect.CTHEME;
 
     /**
      * @param args the command line arguments
@@ -151,7 +151,7 @@ public class Main {
     public static void start2pConnection() {
 
         try {
-            internet = new ClientImpl("localhost", playerName);
+            internet = new ClientImpl("147.250.8.16", playerName);
             internet.start();
         } catch (UnknownHostException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

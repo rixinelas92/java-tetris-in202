@@ -148,6 +148,7 @@ public class Main {
 
     public static void terminateInternetConnection() {
         try {
+            System.out.println("BYYYYYEEEE");
             internet.sayBye();
         } catch (Exception e) {
         }
@@ -209,11 +210,13 @@ public class Main {
     public static void showGameOverAndReturnToNewGame() {
         Main.removeListeners();
         JLabel go = screen.showGameOver();
-        //      try{
-        //          Thread.sleep(5000);
-        //      }catch(Exception e){}
-        //      screen.removeGameOver(go);
-        //      screen.func_newgame();
+        sendGameOver();
+
+    }
+
+    public static void showGameWinAndReturnToNewGame(){
+        Main.removeListeners();
+        JLabel go = screen.showGameWin();
     }
 
     public static void saveProp() {
@@ -224,6 +227,21 @@ public class Main {
         }
     }
 
+    static void sendGameOver(){
+        try {
+            internet.gameOver();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    static void sendGamePoint(){
+        try {
+            internet.gamePoint();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     static class ClientImpl extends Client {
 
         HashSet<PlayerDescriptor> playerSet;
@@ -282,12 +300,13 @@ public class Main {
 
         @Override
         public void endGame(String mid) throws IOException {
-            throw new UnsupportedOperationException("Not supported yet.");
+            game.pauseGame();
+            Main.showGameWinAndReturnToNewGame();
         }
 
         @Override
         public void receivedError() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            System.out.println("Error from server");
         }
 
         @Override

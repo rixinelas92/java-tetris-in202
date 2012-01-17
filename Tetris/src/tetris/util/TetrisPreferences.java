@@ -34,8 +34,8 @@ public class TetrisPreferences {
         FileInputStream propFile = null;
         try {
             p = new Properties();
-            propFile = new FileInputStream("properties.tet");
-            p.load(propFile);
+            propFile = new FileInputStream("properties.xml");
+            p.loadFromXML(propFile);
 
         } catch (IOException ex) {
             Logger.getLogger(TetrisPreferences.class.getName()).log(Level.SEVERE, null, ex);

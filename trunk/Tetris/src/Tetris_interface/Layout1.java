@@ -459,7 +459,7 @@ public class Layout1 extends JFrame {
         themeTitle.setFont(new Font("Segoe Print", 0, 14));
         themeBox = new JComboBox();
         themeBox.setFont(segoePrint12);
-        themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Star Wars"}));
+        themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Star Wars","Silence"}));
         JLabel volumeTitle = new JLabel("Volume");
         volumeTitle.setFont(new Font("Segoe Print", 0, 14));
         volumeSlider = new JSlider();

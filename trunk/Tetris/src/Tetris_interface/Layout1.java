@@ -1,4 +1,4 @@
-//Java doc OK
+//Java doc ja realizado, mas classe em modificacao.
 package Tetris_interface;
 
 import java.awt.Canvas;
@@ -80,7 +80,6 @@ public class Layout1 extends JFrame {
     private JLabel scoreLabel;
     private JLabel timeLabel;
     private SmallTetrisCanvas secondPlayerScreen;
-
     /**
      * Initialize the configuration of the screen.
      */
@@ -100,7 +99,6 @@ public class Layout1 extends JFrame {
         holdPiece = new JLabelCont[4];
         shadowPiece = new JLabelCont[4];
     }
-
     /**
      * The following methods create the panel that will be used.
      */
@@ -132,7 +130,6 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
-
     /**
      * Initialize the main screen, configuring the way in wich the icons are 
      * displayed in the initial screen and managing the action on theese icons.
@@ -165,7 +162,6 @@ public class Layout1 extends JFrame {
             close.setBorderPainted(false);
             //Managing the actions on the icons.
             newgame.addActionListener(new ActionListener() {
-
                 /**
                  * Method to manager the button new game.
                  */
@@ -174,7 +170,6 @@ public class Layout1 extends JFrame {
                 }
             });
             config.addActionListener(new ActionListener() {
-
                 /**
                  * Method to manager the button confiration.
                  */
@@ -183,7 +178,6 @@ public class Layout1 extends JFrame {
                 }
             });
             som.addActionListener(new ActionListener() {
-
                 /**
                  * Method to manager the button sound.
                  */
@@ -192,7 +186,6 @@ public class Layout1 extends JFrame {
                 }
             });
             close.addActionListener(new ActionListener() {
-
                 /**
                  * Method to manager the button exit.
                  */
@@ -210,7 +203,6 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
-
     /**
      * Configuring, managing actions and setting the game's presentation screen.
      */
@@ -238,7 +230,6 @@ public class Layout1 extends JFrame {
             e.printStackTrace();
         }
     }
-
     /**
      * Configuring, managing actions and setting the selection screen.
      */
@@ -249,7 +240,6 @@ public class Layout1 extends JFrame {
         JSeparator separator = new JSeparator();
         JButton player1 = new JButton("1 Player");
         player1.addActionListener(new ActionListener() {
-
             /**
              * Method to manager the button 1 player.
              */
@@ -260,7 +250,6 @@ public class Layout1 extends JFrame {
         });
         JButton player2 = new JButton("2 Players");
         player2.addActionListener(new ActionListener() {
-
             /**
              * Method to manager the button 2 players.
              */
@@ -273,7 +262,6 @@ public class Layout1 extends JFrame {
         selectionPanel.add(player1, new AbsoluteConstraints(2, 55, 320, 130));
         selectionPanel.add(player2, new AbsoluteConstraints(2, 182, 320, 130));
     }
-
     /**
      * Configuring, managing actions and setting the options screen.
      */
@@ -456,7 +444,6 @@ public class Layout1 extends JFrame {
             }
         });
     }
-
     /**
      * Configuring, managing actions and setting the sound screen.
      */
@@ -486,7 +473,6 @@ public class Layout1 extends JFrame {
         JButton cancel = new JButton("Cancel");
         cancel.setFont(planetBenson14);
         cancel.addActionListener(new ActionListener() {
-
             /**
              * Method to manager the buttons apply and cancel to return the initial 
              * screen after configuration of the keys.
@@ -498,7 +484,6 @@ public class Layout1 extends JFrame {
         somPanel.add(applySom, new AbsoluteConstraints(60, 280, -1, -1));
         somPanel.add(cancel, new AbsoluteConstraints(180, 280, -1, -1));
     }
-
     /**
      * Configuring, managing actions and setting the screen to one player.
      */
@@ -554,7 +539,6 @@ public class Layout1 extends JFrame {
         JButton pauseButton = new JButton("Pause");
         pauseButton.setFont(planetBenson14);
         pauseButton.addActionListener(new ActionListener() {
-
             /**
              * Method to manager the button pause.
              */
@@ -565,7 +549,6 @@ public class Layout1 extends JFrame {
         JButton restartButton = new JButton("Restart");
         restartButton.setFont(planetBenson14);
         restartButton.addActionListener(new ActionListener() {
-
             /**
              * Method to manager the button restart.
              */
@@ -585,7 +568,6 @@ public class Layout1 extends JFrame {
         game1pPanel.setComponentZOrder(gameover, 0);
         gameover.setVisible(false);
     }
-
     /**
      * Configuring, managing actions and setting the screen to two players.
      */
@@ -607,7 +589,6 @@ public class Layout1 extends JFrame {
         // JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
         // game2pPanel.add(menu, new AbsoluteConstraints(0, 0));
     }
-
     /**
      * This method allows to set the base of panel, calling basic panels and hiding
      * others that we are not interested in the moment.
@@ -642,7 +623,6 @@ public class Layout1 extends JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);
     }
-
     /**
      * This method sets the painel in the initial screen. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -656,7 +636,6 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
     }
-
     /**
      * This method sets the painel in the selection screen. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -670,7 +649,6 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
     }
-
     /**
      * This method sets the painel in the configuration screen. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -686,7 +664,6 @@ public class Layout1 extends JFrame {
         Main.pauseGame();
         Main.removeListeners();
     }
-
     /**
      * This method sets the painel in the sound's configuration screen. Making 
      * visible panels that we are interested and hiding - setvisible(false)- those 
@@ -701,9 +678,7 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(false);
         Main.pauseGame();
         Main.removeListeners();
-
     }
-
     /**
      * This method sets the painel configured to one player. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -720,7 +695,6 @@ public class Layout1 extends JFrame {
             gameViewReady.actionPerformed(null);
         }
     }
-
     /**
      * This method sets the painel configured to two players. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -734,7 +708,6 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(true);
     }
-
     /**
      * This method sets the painel to two players. Making visible panels 
      * that we are interested and hiding - setvisible(false)- those that do not
@@ -752,7 +725,6 @@ public class Layout1 extends JFrame {
         secondPlayerScreen.setVisible(is2PlayerGame);
     }
     // ########################################################
-
     /**
      * Configures the keys fo the game.
      * @param keyNumber index of the key.
@@ -797,28 +769,19 @@ public class Layout1 extends JFrame {
 
             int keyNumber;
             JTextField field;
-
             /**
              * Method that must be implemented but without executing anything.
              */
-
-
-
             public void keyTyped(KeyEvent ke) {
             }
-
             /**
              * Default setter of the parameters <em>keyNumber</em> and <field</em>.
              */
-
-
-
             public KeyListener setKeyNumberAndField(int keyNumber, JTextField field) {
                 this.keyNumber = keyNumber;
                 this.field = field;
                 return this;
             }
-
             /**
              * Analises the key pressed and sets the key in the index keyNumber
              * in according with it.
@@ -830,14 +793,11 @@ public class Layout1 extends JFrame {
                 removeKeyListener(this);
                 checkAndIfCaseSetOtherKeyOnConfig(keyNumber, ke.getKeyCode());
             }
-
             /**
              * Method that must be implemented but without executing anything.
              */
-
             public void keyReleased(KeyEvent ke) {
             }
-
             @Override
             /**
              * Defalut getter of the parameter <em>keyNumber</em>.
@@ -845,10 +805,8 @@ public class Layout1 extends JFrame {
             public int hashCode() {
                 return keyNumber;
             }
-
             @Override
             @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-
             /**
              * Checks if there is another key already setted for the same action.
              */
@@ -856,7 +814,7 @@ public class Layout1 extends JFrame {
                 if (!this.getClass().isInstance(o)) {
                     return false;
                 }
-                if (o.hashCode() == this.hashCode()) // hashCode is unique!
+                if (o.hashCode() == this.hashCode()) // HashCode is unique!
                 {
                     return true;
                 }
@@ -867,7 +825,6 @@ public class Layout1 extends JFrame {
         field.setBackground(Color.yellow);
         requestFocusInWindow();
     }
-
     /**
      * Implements the function exit.
      */
@@ -892,7 +849,6 @@ public class Layout1 extends JFrame {
     public int getSomVolume() {
         return volumeSlider.getValue();
     }
-
     /**
      * Default getter of the theme sound.
      * @return the actual theme of the sound.
@@ -911,7 +867,7 @@ public class Layout1 extends JFrame {
      * Implements the function pause.
      */
     private void func_restart() {
-        //just for test
+        //Just for test.
         if (gameViewReady != null) {
             gameViewReady.actionPerformed(null);
         }
@@ -946,17 +902,14 @@ public class Layout1 extends JFrame {
      * @return the relative path of the color.
      */
     public void setShadowPosition(Position[] newPiece) {
-        //if the bloc shouldn't keep hide, pass position X or/and Y =-1
+        //If the bloc shouldn't keep hide, pass position X or/and Y =-1
         for (int i = 0; i < 4; i++) {
             gameScreen1pPanel.remove(shadowPiece[i]);
             gameScreen1pPanel.add(shadowPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
         }
-        
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
-
     }
-
     public String getStringForColor(String color) {
         return "imgs/" + color + r.nextInt(5) + ".png";
     }
@@ -976,12 +929,11 @@ public class Layout1 extends JFrame {
         currentPiece = new JLabelCont[4];
         nextPiece = new JLabelCont[4];
         removeGameOver(gameover);
-
     }
     /**
      * Generates the image of the new piece in the screen
-     * @param newpiece
-     * @param c
+     * @param newpiece defines the parameters of the new piece.
+     * @param c defines the grafic features of the piece.
      */
     public void newFirstPiece(Position[] newpiece, String c) {
         for (int i = 0; i < 4; i++) {
@@ -1134,7 +1086,11 @@ public class Layout1 extends JFrame {
             gameHold1pPanel.add(holdPiece[i], new AbsoluteConstraints(xx, yy, pieceSize, pieceSize));
         }
     }
-
+    //##################################################
+    /**
+     *
+     * @param newPosHoldPiece
+     */
     public void holdFirstPiece(Position[] newPosHoldPiece) {
 
         for (int i = 0; i < 4; i++) {
@@ -1149,22 +1105,23 @@ public class Layout1 extends JFrame {
         for (int i = 0; i < 4; i++) {
             holdPiece[i] = currentPiece[i];
         }
-
         setHoldPiecePosition(newPosHoldPiece);
         gameHold1pPanel.setVisible(false);
         gameHold1pPanel.setVisible(true);
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
-
     }
+    /**
+     * 
+     * @param line
+     */
     public void eraseLine(int line) {
         if(shadowPiece != null && shadowPiece[0] != null)
             for (int i = 0; i < 4; i++) {
                 shadowPiece[i].setVisible(false);
             }
-        //linhas começam do zero
+        //Lines begin in 0.
         int i, j;
-
         for (j = screenHeight - 1; j >= 0; j--) {
             for (i = 0; i < screenWidth; i++) {
                 if (screen[i][j] != null) {
@@ -1175,7 +1132,6 @@ public class Layout1 extends JFrame {
             }
             System.out.println();
         }
-
         for (i = 0; i < screenWidth; i++) {
             if (screen[i][line] != null) {
                 screen[i][line].setVisible(false);

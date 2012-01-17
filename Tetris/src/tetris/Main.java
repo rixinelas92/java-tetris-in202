@@ -16,9 +16,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import online.client.Client;
+import online.util.Player;
 import online.util.Player.PlayerState;
 import online.util.PlayerDescriptor;
 import sound.SoundEffect;
+import tetris.util.TetrisPreferences;
+import tetris.util.TetrisPreferences.ImplementedProperties;
 
 /**
  *
@@ -30,13 +33,16 @@ public class Main {
     static Layout1 screen;
     static Game game;
     static Client internet;
-    static String playerName = "TetrisPlayer";
+    
     private static SoundEffect themeSom = SoundEffect.CTHEME;
-
+    static TetrisPreferences prop;
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        prop = new TetrisPreferences();
+        prop.readProperties();
 
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -44,6 +50,28 @@ public class Main {
                 screen = new Layout1();
                 screen.setVisible(true);
                 game = new Game();
+                
+                try{
+
+                    Integer[] keys = {prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYGOLEFT),
+                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYDOWN),
+                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYGORIGHT),
+                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYGODOWN),
+                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYROTATE),
+                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYHOLD),
+                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYPAUSE)};
+                    boolean isok = true;
+                    for(Integer i: keys){
+                        if(i == null)
+                            isok = false;
+                    }
+                    if(isok)
+                        game.setControllers(keys);
+                    screen.setUserName(prop.getStrProperty(TetrisPreferences.ImplementedProperties.STR_USERNAME));
+                    screen.setIP(prop.getStrProperty(TetrisPreferences.ImplementedProperties.STR_IP));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 Layout1.addGameViewReady(game.new GameViewReadyListener());
                 Layout1.addConfigChanger(new ActionListener() {
 
@@ -69,7 +97,6 @@ public class Main {
     }
 
     public static void updatePiecesPositions() {
-
         screen.setPiecePosition(game.getCurrentPiecePositions());
         screen.setShadowPosition(game.getShadowPiecePositions());
     }
@@ -152,9 +179,16 @@ public class Main {
     }
 
     public static void start2pConnection() {
-
+        if(internet != null )
+            terminateInternetConnection();
         try {
-            internet = new ClientImpl("147.250.8.16", playerName);
+            String ip = prop.getStrProperty(TetrisPreferences.ImplementedProperties.STR_IP);
+            String name = prop.getStrProperty(TetrisPreferences.ImplementedProperties.STR_USERNAME);
+            if(ip == null)
+                ip = "localhost";
+            if(name == null)
+                name = "Default";
+            internet = new ClientImpl(ip,name);
             internet.start();
         } catch (UnknownHostException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -180,6 +214,14 @@ public class Main {
         //      }catch(Exception e){}
         //      screen.removeGameOver(go);
         //      screen.func_newgame();
+    }
+
+    public static void saveProp() {
+        try{
+            prop.saveProperties();
+        }catch(Exception e){
+
+        }
     }
 
     static class ClientImpl extends Client {
@@ -277,9 +319,22 @@ public class Main {
     }
 
     public static void ConfigChanger() {
-        game.setControllers(screen.getConfigChange());
+
+        System.out.println("Changing configurations");
+        Integer[] cc = screen.getConfigChange();
+        game.setControllers(cc);
         game.setMouseController(screen.getMouseControler());
-        ///mandar o IP
+        prop.setProperty(TetrisPreferences.ImplementedProperties.STR_IP, screen.getIPChange());
+        prop.setProperty(ImplementedProperties.INT_KEYGOLEFT,cc[0]);
+        prop.setProperty(ImplementedProperties.INT_KEYDOWN,cc[1]);
+        prop.setProperty(ImplementedProperties.INT_KEYGORIGHT,cc[2]);
+        prop.setProperty(ImplementedProperties.INT_KEYGODOWN,cc[3]);
+        prop.setProperty(ImplementedProperties.INT_KEYROTATE,cc[4]);
+        prop.setProperty(ImplementedProperties.INT_KEYHOLD,cc[5]);
+        prop.setProperty(ImplementedProperties.INT_KEYPAUSE,cc[6]);
+        String username = Player.validName(screen.getUserName());
+        prop.setProperty(TetrisPreferences.ImplementedProperties.STR_USERNAME, username);
+
     }
 
     public static void SomChanger() {

@@ -75,7 +75,7 @@ public class Layout1 extends JFrame {
     public Clock clock;
     Random r = new Random();
     private JList playersList;
-    private int[] keys = Controller.keysStart;
+    private Integer[] keys = Controller.keysStart;
     private boolean is2PlayerGame;
     private JLabel scoreLabel;
     private JLabel timeLabel;
@@ -830,13 +830,14 @@ public class Layout1 extends JFrame {
      */
     private void func_exit() {
         Main.terminateInternetConnection();
+        Main.saveProp();
         System.exit(0);
     }
     /**
      * Default getter of the chagement of configurations.
      * @return the keys configureted.
      */
-    public int[] getConfigChange() {
+    public Integer[] getConfigChange() {
         return keys;
     }
     /**
@@ -846,6 +847,20 @@ public class Layout1 extends JFrame {
     public String getIPChange() {
         return ipName.getText();
     }
+
+    public String getUserName() {
+        return playerName.getText();
+    }
+
+
+    public void setUserName(String str){
+        playerName.setText(str);
+    }
+
+    public void setIP(String str){
+        ipName.setText(str);
+    }
+    
     public int getSomVolume() {
         return volumeSlider.getValue();
     }

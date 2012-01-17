@@ -41,6 +41,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import online.util.ConnectionCodes.PlayerQueryCodes;
@@ -58,6 +60,7 @@ public class Server extends Thread {
     static HashMap<Integer,Player> playerMap;
     static HashMap<Integer,Match> matchMap;
 
+    Queue<String> queueToSend;
 
     public static void main(String[] args) {
         ServerSocket ss = null;
@@ -101,6 +104,7 @@ public class Server extends Thread {
 
     public Server(Socket clientConnection) {
         this.clientConnection = clientConnection;
+        queueToSend = new PriorityQueue<String>();
     }
 
     @Override
@@ -141,6 +145,7 @@ public class Server extends Thread {
                     }
 
                 }
+                sendAllInQueue();
                 if(counter++ > 10){
                     counter = 0;
                     sendPlayerList();
@@ -180,8 +185,13 @@ public class Server extends Thread {
 
         try{
             playerMap.remove(player.getPlayerId());
-        } catch (Exception e) {} 
+        } catch (Exception e) {}
+
+        try{
+            clientConnection.close();
+        } catch (Exception e) {}
     }
+
     static private void cleanMatch(Match m){
         try{
             matchMap.remove(m.getMatchid());
@@ -194,6 +204,7 @@ public class Server extends Thread {
     }
 
     private void consume(String q) throws IOException {
+        
         String[] query = q.split("\\s");
         if(query.length < 1)
             return;
@@ -205,6 +216,7 @@ public class Server extends Thread {
         }
         if(code == null)
             return;
+        
         switch(code){
             case CREATECLIENT:
                 createClient(this,query[1]);
@@ -237,9 +249,30 @@ public class Server extends Thread {
 
 
     private void send(String str) throws IOException{
-        System.out.println(">>> FROM ("+getId()+"): "+str);
-        os.write(str+"\n");
-        os.flush();
+        synchronized(queueToSend){
+            queueToSend.add(str+"\n");
+        }
+    }
+
+    private void sendAllInQueue(){
+        synchronized(queueToSend){
+
+            while(!queueToSend.isEmpty()){
+                
+                String str = queueToSend.poll();
+                try{
+              
+                    os.write(str);
+                }catch (Exception e){
+                    cleanClient();
+                }
+            }
+            try{
+                os.flush();
+            }catch (Exception e){
+                cleanClient();
+            }
+        }
     }
 
     private void sendPlayerList() throws IOException {
@@ -365,5 +398,7 @@ public class Server extends Thread {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+
 }
 

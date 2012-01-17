@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import online.util.ConnectionCodes.PlayerQueryCodes;
@@ -64,6 +66,7 @@ abstract public class Client extends Thread {
     }
 
     public Client(String serverAddress, String playername) throws UnknownHostException, IOException {
+        queueToSend = new PriorityQueue<String>();
         Socket s = new Socket(serverAddress, 4779);
         this.playername = playername;
         InputStreamReader is = new InputStreamReader(s.getInputStream());
@@ -82,12 +85,45 @@ abstract public class Client extends Thread {
         }
     }
 
-
+/*
     protected void send(String str) throws IOException{
         os.write(str+"\n");
         os.flush();
+
+ }
+ * 
+ */
+
+
+    Queue<String> queueToSend;
+
+    protected void send(String str) throws IOException{
+        
+        synchronized(queueToSend){
+            queueToSend.add(str+"\n");
+        }
     }
-    
+
+    private void sendAllInQueue(){
+        synchronized(queueToSend){
+            while(!queueToSend.isEmpty()){
+                String str = queueToSend.poll();
+                try{
+                    
+                    os.write(str);
+                }catch (Exception e){}
+            }
+            try{
+                os.flush();
+            }catch (Exception e){}
+        }
+    }
+
+
+
+
+
+
     @Override
     public void run() {
         try {
@@ -130,6 +166,7 @@ abstract public class Client extends Thread {
                     send(PlayerQueryCodes.ALIVE+"");
                     counter = 0;
                 }
+                sendAllInQueue();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,8 +195,6 @@ abstract public class Client extends Thread {
         }catch(Exception e){
             e.printStackTrace();
         }
-
-
          switch(code){
             case PLIST:
                 receivePlayerList(query[1]);

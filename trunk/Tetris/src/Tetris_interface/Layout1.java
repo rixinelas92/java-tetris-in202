@@ -69,7 +69,7 @@ public class Layout1 extends JFrame {
     private JPanel gameScreen1pPanel, gameNext1pPanel, gameHold1pPanel;
     private JProgressBar scoreBar;
     private JTextField score, timePassed;
-    private JLabel level, gameover, tester;
+    private JLabel level, gameover, gamewin, tester;
     //listenets
     static ActionListener gameViewReady = null;
     private static final int X_BASE = 43;
@@ -586,6 +586,20 @@ public class Layout1 extends JFrame {
         game1pPanel.add(gameover, new AbsoluteConstraints(-5, 240, -1, -1));
         game1pPanel.setComponentZOrder(gameover, 0);
         gameover.setVisible(false);
+
+        gamewin = new JLabel(new ImageIcon(getClass().getResource("imgs/win.png")));
+        //Tester =new JLabel("");
+        game1pPanel.add(gamewin, new AbsoluteConstraints(-5, 240, -1, -1));
+        game1pPanel.setComponentZOrder(gamewin, 0);
+        gamewin.setVisible(false);
+
+
+
+
+
+
+
+
     }
 
     /**
@@ -989,6 +1003,7 @@ public class Layout1 extends JFrame {
         currentPiece = new JLabelCont[4];
         nextPiece = new JLabelCont[4];
         removeGameOver(gameover);
+        removeGameWin(gamewin);
     }
 
     /**
@@ -1015,6 +1030,14 @@ public class Layout1 extends JFrame {
         return gameover;
     }
 
+
+    public JLabel showGameWin() {
+        gamewin.setVisible(true);
+        game1pPanel.setVisible(false);
+        game1pPanel.setVisible(true);
+        return gamewin;
+    }
+
     /**
      * Removes the panel configured to game, preparing the screen to another
      * cofiguration, restart for example.
@@ -1025,6 +1048,14 @@ public class Layout1 extends JFrame {
             game1pPanel.setVisible(false);
             game1pPanel.setVisible(true);
             gameover.setVisible(false);
+        }
+    }
+
+        public void removeGameWin(JLabel gameover) {
+        if (gamewin != null) {
+            game1pPanel.setVisible(false);
+            game1pPanel.setVisible(true);
+            gamewin.setVisible(false);
         }
     }
 
@@ -1540,6 +1571,7 @@ public class Layout1 extends JFrame {
     static class SmallTetrisCanvas extends Canvas {
 
         int[] isFilled;
+        int[] newFilled;
         int pxlsize = 6;
         private VolatileImage volatileImg;
 
@@ -1552,14 +1584,26 @@ public class Layout1 extends JFrame {
             isFilled = new int[Screen.SIZE_X];
             setSize(Screen.SIZE_X * pxlsize, Screen.SIZE_Y * pxlsize);
 
-            
+            ActionListener t = new ActionListener(){
+
+                public void actionPerformed(ActionEvent ae) {
+                    consumeNewFilled();
+                }
+
+            };
+            Timer tt = new Timer(100,t);
+            tt.start();
+
         }
 
         public void setIsFilled(int[] isFilled) {
+            newFilled = isFilled;
+        }
 
 
-
-
+        public void consumeNewFilled() {
+            if(newFilled == null)
+                return;
             createBackBuffer();
 
             do {
@@ -1571,48 +1615,46 @@ public class Layout1 extends JFrame {
                     createBackBuffer(); // recreate the hardware accelerated image.
                 }
 
-
-
-
-
-            Graphics2D g2;
-            g2 = (Graphics2D) getGraphics();
-            g2.setColor(Color.BLACK);
-            synchronized (this) {
-                for (int i = 0; i < Screen.SIZE_X; i++) {
-                    int diff = this.isFilled[i] ^ isFilled[i];
-                    if (diff == 0) {
-                        continue;
-                    }
-                    for (int j = 0; j < Screen.SIZE_Y; j++) {
-                        if ((diff & (1 << j)) > 0) {
-                            if ((isFilled[i] & (1 << j)) > 0) {
-                                g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
-                            }
+                Graphics2D g2;
+                g2 = (Graphics2D) getGraphics();
+                g2.setColor(Color.BLACK);
+                synchronized (this) {
+                    for (int i = 0; i < Screen.SIZE_X; i++) {
+                        int diff = this.isFilled[i] ^ newFilled[i];
+                        if (diff == 0) {
+                            continue;
                         }
-                    }
-                }
-            }
-            g2.setColor(Color.WHITE);
-            synchronized (this) {
-                for (int i = 0; i < Screen.SIZE_X; i++) {
-                    int diff = this.isFilled[i] ^ isFilled[i];
-                    if (diff == 0) {
-                        continue;
-                    }
-                    for (int j = 0; j < Screen.SIZE_Y; j++) {
-                        if ((diff & (1 << j)) > 0) {
-                            if (!((isFilled[i] & (1 << j)) > 0)) {
-
-                                synchronized (this) {
+                        for (int j = 0; j < Screen.SIZE_Y; j++) {
+                            if ((diff & (1 << j)) > 0) {
+                                if ((newFilled[i] & (1 << j)) > 0) {
                                     g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
                                 }
                             }
                         }
                     }
-                    this.isFilled[i] = isFilled[i];
                 }
-            }
+                g2.setColor(Color.WHITE);
+                synchronized (this) {
+                    for (int i = 0; i < Screen.SIZE_X; i++) {
+                        int diff = this.isFilled[i] ^ newFilled[i];
+                        if (diff == 0) {
+                            continue;
+                        }
+                        for (int j = 0; j < Screen.SIZE_Y; j++) {
+                            if ((diff & (1 << j)) > 0) {
+                                if (!((newFilled[i] & (1 << j)) > 0)) {
+
+                                    synchronized (this) {
+                                        g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
+                                    }
+                                }
+                            }
+                        }
+                        this.isFilled[i] = newFilled[i];
+
+                    }
+                }
+                newFilled = null;
 
             } while (volatileImg.contentsLost());
 

@@ -406,7 +406,6 @@ public class Game extends Controller implements ActionListener {
                 Main.setNewPiece();
                 alreadyHolded = false;
             } catch (NotAvailablePlaceForPieceException ex) {
-                System.out.println("ACABOU OUTRA VEZ!!!");
                 Main.pauseGame();
                 Main.showGameOverAndReturnToNewGame();
                 if (pauseSom != null) {
@@ -467,6 +466,7 @@ public class Game extends Controller implements ActionListener {
                 }
                 Main.callScreenRemoveLine(lineC);
                 numLinesFull++;
+                Main.sendGamePoint();
             }
             int p = ponctuation(numLinesFull);
             points += p;

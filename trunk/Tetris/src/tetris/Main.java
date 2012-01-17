@@ -294,19 +294,17 @@ public class Main {
         public void receiveBoard(String str) {
             str = str.trim();
             String[] ints = str.split("#");
-            Vector<Integer> values = new Vector<Integer>();
+            int[] v = new int[Screen.SIZE_X];
+            int i = 0;
             for (String s : ints) {
                 s = s.trim();
                 if (s.length() == 0) {
                     continue;
                 }
                 int key = Integer.valueOf(s);
-                values.add(key);
+                v[i++] = key;
             }
-            Integer[] v;
-            v = (Integer[]) values.toArray(new Integer[values.size()]);
-            boolean[][] desc = Game.getGameDescWithMask(v);
-            screen.set2pScreenGame(desc);
+            screen.set2pScreenGame(v);
         }
 
         @Override

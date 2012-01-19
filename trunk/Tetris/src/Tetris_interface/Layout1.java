@@ -685,6 +685,8 @@ public class Layout1 extends JFrame {
         somPanel.setVisible(false);
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
+        
+        Main.sendGameOver();
     }
 
     /**
@@ -701,6 +703,7 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(false);
         Main.pauseGame();
         Main.removeListeners();
+        Main.sendGameOver();
     }
 
     /**
@@ -717,6 +720,7 @@ public class Layout1 extends JFrame {
         game2pPanel.setVisible(false);
         Main.pauseGame();
         Main.removeListeners();
+        Main.sendGameOver();
     }
 
     /**

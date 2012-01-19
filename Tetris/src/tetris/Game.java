@@ -581,6 +581,10 @@ public class Game extends Controller implements ActionListener {
         return desc;
     }
 
+    void punnition() {
+        goToBottom();
+    }
+
     /**
      * Class to implement the fonctions listener.
      */

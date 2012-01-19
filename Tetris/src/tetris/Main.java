@@ -224,10 +224,11 @@ public class Main {
         }
     }
 
-    static void sendGameOver() {
+
+    public static void sendGameOver(){
         try {
             internet.gameOver();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -235,7 +236,7 @@ public class Main {
     static void sendGamePoint() {
         try {
             internet.gamePoint();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -293,7 +294,7 @@ public class Main {
 
         @Override
         public void receiveGamePunn(String mid) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            game.punnition();
         }
 
         @Override

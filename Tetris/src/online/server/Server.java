@@ -154,7 +154,12 @@ public class Server extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         } finally{
-            cleanClient();
+            try{
+                cleanMatch(player.getMatch());
+            }catch(Exception e){}
+            try{
+                cleanClient();
+            }catch(Exception e){}
             try {
                 br.close();
             } catch (Exception e) {}
@@ -196,7 +201,7 @@ public class Server extends Thread {
         try{
             matchMap.remove(m.getMatchid());
             for(int i:m.getPlayersIds()){
-                        throw new UnsupportedOperationException("Not yet implemented");
+                       
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -357,15 +362,22 @@ public class Server extends Thread {
     private void sendGamePoint() throws IOException {
         Match m = player.getMatch();
         int playerid = player.getPlayerId();
+
+
+        if(m == null){
+            System.out.println("m == null "+playerid);
+            return;
+        }
         int matchid = m.getMatchid();
         m.getOtherServer(playerid).send(ServerQueryCodes.GAMEPUNN+" "+matchid);
     }
 
     private void sendGameOver() throws IOException {
         Match m = player.getMatch();
+        if(m == null)
+            return;
         m.getPlayerWithid(m.getPlayersIds()[0]).setState(Player.PlayerState.ONLINE);
         m.getPlayerWithid(m.getPlayersIds()[1]).setState(Player.PlayerState.ONLINE);
-
         m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.ENDGAME+" "+m.getMatchid());
     }
 

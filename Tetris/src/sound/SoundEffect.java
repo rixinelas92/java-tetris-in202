@@ -20,24 +20,23 @@ import javax.sound.sampled.*;
  */
 public enum SoundEffect {
 
-    CTHEME("ClassicTheme2.wav"),      // explosion
-    CERASE("ClassicErase.wav"),      // gong
-    CFALL("ClassicFall.wav"),        // bullet
-//    MTHEME("Mariotheme.wav"),      // explosion
-//MERASE("MarioErase.wav"),      // gong
+    //CTHEME("ClassicTheme.wav"),      
+    CERASE("ClassicErase.wav"),      
+    CFALL("ClassicFall.wav"),        
+    MTHEME("MarioTheme.wav"),      
+    MERASE("MarioErase.wav"),      
     MFALL("MarioFall.wav"),  
     MGAMEOVER5("MarioGameover.wav"),
-    MPAUSE("MarioPause.wav"),      // explosion
-    PERASE("PacmanErase.wav"),      // gong
+    MPAUSE("MarioPause.wav"),      
+    PERASE("PacmanErase.wav"),      
     PFALL("PacmanFallt.wav"),  
     PGAMEOVER5("Pacmangameover.wav"),
     PPAUSE("PacmanPause.wav"),
-    STHEME("StarwarsTheme.wav"),      // explosion
-    SERASE("StarwarsErase.wav"),      // gong
-    SFALL("StarwarsFall.wav"),    
-    NOTHING("Nothing .wav");  
-    // Nested class for specifying volume
-    // Each sound effect has its own clip, loaded with its own sound file.
+    STHEME("StarwarsTheme.wav"),      
+    SERASE("StarwarsErase.wav"),      
+    SFALL("StarwarsFall.wav");
+    
+    
     private Clip clip;
     private FloatControl volumeControl;
     static int globalvolume;

@@ -205,7 +205,7 @@ public class Game extends Controller implements ActionListener {
             shadowPiece.setPosition(currentPiece.getPosition());
             shadowPiece.setRotation(currentPiece.getRotation());
         } catch (Exception ev) {
-            ev.printStackTrace();
+            //always is possible
         }
         goToBottomShadow();
         return shadowPiece.getAllPosition();
@@ -402,7 +402,6 @@ public class Game extends Controller implements ActionListener {
                 shadowPiece.setPosition(currentPiece.getPosition());
                 shadowPiece.setRotation(currentPiece.getRotation());
                 shadowPiece.setShape(currentPiece.getShapeType());
-
                 Main.setNewPiece();
                 alreadyHolded = false;
             } catch (NotAvailablePlaceForPieceException ex) {
@@ -597,12 +596,12 @@ public class Game extends Controller implements ActionListener {
         if (somTheme == 0) {
             fallSom = SoundEffect.CFALL;
             eraseSom = SoundEffect.CERASE;
-            gameoverSom = SoundEffect.NOTHING;
-            pauseSom = SoundEffect.NOTHING;
+            gameoverSom = null;
+            pauseSom = null;
         }
         if (somTheme == 1) {
             fallSom = SoundEffect.MFALL;
-            eraseSom = SoundEffect.NOTHING;
+            eraseSom = SoundEffect.MERASE;
             gameoverSom = SoundEffect.MGAMEOVER5;
             pauseSom = SoundEffect.MPAUSE;
         }
@@ -615,8 +614,8 @@ public class Game extends Controller implements ActionListener {
         if (somTheme == 3) {
             fallSom = SoundEffect.SFALL;
             eraseSom = SoundEffect.SERASE;
-            gameoverSom = SoundEffect.NOTHING;
-            pauseSom = SoundEffect.NOTHING;
+            gameoverSom = null;
+            pauseSom = null;
         }
         if (somTheme == 4) {
             fallSom = null;

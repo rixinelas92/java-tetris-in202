@@ -33,10 +33,9 @@ public class Main {
     static Layout1 screen;
     static Game game;
     static Client internet;
-    
-    private static SoundEffect themeSom = SoundEffect.CTHEME;
+    private static SoundEffect themeSom = SoundEffect.MTHEME;
     static TetrisPreferences prop;
-    
+
     /**
      * @param args the command line arguments
      */
@@ -50,26 +49,28 @@ public class Main {
                 screen = new Layout1();
                 screen.setVisible(true);
                 game = new Game();
-                
-                try{
+
+                try {
 
                     Integer[] keys = {prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYGOLEFT),
-                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYDOWN),
-                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYGORIGHT),
-                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYGODOWN),
-                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYROTATE),
-                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYHOLD),
-                                  prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYPAUSE)};
+                        prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYDOWN),
+                        prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYGORIGHT),
+                        prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYGODOWN),
+                        prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYROTATE),
+                        prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYHOLD),
+                        prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYPAUSE)};
                     boolean isok = true;
-                    for(Integer i: keys){
-                        if(i == null)
+                    for (Integer i : keys) {
+                        if (i == null) {
                             isok = false;
+                        }
                     }
-                    if(isok)
+                    if (isok) {
                         game.setControllers(keys);
+                    }
                     screen.setUserName(prop.getStrProperty(TetrisPreferences.ImplementedProperties.STR_USERNAME));
                     screen.setIP(prop.getStrProperty(TetrisPreferences.ImplementedProperties.STR_IP));
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Layout1.addGameViewReady(game.new GameViewReadyListener());
@@ -85,14 +86,8 @@ public class Main {
                         SomChanger();
                     }
                 });
-                game.setSomTheme(4);
-                try {
-                    if (themeSom != null) {
-                        themeSom.setLoop();
-                    }
-                } catch (Exception e) {
-                }
-            }
+                game.setSomTheme(0);
+           }
         });
     }
 
@@ -180,16 +175,19 @@ public class Main {
     }
 
     public static void start2pConnection() {
-        if(internet != null )
+        if (internet != null) {
             terminateInternetConnection();
+        }
         try {
             String ip = prop.getStrProperty(TetrisPreferences.ImplementedProperties.STR_IP);
             String name = prop.getStrProperty(TetrisPreferences.ImplementedProperties.STR_USERNAME);
-            if(ip == null)
+            if (ip == null) {
                 ip = "localhost";
-            if(name == null)
+            }
+            if (name == null) {
                 name = "Default";
-            internet = new ClientImpl(ip,name);
+            }
+            internet = new ClientImpl(ip, name);
             internet.start();
         } catch (UnknownHostException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -214,20 +212,19 @@ public class Main {
 
     }
 
-    public static void showGameWinAndReturnToNewGame(){
+    public static void showGameWinAndReturnToNewGame() {
         Main.removeListeners();
         JLabel go = screen.showGameWin();
     }
 
     public static void saveProp() {
-        try{
+        try {
             prop.saveProperties();
-        }catch(Exception e){
-
+        } catch (Exception e) {
         }
     }
 
-    static void sendGameOver(){
+    static void sendGameOver() {
         try {
             internet.gameOver();
         } catch (IOException ex) {
@@ -235,13 +232,14 @@ public class Main {
         }
     }
 
-    static void sendGamePoint(){
+    static void sendGamePoint() {
         try {
             internet.gamePoint();
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     static class ClientImpl extends Client {
 
         HashSet<PlayerDescriptor> playerSet;
@@ -342,13 +340,13 @@ public class Main {
         game.setControllers(cc);
         game.setMouseController(screen.getMouseControler());
         prop.setProperty(TetrisPreferences.ImplementedProperties.STR_IP, screen.getIPChange());
-        prop.setProperty(ImplementedProperties.INT_KEYGOLEFT,cc[0]);
-        prop.setProperty(ImplementedProperties.INT_KEYDOWN,cc[1]);
-        prop.setProperty(ImplementedProperties.INT_KEYGORIGHT,cc[2]);
-        prop.setProperty(ImplementedProperties.INT_KEYGODOWN,cc[3]);
-        prop.setProperty(ImplementedProperties.INT_KEYROTATE,cc[4]);
-        prop.setProperty(ImplementedProperties.INT_KEYHOLD,cc[5]);
-        prop.setProperty(ImplementedProperties.INT_KEYPAUSE,cc[6]);
+        prop.setProperty(ImplementedProperties.INT_KEYGOLEFT, cc[0]);
+        prop.setProperty(ImplementedProperties.INT_KEYDOWN, cc[1]);
+        prop.setProperty(ImplementedProperties.INT_KEYGORIGHT, cc[2]);
+        prop.setProperty(ImplementedProperties.INT_KEYGODOWN, cc[3]);
+        prop.setProperty(ImplementedProperties.INT_KEYROTATE, cc[4]);
+        prop.setProperty(ImplementedProperties.INT_KEYHOLD, cc[5]);
+        prop.setProperty(ImplementedProperties.INT_KEYPAUSE, cc[6]);
         String username = Player.validName(screen.getUserName());
         prop.setProperty(TetrisPreferences.ImplementedProperties.STR_USERNAME, username);
 
@@ -357,20 +355,27 @@ public class Main {
     public static void SomChanger() {
         SoundEffect.setGlobalVolume(screen.getSomVolume());
         int aux = screen.getSomTheme();
-        themeSom.setStop();
+        System.out.println(aux);
+        game.setSomTheme(aux);
+        
+        if (themeSom != null) {
+            themeSom.setStop();
+        }
         if (aux == 0) {
-            themeSom = SoundEffect.CTHEME;
+            themeSom = null;
         } else if (aux == 1) {
-            themeSom = SoundEffect.NOTHING;
+            themeSom = SoundEffect.MTHEME;
         } else if (aux == 2) {
-            themeSom = SoundEffect.NOTHING;
+            themeSom = null;
         } else if (aux == 3) {
             themeSom = SoundEffect.STHEME;
         }
         if (aux == 4) {
-            themeSom = SoundEffect.NOTHING;
+            themeSom = null;
         }
-        themeSom.setLoop();
-        game.setSomTheme(aux);
+        if (themeSom != null) {
+            themeSom.setLoop();
+        }
+        
     }
 }

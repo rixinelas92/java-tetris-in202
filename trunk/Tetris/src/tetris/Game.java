@@ -202,6 +202,7 @@ public class Game extends Controller implements ActionListener {
 
     public Position[] getShadowPiecePositions() {
         try {
+            shadowPiece.setShape(currentPiece.getShapeType());
             shadowPiece.setPosition(currentPiece.getPosition());
             shadowPiece.setRotation(currentPiece.getRotation());
         } catch (Exception ev) {
@@ -485,8 +486,21 @@ public class Game extends Controller implements ActionListener {
                 alreadyHolded = true;
                 try {
                     Position[] aux = holdPiece.getAllPosition();
-                    if (!screen.getBoxAt(aux[0].getX(), aux[0].getY()).isFull() && !screen.getBoxAt(aux[1].getX(), aux[1].getY()).isFull() && !screen.getBoxAt(aux[2].getX(), aux[2].getY()).isFull() && !screen.getBoxAt(aux[3].getX(), aux[3].getY()).isFull()) {
+                    boolean flag = true;
 
+                    for(int i = 0;i<4;i++){
+                        if(screen.getBoxAt(aux[0].getX(), aux[0].getY()) == null)
+                            flag = false;
+                        if(flag && screen.getBoxAt(aux[0].getX(), aux[0].getY()).isFull())
+                            flag = false;
+                    }
+                    if(flag){
+
+                 /*   if (!screen.getBoxAt(aux[0].getX(), aux[0].getY()).isFull() &&
+                            !screen.getBoxAt(aux[1].getX(), aux[1].getY()).isFull() &&
+                            !screen.getBoxAt(aux[2].getX(), aux[2].getY()).isFull() &&
+                            !screen.getBoxAt(aux[3].getX(), aux[3].getY()).isFull()) {
+*/
                         auxiliar.setRotation(currentPiece.getRotation());
                         auxiliar.setShape(currentPiece.getShapeType());
                         currentPiece.setRotation(holdPiece.getRotation());

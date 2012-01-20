@@ -5,6 +5,8 @@
 package tetris;
 
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,6 +15,8 @@ import java.awt.Color;
 public class Screen {
     static final public short SIZE_X = 10;
     static final public short SIZE_Y = 20;
+
+
     private Box[][] grid;
     private Box nulle = new Box();
 
@@ -28,9 +32,13 @@ public class Screen {
      * @return middle with the initial position of generation of boxes. 
      */
     static public Position getMiddlePosition(){
-        if(middle != null)
-            return middle;
-            middle = new Position((short) SIZE_X/2 - 2, (short) SIZE_Y+1,0);
+        try {
+            if (middle == null) {
+                middle = new Position((short) SIZE_X / 2 - 2, (short) SIZE_Y + 1, 0);
+            }
+            return new Position(middle);
+        } catch (OutOfScreenBoundsException ex) {
+        }
         return middle;
     }
     /**

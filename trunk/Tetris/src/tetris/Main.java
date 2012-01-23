@@ -33,7 +33,7 @@ public class Main {
     static Layout1 screen;
     static Game game;
     static Client internet;
-    private static SoundEffect themeSom = SoundEffect.MTHEME;
+    private static SoundEffect themeSom = SoundEffect.CTHEME;
     static TetrisPreferences prop;
 
     /**
@@ -86,7 +86,7 @@ public class Main {
                         SomChanger();
                     }
                 });
-                game.setSomTheme(0);
+                SomChanger();
            }
         });
     }
@@ -356,14 +356,13 @@ public class Main {
     public static void SomChanger() {
         SoundEffect.setGlobalVolume(screen.getSomVolume());
         int aux = screen.getSomTheme();
-        System.out.println(aux);
-        game.setSomTheme(aux);
         
+        game.setSomTheme(aux);        
         if (themeSom != null) {
             themeSom.setStop();
         }
         if (aux == 0) {
-            themeSom = null;
+            themeSom = SoundEffect.CTHEME;
         } else if (aux == 1) {
             themeSom = SoundEffect.MTHEME;
         } else if (aux == 2) {

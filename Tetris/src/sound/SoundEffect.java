@@ -20,7 +20,7 @@ import javax.sound.sampled.*;
  */
 public enum SoundEffect {
 
-    //CTHEME("ClassicTheme.wav"),      
+    CTHEME("ClassicTheme.wav"),      
     CERASE("ClassicErase.wav"),      
     CFALL("ClassicFall.wav"),        
     MTHEME("MarioTheme.wav"),      
@@ -70,8 +70,6 @@ public enum SoundEffect {
         float volume;
         volume = (float) (volumeControl.getMaximum() - volumeControl.getMinimum());
         volume *= (float) Math.log(2*newVolume) /Math.log(2*100);
-        
-        System.out.println(volume);
         volumeControl.setValue(volume+volumeControl.getMinimum());
     }
 

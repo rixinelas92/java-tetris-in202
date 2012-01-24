@@ -270,6 +270,26 @@ public class Game extends Controller implements ActionListener {
         }
     }
 
+    public void mouseClicked(MouseEvent e) {
+        if (isPaused) {
+            return;
+        }
+        if (isFallingFinished) {
+            return;
+        }
+        super.mouseClicked(e);
+    }
+    
+    public void mouseMoved(MouseEvent e) {
+        if (isPaused) {
+            return;
+        }
+        if (isFallingFinished) {
+            return;
+        }
+        super.mouseMoved(e);
+    }
+    
     /**
      * Executes the direct downward movement when it is possible.
      */
@@ -371,19 +391,34 @@ public class Game extends Controller implements ActionListener {
     }
 
     synchronized protected void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
-        if (isFallingFinished) {
-            return;
-        }
+
         Position[] vector = currentPiece.getAllPosition();
         int x = -2 + newX / pieceSize;
         //int x = -((Position.getMaxCoord(vector).getX() +Position.getMinCoord(vector).getX())/2) + newX/pieceSize;
-        System.out.println(Position.getMaxCoord(vector).getX() + " " + Position.getMinCoord(vector).getX());
+      //  System.out.println(Position.getMaxCoord(vector).getX() + " " + Position.getMinCoord(vector).getX());
         int y = currentPiece.getY();
-        try {
+
+        while (true) {
+            Position p = currentPiece.getPosition();
+            if(x == p.getX())
+                break;
+            try {
+                if(x  < p.getX()){
+                    goLeft();
+                }else{
+                    goRight();
+                }
+            } catch (Exception e) {
+                break;
+            }
+        }
+     /*   try {
             currentPiece.setPosition(new Position(x, y));
         } catch (Exception e) {
             System.out.print("mouse not");
         }
+      * 
+      */
 
     }
 

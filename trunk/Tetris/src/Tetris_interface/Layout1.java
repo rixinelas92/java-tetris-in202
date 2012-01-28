@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
+import java.awt.Image;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -19,9 +20,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -83,6 +89,9 @@ public class Layout1 extends JFrame {
     private JLabel timeLabel;
     private SmallTetrisCanvas secondPlayerScreen;
 
+    final Color semiopaque = new Color(200,200,200,140);
+
+    final Color translucent = new Color(0,0,0,0);
     /**
      * Initialize the configuration of the screen.
      */
@@ -141,6 +150,7 @@ public class Layout1 extends JFrame {
      */
     private void make_top() {
         topPanel = new JPanel(new AbsoluteLayout());
+        
         JToolBar toolbar = new JToolBar();
         try {
             //Setup of the main screen.
@@ -218,6 +228,8 @@ public class Layout1 extends JFrame {
      */
     private void make_initial() {
         initialPanel = new JPanel(new AbsoluteLayout());
+        initialPanel.setBackground(semiopaque);
+
         JLabel menuImage = new JLabel();
         try {
             //Setup of the presentation screen.
@@ -246,6 +258,8 @@ public class Layout1 extends JFrame {
      */
     private void make_selection() {
         selectionPanel = new JPanel(new AbsoluteLayout());
+        selectionPanel.setBackground(semiopaque);
+
         JLabel selectionMenu = new JLabel("Game Mode");
         selectionMenu.setFont(neuropol24);
         JSeparator separator = new JSeparator();
@@ -281,6 +295,8 @@ public class Layout1 extends JFrame {
      */
     private void make_options() {
         optionsPanel = new JPanel(new AbsoluteLayout());
+                optionsPanel.setBackground(semiopaque);
+
         JLabel optionTitle = new JLabel("Options");
         optionTitle.setFont(neuropol24);
 
@@ -290,6 +306,9 @@ public class Layout1 extends JFrame {
 
         //Controls panel.
         JPanel controlsPanel = new JPanel(new AbsoluteLayout());
+
+
+        controlsPanel.setBackground(semiopaque);
         controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
         //Configuring presentation on the screen of the options.
         JLabel moveLeftLabel = new JLabel("Move Left");
@@ -363,6 +382,8 @@ public class Layout1 extends JFrame {
 
         //Begin of the player name panel.
         JPanel playerPanel = new JPanel(new AbsoluteLayout());
+        playerPanel.setBackground(semiopaque);
+
         playerPanel.setBorder(BorderFactory.createTitledBorder(null, "Player Name", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
         playerName = new JTextField("ENSTA Project");
         playerName.setFont(segoePrint12);
@@ -373,6 +394,7 @@ public class Layout1 extends JFrame {
         optionsPanel.add(playerPanel, new AbsoluteConstraints(10, 220, 310, 55));
 
         JPanel ipPanel = new JPanel(new AbsoluteLayout());
+        ipPanel.setBackground(semiopaque);
         ipPanel.setBorder(BorderFactory.createTitledBorder(null, "IP Number", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
         ipName = new JTextField("Ip to 2 Players Mode");
         ipName.setFont(sevenSegments14);
@@ -464,6 +486,7 @@ public class Layout1 extends JFrame {
      */
     private void make_som() {
         somPanel = new JPanel(new AbsoluteLayout());
+        somPanel.setBackground(semiopaque);
         JLabel optionTitle = new JLabel("Sound");
         optionTitle.setFont(neuropol24);
         JSeparator separator = new JSeparator();
@@ -518,9 +541,11 @@ public class Layout1 extends JFrame {
         gameScreen1pPanel.setFocusable(true);
         gameScreen1pPanel.setOpaque(false);
         gameNext1pPanel = new JPanel(new AbsoluteLayout());
+        gameNext1pPanel.setBackground(translucent);
         gameNext1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Next", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
         gameHold1pPanel = new JPanel(new AbsoluteLayout());
         gameHold1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Hold", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
+        gameHold1pPanel.setBackground(translucent);
         game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(10, 60, 10 * pieceSize, 20 * pieceSize));
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 52, 85, 90));
         game1pPanel.add(gameHold1pPanel, new AbsoluteConstraints(220, 140, 85, 90));
@@ -629,9 +654,25 @@ public class Layout1 extends JFrame {
      * others that we are not interested in the moment.
      */
     private void make_base() {
-        base = new JPanel(new AbsoluteLayout());
+        base = new JPanel(new AbsoluteLayout()) {
+
+            @Override
+            public void paint(Graphics g) {
+                super.paint(g);
+                try {
+                    BufferedImage image = ImageIO.read(getClass().getResource("imgs/back0.png"));
+                    g.drawImage(image, 0, 0, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                super.paint(g);
+            }
+        };
+        base.setBackground(translucent);
+       // JLabel background = new JLabel(new ImageIcon(getClass().getResource("imgs/back1.png")));
+       // base.add(background, new AbsoluteConstraints(0, 0, -1, -1));
         base.add(topPanel, new AbsoluteConstraints(0, 0));
-        base.add(initialPanel, new AbsoluteConstraints(0, 0, 330, 450));
+        base.add(initialPanel, new AbsoluteConstraints(0, 10, 330, 450));
         base.add(selectionPanel, new AbsoluteConstraints(0, 10, 330, 450));
         selectionPanel.setVisible(false);
         base.add(optionsPanel, new AbsoluteConstraints(0, 10, 330, 450));
@@ -642,6 +683,10 @@ public class Layout1 extends JFrame {
         game1pPanel.setVisible(false);
         base.add(game2pPanel, new AbsoluteConstraints(0, 10, 330, 450));
         game2pPanel.setVisible(false);
+        game1pPanel.setBackground(semiopaque);
+        game2pPanel.setBackground(semiopaque);
+        optionsPanel.setBackground(semiopaque);
+
     }
     //Creates the interface of the Jpanel.
 
@@ -654,6 +699,7 @@ public class Layout1 extends JFrame {
         pack();
         setTitle("Tetris");
         setSize(330, 490);
+
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);
@@ -685,7 +731,8 @@ public class Layout1 extends JFrame {
         somPanel.setVisible(false);
         game1pPanel.setVisible(false);
         game2pPanel.setVisible(false);
-        
+        Main.pauseGame();
+        Main.removeListeners();
         Main.sendGameOver();
     }
 
@@ -954,10 +1001,13 @@ public class Layout1 extends JFrame {
     public void setPiecePosition(Position[] newPiece) {
         //If the bloc shouldn't keep hide, pass position X or/and Y =-1
         for (int i = 0; i < 4; i++) {
+         //   currentPiece[i].setVisible(false);
+
             gameScreen1pPanel.remove(currentPiece[i]);
             gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
         }
         for (int i = 0; i < 4; i++) {
+        //    currentPiece[i].setVisible(true);
             try {
                 screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
             } catch (Exception ex) {
@@ -967,8 +1017,7 @@ public class Layout1 extends JFrame {
             screen[newPiece[i].getX()][newPiece[i].getY()] = currentPiece[i];
             screen[newPiece[i].getX()][newPiece[i].getY()].setP(newPiece[i].getX(), newPiece[i].getY());
         }
-        gameScreen1pPanel.setVisible(false);
-        gameScreen1pPanel.setVisible(true);
+        toggleVisiblePropOnGame();
     }
 
     /**
@@ -983,8 +1032,8 @@ public class Layout1 extends JFrame {
             gameScreen1pPanel.remove(shadowPiece[i]);
             gameScreen1pPanel.add(shadowPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
         }
-        gameScreen1pPanel.setVisible(false);
-        gameScreen1pPanel.setVisible(true);
+        toggleVisiblePropOnGame();
+
     }
 
     public String getStringForColor(String color) {
@@ -1271,10 +1320,14 @@ public class Layout1 extends JFrame {
      * Sets the panel prepared to the game.
      */
     public void toggleVisiblePropOnGame() {
+        
         gameNext1pPanel.setVisible(false);
         gameNext1pPanel.setVisible(true);
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
+        game1pPanel.setVisible(false);
+        game1pPanel.setVisible(true);
+
     }
 
     /**
@@ -1378,6 +1431,7 @@ public class Layout1 extends JFrame {
     public void set2pScreenGame(int[] isFilled) {
         secondPlayerScreen.setIsFilled(isFilled);
     }
+
 
     /**
      * Default inner of the class JLabel.

@@ -20,10 +20,10 @@ import javax.sound.sampled.*;
  */
 public enum SoundEffect {
 
-    CTHEME("ClassicTheme.wav"),      
+//    CTHEME("ClassicTheme.wav"),
     CERASE("ClassicErase.wav"),      
     CFALL("ClassicFall.wav"),        
-    MTHEME("MarioTheme.wav"),      
+    //MTHEME("MarioTheme.wav"),
     MERASE("MarioErase.wav"),      
     MFALL("MarioFall.wav"),  
     MGAMEOVER5("MarioGameover.wav"),

@@ -33,7 +33,7 @@ public class Main {
     static Layout1 screen;
     static Game game;
     static Client internet;
-    private static SoundEffect themeSom = SoundEffect.CTHEME;
+    private static SoundEffect themeSom = null;
     static TetrisPreferences prop;
 
     /**
@@ -362,9 +362,9 @@ public class Main {
             themeSom.setStop();
         }
         if (aux == 0) {
-            themeSom = SoundEffect.CTHEME;
+            themeSom = null;
         } else if (aux == 1) {
-            themeSom = SoundEffect.MTHEME;
+            themeSom = null;
         } else if (aux == 2) {
             themeSom = null;
         } else if (aux == 3) {

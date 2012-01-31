@@ -92,10 +92,18 @@ public class Layout1 extends JFrame {
     final Color semiopaque = new Color(200,200,200,140);
 
     final Color translucent = new Color(0,0,0,0);
+
+    Image imageb = null;
+
     /**
      * Initialize the configuration of the screen.
      */
     public Layout1() {
+        try {
+            imageb = ImageIO.read(getClass().getResource(getStringForColor("back")));
+        } catch (IOException ex) {
+            Logger.getLogger(Layout1.class.getName()).log(Level.SEVERE, null, ex);
+        }
         make_fonts();
         make_top();
         make_initial();
@@ -362,6 +370,7 @@ public class Layout1 extends JFrame {
 
         mouseBox = new JCheckBox("Use mouse");
         mouseBox.setFont(segoePrint12);
+        mouseBox.setOpaque(false);
 
         controlsPanel.add(moveLeftLabel, new AbsoluteConstraints(15, 30, -1, -1));
         controlsPanel.add(leftKey, new AbsoluteConstraints(95, 32, 55, 25));
@@ -389,9 +398,9 @@ public class Layout1 extends JFrame {
         playerName.setFont(segoePrint12);
         playerName.setHorizontalAlignment(JTextField.CENTER);
         playerName.setBorder(null);
-        playerName.setBackground(new Color(playerPanel.getBackground().getRed(), playerPanel.getBackground().getGreen(), playerPanel.getBackground().getBlue()));
+        playerName.setOpaque(false);
         playerPanel.add(playerName, new AbsoluteConstraints(12, 20, 290, 30));
-        optionsPanel.add(playerPanel, new AbsoluteConstraints(10, 220, 310, 55));
+        optionsPanel.add(playerPanel, new AbsoluteConstraints(10, 223, 310, 55));
 
         JPanel ipPanel = new JPanel(new AbsoluteLayout());
         ipPanel.setBackground(semiopaque);
@@ -400,9 +409,9 @@ public class Layout1 extends JFrame {
         ipName.setFont(sevenSegments14);
         ipName.setHorizontalAlignment(JTextField.CENTER);
         ipName.setBorder(null);
-        ipName.setBackground(new Color(playerPanel.getBackground().getRed(), playerPanel.getBackground().getGreen(), playerPanel.getBackground().getBlue()));
+        ipName.setOpaque(false);
         ipPanel.add(ipName, new AbsoluteConstraints(12, 20, 290, 30));
-        optionsPanel.add(ipPanel, new AbsoluteConstraints(10, 280, 310, 55));
+        optionsPanel.add(ipPanel, new AbsoluteConstraints(10, 282, 310, 55));
         //Buttons.
         applyOptions = new JButton("Apply");
         applyOptions.setFont(planetBenson14);
@@ -490,21 +499,30 @@ public class Layout1 extends JFrame {
         JLabel optionTitle = new JLabel("Sound");
         optionTitle.setFont(neuropol24);
         JSeparator separator = new JSeparator();
-        somPanel.add(optionTitle, new AbsoluteConstraints(110, 20, -1, -1));
+        somPanel.add(optionTitle, new AbsoluteConstraints(120, 20, -1, -1));
         somPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
         //Options of sounds.
+        JPanel musicPanel = new JPanel(new AbsoluteLayout());
+        musicPanel.setBackground(semiopaque);
+
+        musicPanel.setBorder(BorderFactory.createTitledBorder(null, "Musics", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
+        
         JLabel themeTitle = new JLabel("Theme");
-        themeTitle.setFont(new Font("Segoe Print", 0, 14));
+        themeTitle.setFont(segoePrint12);
         themeBox = new JComboBox();
         themeBox.setFont(segoePrint12);
         themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Star Wars", "Silence"}));
         JLabel volumeTitle = new JLabel("Volume");
-        volumeTitle.setFont(new Font("Segoe Print", 0, 14));
+        volumeTitle.setFont(segoePrint12);
         volumeSlider = new JSlider();
-        somPanel.add(themeTitle, new AbsoluteConstraints(30, 90, -1, -1));
-        somPanel.add(themeBox, new AbsoluteConstraints(110, 85, -1, -1));
-        somPanel.add(volumeTitle, new AbsoluteConstraints(30, 140, -1, -1));
-        somPanel.add(volumeSlider, new AbsoluteConstraints(110, 140, -1, -1));
+        volumeSlider.setOpaque(false);
+        musicPanel.add(themeTitle, new AbsoluteConstraints(20, 30, -1, -1));
+        musicPanel.add(themeBox, new AbsoluteConstraints(100, 25, -1, -1));
+        musicPanel.add(volumeTitle, new AbsoluteConstraints(20, 80, -1, -1));
+        musicPanel.add(volumeSlider, new AbsoluteConstraints(100, 80, -1, -1));
+
+        somPanel.add(musicPanel, new AbsoluteConstraints(10, 60, 310, 135));
+
         //Buttons.
         applySom = new JButton("Apply");
         applySom.setFont(planetBenson14);
@@ -520,8 +538,8 @@ public class Layout1 extends JFrame {
                 func_initial();
             }
         });
-        somPanel.add(applySom, new AbsoluteConstraints(60, 280, -1, -1));
-        somPanel.add(cancel, new AbsoluteConstraints(180, 280, -1, -1));
+        somPanel.add(applySom, new AbsoluteConstraints(60, 340, -1, -1));
+        somPanel.add(cancel, new AbsoluteConstraints(180, 340, -1, -1));
     }
 
     /**
@@ -659,12 +677,7 @@ public class Layout1 extends JFrame {
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
-                try {
-                    BufferedImage image = ImageIO.read(getClass().getResource("imgs/back0.png"));
-                    g.drawImage(image, 0, 0, null);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                g.drawImage(imageb, 0, 0, null);
                 super.paint(g);
             }
         };

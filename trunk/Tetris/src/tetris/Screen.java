@@ -5,8 +5,6 @@
 package tetris;
 
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -18,7 +16,6 @@ public class Screen {
 
 
     private Box[][] grid;
-    private Box nulle = new Box();
 
     /**                \/ middle position
      *     ( 0,12) ... (3,12) ... ( 9,12)
@@ -27,7 +24,7 @@ public class Screen {
      */
     static private Position middle;
     /**
-     * Default getter of the the parameter <em>middle</em> if it's already existes
+     * Default getter of the the parameter <em>middle</em> if it's already exists
      * or setter of this parameter on the central/top of the screen.
      * @return middle with the initial position of generation of boxes. 
      */
@@ -87,7 +84,7 @@ public class Screen {
     }
     /**
      * Returns -1 if no line were affected and i >= 0 if the i-nary line
-     * were afected. (starting from 0).
+     * were affected. (starting from 0).
      * @return number of the line affected.
      */
     public short checkLine(){
@@ -104,7 +101,7 @@ public class Screen {
     }
     /**
      * Removes the lines that are filled.
-     * @param line informes the line to be remove.
+     * @param line informs the line to be remove.
      */
     synchronized public void removeLine(int line){
         for(int i = line+1;i<SIZE_Y;i++){
@@ -122,27 +119,10 @@ public class Screen {
             }
         }
     }
+
+
     /**
-     * Returns colision in bord of the screen like false.
-     * @return false.
-     */
-    public boolean checkColisionBord(){
-        return false;
-    }
-    /**
-     * Returns colision in the bottom edge like false.
-     * @return false.
-     */
-    public boolean checkColisionBase(){
-        return false;
-    }
-    /**
-     * No implemented.
-     */
-    public void clearPosition(){
-    }
-    /**
-     * Default getter of boxes actives.
+     * Default getter of active boxes.
      * @param x defines the parameter <em>x</em> of the table of box.
      * @param y defines the parameter <em>y</em> of the table of box.
      * @return the box correspondent of the table.
@@ -166,8 +146,8 @@ public class Screen {
             return SIZE_X;
         }
         /**
-         * Returns the lenght of the screen, defined by default.
-         * @return the value of the lenght.
+         * Returns the length of the screen, defined by default.
+         * @return the value of the length.
          */
         public short getMaxY(){
             return SIZE_Y;
@@ -194,7 +174,7 @@ public class Screen {
         }
     }
     /**
-     * Methode in according to Java standard
+     * Method in according to Java standard
      */
     static public class OutOfScreenBoundsException extends Exception{
     }
@@ -203,8 +183,8 @@ public class Screen {
      */
     static public class NotAvailablePlaceForPieceException extends Exception{
         /**
-         * Informes the occurence of conflits among piece and static parts.
-         * @param error infrmes the status.
+         * informs the occurence of conflicts among piece and static parts.
+         * @param error informs the status.
          */
         public NotAvailablePlaceForPieceException(String error){
             super(error);

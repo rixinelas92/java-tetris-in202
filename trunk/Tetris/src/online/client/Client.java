@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package online.client;
 
 import java.io.BufferedReader;
@@ -30,6 +27,10 @@ abstract public class Client extends Thread {
     OutputStreamWriter os;
     final String playername;
 
+    /**
+     * Defines a standard/protocol to manage the network
+     * @param str default parameter of the function main. 
+     */
     public static void main(String[] str) {
         try {
             Client c = new ClientTest("localhost","ppp1");
@@ -63,7 +64,13 @@ abstract public class Client extends Thread {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Defines parameters to the client in the network and the basic 
+     * @param serverAddress defines a port of comunication.
+     * @param playername identifies the player in the network.
+     * @throws UnknownHostException if a sever adress is not well identified.
+     * @throws IOException if a client cannot be created or list is not avaliable.
+     */
     public Client(String serverAddress, String playername) throws UnknownHostException, IOException {
         queueToSend = new PriorityQueue<String>();
         Socket s = new Socket(serverAddress, 4779);
@@ -74,8 +81,10 @@ abstract public class Client extends Thread {
         createClient(playername);
         requestList();
     }
-
-
+    /**
+     * Refreshes the informations sent to the client, allowing that the comunication
+     * arrives without problems of delay.
+     */
     private void flush(){
         try {
             os.flush();
@@ -84,25 +93,22 @@ abstract public class Client extends Thread {
         }
     }
 
-/*
-    protected void send(String str) throws IOException{
-        os.write(str+"\n");
-        os.flush();
-
- }
- * 
- */
-
-
     Queue<String> queueToSend;
-
-    protected void send(String str) throws IOException{
+    /**
+     * Puts a message in the queue, organizing the messages.
+     * @param str defines the message to be sent.
+     * @throws IOException 
+     */
+    protected void send(String str) {
         
         synchronized(queueToSend){
             queueToSend.add(str+"\n");
         }
     }
-
+    /**
+     * Manages the channel, sending all the messages that was in the queue following 
+     * its previous order.
+     */
     private void sendAllInQueue(){
         synchronized(queueToSend){
             while(!queueToSend.isEmpty()){
@@ -117,12 +123,6 @@ abstract public class Client extends Thread {
             }catch (Exception e){}
         }
     }
-
-
-
-
-
-
     @Override
     public void run() {
         try {
@@ -180,10 +180,13 @@ abstract public class Client extends Thread {
             } catch (Exception e) {
             }
         }
-
-
     }
-
+    /**
+     * Treats a string passed like parameter and executes a fonction in according 
+     * to the request.
+     * @param q informs the message of request. 
+     * @throws IOException if some of the cosume fonction cannot handle the request.
+     */
     private void consume(String q) throws IOException {
         String[] query = q.split("\\s");
         if(query.length < 2)
@@ -219,10 +222,10 @@ abstract public class Client extends Thread {
                 break;
         }
     }
-/*****************
- * RECEIVERS
- */
-
+    /**
+     * Receives
+     * @param list default of the method.
+     */
     abstract public  void receivePlayerList(String list);
 
     abstract public void receiveMatchRequest(String uid) throws IOException;
@@ -236,31 +239,53 @@ abstract public class Client extends Thread {
     abstract public void receivedError();
     
     abstract public void receiveBoard(String board);
-/*****************
- * RECEIVERS - END
- */
 
-
-/*****************
- * METHODS
- */
+    /**
+     * Methods
+     */
+    /**
+     * Sends a message to create a new client in the network.
+     * @param playername defines the identity of the player.
+     * @throws IOException default of the method.
+     */
     public void createClient(String playername) throws IOException{
         send(PlayerQueryCodes.CREATECLIENT+" "+Player.validName(playername));
     }
+    /**
+     * Sends a message to obtain a list of players avaliables.
+     * @throws IOException default of the method.
+     */
     public void requestList() throws IOException{
         send(PlayerQueryCodes.PLIST.toString());
     }
+    /**
+     * Sends a message to begin a match against a determined player.
+     * @param playerId number that identifies a player in the network.
+     * @throws IOException default of the method.
+     */
     public void requestMatchWith(String playerId) throws IOException{
         send(PlayerQueryCodes.MATCHREQ+" "+playerId);
     }
+    /**
+     * Sends a message informing that a competition between the two players was 
+     * accepted.
+     * @param playerId number that identifies a player in the network.
+     * @throws IOException default of the method.
+     */
     public void acceptMatchWith(String playerId) throws IOException{
         send(PlayerQueryCodes.MATCHACCEPT+" "+playerId);
     }
-
+    /**
+     * Sends a message informing if points were marked by a player.
+     * @throws IOException default of the method.
+     */
     public void gamePoint() throws IOException{
         send(PlayerQueryCodes.GAMEPOINT+"");
     }
-
+    /**
+     * Sends a message informing if it is the end of the game.
+     * @throws IOException default of the method.
+     */
     public void gameOver() throws IOException{
         send(PlayerQueryCodes.GAMEOVER+"");
     }
@@ -278,10 +303,7 @@ abstract public class Client extends Thread {
     }
     
     public void sayBye(){
-        try {
             send("\n\n");
-        } catch (IOException ex) {
-        }
     }
 
     private void cleanServer() {

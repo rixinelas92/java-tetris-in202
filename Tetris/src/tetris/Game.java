@@ -394,9 +394,6 @@ public class Game extends Controller implements ActionListener {
 
         Position[] vector = currentPiece.getAllPosition();
         int x = -2 + newX / pieceSize;
-        //int x = -((Position.getMaxCoord(vector).getX() +Position.getMinCoord(vector).getX())/2) + newX/pieceSize;
-      //  System.out.println(Position.getMaxCoord(vector).getX() + " " + Position.getMinCoord(vector).getX());
-        int y = currentPiece.getY();
 
         while (true) {
             Position p = currentPiece.getPosition();
@@ -412,13 +409,6 @@ public class Game extends Controller implements ActionListener {
                 break;
             }
         }
-     /*   try {
-            currentPiece.setPosition(new Position(x, y));
-        } catch (Exception e) {
-            System.out.print("mouse not");
-        }
-      * 
-      */
 
     }
 
@@ -635,10 +625,9 @@ public class Game extends Controller implements ActionListener {
     }
 
     /**
-     * Class to implement the fonctions listener.
+     * Class to implement the functions listener.
      */
     public class GameViewReadyListener implements ActionListener {
-
         public void actionPerformed(ActionEvent ae) {
             initGame();
         }

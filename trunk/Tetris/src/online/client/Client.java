@@ -39,7 +39,6 @@ abstract public class Client extends Thread {
             c.start();
             c2.start();
 
-
             c.flush();
             c2.flush();
 

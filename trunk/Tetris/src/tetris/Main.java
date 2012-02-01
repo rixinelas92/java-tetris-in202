@@ -28,7 +28,6 @@ import tetris.util.TetrisPreferences.ImplementedProperties;
  */
 public class Main {
 
-    static SoundEffect theme;
     static Layout1 screen;
     static Game game;
     static Client internet;
@@ -142,7 +141,6 @@ public class Main {
 
     public static void terminateInternetConnection() {
         try {
-            System.out.println("BYYYYYEEEE");
             internet.sayBye();
         } catch (Exception e) {
         }

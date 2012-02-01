@@ -190,7 +190,7 @@ public class Server extends Thread {
     }
 
     /**
-     * Resets the mapping of the game in the network..
+     * Resets the mapping of the game in the network.
      * @param m defines the match.
      */
     static private void cleanMatch(Match m) {

@@ -1,36 +1,3 @@
-/**
- *
- * Anotacoes de coisas a fazer:
- *
- * 
- * Memorizar configuracoes.
- * Nao permitir mesma teclas de configuracao.
- * Condicao de parada.
- * Segurando a tecla durante um bom tempo comeca a apresentar problemas.
- * Fazer os testes.
- * Calcular la couveture jcover.
- *
- *
- * Comunication.
- * java romoting.
- * socket UTP.
- * informacao serie.
- * pattern view controler.
- * corba-dificil de utilizar <<<<<<RMI>>>>define interfqces.
- * client proxy serverWeb services wisdl.
- *
- */
-
-
-
-
-
-
-
-
-
-
-
 package online.server;
 
 import java.io.BufferedReader;
@@ -49,19 +16,28 @@ import online.util.ConnectionCodes.PlayerQueryCodes;
 import online.util.ConnectionCodes.ServerQueryCodes;
 import online.util.Match;
 import online.util.Player;
+
 /**
  *
  * @author gustavo
+ */
+/**
+ * This class was designed in order to creat the bases of a computer network. It
+ * determines the parameters of comunication and manages the informations that are
+ * sent by the players.
  */
 public class Server extends Thread {
 
     static int playerCount = 0;
     static int matchCount = 0;
-    static HashMap<Integer,Player> playerMap;
-    static HashMap<Integer,Match> matchMap;
-
+    static HashMap<Integer, Player> playerMap;
+    static HashMap<Integer, Match> matchMap;
     Queue<String> queueToSend;
 
+    /**
+     * it handles the socket(channel) of comunication. 
+     * @param args argument by default of the function main.
+     */
     public static void main(String[] args) {
         ServerSocket ss = null;
         try {
@@ -75,7 +51,7 @@ public class Server extends Thread {
         }
 
         playerMap = new HashMap<Integer, Player>();
-        matchMap  = new HashMap<Integer,  Match>();
+        matchMap = new HashMap<Integer, Match>();
 
         if (ss == null) {
             System.out.println("Error, could not bind to port 4779.");
@@ -95,13 +71,16 @@ public class Server extends Thread {
         }
 
     }
-
     private Socket clientConnection;
     private Player player;
     OutputStreamWriter os = null;
     BufferedReader br = null;
 
-
+    /**
+     * Default setter of the parameter <em>clientConnection</em> and promotes the
+     * organization of priority of sending priority.
+     * @param clientConnection defines the status of the player conection. 
+     */
     public Server(Socket clientConnection) {
         this.clientConnection = clientConnection;
         queueToSend = new PriorityQueue<String>();
@@ -112,7 +91,7 @@ public class Server extends Thread {
         try {
             br = new BufferedReader(new InputStreamReader(clientConnection.getInputStream()));
             os = new OutputStreamWriter(clientConnection.getOutputStream());
-            
+
             int timeout = 0;
             boolean barN = false;
 
@@ -120,111 +99,135 @@ public class Server extends Thread {
             while (timeout < 2000) {
                 try {
                     sleep(100);
-                } catch (InterruptedException e1) {}
+                } catch (InterruptedException e1) {
+                }
                 timeout++;
-                if(clientConnection.isClosed())
+                if (clientConnection.isClosed()) {
                     break;
-                if(!clientConnection.isConnected())
+                }
+                if (!clientConnection.isConnected()) {
                     break;
+                }
                 if (br.ready()) {
                     String q = br.readLine();
                     q = q.trim();
                     /**
                      * Detects two lines and terminates connection if they appear
                      */
-                    if(q.length() == 0){ // connection terminated;
-                        if(barN){
+                    if (q.length() == 0) { // connection terminated;
+                        if (barN) {
                             break;
                         }
                         barN = true;
-                    }else{
+                    } else {
                         barN = false;
                         timeout = 0;
-                        System.out.println("R  "+q);
+                        System.out.println("R  " + q);
                         consume(q);
                     }
 
                 }
                 sendAllInQueue();
-                if(counter++ > 10){
+                if (counter++ > 10) {
                     counter = 0;
                     sendPlayerList();
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally{
-            try{
+        } finally {
+            try {
                 cleanMatch(player.getMatch());
-            }catch(Exception e){}
-            try{
+            } catch (Exception e) {
+            }
+            try {
                 cleanClient();
-            }catch(Exception e){}
+            } catch (Exception e) {
+            }
             try {
                 br.close();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
             try {
                 os.close();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
     }
 
-
-
+    /**
+     * It terminates the channel of comunication in which the clients was sending
+     * the messages.
+     */
     private void cleanClient() {
         try {
             send("\n\n");
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
-        try{
+        try {
             Match m = player.getMatch();
             Player other = m.getOtherPlayer(player.getPlayerId());
-
             other.getServer().send("\n\n");
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
-        try{
+        try {
             Match m = player.getMatch();
             matchMap.remove(m.getMatchid());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
-        try{
+        try {
             playerMap.remove(player.getPlayerId());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
-        try{
+        try {
             clientConnection.close();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
-    static private void cleanMatch(Match m){
-        try{
+    /**
+     * Resets the mapping of the game in the network..
+     * @param m defines the match.
+     */
+    static private void cleanMatch(Match m) {
+        try {
             matchMap.remove(m.getMatchid());
-            for(int i:m.getPlayersIds()){
-                       
+            for (int i : m.getPlayersIds()) {
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Treats a string passed like parameter and executes a fonction in according 
+     * to the request.
+     * @param q informs the message of request. 
+     * @throws IOException if some of the cosume fonction cannot handle the request.
+     */
     private void consume(String q) throws IOException {
-        
+
         String[] query = q.split("\\s");
-        if(query.length < 1)
+        if (query.length < 1) {
             return;
+        }
         PlayerQueryCodes code = null;
-        try{
+        try {
             code = PlayerQueryCodes.valueOf(query[0].toUpperCase());
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(code == null)
+        if (code == null) {
             return;
-        
-        switch(code){
+        }
+
+        switch (code) {
             case CREATECLIENT:
-                createClient(this,query[1]);
+                createClient(this, query[1]);
                 break;
             case PLIST:
                 sendPlayerList();
@@ -252,41 +255,52 @@ public class Server extends Thread {
 
     }
 
-
-    private void send(String str) throws IOException{
-        synchronized(queueToSend){
-            queueToSend.add(str+"\n");
+    /**
+     * It puts the next message to be send in the queue of priority. 
+     * @param str informs the message to be send.
+     */
+    private void send(String str) {
+        synchronized (queueToSend) {
+            queueToSend.add(str + "\n");
         }
     }
 
-    private void sendAllInQueue(){
-        synchronized(queueToSend){
+    /**
+     * Manages the channel, sending all the messages that was in the queue following 
+     * its previous order.
+     */
+    private void sendAllInQueue() {
+        synchronized (queueToSend) {
 
-            while(!queueToSend.isEmpty()){
-                
+            while (!queueToSend.isEmpty()) {
+
                 String str = queueToSend.poll();
-                try{
-              
+                try {
+
                     os.write(str);
-                }catch (Exception e){
+                } catch (Exception e) {
                     cleanClient();
                 }
             }
-            try{
+            try {
                 os.flush();
-            }catch (Exception e){
+            } catch (Exception e) {
                 cleanClient();
             }
         }
     }
 
-    private void sendPlayerList() throws IOException {
+    /**
+     * Sends a message with all the players avaliables to the network game.
+     */
+    private void sendPlayerList() {
         StringBuilder sb = new StringBuilder();
         sb.append(ServerQueryCodes.PLIST.toString());
         sb.append(" ");
-        for(Entry<Integer,Player> entry: playerMap.entrySet()){
-            if(entry.getKey().equals(this.player.getPlayerId()))
+        for (Entry<Integer, Player> entry : playerMap.entrySet()) {
+            if (entry.getKey().equals(this.player.getPlayerId())) {
                 continue;
+            }
             sb.append(entry.getKey());
             sb.append(">");
             sb.append(entry.getValue().getName());
@@ -297,120 +311,148 @@ public class Server extends Thread {
         send(sb.toString());
     }
 
+    /**
+     * Creats a new client in the network, configuring the server to manage it.
+     * @param s indicates the server of the network.
+     * @param name indicates the indentification of the player.
+     */
     synchronized static private void createClient(Server s, String name) {
         int pid = playerCount++;
-        
-        s.player = new Player(name,s,pid);
+        s.player = new Player(name, s, pid);
         playerMap.put(pid, s.player);
     }
-    
-    synchronized static private void createMatch(Player p1, Player p2){
+    /**
+     * Initialites a new game between two players on line, setting the network
+     * parameters of the network required to a match.
+     * @param p1 defines one player.
+     * @param p2 defines the second one player.
+     */
+    synchronized static private void createMatch(Player p1, Player p2) {
         int mid = matchCount++;
-        
+
         Match m = new Match(p1, p1.getServer(), p2, p2.getServer(), mid);
         matchMap.put(mid, m);
-        try {
-            p1.getServer().send(ServerQueryCodes.MATCHSTART + " " + mid);
-            p2.getServer().send(ServerQueryCodes.MATCHSTART + " " + mid);
-            p1.setState(Player.PlayerState.PLAYING);
-            p2.setState(Player.PlayerState.PLAYING);
-        } catch (IOException ex) {
-            cleanMatch(m);
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
+        p1.getServer().send(ServerQueryCodes.MATCHSTART + " " + mid);
+        p2.getServer().send(ServerQueryCodes.MATCHSTART + " " + mid);
+        p1.setState(Player.PlayerState.PLAYING);
+        p2.setState(Player.PlayerState.PLAYING);
+
+    }
+    /**
+     * Determines if the match with a player required is possible or not. If the
+     * selected player is not avaliable (off line) a error message is sent, otherwise
+     * the request to the server is done.
+     * @param idStr informs the index of the player in a list(map). 
+     * @throws IOException 
+     */
     private void requestMatchWith(String idStr) throws IOException {
         Integer id = -1;
-        try{
+        try {
             id = Integer.valueOf(idStr);
             Player opp = playerMap.get(id);
-            if(opp.getState() == Player.PlayerState.ONLINE){
+            if (opp.getState() == Player.PlayerState.ONLINE) {
                 opp.getServer().requestFrom(this.player);
             } else {
                 id = -1;
             }
-        } catch (NumberFormatException e){}
-
-        if(id == -1){
-            send(ServerQueryCodes.ERROR+" "+PlayerQueryCodes.MATCHREQ+"#"+idStr);
+        } catch (NumberFormatException e) {
+        }
+        if (id == -1) {
+            send(ServerQueryCodes.ERROR + " " + PlayerQueryCodes.MATCHREQ + "#" + idStr);
         }
     }
-
+    /**
+     * Determines if the match with a player required is possible or not. If the
+     * selected player is not avaliable (off line) a error message is sent, otherwise
+     * the request to create a match is done.
+     * @param idStr informs the index of the player in a list(map).
+     * @throws IOException 
+     */
     private void acceptMatch(String idStr) throws IOException {
         Integer id = -1;
-        try{
+        try {
             id = Integer.valueOf(idStr);
             Player opp = playerMap.get(id);
-            if(opp.getState() == Player.PlayerState.ONLINE){
-                createMatch(this.player,opp);
+            if (opp.getState() == Player.PlayerState.ONLINE) {
+                createMatch(this.player, opp);
             } else {
                 id = -1;
             }
-        } catch (NumberFormatException e){
-        }finally{
-            if(id == -1){
-                send(ServerQueryCodes.ERROR+" "+PlayerQueryCodes.MATCHACCEPT+"#"+idStr);
+        } catch (NumberFormatException e) {
+        } finally {
+            if (id == -1) {
+                send(ServerQueryCodes.ERROR + " " + PlayerQueryCodes.MATCHACCEPT + "#" + idStr);
             }
         }
     }
-
+    /**
+     * Sends a message informing the request of a player to a new match.
+     * @param player informs the concerned player.
+     * @throws IOException 
+     */
     private void requestFrom(Player player) throws IOException {
-        send(ServerQueryCodes.MATCHREQ+" "+player.getPlayerId());
+        send(ServerQueryCodes.MATCHREQ + " " + player.getPlayerId());
     }
-
+    /**
+     * Informes if a point in the game happened to the server and makes a 
+     * punishment to the opponent.
+     * @throws IOException 
+     */
     private void sendGamePoint() throws IOException {
         Match m = player.getMatch();
         int playerid = player.getPlayerId();
-
-
-        if(m == null){
-            System.out.println("m == null "+playerid);
+        if (m == null) {
+            System.out.println("m == null " + playerid);
             return;
         }
         int matchid = m.getMatchid();
-        m.getOtherServer(playerid).send(ServerQueryCodes.GAMEPUNN+" "+matchid);
+        m.getOtherServer(playerid).send(ServerQueryCodes.GAMEPUNN + " " + matchid);
     }
-
+    /**
+     * Informes if a the game over in the game happened to the server.
+     * @throws IOException 
+     */
     private void sendGameOver() throws IOException {
         Match m = player.getMatch();
-        if(m == null)
+        if (m == null) {
             return;
+        }
         m.getPlayerWithid(m.getPlayersIds()[0]).setState(Player.PlayerState.ONLINE);
         m.getPlayerWithid(m.getPlayersIds()[1]).setState(Player.PlayerState.ONLINE);
-        m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.ENDGAME+" "+m.getMatchid());
+        m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.ENDGAME + " " + m.getMatchid());
     }
-
+    /**
+     * Informes to the server if a player does not accepted the game in the network.
+     * @param idStr informs the index of the player in a list(map).
+     * @throws IOException 
+     */
     private void sendMatchDeclined(String idStr) throws IOException {
         Integer id = -1;
-        try{
+        try {
             id = Integer.valueOf(idStr);
             Player opp = playerMap.get(id);
-            if(opp.getState() == Player.PlayerState.ONLINE){
-                opp.getServer().send(ServerQueryCodes.MATCHDECLINED+" "+player.getPlayerId());
+            if (opp.getState() == Player.PlayerState.ONLINE) {
+                opp.getServer().send(ServerQueryCodes.MATCHDECLINED + " " + player.getPlayerId());
             } else {
                 id = -1;
             }
-        } catch (NumberFormatException e){
-        }finally{
-            if(id == -1){
-                send(ServerQueryCodes.ERROR+" "+ServerQueryCodes.MATCHDECLINED+"#"+player.getPlayerId());
+        } catch (NumberFormatException e) {
+        } finally {
+            if (id == -1) {
+                send(ServerQueryCodes.ERROR + " " + ServerQueryCodes.MATCHDECLINED + "#" + player.getPlayerId());
             }
         }
     }
-
+    /**
+     * Sends to the server a message informing the board of a player.
+     * @param string informs the index of the player in a list(map).
+     */
     private void sendBoard(String string) {
-        try {
-            Match m = player.getMatch();
-            if (m == null) {
-                return;
-            }
-            m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.BOARD + " " + string);
-        } catch (IOException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        Match m = player.getMatch();
+        if (m == null) {
+            return;
         }
+        m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.BOARD + " " + string);
     }
-
-
 }
-

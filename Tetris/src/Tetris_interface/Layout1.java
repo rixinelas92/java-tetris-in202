@@ -60,7 +60,7 @@ public class Layout1 extends JFrame {
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
     private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece; //array with the position of the 4 boxes of the 2 pieces.
     private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use.
-    public Font neuropol14, neuropol18, neuropol24, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
+    public Font neuropol14, neuropol18, neuropol28, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
@@ -131,7 +131,7 @@ public class Layout1 extends JFrame {
             //  File f = new File("src/Tetris_interface/fightingspiritTBS.ttf");
             //  FileInputStream in = new FileInputStream(f);
             Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("fightingspiritTBS.ttf"));
-            neuropol24 = dynamicFont.deriveFont(24f);
+            neuropol28 = dynamicFont.deriveFont(28f);
             neuropol18 = dynamicFont.deriveFont(18f);
             neuropol14 = dynamicFont.deriveFont(14f);
             //   f = new File("src/Tetris_interface/segoepr.ttf");
@@ -269,7 +269,7 @@ public class Layout1 extends JFrame {
         selectionPanel.setBackground(semiopaque);
 
         JLabel selectionMenu = new JLabel("Game Mode");
-        selectionMenu.setFont(neuropol24);
+        selectionMenu.setFont(neuropol28);
         JSeparator separator = new JSeparator();
         JButton player1 = new JButton("1 Player");
         player1.addActionListener(new ActionListener() {
@@ -306,9 +306,10 @@ public class Layout1 extends JFrame {
                 optionsPanel.setBackground(semiopaque);
 
         JLabel optionTitle = new JLabel("Options");
-        optionTitle.setFont(neuropol24);
-
+        optionTitle.setFont(neuropol28);
+        
         JSeparator separator = new JSeparator();
+        
         optionsPanel.add(optionTitle, new AbsoluteConstraints(110, 20, -1, -1));
         optionsPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
 
@@ -371,6 +372,7 @@ public class Layout1 extends JFrame {
         mouseBox = new JCheckBox("Use mouse");
         mouseBox.setFont(segoePrint12);
         mouseBox.setOpaque(false);
+        
 
         controlsPanel.add(moveLeftLabel, new AbsoluteConstraints(15, 30, -1, -1));
         controlsPanel.add(leftKey, new AbsoluteConstraints(95, 32, 55, 25));
@@ -496,10 +498,12 @@ public class Layout1 extends JFrame {
     private void make_som() {
         somPanel = new JPanel(new AbsoluteLayout());
         somPanel.setBackground(semiopaque);
-        JLabel optionTitle = new JLabel("Sound");
-        optionTitle.setFont(neuropol24);
+        JLabel somTitle = new JLabel("Sound");
+        somTitle.setFont(neuropol28);
+                
         JSeparator separator = new JSeparator();
-        somPanel.add(optionTitle, new AbsoluteConstraints(120, 20, -1, -1));
+        
+        somPanel.add(somTitle, new AbsoluteConstraints(120, 20, -1, -1));
         somPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
         //Options of sounds.
         JPanel musicPanel = new JPanel(new AbsoluteLayout());
@@ -548,7 +552,7 @@ public class Layout1 extends JFrame {
     private void make_game1p() {
         game1pPanel = new JPanel(new AbsoluteLayout());
         JLabel game1pTitle = new JLabel("1 Player");
-        game1pTitle.setFont(neuropol24);
+        game1pTitle.setFont(neuropol28);
         JSeparator separator = new JSeparator();
         separator.setOpaque(false);
         game1pPanel.add(game1pTitle, new AbsoluteConstraints(110, 22, -1, -1));
@@ -651,7 +655,7 @@ public class Layout1 extends JFrame {
     private void make_game2p() {
         game2pPanel = new JPanel(new AbsoluteLayout());
         JLabel game2pTitle = new JLabel("2 Player");
-        game2pTitle.setFont(neuropol24);
+        game2pTitle.setFont(neuropol28);
         JSeparator separator = new JSeparator();
         game2pPanel.add(game2pTitle, new AbsoluteConstraints(110, 20, -1, -1));
         playersList = new JList();

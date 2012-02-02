@@ -433,7 +433,7 @@ public class Game extends Controller implements ActionListener {
             } catch (NotAvailablePlaceForPieceException ex) {
                 Main.pauseGame();
                 Main.showGameOverAndReturnToNewGame();
-                if (pauseSom != null) {
+                if (gameoverSom != null) {
                     gameoverSom.play();
                 }
                 return;
@@ -446,13 +446,13 @@ public class Game extends Controller implements ActionListener {
             } catch (OutOfScreenBoundsException ex) {
                 System.out.println("Cant Floor");
                 isFallingFinished = true;
-                if (pauseSom != null) {
+                if (fallSom != null) {
                     fallSom.play();
                 }
             } catch (NotAvailablePlaceForPieceException ex) {
                 System.out.println("Cant Piece");
                 isFallingFinished = true;
-                if (pauseSom != null) {
+                if (fallSom != null) {
                     fallSom.play();
                 }
             }
@@ -471,7 +471,7 @@ public class Game extends Controller implements ActionListener {
             if (isFinished) {
                 Main.pauseGame();
                 Main.showGameOverAndReturnToNewGame();
-                if (pauseSom != null) {
+                if (gameoverSom != null) {
                     gameoverSom.play();
                 }
                 isStarted = false;
@@ -486,7 +486,7 @@ public class Game extends Controller implements ActionListener {
                     break;
                 }
                 screen.removeLine(lineC);
-                if (pauseSom != null) {
+                if (eraseSom != null) {
                     eraseSom.play();
                 }
                 Main.callScreenRemoveLine(lineC);
@@ -636,6 +636,7 @@ public class Game extends Controller implements ActionListener {
     public void setSomTheme(int somTheme) {
 
         if (somTheme == 0) {
+            System.out.println("oi");
             fallSom = SoundEffect.CFALL;
             eraseSom = SoundEffect.CERASE;
             gameoverSom = null;

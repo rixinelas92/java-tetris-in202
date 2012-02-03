@@ -56,17 +56,22 @@ import tetris.Position;
 import tetris.Screen;
 
 public class Interface extends JFrame {
-
-    private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
-    private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece; //array with the position of the 4 boxes of the 2 pieces.
-    private JLabelCont[][] screen;// Sreen 10 x 13 with the pointer for all the lavels in use.
-    public Font neuropol14, neuropol18, neuropol28, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
+    
+    // global use
+    private JPanel screenPanel, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
+    private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece; 
+    private JLabelCont[][] screen;// Sreen 10 x 20 with the pointer for all the labels in used.
+    private Font neuropol14, neuropol18, neuropol28, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
+    final Color semiopaque = new Color(200,200,200,140);
+    final Color translucent = new Color(0,0,0,0);
+    private Image imageb = null;
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
     //options components
     private JTextField leftKey, rightKey, downKey, rotateKey, goToBottonKey, holdKey, pauseKey, playerName, ipName;
     private JCheckBox mouseBox;
     private static JButton applyOptions;
+    private Integer[] keys = Controller.keysStart;
     //sound components
     private JComboBox themeBox;
     private JSlider volumeSlider;
@@ -75,25 +80,21 @@ public class Interface extends JFrame {
     private JPanel gameScreen1pPanel, gameNext1pPanel, gameHold1pPanel;
     private JProgressBar scoreBar;
     private JTextField score, timePassed;
-    private JLabel level, gameover, gamewin, tester;
-    //listenets
-    static ActionListener gameViewReady = null;
-    private static final int X_BASE = 43;
-    private static final int Y_BASE = 49;
-    public Clock clock;
-    Random r = new Random();
-    private JList playersList;
-    private Integer[] keys = Controller.keysStart;
-    private boolean is2PlayerGame;
+    private JLabel level, gameover, gamewin;
+    private static final int X_screenPanel = 43;
+    private static final int Y_screenPanel = 49;
     private JLabel scoreLabel;
     private JLabel timeLabel;
+    //others
+    static ActionListener gameViewReady = null;    
+    public Clock clock;
+    Random r = new Random();
+    private JList playersList;    
+    private boolean is2PlayerGame;
+    
     private SmallTetrisCanvas secondPlayerScreen;
 
-    final Color semiopaque = new Color(200,200,200,140);
-
-    final Color translucent = new Color(0,0,0,0);
-
-    Image imageb = null;
+    
 
     /**
      * Initialize the configuration of the screen.
@@ -112,7 +113,7 @@ public class Interface extends JFrame {
         make_som();
         make_game1p();
         make_game2p();
-        make_base();
+        make_screenPanel();
         make_UI();
         screen = new JLabelCont[screenWidth][screenHeight + 3];
         currentPiece = new JLabelCont[4];
@@ -672,11 +673,11 @@ public class Interface extends JFrame {
     }
 
     /**
-     * This method allows to set the base of panel, calling basic panels and hiding
+     * This method allows to set the screenPanel of panel, calling basic panels and hiding
      * others that we are not interested in the moment.
      */
-    private void make_base() {
-        base = new JPanel(new AbsoluteLayout()) {
+    private void make_screenPanel() {
+        screenPanel = new JPanel(new AbsoluteLayout()) {
 
             @Override
             public void paint(Graphics g) {
@@ -685,20 +686,20 @@ public class Interface extends JFrame {
                 super.paint(g);
             }
         };
-        base.setBackground(translucent);
+        screenPanel.setBackground(translucent);
        // JLabel background = new JLabel(new ImageIcon(getClass().getResource("imgs/back1.png")));
-       // base.add(background, new AbsoluteConstraints(0, 0, -1, -1));
-        base.add(topPanel, new AbsoluteConstraints(0, 0));
-        base.add(initialPanel, new AbsoluteConstraints(0, 10, 330, 450));
-        base.add(selectionPanel, new AbsoluteConstraints(0, 10, 330, 450));
+       // screenPanel.add(background, new AbsoluteConstraints(0, 0, -1, -1));
+        screenPanel.add(topPanel, new AbsoluteConstraints(0, 0));
+        screenPanel.add(initialPanel, new AbsoluteConstraints(0, 10, 330, 450));
+        screenPanel.add(selectionPanel, new AbsoluteConstraints(0, 10, 330, 450));
         selectionPanel.setVisible(false);
-        base.add(optionsPanel, new AbsoluteConstraints(0, 10, 330, 450));
+        screenPanel.add(optionsPanel, new AbsoluteConstraints(0, 10, 330, 450));
         optionsPanel.setVisible(false);
-        base.add(somPanel, new AbsoluteConstraints(0, 10, 330, 450));
+        screenPanel.add(somPanel, new AbsoluteConstraints(0, 10, 330, 450));
         somPanel.setVisible(false);
-        base.add(game1pPanel, new AbsoluteConstraints(0, 10, 330, 450));
+        screenPanel.add(game1pPanel, new AbsoluteConstraints(0, 10, 330, 450));
         game1pPanel.setVisible(false);
-        base.add(game2pPanel, new AbsoluteConstraints(0, 10, 330, 450));
+        screenPanel.add(game2pPanel, new AbsoluteConstraints(0, 10, 330, 450));
         game2pPanel.setVisible(false);
         game1pPanel.setBackground(semiopaque);
         game2pPanel.setBackground(semiopaque);
@@ -712,7 +713,7 @@ public class Interface extends JFrame {
         //setUndecorated(true);
         //getRootPane().setWindowDecorationStyle(JRootPane.FRAME);        
         //setShape(new RoundRectangle2D.Float(35, 50, 330, 455, 30, 30));
-        add(base, new AbsoluteConstraints(0, 0));
+        add(screenPanel, new AbsoluteConstraints(0, 0));
         pack();
         setTitle("Tetris");
         setSize(330, 490);
@@ -1183,8 +1184,8 @@ public class Interface extends JFrame {
     private void setNextPiecePosition(Position[] newPosNextPiece) {
         Position min = Position.getMinCoord(newPosNextPiece);
         Position max = Position.getMaxCoord(newPosNextPiece);
-        int yd = Y_BASE - ((-(max.getY() + min.getY() - 1)) * pieceSize) / 2;
-        int xd = X_BASE + ((-(max.getX() + min.getX() + 1)) * pieceSize) / 2;
+        int yd = Y_screenPanel - ((-(max.getY() + min.getY() - 1)) * pieceSize) / 2;
+        int xd = X_screenPanel + ((-(max.getX() + min.getX() + 1)) * pieceSize) / 2;
         for (int i = 0; i < 4; i++) {
             int xx = xd + (newPosNextPiece[i].getX()) * pieceSize;
             int yy = yd - (newPosNextPiece[i].getY()) * pieceSize;
@@ -1245,8 +1246,8 @@ public class Interface extends JFrame {
     private void setHoldPiecePosition(Position[] newPosHoldPiece) {
         Position min = Position.getMinCoord(newPosHoldPiece);
         Position max = Position.getMaxCoord(newPosHoldPiece);
-        int yd = Y_BASE - ((-(max.getY() + min.getY() - 1)) * pieceSize) / 2;
-        int xd = X_BASE + ((-(max.getX() + min.getX() + 1)) * pieceSize) / 2;
+        int yd = Y_screenPanel - ((-(max.getY() + min.getY() - 1)) * pieceSize) / 2;
+        int xd = X_screenPanel + ((-(max.getX() + min.getX() + 1)) * pieceSize) / 2;
         for (int i = 0; i < 4; i++) {
             int xx = xd + (newPosHoldPiece[i].getX()) * pieceSize;
             int yy = yd - (newPosHoldPiece[i].getY()) * pieceSize;
@@ -1395,7 +1396,7 @@ public class Interface extends JFrame {
         return gameScreen1pPanel.getHeight() - newY * pieceSize;
     }
     //############################################################"
-
+//listeners
     /**
      *
      */
@@ -1449,7 +1450,7 @@ public class Interface extends JFrame {
         secondPlayerScreen.setIsFilled(isFilled);
     }
 
-
+//subclasses
     /**
      * Default inner of the class JLabel.
      */

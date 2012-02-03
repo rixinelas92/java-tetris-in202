@@ -55,7 +55,7 @@ import tetris.Main;
 import tetris.Position;
 import tetris.Screen;
 
-public class Layout1 extends JFrame {
+public class Interface extends JFrame {
 
     private JPanel base, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
     private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece; //array with the position of the 4 boxes of the 2 pieces.
@@ -98,11 +98,11 @@ public class Layout1 extends JFrame {
     /**
      * Initialize the configuration of the screen.
      */
-    public Layout1() {
+    public Interface() {
         try {
             imageb = ImageIO.read(getClass().getResource(getStringForColor("back")));
         } catch (IOException ex) {
-            Logger.getLogger(Layout1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
         make_fonts();
         make_top();

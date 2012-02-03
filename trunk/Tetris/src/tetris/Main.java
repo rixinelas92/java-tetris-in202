@@ -3,7 +3,7 @@ Java doc em construcao.
  */
 package tetris;
 
-import Tetris_interface.Layout1;
+import Tetris_interface.Interface;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -28,7 +28,7 @@ import tetris.util.TetrisPreferences.ImplementedProperties;
  */
 public class Main {
 
-    static Layout1 screen;
+    static Interface screen;
     static Game game;
     static Client internet;
     private static SoundEffect themeSom = null;
@@ -44,7 +44,7 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
-                screen = new Layout1();
+                screen = new Interface();
                 screen.setVisible(true);
                 game = new Game();
 
@@ -71,14 +71,14 @@ public class Main {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Layout1.addGameViewReady(game.new GameViewReadyListener());
-                Layout1.addConfigChanger(new ActionListener() {
+                Interface.addGameViewReady(game.new GameViewReadyListener());
+                Interface.addConfigChanger(new ActionListener() {
 
                     public void actionPerformed(ActionEvent event) {
                         ConfigChanger();
                     }
                 });
-                Layout1.addSomChanger(new ActionListener() {
+                Interface.addSomChanger(new ActionListener() {
 
                     public void actionPerformed(ActionEvent event) {
                         SomChanger();

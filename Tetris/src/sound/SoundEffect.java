@@ -1,4 +1,8 @@
 /*
+ * Java doc OK
+ */
+
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -20,7 +24,7 @@ import javax.sound.sampled.*;
  */
 public enum SoundEffect {
 
-//    CTHEME("ClassicTheme.wav"),
+    //CTHEME("ClassicTheme.wav"),
     CERASE("ClassicErase.wav"),      
     CFALL("ClassicFall.wav"),        
     //MTHEME("MarioTheme.wav"),
@@ -40,8 +44,9 @@ public enum SoundEffect {
     private Clip clip;
     private FloatControl volumeControl;
     static int globalvolume;
-    // Constructor to construct each element of the enum with its own sound file.
-
+    /**
+     * Creates a new SoundEffect with each element of the enum with its own sound file.
+     */
     SoundEffect(String soundFileName) {
         try {
             // Use URL (instead of File) to read from disk and JAR.
@@ -65,21 +70,29 @@ public enum SoundEffect {
         }
     }
 
-    // Play or Re-play the sound effect from the beginning, by rewinding.
+    /**
+     * Adjuts the level of volume of the game.
+     * @param newVolume defines the updated volume.
+     */
     public void setVolume(int newVolume) {
         float volume;
         volume = (float) (volumeControl.getMaximum() - volumeControl.getMinimum());
         volume *= (float) Math.log(2*newVolume) /Math.log(2*100);
         volumeControl.setValue(volume+volumeControl.getMinimum());
     }
-
+    /**
+     * Adjuts the level of volume of the effets of game.
+     * @param newVolume defines the updated volume.
+     */    
     static public void setGlobalVolume(int newVolume) {
         for (SoundEffect se : SoundEffect.values()) {
             se.setVolume(newVolume);
         }
 
     }
-
+    /*
+     * Plays in a continous way a clip by rewinding a theme.
+     */
     public void play() {
         if(volumeControl == null)
             return ;
@@ -92,15 +105,22 @@ public enum SoundEffect {
 
         }
     }
-
+    /**
+     * Maintains the execution of a clip.
+     */
     public void setLoop() {
         clip.loop(clip.LOOP_CONTINUOUSLY);
     }
+    /**
+     * Determines the end in a execution of a clip.
+     */
     public void setStop(){
         clip.stop();
     }
 
-    // Optional static method to pre-load all the sound files.
+    /**
+     * Optional static method to pre-load all the sound files.
+     */ 
     static void init() {
         values(); // calls the constructor for all the elements
     }

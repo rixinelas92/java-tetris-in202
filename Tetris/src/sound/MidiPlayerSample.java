@@ -1,3 +1,7 @@
+/* Java doc OK
+ * 
+ */
+
 package sound;
 
 import javax.sound.midi.*;
@@ -6,8 +10,15 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+/**
+ * This class is disigned in order to executes a sample of sound.
+ */
 public class MidiPlayerSample {
-
+    
+  /**
+     * Main program of the class.
+     * @param args in according to the default argument.
+     */  
   public static void main(String[] args) {
       try {
           Sequencer sequencer = MidiSystem.getSequencer();

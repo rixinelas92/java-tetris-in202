@@ -1,15 +1,13 @@
 //Java doc ja comecado, mas classe em modificacao.
 package Tetris_interface;
 
-import java.awt.Canvas;
+import Tetris_interface.components.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
 import java.awt.Image;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -20,15 +18,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.VolatileImage;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -46,7 +41,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.border.TitledBorder;
 import online.util.PlayerDescriptor;
@@ -87,12 +81,13 @@ public class Interface extends JFrame {
     private JLabel timeLabel;
     //others
     static ActionListener gameViewReady = null;    
-    public Clock clock;
+    public ClockTimer clock;
     Random r = new Random();
     private JList playersList;    
     private boolean is2PlayerGame;
     
-    private SmallTetrisCanvas secondPlayerScreen;
+
+    private SmallBoard        secondPlayerBoard;
 
     
 
@@ -110,7 +105,7 @@ public class Interface extends JFrame {
         make_initial();
         make_selection();
         make_options();
-        make_som();
+        make_sound();
         make_game1p();
         make_game2p();
         make_screenPanel();
@@ -496,7 +491,7 @@ public class Interface extends JFrame {
     /**
      * Configuring, managing actions and setting the sound screen.
      */
-    private void make_som() {
+    private void make_sound() {
         somPanel = new JPanel(new AbsoluteLayout());
         somPanel.setBackground(semiopaque);
         JLabel somTitle = new JLabel("Sound");
@@ -598,8 +593,11 @@ public class Interface extends JFrame {
         timePassed.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         timePassed.setEditable(false);
         game1pPanel.add(timePassed, new AbsoluteConstraints(232, 248, 60, 25));
-        secondPlayerScreen = new SmallTetrisCanvas();
-        game1pPanel.add(secondPlayerScreen, new AbsoluteConstraints(232, 240, -1, -1));
+
+        secondPlayerBoard = new SmallBoard(new int[Screen.SIZE_X]);
+        game1pPanel.add(secondPlayerBoard, new AbsoluteConstraints(232, 240, -1, -1));
+
+        //game1pPanel.add(secondPlayerScreen, new AbsoluteConstraints(232, 240, -1, -1));
         //Buttons.
         JButton pauseButton = new JButton("Pause");
         pauseButton.setFont(planetBenson14);
@@ -660,7 +658,7 @@ public class Interface extends JFrame {
         JSeparator separator = new JSeparator();
         game2pPanel.add(game2pTitle, new AbsoluteConstraints(110, 20, -1, -1));
         playersList = new JList();
-        playersList.setCellRenderer(new MyCellRenderer());
+        playersList.setCellRenderer(new CellRendererWithImage());
         playersList.setModel(new DefaultListModel());
         playersList.addMouseListener(new ActionJList(playersList));
         JScrollPane scrollPane = new JScrollPane(playersList);
@@ -833,7 +831,8 @@ public class Interface extends JFrame {
         scoreBar.setVisible(!is2PlayerGame);
         timePassed.setVisible(!is2PlayerGame);
         timeLabel.setVisible(!is2PlayerGame);
-        secondPlayerScreen.setVisible(is2PlayerGame);
+        secondPlayerBoard.setVisible(is2PlayerGame);
+
     }
     // ########################################################
 
@@ -842,34 +841,43 @@ public class Interface extends JFrame {
      * @param keyNumber index of the key.
      * @param keyValue value of the key.
      */
-    private void checkAndIfCaseSetOtherKeyOnConfig(int keyNumber, int keyValue) {
-        for (int i = 0; i < keys.length; i++) {
+    private boolean checkAndIfCaseSetOtherKeyOnConfig(int keyNumber, int keyValue) {
+        for (int i = 0; i < keys.length; i++) { // let's complicate things!!!! still not using goto...
             if (keyNumber == i) {
                 continue;
             }
+
+            // {KeyEvent.VK_LEFT, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_SPACE, KeyEvent.VK_H,KeyEvent.VK_P};
             if (keyValue == keys[i]) {
                 switch (i) {
                     case 0:
                         getKeyEvent(0, leftKey);
-                        break;
+                        return false;
                     case 1:
                         getKeyEvent(1, downKey);
-                        break;
+                        return false;
                     case 2:
                         getKeyEvent(2, rightKey);
-                        break;
+                        return false;
                     case 3:
                         getKeyEvent(3, goToBottonKey);
-                        break;
+                        return false;
                     case 4:
                         getKeyEvent(4, rotateKey);
-                        break;
+                        return false;
+                    case 5:
+                        getKeyEvent(5, holdKey);
+                        return false;
+                    case 6:
+                        getKeyEvent(6, pauseKey);
+                        return false;
                     default:
                         break;
 
                 }
             }
         }
+        return true;
     }
 
     /**
@@ -907,7 +915,10 @@ public class Interface extends JFrame {
                 field.setText(KeyEvent.getKeyText(ke.getKeyCode()));
                 field.setBackground(Color.LIGHT_GRAY);
                 removeKeyListener(this);
-                checkAndIfCaseSetOtherKeyOnConfig(keyNumber, ke.getKeyCode());
+                if(checkAndIfCaseSetOtherKeyOnConfig(keyNumber, ke.getKeyCode()))
+                    for(int i = 0;i<keys.length;i++ )
+                        if(!checkAndIfCaseSetOtherKeyOnConfig(i, keys[i]))
+                            break;
             }
 
             /**
@@ -1065,7 +1076,7 @@ public class Interface extends JFrame {
         if (clock != null) {
             clock.restart();
         } else {
-            clock = new Clock();
+            clock = new ClockTimer(timePassed);
         }
         gameScreen1pPanel.removeAll();
         gameNext1pPanel.removeAll();
@@ -1203,7 +1214,7 @@ public class Interface extends JFrame {
      */
     public void holdPiece(Position[] currentPiecePos, Position[] holdPiecePos, String colorCurrentPiece) {
         //This function receive the 4 positions of the new piece and her color.
-        JLabelCont[] auxPiece;
+
         //Remove the labels of the panels.
         for (int i = 0; i < 4; i++) {
             gameScreen1pPanel.remove(currentPiece[i]);
@@ -1294,23 +1305,13 @@ public class Interface extends JFrame {
         }
         //Lines begin in 0.
         int i, j;
-        for (j = screenHeight - 1; j >= 0; j--) {
-            for (i = 0; i < screenWidth; i++) {
-                if (screen[i][j] != null) {
-                    System.out.print(".");
-                } else {
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-        }
+
         for (i = 0; i < screenWidth; i++) {
             if (screen[i][line] != null) {
                 screen[i][line].setVisible(false);
                 screen[i][line].setEnabled(false);
                 gameScreen1pPanel.remove(screen[i][line]);
             } else {
-                System.out.println("   +++++ " + i + " " + line);
             }
         }
         for (j = line; j < screenHeight; j++) {
@@ -1430,7 +1431,6 @@ public class Interface extends JFrame {
         for (PlayerDescriptor pd : set) {
             ((DefaultListModel) (playersList.getModel())).addElement(pd);
         }
-        System.out.println("MUDEOU!!!!");
     }
 
     /**
@@ -1447,167 +1447,11 @@ public class Interface extends JFrame {
      * @param isFilled
      */
     public void set2pScreenGame(int[] isFilled) {
-        secondPlayerScreen.setIsFilled(isFilled);
+        secondPlayerBoard.updateBoardDescription(isFilled);
+
     }
 
 //subclasses
-    /**
-     * Default inner of the class JLabel.
-     */
-    public class JLabelCont extends JLabel {
-
-        int x = -1;
-        int y = -1;
-
-        private JLabelCont(ImageIcon imageIcon) {
-            super(imageIcon);
-        }
-
-        /**
-         * Default setter of the coordinates of the positon.
-         * @param x defines the coordinate x.
-         * @param y defines the coordinate y.
-         */
-        public void setP(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        /**
-         * Default getter of the coordinate x.
-         * @return the value of the coordinate.
-         * @throws Exception if position x is -1.#############################################
-         */
-        public int getCX() throws Exception {
-            if (x == -1) {
-                throw new Exception("x null");
-            }
-            return x;
-        }
-
-        /**
-         * Default getter of the coordinate y.
-         * @return the value of the coordinate.
-         * @throws Exception if position y is -1.#############################################
-         */
-        public int getCY() throws Exception {
-            if (y == -1) {
-                throw new Exception("y null");
-            }
-            return y;
-        }
-    }
-
-    /**
-     * Default inner to the class ActionListener.
-     */
-    public class Clock implements ActionListener {
-
-        Timer timer;
-        long time;
-        static final int delay = 500;
-
-        /**
-         * Creates a new clock with parameters defined by default.
-         */
-        public Clock() {
-            timer = new Timer(delay, this);
-            time = 0;
-            timer.start();
-        }
-
-        /**
-         * Resets the parameters of the clock and updates the time passed.
-         */
-        public void restart() {
-            time = 0;
-            timer.restart();
-            timePassed.setText(String.format("%1$tM:%1$tS", time, time));
-        }
-        //############################################################
-
-        /**
-         *
-         * @param ae
-         */
-        public void actionPerformed(ActionEvent ae) {
-            time += delay;
-            timePassed.setText(String.format("%1$tM:%1$tS", time, time));
-        }
-
-        /**
-         * Implements the case pause in the timer. If the game is stopped, it restarts
-         * or it stops if it is was running.
-         */
-        public void togglePause() {
-            if (!timer.isRunning()) {
-                timer.start();
-            } else {
-                timer.stop();
-            }
-        }
-
-        /**
-         * Implements the pause in the reference of the time to the screen -timer-
-         * and with this, it stops to be updated.
-         */
-        public void pauseScreen() {
-            timer.stop();
-        }
-    }
-
-    /**
-     * Inner of the class Jlabel.
-     */
-    static class MyCellRenderer extends JLabel implements ListCellRenderer {
-
-        final static ImageIcon offline = new ImageIcon(MyCellRenderer.class.getResource("OFFLINE.png"));
-        final static ImageIcon playing = new ImageIcon(MyCellRenderer.class.getResource("PLAYING.png"));
-        final static ImageIcon online = new ImageIcon(MyCellRenderer.class.getResource("ONLINE.png"));
-
-        /**
-         * This is the only method defined by ListCellRenderer.
-         * We just reconfigure the JLabel each time we're called.
-         * @param list defines the list of the players.
-         * @param value to be displayed.
-         * @param index cell index.
-         * @param isSelected informes if the cell is selected.
-         * @param cellHasFocus the list and the cell have the focus.
-         * @return
-         */
-        public Component getListCellRendererComponent(
-                JList list,
-                Object value,
-                int index,
-                boolean isSelected,
-                boolean cellHasFocus) {
-            PlayerDescriptor player = (PlayerDescriptor) value;
-            String s = value.toString();
-            setText(s);
-            switch (player.getState()) {
-                case OFFLINE:
-                    setIcon(offline);
-                    break;
-                case ONLINE:
-                    setIcon(online);
-                    break;
-                case PLAYING:
-                    setIcon(playing);
-                    break;
-            }
-            if (isSelected) {
-                setBackground(list.getSelectionBackground());
-                setForeground(list.getSelectionForeground());
-            } else {
-                setBackground(list.getBackground());
-                setForeground(list.getForeground());
-            }
-            setEnabled(list.isEnabled());
-            setFont(list.getFont());
-            setOpaque(true);
-            return this;
-        }
-    }
 
     /**
      * Inner of the class MouseAdapter.
@@ -1633,155 +1477,9 @@ public class Interface extends JFrame {
                 ListModel dlm = list.getModel();
                 Object item = dlm.getElementAt(index);
                 list.ensureIndexIsVisible(index);
-
                 Main.requestMatchWith((PlayerDescriptor) item);
-
-                System.out.println("Double clicked on " + item);
             }
         }
     }
-
-    /**
-     * Inner of the class Canvas.
-     */
-    static class SmallTetrisCanvas extends Canvas {
-
-        int[] isFilled;
-        int[] newFilled;
-        int pxlsize = 6;
-        private VolatileImage volatileImg;
-
-        //############################################################""
-        /**
-         *
-         */
-        public SmallTetrisCanvas() {
-            setBackground(Color.GRAY);
-            isFilled = new int[Screen.SIZE_X];
-            setSize(Screen.SIZE_X * pxlsize, Screen.SIZE_Y * pxlsize);
-
-            ActionListener t = new ActionListener(){
-
-                public void actionPerformed(ActionEvent ae) {
-                    consumeNewFilled();
-                }
-
-            };
-            Timer tt = new Timer(100,t);
-            tt.start();
-
-        }
-
-        public void setIsFilled(int[] isFilled) {
-            newFilled = isFilled;
-        }
-
-
-        public void consumeNewFilled() {
-            if(newFilled == null)
-                return;
-            createBackBuffer();
-
-            do {
-                GraphicsConfiguration gc = this.getGraphicsConfiguration();
-                int valCode = volatileImg.validate(gc);
-
-                // This means the device doesn't match up to this hardware accelerated image.
-                if (valCode == VolatileImage.IMAGE_INCOMPATIBLE) {
-                    createBackBuffer(); // recreate the hardware accelerated image.
-                }
-
-                Graphics2D g2;
-                g2 = (Graphics2D) getGraphics();
-                g2.setColor(Color.BLACK);
-                synchronized (this) {
-                    for (int i = 0; i < Screen.SIZE_X; i++) {
-                        int diff = this.isFilled[i] ^ newFilled[i];
-                        if (diff == 0) {
-                            continue;
-                        }
-                        for (int j = 0; j < Screen.SIZE_Y; j++) {
-                            if ((diff & (1 << j)) > 0) {
-                                if ((newFilled[i] & (1 << j)) > 0) {
-                                    g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
-                                }
-                            }
-                        }
-                    }
-                }
-                g2.setColor(Color.WHITE);
-                synchronized (this) {
-                    for (int i = 0; i < Screen.SIZE_X; i++) {
-                        int diff = this.isFilled[i] ^ newFilled[i];
-                        if (diff == 0) {
-                            continue;
-                        }
-                        for (int j = 0; j < Screen.SIZE_Y; j++) {
-                            if ((diff & (1 << j)) > 0) {
-                                if (!((newFilled[i] & (1 << j)) > 0)) {
-
-                                    synchronized (this) {
-                                        g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
-                                    }
-                                }
-                            }
-                        }
-                        this.isFilled[i] = newFilled[i];
-
-                    }
-                }
-                newFilled = null;
-
-            } while (volatileImg.contentsLost());
-
-
-        }
-
-        @Override
-        public void paint(Graphics g) {
-
-
-            createBackBuffer();
-
-            do {
-                GraphicsConfiguration gc = this.getGraphicsConfiguration();
-                int valCode = volatileImg.validate(gc);
-
-                // This means the device doesn't match up to this hardware accelerated image.
-                if (valCode == VolatileImage.IMAGE_INCOMPATIBLE) {
-                    createBackBuffer(); // recreate the hardware accelerated image.
-                }
-
-                Graphics2D g2;
-                g2 = (Graphics2D) g;
-                g2.setColor(Color.BLACK);
-
-                for (int i = 0; i < Screen.SIZE_X; i++) {
-                    for (int j = 0; j < Screen.SIZE_Y; j++) {
-
-                        if (((isFilled[i] & (1 << j)) > 0)) {
-                            g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
-                        }
-                    }
-                }
-
-
-                g2.setColor(Color.WHITE);
-                for (int i = 0; i < Screen.SIZE_X; i++) {
-                    for (int j = 0; j < Screen.SIZE_Y; j++) {
-
-                        if (!((isFilled[i] & (1 << j)) > 0)) {
-                            g2.fillRect(i * pxlsize, (Screen.SIZE_Y - j - 1) * pxlsize, pxlsize, pxlsize);
-                        }
-                    }
-                }
-
-            } while (volatileImg.contentsLost());
-        }
-
-        private void createBackBuffer() {
-            GraphicsConfiguration gc = getGraphicsConfiguration();
-            volatileImg = gc.createCompatibleVolatileImage(getWidth(), getHeight());
-        }
-    }
+   
 }

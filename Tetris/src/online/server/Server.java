@@ -35,7 +35,7 @@ public class Server extends Thread {
     Queue<String> queueToSend;
 
     /**
-     * it handles the socket(channel) of comunication. 
+     * It handles the socket(channel) of comunication. 
      * @param args argument by default of the function main.
      */
     public static void main(String[] args) {

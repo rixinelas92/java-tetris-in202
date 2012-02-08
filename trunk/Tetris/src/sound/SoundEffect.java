@@ -64,9 +64,11 @@ public enum SoundEffect {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (LineUnavailableException e) {
-            e.printStackTrace();
+            System.err.println("It was not possible to start the sound");
+        //    e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("It was not possible to start the sound");
+        //    e.printStackTrace();
         }
     }
 
@@ -75,6 +77,8 @@ public enum SoundEffect {
      * @param newVolume defines the updated volume.
      */
     public void setVolume(int newVolume) {
+        if(volumeControl == null)
+            return;
         float volume;
         volume = (float) (volumeControl.getMaximum() - volumeControl.getMinimum());
         volume *= (float) Math.log(2*newVolume) /Math.log(2*100);
@@ -109,6 +113,8 @@ public enum SoundEffect {
      * Maintains the execution of a clip.
      */
     public void setLoop() {
+        if(clip == null)
+            return;
         clip.loop(clip.LOOP_CONTINUOUSLY);
     }
     /**

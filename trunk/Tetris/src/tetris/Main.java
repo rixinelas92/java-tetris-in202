@@ -178,7 +178,7 @@ public class Main {
         try {
             String ip = prop.getStrProperty(TetrisPreferences.ImplementedProperties.STR_IP);
             String name = prop.getStrProperty(TetrisPreferences.ImplementedProperties.STR_USERNAME);
-            if (ip == null) {
+            if (ip == null || ip.trim().length() == 0) {
                 ip = "localhost";
             }
             if (name == null) {
@@ -275,8 +275,14 @@ public class Main {
 
         @Override
         public void receiveMatchRequest(String uid) throws IOException {
-
-            int response = JOptionPane.showConfirmDialog(screen, "Game Request From User " + uid + "\n Do you Accept?", "dd", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            String name  = new String(uid);
+            for(PlayerDescriptor pd: playerSet){
+                if((pd.getId()+"").endsWith(uid)){
+                    name = pd.getName();
+                    break;
+                }
+            }
+            int response = JOptionPane.showConfirmDialog(screen, "Game Request From User " + name + "\n Do you Accept?", "dd", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
             if (response == JOptionPane.OK_OPTION) {
                 acceptMatchWith(uid);
             }
@@ -347,7 +353,8 @@ public class Main {
         prop.setProperty(ImplementedProperties.INT_KEYPAUSE, cc[6]);
         String username = Player.validName(screen.getUserName());
         prop.setProperty(TetrisPreferences.ImplementedProperties.STR_USERNAME, username);
-
+        System.out.println("Restarting ServerConnection");
+        start2pConnection();
     }
 
     public static void SomChanger() {

@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import online.util.ConnectionCodes.PlayerQueryCodes;
 import online.util.ConnectionCodes.ServerQueryCodes;
 import online.util.Match;
@@ -116,6 +114,7 @@ public class Server extends Thread {
                      */
                     if (q.length() == 0) { // connection terminated;
                         if (barN) {
+                            checkIfThereIsAMatchAndDecline();
                             break;
                         }
                         barN = true;
@@ -194,9 +193,20 @@ public class Server extends Thread {
      * @param m defines the match.
      */
     static private void cleanMatch(Match m) {
+        if(m == null)
+            return;
         try {
             matchMap.remove(m.getMatchid());
             for (int i : m.getPlayersIds()) {
+                Player p = playerMap.get(i);
+                if(p == null)
+                    continue;
+                Match m2 = p.getMatch();
+                if(m2 == null) 
+                    continue;
+                if(m2.getMatchid() == m.getMatchid()){
+                    p.setMatch(null);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -421,6 +431,7 @@ public class Server extends Thread {
         m.getPlayerWithid(m.getPlayersIds()[0]).setState(Player.PlayerState.ONLINE);
         m.getPlayerWithid(m.getPlayersIds()[1]).setState(Player.PlayerState.ONLINE);
         m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.ENDGAME + " " + m.getMatchid());
+        cleanMatch(m);
     }
     /**
      * Informes to the server if a player does not accepted the game in the network.
@@ -454,5 +465,13 @@ public class Server extends Thread {
             return;
         }
         m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.BOARD + " " + string);
+    }
+
+    private void checkIfThereIsAMatchAndDecline() {
+        try {
+            sendGameOver();
+        } catch (Exception ex) {
+        }
+
     }
 }

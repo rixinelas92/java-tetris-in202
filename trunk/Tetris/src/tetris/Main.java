@@ -292,7 +292,7 @@ public class Main {
         @Override
         public void matchStart(String mid) {
             screen.configureScreenForGameType(true);
-            screen.func_1player();
+            screen.func_showPanel(4);
         }
 
         @Override

@@ -50,14 +50,14 @@ import tetris.Position;
 import tetris.Screen;
 
 public class Interface extends JFrame {
-    
+
     // global use
     private JPanel screenPanel, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
-    private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece; 
+    private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece;
     private JLabelCont[][] screen;// Sreen 10 x 20 with the pointer for all the labels in used.
     private Font neuropol14, neuropol18, neuropol28, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
-    static public final Color COLOR_semiopaque = new Color(200,200,200,140);
-    static public final Color COLOR_translucent = new Color(0,0,0,0);
+    static public final Color COLOR_semiopaque = new Color(200, 200, 200, 140);
+    static public final Color COLOR_translucent = new Color(0, 0, 0, 0);
     private Image imageb = null;
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
@@ -80,16 +80,12 @@ public class Interface extends JFrame {
     private JLabel scoreLabel;
     private JLabel timeLabel;
     //others
-    static ActionListener gameViewReady = null;    
+    static ActionListener gameViewReady = null;
     public ClockTimer clock;
     Random r = new Random();
-    private JList playersList;    
+    private JList playersList;
     private boolean is2PlayerGame;
-    
-
-    private SmallBoard        secondPlayerBoard;
-
-    
+    private SmallBoard secondPlayerBoard;
 
     /**
      * Initialize the configuration of the screen.
@@ -124,23 +120,18 @@ public class Interface extends JFrame {
      */
     private void make_fonts() {
         try {
-            //  File f = new File("src/Tetris_interface/fightingspiritTBS.ttf");
-            //  FileInputStream in = new FileInputStream(f);
             Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("fightingspiritTBS.ttf"));
             neuropol28 = dynamicFont.deriveFont(28f);
             neuropol18 = dynamicFont.deriveFont(18f);
             neuropol14 = dynamicFont.deriveFont(14f);
-            //   f = new File("src/Tetris_interface/segoepr.ttf");
-            //   in = new FileInputStream(f);
+            
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("segoepr.ttf"));
             segoePrint12 = dynamicFont.deriveFont(12f);
             segoePrint11 = dynamicFont.deriveFont(11f);
-            //     f = new File("src/Tetris_interface/PLANETBE.TTF");
-            //     in = new FileInputStream(f);
+            
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("PLANETBE.TTF"));
             planetBenson14 = dynamicFont.deriveFont(13f);
-            //   f = new File("src/Tetris_interface/DS-DIGI.TTF");
-            //   in = new FileInputStream(f);
+            
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("DS-DIGI.TTF"));
             sevenSegments14 = dynamicFont.deriveFont(18f);
         } catch (Exception e) {
@@ -154,7 +145,7 @@ public class Interface extends JFrame {
      */
     private void make_top() {
         topPanel = new JPanel(new AbsoluteLayout());
-        
+
         JToolBar toolbar = new JToolBar();
         try {
             //Setup of the main screen.
@@ -186,7 +177,7 @@ public class Interface extends JFrame {
                  * Method to manager the button new game.
                  */
                 public void actionPerformed(ActionEvent event) {
-                    func_newgame();
+                    func_showPanel(1);
                 }
             });
             config.addActionListener(new ActionListener() {
@@ -195,7 +186,7 @@ public class Interface extends JFrame {
                  * Method to manager the button confiration.
                  */
                 public void actionPerformed(ActionEvent event) {
-                    func_config();
+                    func_showPanel(2);
                 }
             });
             som.addActionListener(new ActionListener() {
@@ -204,7 +195,7 @@ public class Interface extends JFrame {
                  * Method to manager the button sound.
                  */
                 public void actionPerformed(ActionEvent event) {
-                    func_som();
+                    func_showPanel(3);
                 }
             });
             close.addActionListener(new ActionListener() {
@@ -275,7 +266,7 @@ public class Interface extends JFrame {
              */
             public void actionPerformed(ActionEvent event) {
                 configureScreenForGameType(false);
-                func_1player();
+                func_showPanel(4);
             }
         });
         JButton player2 = new JButton("2 Players");
@@ -285,7 +276,7 @@ public class Interface extends JFrame {
              * Method to manager the button 2 players.
              */
             public void actionPerformed(ActionEvent event) {
-                func_2players();
+                func_showPanel(5);
             }
         });
         selectionPanel.add(selectionMenu, new AbsoluteConstraints(100, 20));
@@ -299,22 +290,21 @@ public class Interface extends JFrame {
      */
     private void make_options() {
         optionsPanel = new JPanel(new AbsoluteLayout());
-                optionsPanel.setBackground(COLOR_semiopaque);
+        optionsPanel.setBackground(COLOR_semiopaque);
 
         JLabel optionTitle = new JLabel("Options");
         optionTitle.setFont(neuropol28);
-        
+
         JSeparator separator = new JSeparator();
-        
+
         optionsPanel.add(optionTitle, new AbsoluteConstraints(110, 20, -1, -1));
         optionsPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
 
         //Controls panel.
         JPanel controlsPanel = new JPanel(new AbsoluteLayout());
-
-
         controlsPanel.setBackground(COLOR_semiopaque);
         controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
+       
         //Configuring presentation on the screen of the options.
         JLabel moveLeftLabel = new JLabel("Move Left");
         moveLeftLabel.setFont(segoePrint12);
@@ -368,7 +358,7 @@ public class Interface extends JFrame {
         mouseBox = new JCheckBox("Use mouse");
         mouseBox.setFont(segoePrint12);
         mouseBox.setOpaque(false);
-        
+
 
         controlsPanel.add(moveLeftLabel, new AbsoluteConstraints(15, 30, -1, -1));
         controlsPanel.add(leftKey, new AbsoluteConstraints(95, 32, 55, 25));
@@ -418,7 +408,7 @@ public class Interface extends JFrame {
         cancelOptions.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
-                func_initial();
+                func_showPanel(0);
             }
         });
         optionsPanel.add(applyOptions, new AbsoluteConstraints(60, 340, -1, -1));
@@ -496,9 +486,9 @@ public class Interface extends JFrame {
         somPanel.setBackground(COLOR_semiopaque);
         JLabel somTitle = new JLabel("Sound");
         somTitle.setFont(neuropol28);
-                
+
         JSeparator separator = new JSeparator();
-        
+
         somPanel.add(somTitle, new AbsoluteConstraints(120, 20, -1, -1));
         somPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
         //Options of sounds.
@@ -506,7 +496,7 @@ public class Interface extends JFrame {
         musicPanel.setBackground(COLOR_semiopaque);
 
         musicPanel.setBorder(BorderFactory.createTitledBorder(null, "Musics", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
-        
+
         JLabel themeTitle = new JLabel("Theme");
         themeTitle.setFont(segoePrint12);
         themeBox = new JComboBox();
@@ -535,7 +525,7 @@ public class Interface extends JFrame {
              * screen after configuration of the keys.
              */
             public void actionPerformed(ActionEvent event) {
-                func_initial();
+                func_showPanel(0);
             }
         });
         somPanel.add(applySom, new AbsoluteConstraints(60, 340, -1, -1));
@@ -594,10 +584,9 @@ public class Interface extends JFrame {
         timePassed.setEditable(false);
         game1pPanel.add(timePassed, new AbsoluteConstraints(232, 248, 60, 25));
 
-        secondPlayerBoard = new SmallBoard(new int[Screen.SIZE_X],this);
+        secondPlayerBoard = new SmallBoard(new int[Screen.SIZE_X], this);
         game1pPanel.add(secondPlayerBoard, new AbsoluteConstraints(232, 240, -1, -1));
 
-        //game1pPanel.add(secondPlayerScreen, new AbsoluteConstraints(232, 240, -1, -1));
         //Buttons.
         JButton pauseButton = new JButton("Pause");
         pauseButton.setFont(planetBenson14);
@@ -638,14 +627,6 @@ public class Interface extends JFrame {
         game1pPanel.add(gamewin, new AbsoluteConstraints(-5, 240, -1, -1));
         game1pPanel.setComponentZOrder(gamewin, 0);
         gamewin.setVisible(false);
-
-
-
-
-
-
-
-
     }
 
     /**
@@ -664,11 +645,7 @@ public class Interface extends JFrame {
         JScrollPane scrollPane = new JScrollPane(playersList);
         game2pPanel.add(scrollPane, new AbsoluteConstraints(10, 60, 300, 250));
         Main.start2pConnection();
-
-        // game2pPanel = new JPanel(new AbsoluteLayout());
-        // JLabel menu = new JLabel("ainda naum entendi como vai funcionar esta janela, sorry");
-        // game2pPanel.add(menu, new AbsoluteConstraints(0, 0));
-    }
+ }
 
     /**
      * This method allows to set the screenPanel of panel, calling basic panels and hiding
@@ -676,7 +653,6 @@ public class Interface extends JFrame {
      */
     private void make_screenPanel() {
         screenPanel = new JPanel(new AbsoluteLayout()) {
-
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
@@ -685,8 +661,6 @@ public class Interface extends JFrame {
             }
         };
         screenPanel.setBackground(COLOR_translucent);
-       // JLabel background = new JLabel(new ImageIcon(getClass().getResource("imgs/back1.png")));
-       // screenPanel.add(background, new AbsoluteConstraints(0, 0, -1, -1));
         screenPanel.add(topPanel, new AbsoluteConstraints(0, 0));
         screenPanel.add(initialPanel, new AbsoluteConstraints(0, 10, 330, 450));
         screenPanel.add(selectionPanel, new AbsoluteConstraints(0, 10, 330, 450));
@@ -702,15 +676,11 @@ public class Interface extends JFrame {
         game1pPanel.setBackground(COLOR_semiopaque);
         game2pPanel.setBackground(COLOR_semiopaque);
         optionsPanel.setBackground(COLOR_semiopaque);
-
     }
     //Creates the interface of the Jpanel.
 
     private void make_UI() {
         getContentPane().setLayout(new AbsoluteLayout());
-        //setUndecorated(true);
-        //getRootPane().setWindowDecorationStyle(JRootPane.FRAME);        
-        //setShape(new RoundRectangle2D.Float(35, 50, 330, 455, 30, 30));
         add(screenPanel, new AbsoluteConstraints(0, 0));
         pack();
         setTitle("Tetris");
@@ -726,95 +696,31 @@ public class Interface extends JFrame {
      * that we are interested and hiding - setvisible(false)- those that do not
      * compose this screen.
      */
-    private void func_initial() {
-        initialPanel.setVisible(true);
-        selectionPanel.setVisible(false);
-        optionsPanel.setVisible(false);
-        somPanel.setVisible(false);
-        game1pPanel.setVisible(false);
-        game2pPanel.setVisible(false);
-    }
-
-    /**
-     * This method sets the painel in the selection screen. Making visible panels 
-     * that we are interested and hiding - setvisible(false)- those that do not
-     * compose this screen.
-     */
-    public void func_newgame() {
-        initialPanel.setVisible(false);
-        selectionPanel.setVisible(true);
-        optionsPanel.setVisible(false);
-        somPanel.setVisible(false);
-        game1pPanel.setVisible(false);
-        game2pPanel.setVisible(false);
-        Main.pauseGame();
-        Main.removeListeners();
-        Main.sendGameOver();
-    }
-
-    /**
-     * This method sets the painel in the configuration screen. Making visible panels 
-     * that we are interested and hiding - setvisible(false)- those that do not
-     * compose this screen.
-     */
-    private void func_config() {
-        initialPanel.setVisible(false);
-        selectionPanel.setVisible(false);
-        optionsPanel.setVisible(true);
-        somPanel.setVisible(false);
-        game1pPanel.setVisible(false);
-        game2pPanel.setVisible(false);
-        Main.pauseGame();
-        Main.removeListeners();
-        Main.sendGameOver();
-    }
-
-    /**
-     * This method sets the painel in the sound's configuration screen. Making 
-     * visible panels that we are interested and hiding - setvisible(false)- those 
-     * that do not compose this screen.
-     */
-    private void func_som() {
-        initialPanel.setVisible(false);
-        selectionPanel.setVisible(false);
-        optionsPanel.setVisible(false);
-        somPanel.setVisible(true);
-        game1pPanel.setVisible(false);
-        game2pPanel.setVisible(false);
-        Main.pauseGame();
-        Main.removeListeners();
-        Main.sendGameOver();
-    }
-
-    /**
-     * This method sets the painel configured to one player. Making visible panels 
-     * that we are interested and hiding - setvisible(false)- those that do not
-     * compose this screen.
-     */
-    public void func_1player() {
-        initialPanel.setVisible(false);
-        selectionPanel.setVisible(false);
-        optionsPanel.setVisible(false);
-        somPanel.setVisible(false);
-        game1pPanel.setVisible(true);
-        game2pPanel.setVisible(false);
-        if (gameViewReady != null) {
-            gameViewReady.actionPerformed(null);
+    public void func_showPanel(int i) {
+        boolean[] flag = new boolean[6];
+        int count;
+        for (count = 0; count < 6; count++) {
+            if (count == i) {
+                flag[count] = true;
+            } else {
+                flag[count] = false;
+            }
         }
-    }
-
-    /**
-     * This method sets the painel configured to two players. Making visible panels 
-     * that we are interested and hiding - setvisible(false)- those that do not
-     * compose this screen.
-     */
-    private void func_2players() {
-        initialPanel.setVisible(false);
-        selectionPanel.setVisible(false);
-        optionsPanel.setVisible(false);
-        somPanel.setVisible(false);
-        game1pPanel.setVisible(false);
-        game2pPanel.setVisible(true);
+        initialPanel.setVisible(flag[0]);
+        selectionPanel.setVisible(flag[1]);
+        optionsPanel.setVisible(flag[2]);
+        somPanel.setVisible(flag[3]);
+        game1pPanel.setVisible(flag[4]);
+        game2pPanel.setVisible(flag[5]);
+        if (i > 0 && i < 4) {
+            Main.pauseGame();
+            Main.removeListeners();
+            Main.sendGameOver();
+        } else if (i == 4) {
+            if (gameViewReady != null) {
+                gameViewReady.actionPerformed(null);
+            }
+        }
     }
 
     /**
@@ -832,7 +738,6 @@ public class Interface extends JFrame {
         timePassed.setVisible(!is2PlayerGame);
         timeLabel.setVisible(!is2PlayerGame);
         secondPlayerBoard.setVisible(is2PlayerGame);
-
     }
     // ########################################################
 
@@ -846,9 +751,7 @@ public class Interface extends JFrame {
             if (keyNumber == i) {
                 continue;
             }
-
-            // {KeyEvent.VK_LEFT, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_SPACE, KeyEvent.VK_H,KeyEvent.VK_P};
-            if (keyValue == keys[i]) {
+    if (keyValue == keys[i]) {
                 switch (i) {
                     case 0:
                         getKeyEvent(0, leftKey);
@@ -873,7 +776,6 @@ public class Interface extends JFrame {
                         return false;
                     default:
                         break;
-
                 }
             }
         }
@@ -915,10 +817,13 @@ public class Interface extends JFrame {
                 field.setText(KeyEvent.getKeyText(ke.getKeyCode()));
                 field.setBackground(Color.LIGHT_GRAY);
                 removeKeyListener(this);
-                if(checkAndIfCaseSetOtherKeyOnConfig(keyNumber, ke.getKeyCode()))
-                    for(int i = 0;i<keys.length;i++ )
-                        if(!checkAndIfCaseSetOtherKeyOnConfig(i, keys[i]))
+                if (checkAndIfCaseSetOtherKeyOnConfig(keyNumber, ke.getKeyCode())) {
+                    for (int i = 0; i < keys.length; i++) {
+                        if (!checkAndIfCaseSetOtherKeyOnConfig(i, keys[i])) {
                             break;
+                        }
+                    }
+                }
             }
 
             /**
@@ -1002,7 +907,6 @@ public class Interface extends JFrame {
      * @return the actual theme of the sound.
      */
     public int getSomTheme() {
-        System.out.println(themeBox.getSelectedIndex());
         return themeBox.getSelectedIndex();
     }
 
@@ -1030,13 +934,10 @@ public class Interface extends JFrame {
     public void setPiecePosition(Position[] newPiece) {
         //If the bloc shouldn't keep hide, pass position X or/and Y =-1
         for (int i = 0; i < 4; i++) {
-         //   currentPiece[i].setVisible(false);
-
             gameScreen1pPanel.remove(currentPiece[i]);
             gameScreen1pPanel.add(currentPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
         }
         for (int i = 0; i < 4; i++) {
-        //    currentPiece[i].setVisible(true);
             try {
                 screen[currentPiece[i].getCX()][currentPiece[i].getCY()] = null;
             } catch (Exception ex) {
@@ -1062,7 +963,6 @@ public class Interface extends JFrame {
             gameScreen1pPanel.add(shadowPiece[i], new AbsoluteConstraints(xPos(newPiece[i].getX()), yPos(newPiece[i].getY()), pieceSize, pieceSize));
         }
         toggleVisiblePropOnGame();
-
     }
 
     public String getStringForColor(String color) {
@@ -1112,7 +1012,6 @@ public class Interface extends JFrame {
         return gameover;
     }
 
-
     public JLabel showGameWin() {
         gamewin.setVisible(true);
         game1pPanel.setVisible(false);
@@ -1133,7 +1032,7 @@ public class Interface extends JFrame {
         }
     }
 
-        public void removeGameWin(JLabel gameover) {
+    public void removeGameWin(JLabel gameover) {
         if (gamewin != null) {
             game1pPanel.setVisible(false);
             game1pPanel.setVisible(true);
@@ -1339,14 +1238,13 @@ public class Interface extends JFrame {
      * Sets the panel prepared to the game.
      */
     public void toggleVisiblePropOnGame() {
-        
+
         gameNext1pPanel.setVisible(false);
         gameNext1pPanel.setVisible(true);
         gameScreen1pPanel.setVisible(false);
         gameScreen1pPanel.setVisible(true);
         game1pPanel.setVisible(false);
         game1pPanel.setVisible(true);
-
     }
 
     /**
@@ -1398,6 +1296,7 @@ public class Interface extends JFrame {
     }
     //############################################################"
 //listeners
+
     /**
      *
      */
@@ -1452,7 +1351,6 @@ public class Interface extends JFrame {
     }
 
 //subclasses
-
     /**
      * Inner of the class MouseAdapter.
      */
@@ -1481,5 +1379,4 @@ public class Interface extends JFrame {
             }
         }
     }
-   
 }

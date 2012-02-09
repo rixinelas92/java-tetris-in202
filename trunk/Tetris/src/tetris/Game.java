@@ -636,7 +636,6 @@ public class Game extends Controller implements ActionListener {
     public void setSomTheme(int somTheme) {
 
         if (somTheme == 0) {
-            System.out.println("oi");
             fallSom = SoundEffect.CFALL;
             eraseSom = SoundEffect.CERASE;
             gameoverSom = null;

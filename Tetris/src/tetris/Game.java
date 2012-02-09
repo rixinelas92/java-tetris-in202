@@ -160,14 +160,14 @@ public class Game extends Controller implements ActionListener {
             Piece.ShapeType cs = randomShape.randomExceptLast();
             Piece.ShapeType ns = randomShape.randomExceptLast();
             nextPiece = new Piece(cs, Screen.getMiddlePosition());
-            Main.setNewFirstPiece();
+            Main.getInstance().setNewFirstPiece();
             currentPiece = nextPiece;
             nextPiece = new Piece(ns, Screen.getMiddlePosition());
             shadowPiece = new Piece(currentPiece.getShapeType(), currentPiece.getPosition());
             shadowPiece.setRotation(currentPiece.getRotation());
 
 
-            Main.setNewPiece();
+            Main.getInstance().setNewPiece();
         } catch (OutOfScreenBoundsException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -175,7 +175,7 @@ public class Game extends Controller implements ActionListener {
         holdPiece = null;
         level = 1;
         points = 0;
-        Main.setListeners(this);
+        Main.getInstance().setListeners(this);
         int pointsToNextLevel = pointsToLevel(level + 1);
         Main.setPointsAndLevel(points, level, pointsToNextLevel);
         if (timer == null) {
@@ -369,7 +369,7 @@ public class Game extends Controller implements ActionListener {
      * Inversor of condition.
      */
     public void stopToggle() {
-        Main.togglePause();
+        Main.getInstance().togglePause();
     }
 
     public void stopToggleVariable() {
@@ -428,11 +428,11 @@ public class Game extends Controller implements ActionListener {
                 shadowPiece.setPosition(currentPiece.getPosition());
                 shadowPiece.setRotation(currentPiece.getRotation());
                 shadowPiece.setShape(currentPiece.getShapeType());
-                Main.setNewPiece();
+                Main.getInstance().setNewPiece();
                 alreadyHolded = false;
             } catch (NotAvailablePlaceForPieceException ex) {
-                Main.pauseGame();
-                Main.showGameOverAndReturnToNewGame();
+                Main.getInstance().pauseGame();
+                Main.getInstance().showGameOverAndReturnToNewGame();
                 if (gameoverSom != null) {
                     gameoverSom.play();
                 }
@@ -469,15 +469,15 @@ public class Game extends Controller implements ActionListener {
                 }
             }
             if (isFinished) {
-                Main.pauseGame();
-                Main.showGameOverAndReturnToNewGame();
+                Main.getInstance().pauseGame();
+                Main.getInstance().showGameOverAndReturnToNewGame();
                 if (gameoverSom != null) {
                     gameoverSom.play();
                 }
                 isStarted = false;
                 return;
             }
-            Main.updatePiecesPositions();
+            Main.getInstance().updatePiecesPositions();
             int numLinesFull = 0;
             int lineC;
             while (true) {
@@ -489,9 +489,9 @@ public class Game extends Controller implements ActionListener {
                 if (eraseSom != null) {
                     eraseSom.play();
                 }
-                Main.callScreenRemoveLine(lineC);
+                Main.getInstance().callScreenRemoveLine(lineC);
                 numLinesFull++;
-                Main.sendGamePoint();
+                Main.getInstance().sendGamePoint();
             }
             int p = ponctuation(numLinesFull);
             points += p;
@@ -534,7 +534,7 @@ public class Game extends Controller implements ActionListener {
                         holdPiece.setRotation(auxiliar.getRotation());
                         holdPiece.setShape(auxiliar.getShapeType());
 
-                        Main.setHold();
+                        Main.getInstance().setHold();
                     }
                 } catch (Exception en) {
                     en.printStackTrace();
@@ -546,12 +546,12 @@ public class Game extends Controller implements ActionListener {
                 holdPiece.setRotation(currentPiece.getRotation());
                 currentPiece = nextPiece;
                 nextPiece = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
-                Main.setFirstHold();
+                Main.getInstance().setFirstHold();
                 shadowPiece.setPosition(currentPiece.getPosition());
                 shadowPiece.setRotation(currentPiece.getRotation());
                 shadowPiece.setShape(currentPiece.getShapeType());
 
-                Main.setNewPiece();
+                Main.getInstance().setNewPiece();
             } catch (Exception en) {
                 en.printStackTrace();
             }

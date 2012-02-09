@@ -644,7 +644,7 @@ public class Interface extends JFrame {
         playersList.addMouseListener(new ActionJList(playersList));
         JScrollPane scrollPane = new JScrollPane(playersList);
         game2pPanel.add(scrollPane, new AbsoluteConstraints(10, 60, 300, 250));
-        Main.start2pConnection();
+        Main.getInstance().start2pConnection();
  }
 
     /**
@@ -713,9 +713,9 @@ public class Interface extends JFrame {
         game1pPanel.setVisible(flag[4]);
         game2pPanel.setVisible(flag[5]);
         if (i > 0 && i < 4) {
-            Main.pauseGame();
-            Main.removeListeners();
-            Main.sendGameOver();
+            Main.getInstance().pauseGame();
+            Main.getInstance().removeListeners();
+            Main.getInstance().sendGameOver();
         } else if (i == 4) {
             if (gameViewReady != null) {
                 gameViewReady.actionPerformed(null);
@@ -865,8 +865,8 @@ public class Interface extends JFrame {
      * Implements the function exit.
      */
     private void func_exit() {
-        Main.terminateInternetConnection();
-        Main.saveProp();
+        Main.getInstance().terminateInternetConnection();
+        Main.getInstance().saveProp();
         System.exit(0);
     }
 
@@ -914,7 +914,7 @@ public class Interface extends JFrame {
      * Implements the function pause.
      */
     private void func_pause() {
-        Main.togglePause();
+        Main.getInstance().togglePause();
     }
 
     /**
@@ -1082,7 +1082,7 @@ public class Interface extends JFrame {
             shadowPiece[i] = new JLabelCont(new ImageIcon(getClass().getResource(getStringForColor("shadow"))));//shadowColor))));
         }
         setNextPiecePosition(newPosNextPiece);
-        Main.updateShadowPositions();
+        Main.getInstance().updateShadowPositions();
         toggleVisiblePropOnGame();
     }
     //#######################################################"

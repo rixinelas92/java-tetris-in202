@@ -22,19 +22,23 @@ import java.util.logging.Logger;
 public class TetrisPreferences {
     private Properties p;
 
+    private String filename = "properties.xml";
+    
     public enum ImplementedProperties{
         INT_KEYPAUSE, INT_KEYGOLEFT, INT_KEYGORIGHT, INT_KEYGODOWN, INT_KEYROTATE, INT_KEYDOWN, INT_KEYHOLD,
         STR_USERNAME, STR_IP
     }
 
     
-
+    public void setFilename(String fn){
+        this.filename = fn;
+    }
 
     public void readProperties(){
         FileInputStream propFile = null;
         try {
             p = new Properties();
-            propFile = new FileInputStream("properties.xml");
+            propFile = new FileInputStream(filename);
             p.loadFromXML(propFile);
 
         } catch (IOException ex) {
@@ -53,7 +57,7 @@ public class TetrisPreferences {
         PrintStream ps = null;
         System.out.println("Saving properties");
         try {
-            propFile = new FileOutputStream("properties.xml");
+            propFile = new FileOutputStream(filename);
            // ps = new PrintStream(propFile);
 
             for(Entry e: p.entrySet()){

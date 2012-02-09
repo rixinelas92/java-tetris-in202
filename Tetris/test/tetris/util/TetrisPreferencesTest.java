@@ -34,6 +34,7 @@ public class TetrisPreferencesTest extends TestCase {
         System.out.println("saveProperties");
         TetrisPreferences instance = new TetrisPreferences();
         // reading properties.
+        instance.setFilename("testingconfig.xml");
         instance.readProperties();
         instance.cleanProperties();
         
@@ -63,6 +64,7 @@ public class TetrisPreferencesTest extends TestCase {
     public void testAllProperties() {
         System.out.println("saveProperties");
         TetrisPreferences instance = new TetrisPreferences();
+        instance.setFilename("testingconfig.xml");
         // reading properties.
         instance.readProperties();
         instance.cleanProperties();

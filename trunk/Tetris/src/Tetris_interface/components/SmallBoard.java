@@ -6,6 +6,7 @@
 package Tetris_interface.components;
 
 import Tetris_interface.Interface;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.ImageIcon;
@@ -20,21 +21,22 @@ import tetris.Screen;
 public class SmallBoard extends JPanel {
 
     int[] isFilled;
-
+    Interface container;
     int pxlsize = 6;
     JLabel boardLabels[][];
 
-    public SmallBoard(int[] initialImg) {
+    public SmallBoard(int[] initialImg, Interface container) {
+        this.container = container;
         setSize(Screen.SIZE_X * pxlsize, Screen.SIZE_Y * pxlsize);
         boardLabels = new JLabel[Screen.SIZE_X][Screen.SIZE_Y];
-
+        setBackground(Interface.COLOR_semiopaque);
         GridLayout layout = new GridLayout(Screen.SIZE_Y,Screen.SIZE_X,0,0);
         setLayout(layout);
         isFilled = new int[Screen.SIZE_X];
         for (int i = 0; i < Screen.SIZE_X; i++) {
             isFilled[i] = 0;
             for (int j = 0; j < Screen.SIZE_Y; j++) {
-                boardLabels[i][j] = new JLabel(new ImageIcon(getClass().getResource("../imgs/Grey0.gif")));
+                boardLabels[i][j] = new JLabel(new ImageIcon(getClass().getResource("../imgs/small6.png")));
                 boardLabels[i][j].setSize(pxlsize, pxlsize);
                 boardLabels[i][j].setMaximumSize(new Dimension(pxlsize, pxlsize));
                 boardLabels[i][j].setMinimumSize(new Dimension(pxlsize, pxlsize));
@@ -71,6 +73,8 @@ public class SmallBoard extends JPanel {
                 }
             }
             isFilled[i] = newFilled[i];
+
         }
+
     }
 }

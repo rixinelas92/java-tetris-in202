@@ -56,8 +56,8 @@ public class Interface extends JFrame {
     private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece; 
     private JLabelCont[][] screen;// Sreen 10 x 20 with the pointer for all the labels in used.
     private Font neuropol14, neuropol18, neuropol28, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
-    final Color semiopaque = new Color(200,200,200,140);
-    final Color translucent = new Color(0,0,0,0);
+    static public final Color COLOR_semiopaque = new Color(200,200,200,140);
+    static public final Color COLOR_translucent = new Color(0,0,0,0);
     private Image imageb = null;
     //constants
     private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
@@ -232,7 +232,7 @@ public class Interface extends JFrame {
      */
     private void make_initial() {
         initialPanel = new JPanel(new AbsoluteLayout());
-        initialPanel.setBackground(semiopaque);
+        initialPanel.setBackground(COLOR_semiopaque);
 
         JLabel menuImage = new JLabel();
         try {
@@ -262,7 +262,7 @@ public class Interface extends JFrame {
      */
     private void make_selection() {
         selectionPanel = new JPanel(new AbsoluteLayout());
-        selectionPanel.setBackground(semiopaque);
+        selectionPanel.setBackground(COLOR_semiopaque);
 
         JLabel selectionMenu = new JLabel("Game Mode");
         selectionMenu.setFont(neuropol28);
@@ -299,7 +299,7 @@ public class Interface extends JFrame {
      */
     private void make_options() {
         optionsPanel = new JPanel(new AbsoluteLayout());
-                optionsPanel.setBackground(semiopaque);
+                optionsPanel.setBackground(COLOR_semiopaque);
 
         JLabel optionTitle = new JLabel("Options");
         optionTitle.setFont(neuropol28);
@@ -313,7 +313,7 @@ public class Interface extends JFrame {
         JPanel controlsPanel = new JPanel(new AbsoluteLayout());
 
 
-        controlsPanel.setBackground(semiopaque);
+        controlsPanel.setBackground(COLOR_semiopaque);
         controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
         //Configuring presentation on the screen of the options.
         JLabel moveLeftLabel = new JLabel("Move Left");
@@ -389,7 +389,7 @@ public class Interface extends JFrame {
 
         //Begin of the player name panel.
         JPanel playerPanel = new JPanel(new AbsoluteLayout());
-        playerPanel.setBackground(semiopaque);
+        playerPanel.setBackground(COLOR_semiopaque);
 
         playerPanel.setBorder(BorderFactory.createTitledBorder(null, "Player Name", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
         playerName = new JTextField("ENSTA Project");
@@ -401,7 +401,7 @@ public class Interface extends JFrame {
         optionsPanel.add(playerPanel, new AbsoluteConstraints(10, 223, 310, 55));
 
         JPanel ipPanel = new JPanel(new AbsoluteLayout());
-        ipPanel.setBackground(semiopaque);
+        ipPanel.setBackground(COLOR_semiopaque);
         ipPanel.setBorder(BorderFactory.createTitledBorder(null, "IP Number", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
         ipName = new JTextField("Ip to 2 Players Mode");
         ipName.setFont(sevenSegments14);
@@ -493,7 +493,7 @@ public class Interface extends JFrame {
      */
     private void make_sound() {
         somPanel = new JPanel(new AbsoluteLayout());
-        somPanel.setBackground(semiopaque);
+        somPanel.setBackground(COLOR_semiopaque);
         JLabel somTitle = new JLabel("Sound");
         somTitle.setFont(neuropol28);
                 
@@ -503,7 +503,7 @@ public class Interface extends JFrame {
         somPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
         //Options of sounds.
         JPanel musicPanel = new JPanel(new AbsoluteLayout());
-        musicPanel.setBackground(semiopaque);
+        musicPanel.setBackground(COLOR_semiopaque);
 
         musicPanel.setBorder(BorderFactory.createTitledBorder(null, "Musics", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
         
@@ -559,11 +559,11 @@ public class Interface extends JFrame {
         gameScreen1pPanel.setFocusable(true);
         gameScreen1pPanel.setOpaque(false);
         gameNext1pPanel = new JPanel(new AbsoluteLayout());
-        gameNext1pPanel.setBackground(translucent);
+        gameNext1pPanel.setBackground(COLOR_translucent);
         gameNext1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Next", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
         gameHold1pPanel = new JPanel(new AbsoluteLayout());
         gameHold1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Hold", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
-        gameHold1pPanel.setBackground(translucent);
+        gameHold1pPanel.setBackground(COLOR_translucent);
         game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(10, 60, 10 * pieceSize, 20 * pieceSize));
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 52, 85, 90));
         game1pPanel.add(gameHold1pPanel, new AbsoluteConstraints(220, 140, 85, 90));
@@ -594,7 +594,7 @@ public class Interface extends JFrame {
         timePassed.setEditable(false);
         game1pPanel.add(timePassed, new AbsoluteConstraints(232, 248, 60, 25));
 
-        secondPlayerBoard = new SmallBoard(new int[Screen.SIZE_X]);
+        secondPlayerBoard = new SmallBoard(new int[Screen.SIZE_X],this);
         game1pPanel.add(secondPlayerBoard, new AbsoluteConstraints(232, 240, -1, -1));
 
         //game1pPanel.add(secondPlayerScreen, new AbsoluteConstraints(232, 240, -1, -1));
@@ -684,7 +684,7 @@ public class Interface extends JFrame {
                 super.paint(g);
             }
         };
-        screenPanel.setBackground(translucent);
+        screenPanel.setBackground(COLOR_translucent);
        // JLabel background = new JLabel(new ImageIcon(getClass().getResource("imgs/back1.png")));
        // screenPanel.add(background, new AbsoluteConstraints(0, 0, -1, -1));
         screenPanel.add(topPanel, new AbsoluteConstraints(0, 0));
@@ -699,9 +699,9 @@ public class Interface extends JFrame {
         game1pPanel.setVisible(false);
         screenPanel.add(game2pPanel, new AbsoluteConstraints(0, 10, 330, 450));
         game2pPanel.setVisible(false);
-        game1pPanel.setBackground(semiopaque);
-        game2pPanel.setBackground(semiopaque);
-        optionsPanel.setBackground(semiopaque);
+        game1pPanel.setBackground(COLOR_semiopaque);
+        game2pPanel.setBackground(COLOR_semiopaque);
+        optionsPanel.setBackground(COLOR_semiopaque);
 
     }
     //Creates the interface of the Jpanel.
@@ -1448,7 +1448,7 @@ public class Interface extends JFrame {
      */
     public void set2pScreenGame(int[] isFilled) {
         secondPlayerBoard.updateBoardDescription(isFilled);
-
+        toggleVisiblePropOnGame();
     }
 
 //subclasses

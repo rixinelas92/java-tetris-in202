@@ -94,14 +94,23 @@ public class TetrisPreferences {
     }
     
     public Integer getIntProperty(ImplementedProperties key){
+        if(key == null)
+            return null;
         Object o = p.getProperty("tetris."+key.toString().toLowerCase());
         if(Integer.class.isInstance(o)){
             return (Integer)o;
+        }else if(String.class.isInstance(o)){
+            try{
+                return Integer.parseInt(o.toString());
+            }catch(Exception e){
+            }
         }
         return null;
     }
 
     public String getStrProperty(ImplementedProperties key){
+        if(key == null)
+            return "";
         Object o = p.getProperty("tetris."+key.toString().toLowerCase());
         if(String.class.isInstance(o)){
             return (String)o;
@@ -110,5 +119,10 @@ public class TetrisPreferences {
     }
 
 
+    public void cleanProperties(){
+        for(ImplementedProperties prop : ImplementedProperties.values()){
+            p.remove("tetris."+prop.toString().toLowerCase());
+        }
+    }
 
 }

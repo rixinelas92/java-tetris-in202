@@ -56,6 +56,7 @@ public class Interface extends JFrame {
     private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece;
     private JLabelCont[][] screen;// Sreen 10 x 20 with the pointer for all the labels in used.
     private Font neuropol14, neuropol18, neuropol28, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
+    static public final Color COLOR_opaque = new Color(200, 200, 200, 255);
     static public final Color COLOR_semiopaque = new Color(200, 200, 200, 140);
     static public final Color COLOR_translucent = new Color(0, 0, 0, 0);
     private Image imageb = null;
@@ -1347,7 +1348,6 @@ public class Interface extends JFrame {
      */
     public void set2pScreenGame(int[] isFilled) {
         secondPlayerBoard.updateBoardDescription(isFilled);
-        toggleVisiblePropOnGame();
     }
 
 //subclasses

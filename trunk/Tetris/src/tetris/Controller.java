@@ -144,7 +144,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
         } catch (Exception ex) {
             System.out.println("Cant " + e.getKeyChar());
         }
-        Main.terminateControllerAction();
+        Main.getInstance().terminateControllerAction();
 
     }
 
@@ -161,7 +161,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
                 ex.printStackTrace();
             }
         }
-        Main.terminateControllerAction();
+        Main.getInstance().terminateControllerAction();
     }
 
     /**
@@ -187,7 +187,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
                 System.out.println(e.getButton());
             }
         }
-        Main.terminateControllerAction();
+        Main.getInstance().terminateControllerAction();
     }
 
     /**

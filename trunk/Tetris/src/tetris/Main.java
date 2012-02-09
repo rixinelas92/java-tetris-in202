@@ -26,8 +26,10 @@ import tetris.util.TetrisPreferences.ImplementedProperties;
  *
  * @author felipeteles
  */
-public class Main {
+final public class Main {
 
+    private static volatile Main instance = null;
+    
     static Interface screen;
     static Game game;
     static Client internet;
@@ -89,74 +91,86 @@ public class Main {
         });
     }
 
-    public static void updatePiecesPositions() {
+    public final static Main getInstance(){
+        if (instance != null) {
+            return instance;
+        }
+
+        synchronized (Main.class) {
+            if (Main.instance == null) {
+                Main.instance = new Main();
+            }
+        }
+        return instance;
+    }
+    
+    public void updatePiecesPositions() {
         screen.setPiecePosition(game.getCurrentPiecePositions());
         screen.setShadowPosition(game.getShadowPiecePositions());
     }
 
-    public static void updateShadowPositions() {
-
+    public void updateShadowPositions() {
         screen.setShadowPosition(game.getShadowPiecePositions());
     }
 
-    public static void setNewPiece() {
+    public void setNewPiece() {
         screen.newPiece(game.getCurrentPiecePositions(), game.getNextPiecePositions(), game.getNextPieceColorName(), game.getCurrentPieceColorName());
     }
 
-    public static void setHold() {
+    public void setHold() {
         screen.holdPiece(game.getCurrentPiecePositions(), game.getHoldPiecePositions(), game.getCurrentPieceColorName());
     }
 
-    public static void setFirstHold() {
+    public void setFirstHold() {
         screen.holdFirstPiece(game.getHoldPiecePositions());
     }
 
-    public static void setNewFirstPiece() {
+    public void setNewFirstPiece() {
         screen.newFirstPiece(game.getNextPiecePositions(), game.getNextPieceColorName());
     }
 
-    public static void setListeners(Controller c) {
+    public void setListeners(Controller c) {
         screen.setFocusable(true);
         /*
          * Requesting focus so that the menu dont get the actual focus from the 
          * keyboard annoying the user with useless actions.
          */
         screen.requestFocusInWindow();
-        Main.removeListeners();
+        instance.removeListeners();
         screen.addKeyListener(c);
         screen.addMouseMotionListener(c);
         screen.addMouseListener(c);
     }
 
-    public static void removeListeners() {
+    public void removeListeners() {
         screen.removeKeyListener(game);
         screen.removeMouseMotionListener(game);
         screen.removeMouseListener(game);
     }
 
-    static void terminateControllerAction() {
+    void terminateControllerAction() {
         updatePiecesPositions();
         screen.toggleVisiblePropOnGame();
     }
 
-    public static void terminateInternetConnection() {
+    public void terminateInternetConnection() {
         try {
             internet.sayBye();
         } catch (Exception e) {
         }
     }
 
-    static void callScreenRemoveLine(int lineC) {
+    void callScreenRemoveLine(int lineC) {
         screen.eraseLine(lineC);
     }
 
-    public static void togglePause() {
+    public void togglePause() {
         game.stopToggleVariable();
         screen.requestFocusInWindow();
         screen.clock.togglePause();
     }
 
-    public static void pauseGame() {
+    public void pauseGame() {
         game.pauseGame();
         if (screen != null && screen.clock != null) {
             screen.clock.pauseScreen();
@@ -171,7 +185,7 @@ public class Main {
         screen.restart1pScreen();
     }
 
-    public static void start2pConnection() {
+    public void start2pConnection() {
         if (internet != null) {
             terminateInternetConnection();
         }
@@ -202,19 +216,19 @@ public class Main {
 
     }
 
-    public static void showGameOverAndReturnToNewGame() {
-        Main.removeListeners();
+    public void showGameOverAndReturnToNewGame() {
+        removeListeners();
         JLabel go = screen.showGameOver();
         sendGameOver();
 
     }
 
-    public static void showGameWinAndReturnToNewGame() {
-        Main.removeListeners();
+    public void showGameWinAndReturnToNewGame() {
+        removeListeners();
         JLabel go = screen.showGameWin();
     }
 
-    public static void saveProp() {
+    public void saveProp() {
         try {
             prop.saveProperties();
         } catch (Exception e) {
@@ -222,7 +236,7 @@ public class Main {
     }
 
 
-    public static void sendGameOver(){
+    public void sendGameOver(){
         try {
             internet.gameOver();
         } catch (Exception ex) {
@@ -230,7 +244,7 @@ public class Main {
         }
     }
 
-    static void sendGamePoint() {
+    void sendGamePoint() {
         try {
             internet.gamePoint();
         } catch (Exception ex) {
@@ -303,7 +317,7 @@ public class Main {
         @Override
         public void endGame(String mid) throws IOException {
             game.pauseGame();
-            Main.showGameWinAndReturnToNewGame();
+            Main.getInstance().showGameWinAndReturnToNewGame();
         }
 
         @Override
@@ -354,7 +368,7 @@ public class Main {
         String username = Player.validName(screen.getUserName());
         prop.setProperty(TetrisPreferences.ImplementedProperties.STR_USERNAME, username);
         System.out.println("Restarting ServerConnection");
-        start2pConnection();
+        getInstance().start2pConnection();
     }
 
     public static void SomChanger() {

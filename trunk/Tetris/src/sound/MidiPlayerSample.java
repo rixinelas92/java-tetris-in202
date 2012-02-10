@@ -6,9 +6,6 @@ package sound;
 
 import javax.sound.midi.*;
 import java.io.InputStream;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 /**
  * This class is disigned in order to executes a sample of sound.
@@ -25,7 +22,7 @@ public class MidiPlayerSample {
           if (sequencer == null)
               throw new MidiUnavailableException();
           sequencer.open();
-          InputStream is = MidiPlayerSample.class.getResourceAsStream("Korobeiniki.mid");
+          InputStream is = MidiPlayerSample.class.getResourceAsStream("battle.mid");
           Sequence mySeq = MidiSystem.getSequence(is);
           sequencer.setSequence(mySeq);
           sequencer.start();

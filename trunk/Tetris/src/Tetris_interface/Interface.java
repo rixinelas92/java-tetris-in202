@@ -349,7 +349,7 @@ public class Interface extends JFrame {
         holdKey.setHorizontalAlignment(JTextField.CENTER);
         holdKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
-        JLabel pauseLabel = new JLabel("Rotate");
+        JLabel pauseLabel = new JLabel("Pause");
         pauseLabel.setFont(segoePrint12);
         pauseKey = new JTextField(KeyEvent.getKeyText(keys[6]));
         pauseKey.setFont(segoePrint12);

@@ -19,16 +19,25 @@ public class MidiPlayerSample {
   public static void main(String[] args) {
       try {
           Sequencer sequencer = MidiSystem.getSequencer();
+                    Sequencer sequencer2 = MidiSystem.getSequencer();
+
           if (sequencer == null)
               throw new MidiUnavailableException();
           sequencer.open();
-          InputStream is = MidiPlayerSample.class.getResourceAsStream("battle.mid");
+          sequencer2.open();
+           InputStream is = MidiPlayerSample.class.getResourceAsStream("battle.mid");
+            InputStream is2 = MidiPlayerSample.class.getResourceAsStream("battle.mid");
           Sequence mySeq = MidiSystem.getSequence(is);
+          Sequence mySeq2 = MidiSystem.getSequence(is2);
           sequencer.setSequence(mySeq);
           sequencer.start();
-          
+          sequencer2.setSequence(mySeq2);
           Thread.sleep(10000);
+          sequencer2.start();
+                    Thread.sleep(10000);
+
           sequencer.stop();
+          sequencer2.stop();
       } catch (Exception e) {
           e.printStackTrace();
       }

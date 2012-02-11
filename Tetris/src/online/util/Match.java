@@ -9,6 +9,7 @@
 
 package online.util;
 
+import online.server.GUI.MatchInstrospection;
 import online.server.Server;
 
 /**
@@ -24,6 +25,7 @@ public class Match {
     private caracRet<Player> pret = new caracRet<Player>();
     private caracRet<Integer> scret = new caracRet<Integer>();
     private caracRet<Server>  seret = new caracRet<Server>();
+    MatchInstrospection mi;
 
     /**
      * This class checks the validity of the parameters and configures the network
@@ -139,6 +141,36 @@ public class Match {
             if(p[0].getPlayerId() == id)
                 return v[0];
             return null;
+        }
+    }
+
+
+
+    @Override
+    public int hashCode() {
+        return matchid%97;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Match))
+            return false;
+        if(((Match)obj).matchid == matchid)
+            return true;
+        return false;
+    }
+
+    public void setInstrospector(MatchInstrospection mi){
+        this.mi = mi;
+    }
+    public void detachInstrospector(){
+        if(mi != null)
+            mi.detach();
+        mi = null;
+    }
+    public void signalInstrospection(String msg){
+        if(mi != null){
+            mi.addSignal(msg);
         }
     }
 }

@@ -127,7 +127,7 @@ public enum SoundEffect {
     /**
      * Optional static method to pre-load all the sound files.
      */ 
-    static void init() {
+    public static void init() {
         values(); // calls the constructor for all the elements
     }
 }

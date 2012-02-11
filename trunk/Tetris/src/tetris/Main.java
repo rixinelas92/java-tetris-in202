@@ -36,6 +36,9 @@ final public class Main {
     private static SoundEffect themeSom = null;
     static TetrisPreferences prop;
 
+    private boolean twoPlayerGame;
+
+    
     /**
      * @param args the command line arguments
      */
@@ -49,7 +52,7 @@ final public class Main {
                 screen = new Interface();
                 screen.setVisible(true);
                 game = new Game();
-
+                SoundEffect.init();
                 try {
 
                     Integer[] keys = {prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYGOLEFT),
@@ -103,6 +106,7 @@ final public class Main {
         }
         return instance;
     }
+
     
     public void updatePiecesPositions() {
         screen.setPiecePosition(game.getCurrentPiecePositions());
@@ -155,6 +159,7 @@ final public class Main {
 
     public void terminateInternetConnection() {
         try {
+            sendGameOver();
             internet.sayBye();
         } catch (Exception e) {
         }
@@ -218,12 +223,12 @@ final public class Main {
 
     public void showGameOverAndReturnToNewGame() {
         removeListeners();
-        JLabel go = screen.showGameOver();
+        screen.showGameOver();
         sendGameOver();
-
     }
 
     public void showGameWinAndReturnToNewGame() {
+
         removeListeners();
         JLabel go = screen.showGameWin();
     }
@@ -237,6 +242,9 @@ final public class Main {
 
 
     public void sendGameOver(){
+        System.out.println(twoPlayerGame+"   2p");
+        if(!twoPlayerGame)
+            return;
         try {
             internet.gameOver();
         } catch (Exception ex) {
@@ -245,11 +253,17 @@ final public class Main {
     }
 
     void sendGamePoint() {
+        if(!twoPlayerGame)
+            return;
         try {
             internet.gamePoint();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void set2PlayerGame(boolean twoPlayerGame) {
+        this.twoPlayerGame = twoPlayerGame;
     }
 
     static class ClientImpl extends Client {
@@ -296,7 +310,9 @@ final public class Main {
                     break;
                 }
             }
-            int response = JOptionPane.showConfirmDialog(screen, "Game Request From User " + name + "\n Do you Accept?", "dd", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            int response = JOptionPane.showConfirmDialog(screen, "Game Request From User " + 
+                    name + "\n Do you Accept?", "dd", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE);
             if (response == JOptionPane.OK_OPTION) {
                 acceptMatchWith(uid);
             }

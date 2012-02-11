@@ -391,8 +391,6 @@ public class Game extends Controller implements ActionListener {
     }
 
     synchronized protected void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
-
-        Position[] vector = currentPiece.getAllPosition();
         int x = -2 + newX / pieceSize;
 
         while (true) {
@@ -486,12 +484,12 @@ public class Game extends Controller implements ActionListener {
                     break;
                 }
                 screen.removeLine(lineC);
-                if (eraseSom != null) {
-                    eraseSom.play();
-                }
                 Main.getInstance().callScreenRemoveLine(lineC);
                 numLinesFull++;
                 Main.getInstance().sendGamePoint();
+            }
+            if (numLinesFull != 0 && eraseSom != null) {
+                    eraseSom.play();
             }
             int p = ponctuation(numLinesFull);
             points += p;

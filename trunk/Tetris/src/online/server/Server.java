@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import online.server.GUI.SIM;
 import online.util.ConnectionCodes.PlayerQueryCodes;
 import online.util.ConnectionCodes.ServerQueryCodes;
 import online.util.Match;
@@ -24,6 +25,7 @@ import online.util.Player;
  * determines the parameters of comunication and manages the informations that are
  * sent by the players.
  */
+
 public class Server extends Thread {
 
     static int playerCount = 0;
@@ -38,6 +40,7 @@ public class Server extends Thread {
      */
     public static void main(String[] args) {
         ServerSocket ss = null;
+        SIM.main(new String[0] );
         try {
             ss = new ServerSocket(4779);
             System.out.println("host ");
@@ -121,7 +124,13 @@ public class Server extends Thread {
                     } else {
                         barN = false;
                         timeout = 0;
-                        System.out.println("R  " + q);
+                        if(player != null){
+                            Match m = player.getMatch();
+                            if(m != null){
+                                m.signalInstrospection(player.getName()+" ("+player.getPlayerId()+")" + q);
+                            }
+                        }
+
                         consume(q);
                     }
 
@@ -130,11 +139,15 @@ public class Server extends Thread {
                 if (counter++ > 10) {
                     counter = 0;
                     sendPlayerList();
+                    SIM.getInstance().setUserList(playerMap);
+                    SIM.getInstance().setMatchList(matchMap);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            SIM.getInstance().setUserList(playerMap);
+            SIM.getInstance().setMatchList(matchMap);
             try {
                 cleanMatch(player.getMatch());
             } catch (Exception e) {
@@ -174,11 +187,15 @@ public class Server extends Thread {
         try {
             Match m = player.getMatch();
             matchMap.remove(m.getMatchid());
+            m.detachInstrospector();
+            SIM.getInstance().removeMatch(m);
+
         } catch (Exception e) {
         }
 
         try {
             playerMap.remove(player.getPlayerId());
+            SIM.getInstance().removePlayer(player);
         } catch (Exception e) {
         }
 
@@ -197,6 +214,8 @@ public class Server extends Thread {
             return;
         try {
             matchMap.remove(m.getMatchid());
+            m.detachInstrospector();
+            SIM.getInstance().removeMatch(m);
             for (int i : m.getPlayersIds()) {
                 Player p = playerMap.get(i);
                 if(p == null)
@@ -341,7 +360,9 @@ public class Server extends Thread {
         int mid = matchCount++;
 
         Match m = new Match(p1, p1.getServer(), p2, p2.getServer(), mid);
+
         matchMap.put(mid, m);
+        SIM.getInstance().addMatch(m);
 
         p1.getServer().send(ServerQueryCodes.MATCHSTART + " " + mid);
         p2.getServer().send(ServerQueryCodes.MATCHSTART + " " + mid);
@@ -413,7 +434,7 @@ public class Server extends Thread {
         Match m = player.getMatch();
         int playerid = player.getPlayerId();
         if (m == null) {
-            System.out.println("m == null " + playerid);
+            System.err.println("m == null " + playerid);
             return;
         }
         int matchid = m.getMatchid();
@@ -431,6 +452,7 @@ public class Server extends Thread {
         m.getPlayerWithid(m.getPlayersIds()[0]).setState(Player.PlayerState.ONLINE);
         m.getPlayerWithid(m.getPlayersIds()[1]).setState(Player.PlayerState.ONLINE);
         m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.ENDGAME + " " + m.getMatchid());
+        System.out.println("sending "+ServerQueryCodes.ENDGAME + " " + m.getMatchid() + " to: "+player.getPlayerId());
         cleanMatch(m);
     }
     /**

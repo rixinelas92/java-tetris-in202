@@ -19,10 +19,19 @@ import online.util.PlayerDescriptor;
  */
  public class CellRendererWithImage extends JLabel implements ListCellRenderer {
 
-        final static ImageIcon offline = new ImageIcon(Interface.class.getResource("OFFLINE.png"));
-        final static ImageIcon playing = new ImageIcon(Interface.class.getResource("PLAYING.png"));
-        final static ImageIcon online = new ImageIcon(Interface.class.getResource("ONLINE.png"));
+        static ImageIcon offline = null;
+        static ImageIcon playing = null;
+        static ImageIcon online  = null;
 
+
+        public CellRendererWithImage(Interface i){
+            if(offline == null)
+                offline = new ImageIcon(i.getClass().getResource("imgs/OFFLINE.png"));
+            if(playing == null)
+                playing = new ImageIcon(i.getClass().getResource("imgs/PLAYING.png"));
+            if(online == null)
+                online  = new ImageIcon(i.getClass().getResource("imgs/ONLINE.png"));
+        }
         /**
          * This is the only method defined by ListCellRenderer.
          * We just reconfigure the JLabel each time we're called.

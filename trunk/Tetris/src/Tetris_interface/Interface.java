@@ -14,8 +14,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
@@ -41,7 +39,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
 import javax.swing.border.TitledBorder;
 import online.util.PlayerDescriptor;
 import tetris.Controller;
@@ -640,7 +637,7 @@ public class Interface extends JFrame {
         JSeparator separator = new JSeparator();
         game2pPanel.add(game2pTitle, new AbsoluteConstraints(110, 20, -1, -1));
         playersList = new JList();
-        playersList.setCellRenderer(new CellRendererWithImage());
+        playersList.setCellRenderer(new CellRendererWithImage(this));
         playersList.setModel(new DefaultListModel());
         playersList.addMouseListener(new ActionJList(playersList));
         JScrollPane scrollPane = new JScrollPane(playersList);
@@ -731,6 +728,7 @@ public class Interface extends JFrame {
      * true. The others panels are hidden.
      */
     public void configureScreenForGameType(boolean is2PlayerGame) {
+        Main.getInstance().set2PlayerGame(is2PlayerGame);
         this.is2PlayerGame = is2PlayerGame;
         score.setVisible(!is2PlayerGame);
         scoreLabel.setVisible(!is2PlayerGame);
@@ -739,6 +737,7 @@ public class Interface extends JFrame {
         timePassed.setVisible(!is2PlayerGame);
         timeLabel.setVisible(!is2PlayerGame);
         secondPlayerBoard.setVisible(is2PlayerGame);
+
     }
     // ########################################################
 
@@ -752,7 +751,7 @@ public class Interface extends JFrame {
             if (keyNumber == i) {
                 continue;
             }
-    if (keyValue == keys[i]) {
+        if (keyValue == keys[i]) {
                 switch (i) {
                     case 0:
                         getKeyEvent(0, leftKey);
@@ -1239,7 +1238,6 @@ public class Interface extends JFrame {
      * Sets the panel prepared to the game.
      */
     public void toggleVisiblePropOnGame() {
-
         gameNext1pPanel.setVisible(false);
         gameNext1pPanel.setVisible(true);
         gameScreen1pPanel.setVisible(false);
@@ -1350,33 +1348,6 @@ public class Interface extends JFrame {
         secondPlayerBoard.updateBoardDescription(isFilled);
     }
 
-//subclasses
-    /**
-     * Inner of the class MouseAdapter.
-     */
-    class ActionJList extends MouseAdapter {
 
-        protected JList list;
-
-        /**
-         * Setter of the parameter <em>list</em>.
-        //########################################################
-         * @param l defines the player
-         */
-        public ActionJList(JList l) {
-            list = l;
-        }
-
-        @Override
-        //############################################################
-        public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 2) {
-                int index = list.locationToIndex(e.getPoint());
-                ListModel dlm = list.getModel();
-                Object item = dlm.getElementAt(index);
-                list.ensureIndexIsVisible(index);
-                Main.requestMatchWith((PlayerDescriptor) item);
-            }
-        }
-    }
+    
 }

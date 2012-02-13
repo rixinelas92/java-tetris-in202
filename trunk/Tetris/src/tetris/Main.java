@@ -402,7 +402,7 @@ final public class Main {
         } else if (aux == 2) {
             themeSom = null;
         } else if (aux == 3) {
-            themeSom = SoundEffect.STHEME;
+            themeSom = null;
         }
         if (aux == 4) {
             themeSom = null;

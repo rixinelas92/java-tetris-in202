@@ -12,7 +12,6 @@ import java.awt.Image;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -22,6 +21,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import online.util.PlayerDescriptor;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -40,7 +41,7 @@ import javax.swing.JList;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
-import online.util.PlayerDescriptor;
+
 import tetris.Controller;
 import tetris.Main;
 import tetris.Position;
@@ -502,8 +503,14 @@ public class Interface extends JFrame {
         themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Star Wars", "Silence"}));
         JLabel volumeTitle = new JLabel("Volume");
         volumeTitle.setFont(segoePrint12);
+        
         volumeSlider = new JSlider();
+        volumeSlider.setValue(100);
+        volumeSlider.setMajorTickSpacing(10);
+        volumeSlider.setMinorTickSpacing(10);
+        volumeSlider.setBorder(null);
         volumeSlider.setOpaque(false);
+        
         musicPanel.add(themeTitle, new AbsoluteConstraints(20, 30, -1, -1));
         musicPanel.add(themeBox, new AbsoluteConstraints(100, 25, -1, -1));
         musicPanel.add(volumeTitle, new AbsoluteConstraints(20, 80, -1, -1));

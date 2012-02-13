@@ -24,21 +24,18 @@ import javax.sound.sampled.*;
  */
 public enum SoundEffect {
 
-    //CTHEME("ClassicTheme.wav"),
-    CERASE("ClassicErase.wav"),      
-    CFALL("ClassicFall.wav"),        
-    //MTHEME("MarioTheme.wav"),
-    MERASE("MarioErase.wav"),      
-    MFALL("MarioFall.wav"),  
-    MGAMEOVER5("MarioGameover.wav"),
-    MPAUSE("MarioPause.wav"),      
-    PERASE("PacmanErase.wav"),      
-    PFALL("PacmanFallt.wav"),  
-    PGAMEOVER5("Pacmangameover.wav"),
-    PPAUSE("PacmanPause.wav"),
-    STHEME("StarwarsTheme.wav"),      
-    SERASE("StarwarsErase.wav"),      
-    SFALL("StarwarsFall.wav");
+    CERASE("tracks/ClassicErase.wav"),      
+    CFALL("tracks/ClassicFall.wav"),   
+    MERASE("tracks/MarioErase.wav"),      
+    MFALL("tracks/MarioFall.wav"),  
+    MGAMEOVER5("tracks/MarioGameover.wav"),
+    MPAUSE("tracks/MarioPause.wav"),      
+    PERASE("tracks/PacmanErase.wav"),      
+    PFALL("tracks/PacmanFallt.wav"),  
+    PGAMEOVER5("tracks/Pacmangameover.wav"),
+    PPAUSE("tracks/PacmanPause.wav"),     
+    SERASE("tracks/StarwarsErase.wav"),      
+    SFALL("tracks/StarwarsFall.wav");
     
     
     private Clip clip;

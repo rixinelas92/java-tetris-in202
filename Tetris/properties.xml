@@ -6,8 +6,8 @@
 <entry key="tetris.int_keyhold">72</entry>
 <entry key="tetris.int_keyrotate">32</entry>
 <entry key="tetris.int_keygoright">39</entry>
-<entry key="tetris.int_keydown">81</entry>
+<entry key="tetris.int_keydown">40</entry>
 <entry key="tetris.int_keypause">80</entry>
-<entry key="tetris.int_keygoleft">90</entry>
+<entry key="tetris.int_keygoleft">37</entry>
 <entry key="tetris.str_ip"/>
 </properties>

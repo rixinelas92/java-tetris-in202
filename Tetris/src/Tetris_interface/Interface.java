@@ -118,19 +118,19 @@ public class Interface extends JFrame {
      */
     private void make_fonts() {
         try {
-            Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("fightingspiritTBS.ttf"));
+            Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font1.ttf"));
             neuropol28 = dynamicFont.deriveFont(28f);
             neuropol18 = dynamicFont.deriveFont(18f);
             neuropol14 = dynamicFont.deriveFont(14f);
             
-            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("segoepr.ttf"));
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font2.ttf"));
             segoePrint12 = dynamicFont.deriveFont(12f);
             segoePrint11 = dynamicFont.deriveFont(11f);
             
-            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("PLANETBE.TTF"));
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font3.ttf"));
             planetBenson14 = dynamicFont.deriveFont(13f);
             
-            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("DS-DIGI.TTF"));
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font4.ttf"));
             sevenSegments14 = dynamicFont.deriveFont(18f);
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,10 +148,10 @@ public class Interface extends JFrame {
         try {
             //Setup of the main screen.
             toolbar.setFloatable(false);
-            ImageIcon newgameIcon = new ImageIcon(getClass().getResource("newgame.png"));
-            ImageIcon configIcon = new ImageIcon(getClass().getResource("config.png"));
-            ImageIcon somIcon = new ImageIcon(getClass().getResource("som.png"));
-            ImageIcon closeIcon = new ImageIcon(getClass().getResource("close.png"));
+            ImageIcon newgameIcon = new ImageIcon(getClass().getResource("imgs/newgame.png"));
+            ImageIcon configIcon = new ImageIcon(getClass().getResource("imgs/config.png"));
+            ImageIcon somIcon = new ImageIcon(getClass().getResource("imgs/som.png"));
+            ImageIcon closeIcon = new ImageIcon(getClass().getResource("imgs/close.png"));
             JButton newgame = new JButton("New Game", newgameIcon);
             newgame.setFont(segoePrint11);
             JButton config = new JButton("Configuration", configIcon);
@@ -226,7 +226,7 @@ public class Interface extends JFrame {
         JLabel menuImage = new JLabel();
         try {
             //Setup of the presentation screen.
-            menuImage.setIcon(new ImageIcon(getClass().getResource("/Tetris_interface/menuimage.png")));
+            menuImage.setIcon(new ImageIcon(getClass().getResource("imgs/menuimage.png")));
             initialPanel.add(menuImage, new AbsoluteConstraints(0, 100, 260, 250));
             JLabel initialMenu = new JLabel("TETRIS");
             initialMenu.setFont(new Font("Neuropol", 0, 48));
@@ -611,7 +611,7 @@ public class Interface extends JFrame {
         //Setting one palyer panel.
         game1pPanel.add(pauseButton, new AbsoluteConstraints(212, 370, 100, 35));
         game1pPanel.add(restartButton, new AbsoluteConstraints(212, 410, 100, 35));
-        ImageIcon backim = new ImageIcon(getClass().getResource("backGround.png"));
+        ImageIcon backim = new ImageIcon(getClass().getResource("imgs/backGround.png"));
         JLabel back = new JLabel(backim);
         game1pPanel.add(back, new AbsoluteConstraints(10, 59, 10 * pieceSize, 20 * pieceSize));
         gameover = new JLabel(new ImageIcon(getClass().getResource("imgs/gameover.png")));

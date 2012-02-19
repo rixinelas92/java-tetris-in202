@@ -33,6 +33,8 @@ public class SoundManagerFactory {
         return null;
     }
     void setDefTheme(SoundManager.soundTheme theme){
+        if(theme == null)
+            return;
         this.theme = theme;
     }
 }

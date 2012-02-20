@@ -388,6 +388,7 @@ final public class Main {
     }
 
     public static void SomChanger() {
+        System.out.println("::>"+screen.getSomVolume());
         SoundEffect.setGlobalVolume(screen.getSomVolume());
         int aux = screen.getSomTheme();
         

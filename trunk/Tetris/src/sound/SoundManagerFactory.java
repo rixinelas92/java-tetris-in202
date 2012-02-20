@@ -15,6 +15,7 @@ public class SoundManagerFactory {
     final static private int IMPL = MIDI;
     
     SoundManager getSoundManager(SoundManager.soundTheme theme, SoundManager.soundEffects effect){
+        
         switch(IMPL){
             case MIDI:
                 return new MidiSoundManager(effect,theme);

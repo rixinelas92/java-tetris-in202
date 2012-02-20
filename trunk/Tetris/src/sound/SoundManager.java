@@ -14,6 +14,7 @@ import java.util.Map;
 public abstract class SoundManager {
     private static final Map<soundEffects, SoundManager> instances = new EnumMap<soundEffects, SoundManager>(soundEffects.class);
 
+    static int volume;
     static public enum soundEffects{
         ERASE, FALL, GAMEOVER, PAUSE, THEME;
     }
@@ -25,13 +26,13 @@ public abstract class SoundManager {
 
     }
     
-    public SoundManager(soundEffects se, soundTheme st){
+    public SoundManager(soundEffects se, soundTheme st,int vvolume){
+        volume = vvolume;
         synchronized(SoundManager.class){
             if(!instances.containsKey(se))
                 instances.put(se, this);
         }
-        setUp(st, se);
-        
+        setUp(st, se,vvolume);   
     }
     public static SoundManager getInstance(Object key) {
         return instances.get(key);
@@ -48,9 +49,20 @@ public abstract class SoundManager {
      * @param newVolume defines the updated volume.
      */    
     static public void setGlobalVolume(int newVolume) {
+        // validation of variables.
+        if(newVolume > 100)
+            newVolume = 100;
+        if(newVolume < 0)
+            newVolume = 0;
+        
+        volume = newVolume;
         for (SoundManager sm : instances.values()) {
             sm.setVolume(newVolume);
         }
+    }
+    
+    static public int getGlobalVolume(){
+        return volume;
     }
     
     /*
@@ -66,5 +78,5 @@ public abstract class SoundManager {
      */
     abstract public void stopSound();
     
-    abstract protected void setUp(soundTheme theme,soundEffects effect);
+    abstract protected void setUp(soundTheme theme,soundEffects effect,int volume);
 }

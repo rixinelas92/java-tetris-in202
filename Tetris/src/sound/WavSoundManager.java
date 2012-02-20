@@ -15,11 +15,11 @@ import javax.sound.sampled.*;
 public class WavSoundManager extends SoundManager {
     private Clip clip;
     private FloatControl volumeControl;
-    static int globalvolume;
+
     
     
-    public WavSoundManager(soundEffects se, soundTheme st){
-        super(se,st);
+    public WavSoundManager(soundEffects se, soundTheme st,int volume){
+        super(se,st,volume);
     }
     
     @Override
@@ -61,7 +61,7 @@ public class WavSoundManager extends SoundManager {
     }
 
     @Override
-    protected void setUp(soundTheme theme,soundEffects effect) {
+    protected void setUp(soundTheme theme,soundEffects effect,int volume) {
         try {
             // Use URL (instead of File) to read from disk and JAR.
             URL url = this.getClass().getResource("files/"+theme+"_"+effect+".wav");
@@ -72,7 +72,7 @@ public class WavSoundManager extends SoundManager {
             // Open audio clip and load samples from the audio input stream.
             clip.open(audioInputStream);
             volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-
+            setVolume(volume);
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {

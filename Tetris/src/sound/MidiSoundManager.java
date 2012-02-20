@@ -15,25 +15,34 @@ import javax.sound.midi.*;
 public class MidiSoundManager extends SoundManager {
 
     Sequencer sequencer;
+    
+    soundTheme theme;
+    soundEffects effect;
+    
 
-    public MidiSoundManager(soundEffects se, soundTheme st){
-        super(se,st);
+    public MidiSoundManager(soundEffects se, soundTheme st,int vvolume){
+        super(se,st,vvolume);
+        theme = st;
+        effect = se;
     }
     @Override
     public void setVolume(int newVolume) {
+        setUp(theme, effect, newVolume);
     }
 
     @Override
     public void play() {
         if (sequencer != null) {
             sequencer.start();
+        }else{
+            System.err.append("sequencer null");
         }
     }
 
     @Override
     public void setLoop() {
         if (sequencer != null) {
-            sequencer.setLoopCount(sequencer.LOOP_CONTINUOUSLY);
+           sequencer.setLoopCount(sequencer.LOOP_CONTINUOUSLY);
         }
     }
 
@@ -44,19 +53,43 @@ public class MidiSoundManager extends SoundManager {
         }
     }
 
+    int volumeTransfFunction(int volume){
+        if(volume > 100)
+            volume = 100;
+        if(volume < 0)
+            volume = 0;
+        return volume/10;
+    }
+    
     @Override
-    protected void setUp(soundTheme theme,soundEffects effect){
+    protected void setUp(soundTheme theme,soundEffects effect,int volume){
+        volume = volumeTransfFunction(volume);
+        boolean isplaying = false;
+        if(sequencer != null){
+            isplaying = sequencer.isRunning();
+            stopSound();
+        }
+        if(volume == 0){
+            stopSound();
+            sequencer = null;
+            return;
+        }
         try {
             sequencer = MidiSystem.getSequencer();
 
             if (sequencer == null) {
+                System.err.println("Not possible to get sequencer, problems comming...");
                 return;
             }
             sequencer.open();
-            InputStream is = MidiPlayerSample.class.getResourceAsStream("files/"+theme+"_"+effect+".mid");
+            System.out.println("tracks/"+theme+"_"+effect+"_"+volume+".mid");
+            InputStream is = getClass().getResourceAsStream("tracks/"+theme+"_"+effect+"_"+volume+".mid");
             Sequence mySeq = MidiSystem.getSequence(is);
-
             sequencer.setSequence(mySeq);
+            
+            if(isplaying)
+                play();
+            
         } catch (InvalidMidiDataException ex) {
             System.err.println("It was not possible to read the midi file (invalid data)");
         } catch (IOException ex) {

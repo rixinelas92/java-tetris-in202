@@ -18,7 +18,7 @@ import online.client.Client;
 import online.util.Player;
 import online.util.Player.PlayerState;
 import online.util.PlayerDescriptor;
-import sound.SoundEffect;
+import sound.SoundEffectWrapper;
 import tetris.util.TetrisPreferences;
 import tetris.util.TetrisPreferences.ImplementedProperties;
 
@@ -33,7 +33,7 @@ final public class Main {
     static Interface screen;
     static Game game;
     static Client internet;
-    private static SoundEffect themeSom = null;
+    private static SoundEffectWrapper themeSom = null;
     static TetrisPreferences prop;
 
     private boolean twoPlayerGame;
@@ -52,7 +52,8 @@ final public class Main {
                 screen = new Interface();
                 screen.setVisible(true);
                 game = new Game();
-                SoundEffect.init();
+                SoundEffectWrapper.init();
+                
                 try {
 
                     Integer[] keys = {prop.getIntProperty(TetrisPreferences.ImplementedProperties.INT_KEYGOLEFT),
@@ -389,7 +390,7 @@ final public class Main {
 
     public static void SomChanger() {
         System.out.println("::>"+screen.getSomVolume());
-        SoundEffect.setGlobalVolume(screen.getSomVolume());
+        SoundEffectWrapper.setGlobalVolume(screen.getSomVolume());
         int aux = screen.getSomTheme();
         
         game.setSomTheme(aux);        
@@ -397,20 +398,24 @@ final public class Main {
             themeSom.setStop();
         }
         if (aux == 0) {
-            themeSom = null;
+            
+            themeSom = SoundEffectWrapper.CTHEME;
         } else if (aux == 1) {
-            themeSom = null;
+            themeSom = SoundEffectWrapper.MTHEME;
         } else if (aux == 2) {
-            themeSom = null;
+            themeSom = SoundEffectWrapper.PTHEME;
         } else if (aux == 3) {
+            themeSom = SoundEffectWrapper.STHEME;
+        }else if (aux == 4) {
             themeSom = null;
-        }
-        if (aux == 4) {
-            themeSom = null;
+            //themeSom = SoundEffectWrapper.STHEME;
         }
         if (themeSom != null) {
             themeSom.setLoop();
+            themeSom.play();
         }
+        
+        
         
     }
 }

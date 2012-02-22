@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
-import sound.SoundEffect;
+import sound.SoundEffectWrapper;
 import tetris.Screen.BorderRetriever;
 import tetris.Screen.NotAvailablePlaceForPieceException;
 import tetris.Screen.OutOfScreenBoundsException;
@@ -42,7 +42,7 @@ public class Game extends Controller implements ActionListener {
     int points;
     int level;
     int pieceSize = 19;
-    SoundEffect fallSom, eraseSom, gameoverSom, pauseSom;
+    SoundEffectWrapper fallSom, eraseSom, gameoverSom, pauseSom;
 
     /**
      * It determines the dead line to the game in according to the level.
@@ -634,26 +634,26 @@ public class Game extends Controller implements ActionListener {
     public void setSomTheme(int somTheme) {
 
         if (somTheme == 0) {
-            fallSom = SoundEffect.CFALL;
-            eraseSom = SoundEffect.CERASE;
+            fallSom = SoundEffectWrapper.CFALL;
+            eraseSom = SoundEffectWrapper.CERASE;
             gameoverSom = null;
             pauseSom = null;
         }
         if (somTheme == 1) {
-            fallSom = SoundEffect.MFALL;
-            eraseSom = SoundEffect.MERASE;
-            gameoverSom = SoundEffect.MGAMEOVER5;
-            pauseSom = SoundEffect.MPAUSE;
+            fallSom = SoundEffectWrapper.MFALL;
+            eraseSom = SoundEffectWrapper.MERASE;
+            gameoverSom = SoundEffectWrapper.MGAMEOVER;
+            pauseSom = SoundEffectWrapper.MPAUSE;
         }
         if (somTheme == 2) {
-            fallSom = SoundEffect.PFALL;
-            eraseSom = SoundEffect.PERASE;
-            gameoverSom = SoundEffect.PGAMEOVER5;
-            pauseSom = SoundEffect.PPAUSE;
+            fallSom = SoundEffectWrapper.PFALL;
+            eraseSom = SoundEffectWrapper.PERASE;
+            gameoverSom = SoundEffectWrapper.PGAMEOVER;
+            pauseSom = SoundEffectWrapper.PPAUSE;
         }
         if (somTheme == 3) {
-            fallSom = SoundEffect.SFALL;
-            eraseSom = SoundEffect.SERASE;
+            fallSom = SoundEffectWrapper.SFALL;
+            eraseSom = SoundEffectWrapper.SERASE;
             gameoverSom = null;
             pauseSom = null;
         }
@@ -663,5 +663,7 @@ public class Game extends Controller implements ActionListener {
             gameoverSom = null;
             pauseSom = null;
         }
+        
+        
     }
 }

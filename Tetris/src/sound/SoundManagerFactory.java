@@ -13,7 +13,6 @@ public class SoundManagerFactory {
     final static public int MIDI = 0;
     final static public int WAVE = 1;
     final static private int IMPL = MIDI;
-
     
     SoundManager getSoundManager(SoundManager.soundTheme theme, SoundManager.soundEffects effect){
         

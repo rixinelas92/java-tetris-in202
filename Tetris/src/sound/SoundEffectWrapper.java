@@ -16,22 +16,31 @@ public enum SoundEffectWrapper {
     
     CERASE(soundTheme.CLASSIC,soundEffects.ERASE),      
     CFALL(soundTheme.CLASSIC,soundEffects.FALL),   
+    CTHEME(soundTheme.CLASSIC,soundEffects.THEME),
+    
     MERASE(soundTheme.MARIO,soundEffects.ERASE),      
     MFALL(soundTheme.MARIO,soundEffects.FALL),  
-    MGAMEOVER5(soundTheme.MARIO,soundEffects.GAMEOVER),
+    MGAMEOVER(soundTheme.MARIO,soundEffects.GAMEOVER),
     MPAUSE(soundTheme.MARIO,soundEffects.PAUSE),      
+    MTHEME(soundTheme.MARIO,soundEffects.THEME), 
+    
+    
     PERASE(soundTheme.PACMAN,soundEffects.ERASE),      
     PFALL(soundTheme.PACMAN,soundEffects.FALL),  
-    PGAMEOVER5(soundTheme.PACMAN,soundEffects.GAMEOVER),
-    PPAUSE(soundTheme.PACMAN,soundEffects.PAUSE),     
+    PGAMEOVER(soundTheme.PACMAN,soundEffects.GAMEOVER),
+    PPAUSE(soundTheme.PACMAN,soundEffects.PAUSE),    
+    PTHEME(soundTheme.PACMAN,soundEffects.THEME),    
+    
+    STHEME(soundTheme.STARWARS,soundEffects.THEME), 
     SERASE(soundTheme.STARWARS,soundEffects.ERASE),      
     SFALL(soundTheme.STARWARS,soundEffects.FALL);
     
+    
     SoundManager sm;
      SoundEffectWrapper(SoundManager.soundTheme theme, SoundManager.soundEffects effect) {
+         System.out.println("Constructor: "+theme+" "+effect);
          SoundManagerFactory smf = new SoundManagerFactory();
          sm = smf.getSoundManager(theme, effect);
-         
      }
 
      
@@ -55,6 +64,7 @@ public enum SoundEffectWrapper {
      * Plays in a continous way a clip by rewinding a theme.
      */
     public void play() {
+        
         sm.play();
     }
     /**
@@ -74,6 +84,7 @@ public enum SoundEffectWrapper {
      * Optional static method to pre-load all the sound files.
      */ 
     public static void init() {
+        
         values(); // calls the constructor for all the elements
     }
     

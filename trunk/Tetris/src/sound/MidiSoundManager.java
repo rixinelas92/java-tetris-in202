@@ -33,15 +33,20 @@ public class MidiSoundManager extends SoundManager {
     }
     @Override
     public void setVolume(int newVolume) {
+        
+        
+        
         setUp(theme, effect, newVolume);
     }
 
     @Override
     public void play() {
         if (sequencer != null) {
+            System.out.println("Playing: "+effect+" .. "+theme);
+            sequencer.setTickPosition(5);
             sequencer.start();
         }else{
-            System.err.append("sequencer null");
+            System.err.println("sequencer null :"+effect+" .. "+theme);
         }
     }
 
@@ -75,11 +80,17 @@ public class MidiSoundManager extends SoundManager {
             isplaying = sequencer.isRunning();
             stopSound();
         }
+      //  if(volume == 0)
+        //    volume = 10;
         if(volume == 0){
             stopSound();
             sequencer = null;
+            if(sequencer == null)
+                System.err.println("Sounds were turned off for this effect: [ops] "+theme+">"+effect+">"+volume+" ");
+            
             return;
         }
+        InputStream is = null;
         try {
             sequencer = MidiSystem.getSequencer();
 
@@ -88,20 +99,41 @@ public class MidiSoundManager extends SoundManager {
                 return;
             }
             sequencer.open();
-            InputStream is = getClass().getResourceAsStream("tracks/"+theme+"_"+effect+"_"+volume+".mid");
+            
+            is = getClass().getResourceAsStream("tracks/"+theme+"_"+effect+"_"+volume+".mid");
+                
             Sequence mySeq = MidiSystem.getSequence(is);
             sequencer.setSequence(mySeq);
-            
+            sequencer.start();
+            sequencer.stop();
             if(isplaying)
                 play();
             
-        } catch (InvalidMidiDataException ex) {
+            if(sequencer == null)
+                System.err.println("Sounds were turned off for this effect: [ops] "+theme+">"+effect+">"+volume+" ");
+     /*   } catch (InvalidMidiDataException ex) {
             System.err.println("It was not possible to read the midi file (invalid data)");
+            
         } catch (IOException ex) {
             System.err.println("It was not possible to read the midi file (io problem)");
         } catch (MidiUnavailableException ex) {
-            System.err.println("It was not possible to read the midi file (unavaible)");
-        }
+            System.err.println("It was not possible to read the midi file (unavaible)"); */
+        } catch (Exception e){
+            System.err.println("Sounds were turned off for this effect: "+theme+">"+effect+">"+volume+" | cause: ");
+//            e.printStackTrace();
+            try{
+                is.close();
+            } catch(Exception e2){}
+            sequencer = null;
+        } 
+        if(sequencer == null)
+                System.err.println("Sounds were turned off for this effect: [ops] "+theme+">"+effect+">"+volume+" ");
 
+        
+
+    }
+    
+    public String toString(){
+        return "[MIDI SND MANAGER: "+theme+">"+effect+">"+volume+"]";
     }
 }

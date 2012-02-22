@@ -64,9 +64,9 @@ public abstract class SoundManager {
     
     public SoundManager(soundEffects se, soundTheme st){
         if(volume == null)
-            volume = 0;
+            volume = 100;
         synchronized(SoundManager.class){
-            if(!instances.containsKey(se))
+            //if(!instances.containsKey(se))
                 instances.put(se, this);
         }
         setUp(st, se,volume);   
@@ -76,7 +76,7 @@ public abstract class SoundManager {
     public SoundManager(soundEffects se, soundTheme st,int vvolume){
         volume = vvolume;
         synchronized(SoundManager.class){
-            if(!instances.containsKey(se))
+           // if(!instances.containsKey(se))
                 instances.put(se, this);
         }
         setUp(st, se,vvolume);   
@@ -104,6 +104,7 @@ public abstract class SoundManager {
         
         volume = newVolume;
         for (SoundManager sm : instances.values()) {
+            System.out.println("Setting volume for: "+sm.toString());
             sm.setVolume(newVolume);
         }
     }

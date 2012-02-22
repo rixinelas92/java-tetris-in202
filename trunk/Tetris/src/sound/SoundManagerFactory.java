@@ -10,9 +10,10 @@ package sound;
  */
 public class SoundManagerFactory {
     static SoundManager.soundTheme theme = SoundManager.soundTheme.CLASSIC;
-    final static private int MIDI = 0;
-    final static private int WAVE = 1;
+    final static public int MIDI = 0;
+    final static public int WAVE = 1;
     final static private int IMPL = MIDI;
+
     
     SoundManager getSoundManager(SoundManager.soundTheme theme, SoundManager.soundEffects effect){
         

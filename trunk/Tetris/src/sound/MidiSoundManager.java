@@ -20,6 +20,12 @@ public class MidiSoundManager extends SoundManager {
     soundEffects effect;
     
 
+    public MidiSoundManager(soundEffects se, soundTheme st){
+        super(se,st);
+        theme = st;
+        effect = se;
+    }
+    
     public MidiSoundManager(soundEffects se, soundTheme st,int vvolume){
         super(se,st,vvolume);
         theme = st;
@@ -82,7 +88,6 @@ public class MidiSoundManager extends SoundManager {
                 return;
             }
             sequencer.open();
-            System.out.println("tracks/"+theme+"_"+effect+"_"+volume+".mid");
             InputStream is = getClass().getResourceAsStream("tracks/"+theme+"_"+effect+"_"+volume+".mid");
             Sequence mySeq = MidiSystem.getSequence(is);
             sequencer.setSequence(mySeq);

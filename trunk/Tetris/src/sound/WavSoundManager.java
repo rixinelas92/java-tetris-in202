@@ -15,7 +15,11 @@ import javax.sound.sampled.*;
 public class WavSoundManager extends SoundManager {
     private Clip clip;
     private FloatControl volumeControl;
-
+    
+    public WavSoundManager(soundEffects se, soundTheme st){
+        super(se,st);
+    }
+    
     
     
     public WavSoundManager(soundEffects se, soundTheme st,int volume){

@@ -4,7 +4,9 @@
  */
 package sound;
 
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,8 +15,40 @@ import java.util.Map;
  */
 public abstract class SoundManager {
     private static final Map<soundEffects, SoundManager> instances = new EnumMap<soundEffects, SoundManager>(soundEffects.class);
-
-    static int volume;
+    
+    private static final Map<Integer,Integer> mapa = Collections.unmodifiableMap(new HashMap<Integer,Integer>(){{
+        put(codeET(soundEffects.ERASE,soundTheme.CLASSIC),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.ERASE,soundTheme.MARIO),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.ERASE,soundTheme.PACMAN),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.ERASE,soundTheme.STARWARS),SoundManagerFactory.WAVE);
+        
+        put(codeET(soundEffects.FALL,soundTheme.CLASSIC),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.FALL,soundTheme.MARIO),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.FALL,soundTheme.PACMAN),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.FALL,soundTheme.STARWARS),SoundManagerFactory.WAVE);
+        
+        put(codeET(soundEffects.PAUSE,soundTheme.CLASSIC),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.PAUSE,soundTheme.MARIO),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.PAUSE,soundTheme.PACMAN),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.PAUSE,soundTheme.STARWARS),SoundManagerFactory.WAVE);
+        
+        put(codeET(soundEffects.THEME,soundTheme.CLASSIC),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.THEME,soundTheme.MARIO),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.THEME,soundTheme.PACMAN),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.THEME,soundTheme.STARWARS),SoundManagerFactory.WAVE);
+        
+        put(codeET(soundEffects.GAMEOVER,soundTheme.CLASSIC),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.GAMEOVER,soundTheme.MARIO),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.GAMEOVER,soundTheme.PACMAN),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.GAMEOVER,soundTheme.STARWARS),SoundManagerFactory.WAVE);
+   }});
+    
+    
+    public static int codeET(soundEffects se, soundTheme st){
+        return se.ordinal()*(soundTheme.values().length)+ st.ordinal();
+    }
+    static Integer volume = null;
+    
     static public enum soundEffects{
         ERASE, FALL, GAMEOVER, PAUSE, THEME;
     }
@@ -22,9 +56,22 @@ public abstract class SoundManager {
         CLASSIC, MARIO, PACMAN, STARWARS;
     }
     
+   
+    
     protected SoundManager(){
 
     }
+    
+    public SoundManager(soundEffects se, soundTheme st){
+        if(volume == null)
+            volume = 0;
+        synchronized(SoundManager.class){
+            if(!instances.containsKey(se))
+                instances.put(se, this);
+        }
+        setUp(st, se,volume);   
+    }
+    
     
     public SoundManager(soundEffects se, soundTheme st,int vvolume){
         volume = vvolume;

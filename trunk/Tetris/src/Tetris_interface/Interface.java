@@ -391,7 +391,7 @@ public class Interface extends JFrame {
 
         JPanel ipPanel = new JPanel(new AbsoluteLayout());
         ipPanel.setBackground(COLOR_semiopaque);
-        ipPanel.setBorder(BorderFactory.createTitledBorder(null, "IP Number", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
+        ipPanel.setBorder(BorderFactory.createTitledBorder(null, "Server IP Address", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
         ipName = new JTextField("Ip to 2 Players Mode");
         ipName.setFont(sevenSegments14);
         ipName.setHorizontalAlignment(JTextField.CENTER);

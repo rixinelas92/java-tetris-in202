@@ -44,11 +44,17 @@ public class Screen {
                 grid[i][j] = new Box();
         
     }
+    /**
+     * It clears the screen.
+     */
     public void clean(){
         for(int i = 0;i<grid.length;i++)
             for(int j = 0;j<grid[i].length;j++)
                 grid[i][j] = new Box();
     }
+    /**
+     * Creates a screen.
+     */
     public void printScreen(){
         for(int j = 0;j<grid[0].length;j++, System.out.println())
         for(int i = 0;i<grid.length;i++)

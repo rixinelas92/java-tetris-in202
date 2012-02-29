@@ -54,7 +54,6 @@ public class Interface extends JFrame {
     private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece;
     private JLabelCont[][] screen;// Sreen 10 x 20 with the pointer for all the labels in used.
     private Font font0_13, font0_60, font1_14, font1_18, font1_28, font2_20, font2_12, font2_11, font3_14, font3_20,font4_18;
-    static public final Color COLOR_opaque = new Color(200, 200, 200, 255);
     static public final Color COLOR_semiopaque = new Color(200, 200, 200, 140);
     static public final Color COLOR_translucent = new Color(0, 0, 0, 0);
     private Image imageb = null;

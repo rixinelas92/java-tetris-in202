@@ -25,21 +25,14 @@ import tetris.util.RandomEnum;
 public class Game extends Controller implements ActionListener {
 
     private Screen screen;
-    private Piece currentPiece;
-    private Piece nextPiece;
-    private Piece holdPiece;
-    private Piece shadowPiece;
+    private Piece currentPiece, nextPiece, holdPiece, shadowPiece;
     private RandomEnum<Piece.ShapeType> randomShape = new RandomEnum<Piece.ShapeType>(Piece.ShapeType.class);
     Timer timer = null;
-    int timeBeforeNextPiece = 400;
     boolean isFallingFinished = false;
     boolean isStarted = false;
     boolean isPaused = false;
     boolean isFinished = false;
     boolean alreadyHolded = false;
-    int numLinesRemoved = 0;
-    int curX = 0;
-    int curY = 0;
     int points;
     int level;
     int pieceSize = 19;

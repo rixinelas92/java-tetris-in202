@@ -85,7 +85,6 @@ public enum SoundEffect {
         for (SoundEffect se : SoundEffect.values()) {
             se.setVolume(newVolume);
         }
-
     }
     /*
      * Plays in a continous way a clip by rewinding a theme.
@@ -99,7 +98,6 @@ public enum SoundEffect {
             }
             clip.setFramePosition(0); // rewind to the beginning
             clip.start();// Start playing
-
         }
     }
     /**

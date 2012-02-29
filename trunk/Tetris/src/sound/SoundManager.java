@@ -13,6 +13,9 @@ import java.util.Map;
  *
  * @author gustavo
  */
+/**
+ * this class was designed in order to manage the library of sound's samples. 
+ */
 public abstract class SoundManager {
     private static final Map<soundEffects, SoundManager> instances = new EnumMap<soundEffects, SoundManager>(soundEffects.class);
     
@@ -43,23 +46,35 @@ public abstract class SoundManager {
         put(codeET(soundEffects.GAMEOVER,soundTheme.STARWARS),SoundManagerFactory.WAVE);
    }});
     
-    
+    /**
+     * Codifies the sound effects and sound theme.
+     * @param se defines the sound effects.
+     * @param st defines the sound themes.
+     * @return the codification.
+     */
     public static int codeET(soundEffects se, soundTheme st){
         return se.ordinal()*(soundTheme.values().length)+ st.ordinal();
     }
     static Integer volume = null;
-    
+    /**
+     * Defines a standard to sound's effects.
+     */
     static public enum soundEffects{
         ERASE, FALL, GAMEOVER, PAUSE, THEME;
     }
+    /**
+     * Defines a standard to theme's effects.
+     */
     static public enum soundTheme{
         CLASSIC, MARIO, PACMAN, STARWARS;
     }
-       
     protected SoundManager(){
-
     }
-    
+    /**
+     * It configures the sound and the volume, by default.
+     * @param se defines the sound effects.
+     * @param st defines the theme effects.
+     */
     public SoundManager(soundEffects se, soundTheme st){
         if(volume == null)
             volume = 100;
@@ -69,8 +84,11 @@ public abstract class SoundManager {
         }
         setUp(st, se,volume);   
     }
-    
-    
+    /**
+     * It configures the sound and the volume through the parameters provided.
+     * @param se defines the sound effects.
+     * @param st defines the theme effects.
+     */
     public SoundManager(soundEffects se, soundTheme st,int vvolume){
         volume = vvolume;
         synchronized(SoundManager.class){
@@ -79,16 +97,15 @@ public abstract class SoundManager {
         }
         setUp(st, se,vvolume);   
     }
+    
     public static SoundManager getInstance(Object key) {
         return instances.get(key);
     }
-        
-     /**
+    /**
      * Adjusts the level of volume of the game.
      * @param newVolume defines the updated volume, should be between 0 and 100 (inclusively).
      */
     abstract public void setVolume(int newVolume);
-    
     /**
      * Adjuts the level of volume of the effets of game.
      * @param newVolume defines the updated volume.
@@ -106,11 +123,13 @@ public abstract class SoundManager {
             sm.setVolume(newVolume);
         }
     }
-    
+    /**
+     * Default getter of the volume.
+     * @return the current volume.
+     */
     static public int getGlobalVolume(){
         return volume;
     }
-    
     /*
      * Plays in a continous way a clip by rewinding a theme.
      */
@@ -123,6 +142,11 @@ public abstract class SoundManager {
      * Determines the end in a execution of a clip.
      */
     abstract public void stopSound();
-    
+    /**
+     * Prepares the execution of the sound.
+     * @param theme defines the sound theme.
+     * @param effect defines the sound effect.
+     * @param volume defines the sound's volume.
+     */
     abstract protected void setUp(soundTheme theme,soundEffects effect,int volume);
 }

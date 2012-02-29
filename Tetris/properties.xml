@@ -5,7 +5,7 @@
 <entry key="tetris.int_keygoright">39</entry>
 <entry key="tetris.int_keypause">80</entry>
 <entry key="tetris.int_keydown">40</entry>
-<entry key="tetris.int_soundlevel">100</entry>
+<entry key="tetris.int_soundlevel">52</entry>
 <entry key="tetris.int_keygoleft">37</entry>
 <entry key="tetris.int_keyhold">72</entry>
 <entry key="tetris.str_ip">10.30.144.81</entry>

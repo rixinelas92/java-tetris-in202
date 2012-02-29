@@ -1,4 +1,3 @@
-//Java doc ja comecado, mas classe em modificacao.
 package Tetris_interface;
 
 import Tetris_interface.components.*;
@@ -415,7 +414,9 @@ public class Interface extends JFrame {
         optionsPanel.add(applyOptions, new AbsoluteConstraints(60, 340, -1, -1));
         optionsPanel.add(cancelOptions, new AbsoluteConstraints(180, 340, -1, -1));
         goToBottonKey.addFocusListener(new FocusListener() {
-
+            /**
+             * Some classes of internal use.
+             */
             public void focusGained(FocusEvent fe) {
                 getKeyEvent(3, goToBottonKey);
             }
@@ -685,7 +686,6 @@ public class Interface extends JFrame {
         optionsPanel.setBackground(COLOR_semiopaque);
     }
     //Creates the interface of the Jpanel.
-
     private void make_UI() {
         getContentPane().setLayout(new AbsoluteLayout());
         add(screenPanel, new AbsoluteConstraints(0, 0));
@@ -748,8 +748,6 @@ public class Interface extends JFrame {
         secondPlayerBoard.setVisible(is2PlayerGame);
 
     }
-    // ########################################################
-
     /**
      * Configures the keys fo the game.
      * @param keyNumber index of the key.
@@ -792,9 +790,10 @@ public class Interface extends JFrame {
     }
 
     /**
-     *
-     * @param keyNumber
-     * @param field
+     * This class was implemented in order to keep the informations send by the 
+     * keyboard.
+     * @param keyNumber informes the code of each key.
+     * @param field informes the parameter that is been changed.
      */
     private void getKeyEvent(int keyNumber, JTextField field) {
         KeyListener kl = new KeyListener() {
@@ -803,7 +802,8 @@ public class Interface extends JFrame {
             JTextField field;
 
             /**
-             * Method that must be implemented but without executing anything.
+             * Method that must be implemented but without executing anything, 
+             * according to the language.
              */
             public void keyTyped(KeyEvent ke) {
             }
@@ -1094,8 +1094,6 @@ public class Interface extends JFrame {
         Main.getInstance().updateShadowPositions();
         toggleVisiblePropOnGame();
     }
-    //#######################################################"
-
     /**
      * Default setter of the position of the next piece.
      * @param newPosNextPiece defines the positons of the next piece.
@@ -1174,11 +1172,9 @@ public class Interface extends JFrame {
             gameHold1pPanel.add(holdPiece[i], new AbsoluteConstraints(xx, yy, pieceSize, pieceSize));
         }
     }
-    //##################################################
-
     /**
-     *
-     * @param newPosHoldPiece
+     * Implements the actions of visualisation of the pieces.
+     * @param newPosHoldPiece informes the current piece.
      */
     public void holdFirstPiece(Position[] newPosHoldPiece) {
 
@@ -1293,45 +1289,37 @@ public class Interface extends JFrame {
         gameScreen1pPanel.addMouseMotionListener(newListener);
     }
     //Internal use funcition.
-
     private int xPos(int newX) {
         return newX * pieceSize;
     }
-
     private int yPos(int newY) {
         newY++;
         return gameScreen1pPanel.getHeight() - newY * pieceSize;
     }
-    //############################################################"
-//listeners
+    //listeners
 
     /**
-     *
+     * It implements the listener to the game.
      */
     public static void addGameViewReady(ActionListener newGameViewReady) {
         gameViewReady = newGameViewReady;
     }
-    //############################################################"
 
     /**
-     *
+     * It implements the listener to new configurations.
      */
     public static void addConfigChanger(ActionListener newConfigChanger) {
         applyOptions.addActionListener(newConfigChanger);
     }
-    //############################################################"
-
     /**
-     *
+     * It implements the listener to new sounds.
      */
     public static void addSomChanger(ActionListener newSomChanger) {
         applySom.addActionListener(newSomChanger);
     }
 
-    /**#########################################################
     /**
-     *
-     * @param set
+     * Defines the list of players.
      */
     public void setPlayerList(Set<PlayerDescriptor> set) {
         ((DefaultListModel) (playersList.getModel())).removeAllElements();
@@ -1347,10 +1335,8 @@ public class Interface extends JFrame {
     public boolean getMouseControler() {
         return mouseBox.isSelected();
     }
-    //Esta chamando um metodo que esta defino embaixo, checar depois
-
     /**
-     * Checks
+     * Default setter of two players screen.
      * @param isFilled
      */
     public void set2pScreenGame(int[] isFilled) {

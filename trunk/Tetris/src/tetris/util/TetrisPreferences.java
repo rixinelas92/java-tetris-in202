@@ -18,22 +18,32 @@ import java.util.logging.Logger;
  *
  * @author gustavo
  */
-
+/**
+ * This class was designed in order to manage the preferences of the game. 
+ * @author tacilo
+ */
 public class TetrisPreferences {
     private Properties p;
 
     private String filename = "properties.xml";
-    
+    /**
+     * Define the standard to the parameters.
+     */
     public enum ImplementedProperties{
         INT_KEYPAUSE, INT_KEYGOLEFT, INT_KEYGORIGHT, INT_KEYGODOWN, INT_KEYROTATE, INT_KEYDOWN, INT_KEYHOLD,
         STR_USERNAME, STR_IP, INT_SOUNDLEVEL
     }
 
-    
+    /**
+     * Default setter of the identification of the file.
+     * @param fn informes the file name.
+     */
     public void setFilename(String fn){
         this.filename = fn;
     }
-
+    /**
+     * Default reader of the properties of the game.
+     */
     public void readProperties(){
         FileInputStream propFile = null;
         try {
@@ -51,29 +61,21 @@ public class TetrisPreferences {
             }
         }
     }
-
+    /**
+     * Default saver of the properties changed.
+     */
     public void saveProperties(){
         FileOutputStream propFile = null;
         PrintStream ps = null;
         try {
             propFile = new FileOutputStream(filename);
-           // ps = new PrintStream(propFile);
-
-
 
             p.storeToXML(propFile,"xxx","UTF-8");
-
-         //   ps.flush();
-
-
         } catch (IOException ex) {
             Logger.getLogger(TetrisPreferences.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try{
-
-         //       ps.close();
             }catch (Exception e){}
-            
             try {
                 propFile.close();
             } catch (IOException ex) {
@@ -81,6 +83,10 @@ public class TetrisPreferences {
             }
         }
     }
+    /**
+     * Default setter of the properties.
+     * @param key to define a property.
+     */
     public void setProperty(ImplementedProperties key, Object o){
         if(key.toString().startsWith("INT")){
             if(Integer.class.isInstance(o)){
@@ -92,7 +98,9 @@ public class TetrisPreferences {
             }
         }
     }
-    
+    /**
+     * Default getter (in int) of the properties.
+     */
     public Integer getIntProperty(ImplementedProperties key){
         if(key == null)
             return null;
@@ -107,7 +115,9 @@ public class TetrisPreferences {
         }
         return null;
     }
-
+    /**
+     * Default getter (in string) of the properties.
+     */
     public String getStrProperty(ImplementedProperties key){
         if(key == null)
             return "";
@@ -117,8 +127,9 @@ public class TetrisPreferences {
         }
         return null;
     }
-
-
+    /**
+     * Removes properties.
+     */
     public void cleanProperties(){
         for(ImplementedProperties prop : ImplementedProperties.values()){
             p.remove("tetris."+prop.toString().toLowerCase());

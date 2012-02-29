@@ -1,3 +1,9 @@
+/**
+ * This class was designed in order to define the parameters of the protocol that
+ * allows the comunication in the network when the game is configured for two 
+ * players, with informations requested by the server.
+ */
+
 package online.server;
 
 import java.io.BufferedReader;
@@ -488,7 +494,9 @@ public class Server extends Thread {
         }
         m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.BOARD + " " + string);
     }
-
+    /**
+     * Ends the game.
+     */
     private void checkIfThereIsAMatchAndDecline() {
         try {
             sendGameOver();

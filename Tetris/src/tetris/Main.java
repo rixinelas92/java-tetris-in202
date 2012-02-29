@@ -258,7 +258,6 @@ final public class Main {
 
 
     public void sendGameOver(){
-        System.out.println(twoPlayerGame+"   2p");
         if(!twoPlayerGame)
             return;
         try {
@@ -393,7 +392,6 @@ final public class Main {
 
     public static void ConfigChanger() {
 
-        System.out.println("Changing configurations");
         Integer[] cc = screen.getConfigChange();
         game.setControllers(cc);
         game.setMouseController(screen.getMouseControler());
@@ -412,7 +410,6 @@ final public class Main {
     }
 
     public static void SomChanger() {
-        System.out.println("::>"+screen.getSomVolume());
         SoundEffectWrapper.setGlobalVolume(screen.getSomVolume());
         int aux = screen.getSomTheme();
        

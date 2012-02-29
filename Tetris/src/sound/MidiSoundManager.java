@@ -44,11 +44,9 @@ public class MidiSoundManager extends SoundManager {
     @Override
     public void play() {
         if (sequencer != null) {
-            System.out.println("Playing: "+effect+" .. "+theme);
             sequencer.setTickPosition(5);
             sequencer.start();
         }else{
-            System.err.println("sequencer null :"+effect+" .. "+theme);
         }
     }
     @Override

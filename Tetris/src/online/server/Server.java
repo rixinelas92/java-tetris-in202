@@ -440,7 +440,6 @@ public class Server extends Thread {
         Match m = player.getMatch();
         int playerid = player.getPlayerId();
         if (m == null) {
-            System.err.println("m == null " + playerid);
             return;
         }
         int matchid = m.getMatchid();
@@ -458,7 +457,6 @@ public class Server extends Thread {
         m.getPlayerWithid(m.getPlayersIds()[0]).setState(Player.PlayerState.ONLINE);
         m.getPlayerWithid(m.getPlayersIds()[1]).setState(Player.PlayerState.ONLINE);
         m.getOtherServer(player.getPlayerId()).send(ServerQueryCodes.ENDGAME + " " + m.getMatchid());
-        System.out.println("sending "+ServerQueryCodes.ENDGAME + " " + m.getMatchid() + " to: "+player.getPlayerId());
         cleanMatch(m);
     }
     /**

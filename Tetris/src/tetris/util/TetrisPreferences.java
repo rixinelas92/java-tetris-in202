@@ -42,7 +42,7 @@ public class TetrisPreferences {
             p.loadFromXML(propFile);
 
         } catch (IOException ex) {
-            Logger.getLogger(TetrisPreferences.class.getName()).log(Level.SEVERE, null, ex);
+          //  Logger.getLogger(TetrisPreferences.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 propFile.close();
@@ -55,14 +55,11 @@ public class TetrisPreferences {
     public void saveProperties(){
         FileOutputStream propFile = null;
         PrintStream ps = null;
-        System.out.println("Saving properties");
         try {
             propFile = new FileOutputStream(filename);
            // ps = new PrintStream(propFile);
 
-            for(Entry e: p.entrySet()){
-                System.out.println(e.getKey()+" "+e.getValue());
-            }
+
 
             p.storeToXML(propFile,"xxx","UTF-8");
 
@@ -87,7 +84,6 @@ public class TetrisPreferences {
     public void setProperty(ImplementedProperties key, Object o){
         if(key.toString().startsWith("INT")){
             if(Integer.class.isInstance(o)){
-                System.out.println(key+" "+o);
                 p.setProperty("tetris."+key.toString().toLowerCase(), o.toString());
             }
         } else if(key.toString().startsWith("STR")){

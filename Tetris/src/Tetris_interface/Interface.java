@@ -121,12 +121,8 @@ public class Interface extends JFrame {
      * Defines the fonts that will be used in the layout.
      */
     private void make_fonts() {
-        try {
-            Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font0.ttf"));
-            font0_60 = dynamicFont.deriveFont(60f);
-            font0_13 = dynamicFont.deriveFont(13f);
-                        
-            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font1.ttf"));
+        try {                        
+            Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font1.ttf"));
             font1_28 = dynamicFont.deriveFont(28f);
             font1_18 = dynamicFont.deriveFont(18f);
             font1_14 = dynamicFont.deriveFont(14f);
@@ -142,6 +138,10 @@ public class Interface extends JFrame {
             
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font4.ttf"));
             font4_18 = dynamicFont.deriveFont(18f);
+            
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font5.ttf"));
+            font0_60 = dynamicFont.deriveFont(60f);
+            font0_13 = dynamicFont.deriveFont(13f);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -52,7 +52,7 @@ public class Interface extends JFrame {
     private JPanel screenPanel, topPanel, initialPanel, selectionPanel, optionsPanel, somPanel, game1pPanel, game2pPanel;
     private JLabelCont[] currentPiece, nextPiece, holdPiece, shadowPiece;
     private JLabelCont[][] screen;// Sreen 10 x 20 with the pointer for all the labels in used.
-    private Font neuropol14, neuropol18, neuropol28, segoePrint12, segoePrint11, planetBenson14, sevenSegments14;
+    private Font font0_13, font0_60, font1_14, font1_18, font1_28, font2_20, font2_12, font2_11, font3_14, font3_20,font4_18;
     static public final Color COLOR_opaque = new Color(200, 200, 200, 255);
     static public final Color COLOR_semiopaque = new Color(200, 200, 200, 140);
     static public final Color COLOR_translucent = new Color(0, 0, 0, 0);
@@ -122,20 +122,26 @@ public class Interface extends JFrame {
      */
     private void make_fonts() {
         try {
-            Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font1.ttf"));
-            neuropol28 = dynamicFont.deriveFont(28f);
-            neuropol18 = dynamicFont.deriveFont(18f);
-            neuropol14 = dynamicFont.deriveFont(14f);
+            Font dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font0.ttf"));
+            font0_60 = dynamicFont.deriveFont(60f);
+            font0_13 = dynamicFont.deriveFont(13f);
+                        
+            dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font1.ttf"));
+            font1_28 = dynamicFont.deriveFont(28f);
+            font1_18 = dynamicFont.deriveFont(18f);
+            font1_14 = dynamicFont.deriveFont(14f);
             
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font2.ttf"));
-            segoePrint12 = dynamicFont.deriveFont(12f);
-            segoePrint11 = dynamicFont.deriveFont(11f);
+            font2_20 = dynamicFont.deriveFont(20f);
+            font2_12 = dynamicFont.deriveFont(12f);
+            font2_11 = dynamicFont.deriveFont(11f);
             
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font3.ttf"));
-            planetBenson14 = dynamicFont.deriveFont(13f);
+            font3_20 = dynamicFont.deriveFont(20f);
+            font3_14 = dynamicFont.deriveFont(13f);
             
             dynamicFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("components/font4.ttf"));
-            sevenSegments14 = dynamicFont.deriveFont(18f);
+            font4_18 = dynamicFont.deriveFont(18f);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -157,13 +163,13 @@ public class Interface extends JFrame {
             ImageIcon somIcon = new ImageIcon(getClass().getResource("imgs/som.png"));
             ImageIcon closeIcon = new ImageIcon(getClass().getResource("imgs/close.png"));
             JButton newgame = new JButton("New Game", newgameIcon);
-            newgame.setFont(segoePrint11);
+            newgame.setFont(font2_11);
             JButton config = new JButton("Configuration", configIcon);
-            config.setFont(segoePrint11);
+            config.setFont(font2_11);
             JButton som = new JButton("Sound", somIcon);
-            som.setFont(segoePrint11);
+            som.setFont(font2_11);
             JButton close = new JButton("Exit", closeIcon);
-            close.setFont(segoePrint11);
+            close.setFont(font2_11);
             newgame.setBorderPainted(false);
             newgame.setOpaque(false);
             config.setBorderPainted(false);
@@ -231,17 +237,18 @@ public class Interface extends JFrame {
         try {
             initialPanel.add(menuImage, new AbsoluteConstraints(0, 100, 260, 250));
             JLabel initialMenu = new JLabel("TETRIS");
-            initialMenu.setFont(new Font("Neuropol", 0, 48));
-            initialPanel.add(initialMenu, new AbsoluteConstraints(70, 30, -1, -1));
+            initialMenu.setFont(font0_60);
             JLabel credits1 = new JLabel("By: Gustavo PACIANOTTO G.");
-            credits1.setFont(segoePrint12);
+            credits1.setFont(font2_20);
             JLabel credits2 = new JLabel("     Adriano Tacilo RIBEIRO");
-            credits2.setFont(segoePrint12);
+            credits2.setFont(font2_20);
             JLabel credits3 = new JLabel("     Ademir Felipe TELES");
-            credits3.setFont(segoePrint12);
-            initialPanel.add(credits1, new AbsoluteConstraints(10, 390, -1, -1));
-            initialPanel.add(credits2, new AbsoluteConstraints(10, 410, -1, -1));
-            initialPanel.add(credits3, new AbsoluteConstraints(10, 430, -1, -1));
+            credits3.setFont(font2_20);
+            
+            initialPanel.add(initialMenu, new AbsoluteConstraints(50, 40, -1, -1));
+            initialPanel.add(credits1, new AbsoluteConstraints(10, 380, -1, -1));
+            initialPanel.add(credits2, new AbsoluteConstraints(10, 400, -1, -1));
+            initialPanel.add(credits3, new AbsoluteConstraints(10, 420, -1, -1));
         } catch (Exception e) {
             System.out.println("Problem in top icons load");
             e.printStackTrace();
@@ -256,10 +263,10 @@ public class Interface extends JFrame {
         selectionPanel.setBackground(COLOR_semiopaque);
 
         JLabel selectionMenu = new JLabel("Game Mode");
-        selectionMenu.setFont(neuropol28);
+        selectionMenu.setFont(font1_28);
         JSeparator separator = new JSeparator();
         JButton player1 = new JButton("1 Player");
-        player1.setFont(neuropol14);
+        player1.setFont(font1_14);
         player1.addActionListener(new ActionListener() {
 
             /**
@@ -270,14 +277,14 @@ public class Interface extends JFrame {
                 func_showPanel(4);
             }
         });
-        JLabel levelLabel = new JLabel("Initial Level");
-        levelLabel.setFont(neuropol14);
+        JLabel levelLabel = new JLabel("INITIAL LEVEL");
+        levelLabel.setFont(font0_13);
         levelGame1p = new JComboBox();
-        levelGame1p.setModel(new DefaultComboBoxModel(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}));
-        levelGame1p.setFont(sevenSegments14); 
+        levelGame1p.setModel(new DefaultComboBoxModel(new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}));
+        levelGame1p.setFont(font4_18); 
         
         JButton player2 = new JButton("Multiplayer");
-        player2.setFont(neuropol14);
+        player2.setFont(font1_14);
         player2.addActionListener(new ActionListener() {
 
             /**
@@ -289,10 +296,11 @@ public class Interface extends JFrame {
         });
         selectionPanel.add(selectionMenu, new AbsoluteConstraints(100, 20));
         selectionPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
-        selectionPanel.add(player1, new AbsoluteConstraints(2, 55, 220, 130));
-        selectionPanel.add(levelLabel, new AbsoluteConstraints(235, 85, -1, -1));
-        selectionPanel.add(levelGame1p, new AbsoluteConstraints(245, 115, 37, 27));
+        selectionPanel.add(levelLabel, new AbsoluteConstraints(2, 90, -1, -1));
+        selectionPanel.add(levelGame1p, new AbsoluteConstraints(26, 115, 37, 27));
+        selectionPanel.add(player1, new AbsoluteConstraints(102, 60, 220, 130));
         selectionPanel.add(player2, new AbsoluteConstraints(2, 202, 320, 130));
+        
     }
 
     /**
@@ -303,7 +311,7 @@ public class Interface extends JFrame {
         optionsPanel.setBackground(COLOR_semiopaque);
 
         JLabel optionTitle = new JLabel("Options");
-        optionTitle.setFont(neuropol28);
+        optionTitle.setFont(font1_28);
 
         JSeparator separator = new JSeparator();
 
@@ -313,60 +321,60 @@ public class Interface extends JFrame {
         //Controls panel.
         JPanel controlsPanel = new JPanel(new AbsoluteLayout());
         controlsPanel.setBackground(COLOR_semiopaque);
-        controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
+        controlsPanel.setBorder(BorderFactory.createTitledBorder(null, "Controls", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font1_18));
        
         //Configuring presentation on the screen of the options.
         JLabel moveLeftLabel = new JLabel("Move Left");
-        moveLeftLabel.setFont(segoePrint12);
+        moveLeftLabel.setFont(font2_12);
         leftKey = new JTextField(KeyEvent.getKeyText(keys[0]));
-        leftKey.setFont(segoePrint12);
+        leftKey.setFont(font2_12);
         leftKey.setHorizontalAlignment(JTextField.CENTER);
         leftKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
         JLabel moveRightLabel = new JLabel("Move Right");
-        moveRightLabel.setFont(segoePrint12);
+        moveRightLabel.setFont(font2_12);
         rightKey = new JTextField(KeyEvent.getKeyText(keys[2]));
-        rightKey.setFont(segoePrint12);
+        rightKey.setFont(font2_12);
         rightKey.setHorizontalAlignment(JTextField.CENTER);
         rightKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
         JLabel moveDownLabel = new JLabel("Move Down");
-        moveDownLabel.setFont(segoePrint12);
+        moveDownLabel.setFont(font2_12);
         downKey = new JTextField(KeyEvent.getKeyText(keys[1]));
-        downKey.setFont(segoePrint12);
+        downKey.setFont(font2_12);
         downKey.setHorizontalAlignment(JTextField.CENTER);
         downKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
         JLabel rotateLabel = new JLabel("Rotate");
-        rotateLabel.setFont(segoePrint12);
+        rotateLabel.setFont(font2_12);
         rotateKey = new JTextField(KeyEvent.getKeyText(keys[4]));
-        rotateKey.setFont(segoePrint12);
+        rotateKey.setFont(font2_12);
         rotateKey.setHorizontalAlignment(JTextField.CENTER);
         rotateKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
         JLabel goBottonLabel = new JLabel("To Botton");
-        goBottonLabel.setFont(segoePrint12);
+        goBottonLabel.setFont(font2_12);
         goToBottonKey = new JTextField(KeyEvent.getKeyText(keys[3]));
-        goToBottonKey.setFont(segoePrint12);
+        goToBottonKey.setFont(font2_12);
         goToBottonKey.setHorizontalAlignment(JTextField.CENTER);
         goToBottonKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
         JLabel holdLabel = new JLabel("Hold");
-        holdLabel.setFont(segoePrint12);
+        holdLabel.setFont(font2_12);
         holdKey = new JTextField(KeyEvent.getKeyText(keys[5]));
-        holdKey.setFont(segoePrint12);
+        holdKey.setFont(font2_12);
         holdKey.setHorizontalAlignment(JTextField.CENTER);
         holdKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
         JLabel pauseLabel = new JLabel("Pause");
-        pauseLabel.setFont(segoePrint12);
+        pauseLabel.setFont(font2_12);
         pauseKey = new JTextField(KeyEvent.getKeyText(keys[6]));
-        pauseKey.setFont(segoePrint12);
+        pauseKey.setFont(font2_12);
         pauseKey.setHorizontalAlignment(JTextField.CENTER);
         pauseKey.setBackground(new Color(controlsPanel.getBackground().getRed(), controlsPanel.getBackground().getGreen(), controlsPanel.getBackground().getBlue()));
 
         mouseBox = new JCheckBox("Use mouse");
-        mouseBox.setFont(segoePrint12);
+        mouseBox.setFont(font2_12);
         mouseBox.setOpaque(false);
 
 
@@ -391,9 +399,9 @@ public class Interface extends JFrame {
         JPanel playerPanel = new JPanel(new AbsoluteLayout());
         playerPanel.setBackground(COLOR_semiopaque);
 
-        playerPanel.setBorder(BorderFactory.createTitledBorder(null, "Player Name", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
+        playerPanel.setBorder(BorderFactory.createTitledBorder(null, "Player Name", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font1_18));
         playerName = new JTextField("ENSTA Project");
-        playerName.setFont(segoePrint12);
+        playerName.setFont(font2_12);
         playerName.setHorizontalAlignment(JTextField.CENTER);
         playerName.setBorder(null);
         playerName.setOpaque(false);
@@ -402,9 +410,9 @@ public class Interface extends JFrame {
 
         JPanel ipPanel = new JPanel(new AbsoluteLayout());
         ipPanel.setBackground(COLOR_semiopaque);
-        ipPanel.setBorder(BorderFactory.createTitledBorder(null, "Server IP Address", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
+        ipPanel.setBorder(BorderFactory.createTitledBorder(null, "Server IP Address", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font1_18));
         ipName = new JTextField("Ip to 2 Players Mode");
-        ipName.setFont(sevenSegments14);
+        ipName.setFont(font4_18);
         ipName.setHorizontalAlignment(JTextField.CENTER);
         ipName.setBorder(null);
         ipName.setOpaque(false);
@@ -412,9 +420,9 @@ public class Interface extends JFrame {
         optionsPanel.add(ipPanel, new AbsoluteConstraints(10, 282, 310, 55));
         //Buttons.
         applyOptions = new JButton("Apply");
-        applyOptions.setFont(planetBenson14);
+        applyOptions.setFont(font3_14);
         JButton cancelOptions = new JButton("Cancel");
-        cancelOptions.setFont(planetBenson14);
+        cancelOptions.setFont(font3_14);
         cancelOptions.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent event) {
@@ -497,7 +505,7 @@ public class Interface extends JFrame {
         somPanel = new JPanel(new AbsoluteLayout());
         somPanel.setBackground(COLOR_semiopaque);
         JLabel somTitle = new JLabel("Sound");
-        somTitle.setFont(neuropol28);
+        somTitle.setFont(font1_28);
 
         JSeparator separator = new JSeparator();
 
@@ -507,15 +515,15 @@ public class Interface extends JFrame {
         JPanel musicPanel = new JPanel(new AbsoluteLayout());
         musicPanel.setBackground(COLOR_semiopaque);
 
-        musicPanel.setBorder(BorderFactory.createTitledBorder(null, "Musics", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol18));
+        musicPanel.setBorder(BorderFactory.createTitledBorder(null, "Musics", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font1_18));
 
         JLabel themeTitle = new JLabel("Theme");
-        themeTitle.setFont(segoePrint12);
+        themeTitle.setFont(font2_12);
         themeBox = new JComboBox();
-        themeBox.setFont(segoePrint12);
+        themeBox.setFont(font2_12);
         themeBox.setModel(new DefaultComboBoxModel(new String[]{"Classic", "MarioBros", "PacMan", "Star Wars", "Silence"}));
         JLabel volumeTitle = new JLabel("Volume");
-        volumeTitle.setFont(segoePrint12);
+        volumeTitle.setFont(font2_12);
         
         volumeSlider = new JSlider();
         volumeSlider.setValue(100);
@@ -525,17 +533,17 @@ public class Interface extends JFrame {
         volumeSlider.setOpaque(false);
         
         musicPanel.add(themeTitle, new AbsoluteConstraints(20, 30, -1, -1));
-        musicPanel.add(themeBox, new AbsoluteConstraints(100, 25, -1, -1));
+        musicPanel.add(themeBox, new AbsoluteConstraints(90, 25, -1, -1));
         musicPanel.add(volumeTitle, new AbsoluteConstraints(20, 80, -1, -1));
-        musicPanel.add(volumeSlider, new AbsoluteConstraints(100, 80, -1, -1));
+        musicPanel.add(volumeSlider, new AbsoluteConstraints(90, 84, -1, -1));
 
         somPanel.add(musicPanel, new AbsoluteConstraints(10, 60, 310, 135));
 
         //Buttons.
         applySom = new JButton("Apply");
-        applySom.setFont(planetBenson14);
+        applySom.setFont(font3_14);
         JButton cancel = new JButton("Cancel");
-        cancel.setFont(planetBenson14);
+        cancel.setFont(font3_14);
         cancel.addActionListener(new ActionListener() {
 
             /**
@@ -556,7 +564,7 @@ public class Interface extends JFrame {
     private void make_game1p() {
         game1pPanel = new JPanel(new AbsoluteLayout());
         JLabel game1pTitle = new JLabel("1 Player");
-        game1pTitle.setFont(neuropol28);
+        game1pTitle.setFont(font1_28);
         JSeparator separator = new JSeparator();
         separator.setOpaque(false);
         game1pPanel.add(game1pTitle, new AbsoluteConstraints(110, 22, -1, -1));
@@ -568,9 +576,9 @@ public class Interface extends JFrame {
         gameScreen1pPanel.setOpaque(false);
         gameNext1pPanel = new JPanel(new AbsoluteLayout());
         gameNext1pPanel.setBackground(COLOR_translucent);
-        gameNext1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Next", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
+        gameNext1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Next", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font1_14));
         gameHold1pPanel = new JPanel(new AbsoluteLayout());
-        gameHold1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Hold", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, neuropol14));
+        gameHold1pPanel.setBorder(BorderFactory.createTitledBorder(null, "Hold", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font1_14));
         gameHold1pPanel.setBackground(COLOR_translucent);
         game1pPanel.add(gameScreen1pPanel, new AbsoluteConstraints(10, 60, 10 * pieceSize, 20 * pieceSize));
         game1pPanel.add(gameNext1pPanel, new AbsoluteConstraints(220, 52, 85, 90));
@@ -580,23 +588,23 @@ public class Interface extends JFrame {
         scoreBar.setValue(0);
         game1pPanel.add(scoreBar, new AbsoluteConstraints(202, 345, 120, -1));
         level = new JLabel("Level: 0");
-        level.setFont(neuropol14);
+        level.setFont(font1_14);
         game1pPanel.add(level, new AbsoluteConstraints(235, 325, -1, -1));
         score = new JTextField();
         score.setText("0");
-        score.setFont(neuropol18); // NOI18N
+        score.setFont(font1_18); // NOI18N
         score.setHorizontalAlignment(JTextField.CENTER);
         score.setEditable(false);
         game1pPanel.add(score, new AbsoluteConstraints(232, 295, 60, 25));
         scoreLabel = new JLabel("SCORE");
-        scoreLabel.setFont(neuropol14);
+        scoreLabel.setFont(font1_14);
         game1pPanel.add(scoreLabel, new AbsoluteConstraints(235, 278, -1, -1));
         timeLabel = new JLabel("TIME");
-        timeLabel.setFont(neuropol14);
+        timeLabel.setFont(font1_14);
         game1pPanel.add(timeLabel, new AbsoluteConstraints(240, 230, -1, -1));
         timePassed = new JTextField("00:00");
         timePassed.setBackground(new java.awt.Color(0, 0, 0));
-        timePassed.setFont(sevenSegments14); // NOI18N
+        timePassed.setFont(font4_18); // NOI18N
         timePassed.setForeground(new java.awt.Color(51, 255, 0));
         timePassed.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         timePassed.setEditable(false);
@@ -607,7 +615,7 @@ public class Interface extends JFrame {
 
         //Buttons.
         pauseButton = new JButton("Pause");
-        pauseButton.setFont(planetBenson14);
+        pauseButton.setFont(font3_14);
         pauseButton.addActionListener(new ActionListener() {
 
             /**
@@ -618,7 +626,7 @@ public class Interface extends JFrame {
             }
         });
         restartButton = new JButton("Restart");
-        restartButton.setFont(planetBenson14);
+        restartButton.setFont(font3_14);
         restartButton.addActionListener(new ActionListener() {
 
             /**
@@ -653,7 +661,7 @@ public class Interface extends JFrame {
     private void make_game2p() {
         game2pPanel = new JPanel(new AbsoluteLayout());
         JLabel game2pTitle = new JLabel("2 Player");
-        game2pTitle.setFont(neuropol28);
+        game2pTitle.setFont(font1_28);
         JSeparator separator = new JSeparator();
         game2pPanel.add(game2pTitle, new AbsoluteConstraints(110, 20, -1, -1));
         playersList = new JList();

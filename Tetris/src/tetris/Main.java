@@ -90,6 +90,7 @@ final public class Main {
                         SomChanger();
                     }
                 });
+                
                 SomChanger();
            }
         });
@@ -107,8 +108,7 @@ final public class Main {
         }
         return instance;
     }
-
-    
+        
     public void updatePiecesPositions() {
         screen.setPiecePosition(game.getCurrentPiecePositions());
         screen.setShadowPosition(game.getShadowPiecePositions());
@@ -183,12 +183,16 @@ final public class Main {
         }
     }
 
-    static void setPointsAndLevel(int points, int level, int pointsToNextLevel) {
-        screen.setScore(points, level, 0, pointsToNextLevel);
+    static void setPointsAndLevel(int points, int level, int pointsToThisLevel, int pointsToNextLevel) {
+        screen.setScore(points, level, pointsToThisLevel, pointsToNextLevel);
     }
 
     public static void restart1pScreen() {
         screen.restart1pScreen();
+    }
+    
+    public static int getInitialLevelMain() {
+        return screen.getInitialLevel();        
     }
 
     public void start2pConnection() {

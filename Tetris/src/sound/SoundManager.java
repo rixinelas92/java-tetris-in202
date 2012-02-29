@@ -45,6 +45,11 @@ public abstract class SoundManager {
         put(codeET(soundEffects.GAMEOVER,soundTheme.MARIO),SoundManagerFactory.WAVE);
         put(codeET(soundEffects.GAMEOVER,soundTheme.PACMAN),SoundManagerFactory.WAVE);
         put(codeET(soundEffects.GAMEOVER,soundTheme.STARWARS),SoundManagerFactory.WAVE);
+        
+        put(codeET(soundEffects.PUN,soundTheme.CLASSIC),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.PUN,soundTheme.MARIO),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.PUN,soundTheme.PACMAN),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.PUN,soundTheme.STARWARS),SoundManagerFactory.WAVE);
    }});
     
     /**
@@ -71,7 +76,7 @@ public abstract class SoundManager {
      * Defines a standard to sound's effects.
      */
     static public enum soundEffects{
-        ERASE, FALL, GAMEOVER, PAUSE, THEME;
+        ERASE, FALL, GAMEOVER, PAUSE, THEME, PUN;
     }
     /**
      * Defines a standard to theme's effects.

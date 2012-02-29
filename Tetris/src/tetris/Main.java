@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -341,7 +343,15 @@ final public class Main {
 
         @Override
         public void receiveGamePunn(String mid) {
-            game.punnition();
+            // yes, someone should change it.
+            SoundEffectWrapper.SPUNN.play(); 
+            Timer t = new Timer();
+            t.schedule(new TimerTask(){
+                @Override
+                public void run() {
+                    game.punnition();
+                }
+            },1000);
         }
 
         @Override

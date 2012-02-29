@@ -891,7 +891,15 @@ public class Interface extends JFrame {
         Main.getInstance().saveProp();
         System.exit(0);
     }
-
+    
+     /**
+     * Default getter of the selection menu .
+     * @return the initial level.
+     */
+   public int getInitialLevel() {
+         return initialLevel;
+    }
+   
     /**
      * Default getter of the chagement of configurations.
      * @return the keys configureted.
@@ -899,26 +907,39 @@ public class Interface extends JFrame {
     public Integer[] getConfigChange() {
         return keys;
     }
-
-   public int getInitialLevel() {
-         return initialLevel;
-    }
-   
+  
+   /**
+     * Default getter of the chagement of configurations.
+     * @return the Ip fo the server.
+     */
     public String getIPChange() {
         return ipName.getText();
     }
 
+    /**
+     * Default getter of the chagement of configurations.
+     * @return the name of the user for the server.
+     */
     public String getUserName() {
         return playerName.getText();
     }
 
+    /**
+     * Default setter of the chagement of configurations.
+     * @return the name of the user for the server.
+     */
     public void setUserName(String str) {
         playerName.setText(str);
     }
-
+    
+/**
+     * Default setter of the chagement of configurations.
+     * @return the IP of the server.
+     */
     public void setIP(String str) {
         ipName.setText(str);
     }
+    
  /**
      * Default getter of the sound volume.
      * @return the actual value of the sound.
@@ -976,10 +997,8 @@ public class Interface extends JFrame {
     }
 
     /**
-     * Deafult getter of the string with an relative path corresponding with
-     * the parameter <em>color</em>.
-     * @param color definies the color.
-     * @return the relative path of the color.
+     * Default setter of the piece position, updating the new coordinates.
+     * @param shadowPiece definies the coordinates of each box of the shadowpiece.
      */
     public void setShadowPosition(Position[] newPiece) {
         //If the bloc shouldn't keep hide, pass position X or/and Y =-1
@@ -990,6 +1009,12 @@ public class Interface extends JFrame {
         toggleVisiblePropOnGame();
     }
 
+    /**
+     * Deafult getter of the string with an relative path corresponding with
+     * the parameter <em>color</em>.
+     * @param color definies the color.
+     * @return the relative path of the color.
+     */
     public String getStringForColor(String color) {
         return "imgs/" + color + r.nextInt(5) + ".png";
     }
@@ -1037,6 +1062,10 @@ public class Interface extends JFrame {
         return gameover;
     }
 
+    /**
+     * Implements the case 'Win', setting the panels game multiplayer
+     *@return the panel showing the case 'win'.
+     */
     public JLabel showGameWin() {
         gamewin.setVisible(true);
         game1pPanel.setVisible(false);
@@ -1057,6 +1086,11 @@ public class Interface extends JFrame {
         }
     }
 
+    /**
+     * Removes the panel configured to game, preparing the screen to another
+     * cofiguration, restart for example.
+     * @return the multiplayer panel setted visible.
+     */
     public void removeGameWin(JLabel gameover) {
         if (gamewin != null) {
             game1pPanel.setVisible(false);
@@ -1110,6 +1144,7 @@ public class Interface extends JFrame {
         Main.getInstance().updateShadowPositions();
         toggleVisiblePropOnGame();
     }
+    
     /**
      * Default setter of the position of the next piece.
      * @param newPosNextPiece defines the positons of the next piece.
@@ -1125,7 +1160,6 @@ public class Interface extends JFrame {
             gameNext1pPanel.add(nextPiece[i], new AbsoluteConstraints(xx, yy, pieceSize, pieceSize));
         }
     }
-    //####################################################"
 
     /**
      * Updates the holdPiece and the nextPiece, in according to the generation of
@@ -1188,6 +1222,7 @@ public class Interface extends JFrame {
             gameHold1pPanel.add(holdPiece[i], new AbsoluteConstraints(xx, yy, pieceSize, pieceSize));
         }
     }
+    
     /**
      * Implements the actions of visualisation of the pieces.
      * @param newPosHoldPiece informes the current piece.
@@ -1304,14 +1339,18 @@ public class Interface extends JFrame {
     public void setMouseMotionListener(MouseMotionListener newListener) {
         gameScreen1pPanel.addMouseMotionListener(newListener);
     }
+    
     //Internal use funcition.
     private int xPos(int newX) {
         return newX * pieceSize;
     }
+    
+    //Internal use funcition.
     private int yPos(int newY) {
         newY++;
         return gameScreen1pPanel.getHeight() - newY * pieceSize;
     }
+    
     //listeners
 
     /**
@@ -1334,7 +1373,6 @@ public class Interface extends JFrame {
         applySom.addActionListener(newSomChanger);
     }
   
-
     /**
      * Defines the list of players.
      */
@@ -1352,6 +1390,7 @@ public class Interface extends JFrame {
     public boolean getMouseControler() {
         return mouseBox.isSelected();
     }
+    
     /**
      * Default setter of two players screen.
      * @param isFilled
@@ -1359,7 +1398,5 @@ public class Interface extends JFrame {
     public void set2pScreenGame(int[] isFilled) {
         secondPlayerBoard.updateBoardDescription(isFilled);
     }
-
-
-    
+   
 }

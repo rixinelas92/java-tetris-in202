@@ -8,9 +8,11 @@ package Tetris_interface.components;
 import Tetris_interface.Interface;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 import tetris.Screen;
 
 /**
@@ -27,11 +29,13 @@ public class SmallBoard extends JPanel {
     Interface container;
     int pxlsize = 6;
     JLabel boardLabels[][];
+    
     /**
      * Creates a new small board with parameters by default.
      */
     public SmallBoard(int[] initialImg, Interface container) {
         this.container = container;
+        this.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
         setSize(Screen.SIZE_X * pxlsize, Screen.SIZE_Y * pxlsize);
         boardLabels = new JLabel[Screen.SIZE_X][Screen.SIZE_Y];
         setBackground(Interface.COLOR_semiopaque);

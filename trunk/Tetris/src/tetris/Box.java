@@ -1,6 +1,3 @@
-/**
- * Java doc OK
- */
 package tetris;
 
 import java.awt.Color;

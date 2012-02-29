@@ -123,14 +123,10 @@ public class Player {
     public String toString(){
         return name+" - "+actState;
     }
-
-
-
     @Override
     public int hashCode() {
         return playerid%97;
     }
-
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof Player))
@@ -139,5 +135,4 @@ public class Player {
             return true;
         return false;
     }
-
 }

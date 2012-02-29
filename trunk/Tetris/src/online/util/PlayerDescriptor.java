@@ -67,7 +67,6 @@ public class PlayerDescriptor {
     public void setState(PlayerState state) {
         this.state = state;
     }
-
     @Override
     public int hashCode() {
         return id;
@@ -75,6 +74,4 @@ public class PlayerDescriptor {
     public String toString(){
         return name+" - "+state;
     }
-    
-
 }

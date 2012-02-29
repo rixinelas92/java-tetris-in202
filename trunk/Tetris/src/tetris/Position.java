@@ -1,7 +1,3 @@
- /*
- * Java doc OK
- */
-
 package tetris;
 
 
@@ -56,7 +52,12 @@ public class Position {
         setX(newX);
         setY(newY);
     }
-
+    /**
+     * Default setter of the parameters x, y if the condition given by secure allows.
+     * @param newX defines the next coordenate of the parameter <em>x</em>.
+     * @param newY defines the next coordanate of the parameter <em>y</em>.
+     * @param secure condition.
+     */
     public Position(int newX,int newY,int secure){
         if(secure != 0){
             try{

@@ -1,6 +1,3 @@
-/*
- * Java doc OK.
- */
 package tetris;
 
 import java.awt.event.*;
@@ -191,7 +188,7 @@ public abstract class Controller implements KeyListener, MouseMotionListener, Mo
     }
 
     /**
-     * Theese methodes do not have a use in this class, but must be included 
+     * These methodes do not have a use in this class, but must be included 
      * because of restrictions among class comunication.
      * @param e verifies if there is an user action.
      */

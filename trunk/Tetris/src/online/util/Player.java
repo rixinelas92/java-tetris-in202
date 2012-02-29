@@ -1,7 +1,3 @@
-/*Java doc OK
- * 
- */
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -14,10 +10,6 @@ import online.server.Server;
 /**
  *
  * @author gustavo
- */
-
-/**
- *
  */
 public class Player {
 

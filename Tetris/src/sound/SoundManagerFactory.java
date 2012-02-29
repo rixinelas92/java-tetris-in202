@@ -15,7 +15,6 @@ public class SoundManagerFactory {
     static SoundManager.soundTheme theme = SoundManager.soundTheme.CLASSIC;
     final static public int MIDI = 0;
     final static public int WAVE = 1;
-    final static private int IMPL = MIDI;
     
     SoundManager getSoundManager(SoundManager.soundTheme theme, SoundManager.soundEffects effect){
         switch(SoundManager.MAP_TYPE.get(SoundManager.codeET(effect,theme))){
@@ -27,7 +26,7 @@ public class SoundManagerFactory {
         return null;
     }
     SoundManager getSoundManager(SoundManager.soundEffects effect){
-        switch(IMPL){
+        switch(SoundManager.MAP_TYPE.get(SoundManager.codeET(effect,theme))){
             case MIDI:
                 return new MidiSoundManager(effect,theme);
             case WAVE:

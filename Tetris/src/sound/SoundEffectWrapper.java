@@ -32,7 +32,7 @@ public enum SoundEffectWrapper {
     PTHEME(soundTheme.PACMAN,soundEffects.THEME),    
     
     STHEME(soundTheme.STARWARS,soundEffects.THEME), 
-    SERASE(soundTheme.STARWARS,soundEffects.ERASE),      
+    SERASE(soundTheme.STARWARS,soundEffects.ERASE),  
     SFALL(soundTheme.STARWARS,soundEffects.FALL);
     
     

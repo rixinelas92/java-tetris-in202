@@ -447,13 +447,11 @@ public class Game extends Controller implements ActionListener {
             try {
                 currentPiece.setY((short) (currentPiece.getY() - 1));
             } catch (OutOfScreenBoundsException ex) {
-                System.out.println("Cant Floor");
                 isFallingFinished = true;
                 if (fallSom != null) {
                     fallSom.play();
                 }
             } catch (NotAvailablePlaceForPieceException ex) {
-                System.out.println("Cant Piece");
                 isFallingFinished = true;
                 if (fallSom != null) {
                     fallSom.play();
@@ -518,20 +516,21 @@ public class Game extends Controller implements ActionListener {
         Piece auxiliar = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
         if (holdPiece != null) {
             if (!alreadyHolded) {
-                alreadyHolded = true;
                 try {
                     Position[] aux = holdPiece.getAllPosition();
                     boolean flag = true;
 
                     for(int i = 0;i<4;i++){
-                        if(screen.getBoxAt(aux[0].getX(), aux[0].getY()) == null)
-                            flag = false;
-                        if(flag && screen.getBoxAt(aux[0].getX(), aux[0].getY()).isFull())
-                            flag = false;
+                        if(screen.getBoxAt(aux[i].getX(), aux[i].getY()) != null)
+                            if(flag && screen.getBoxAt(aux[i].getX(), aux[i].getY()).isFull())
+                                flag = false;
                     }
-                    if(flag){
 
-                    /*if (!screen.getBoxAt(aux[0].getX(), aux[0].getY()).isFull() &&
+
+                    if(flag){
+                        alreadyHolded = true;
+                 /*   if (!screen.getBoxAt(aux[0].getX(), aux[0].getY()).isFull() &&
+
                             !screen.getBoxAt(aux[1].getX(), aux[1].getY()).isFull() &&
                             !screen.getBoxAt(aux[2].getX(), aux[2].getY()).isFull() &&
                             !screen.getBoxAt(aux[3].getX(), aux[3].getY()).isFull()) {

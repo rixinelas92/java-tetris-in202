@@ -221,7 +221,6 @@ public class Interface extends JFrame {
             toolbar.add(close, new AbsoluteConstraints(160, 20));
             topPanel.add(toolbar, new AbsoluteConstraints(0, 0, -1, 30));
         } catch (Exception e) {
-            System.out.println("Problem in top icons load");
             e.printStackTrace();
         }
     }
@@ -250,7 +249,6 @@ public class Interface extends JFrame {
             initialPanel.add(credits2, new AbsoluteConstraints(10, 400, -1, -1));
             initialPanel.add(credits3, new AbsoluteConstraints(10, 420, -1, -1));
         } catch (Exception e) {
-            System.out.println("Problem in top icons load");
             e.printStackTrace();
         }
     }

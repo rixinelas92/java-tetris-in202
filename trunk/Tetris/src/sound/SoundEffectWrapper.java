@@ -42,7 +42,6 @@ public enum SoundEffectWrapper {
     
     SoundManager sm;
      SoundEffectWrapper(SoundManager.soundTheme theme, SoundManager.soundEffects effect) {
-         System.out.println("Constructor: "+theme+" "+effect);
          SoundManagerFactory smf = new SoundManagerFactory();
          sm = smf.getSoundManager(theme, effect);
      }

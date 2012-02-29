@@ -258,6 +258,7 @@ public class Interface extends JFrame {
         selectionMenu.setFont(neuropol28);
         JSeparator separator = new JSeparator();
         JButton player1 = new JButton("1 Player");
+        player1.setFont(neuropol14);
         player1.addActionListener(new ActionListener() {
 
             /**
@@ -268,7 +269,8 @@ public class Interface extends JFrame {
                 func_showPanel(4);
             }
         });
-        JButton player2 = new JButton("2 Players");
+        JButton player2 = new JButton("Multiplayer");
+        player2.setFont(neuropol14);
         player2.addActionListener(new ActionListener() {
 
             /**
@@ -281,7 +283,7 @@ public class Interface extends JFrame {
         selectionPanel.add(selectionMenu, new AbsoluteConstraints(100, 20));
         selectionPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
         selectionPanel.add(player1, new AbsoluteConstraints(2, 55, 320, 130));
-        selectionPanel.add(player2, new AbsoluteConstraints(2, 182, 320, 130));
+        selectionPanel.add(player2, new AbsoluteConstraints(2, 202, 320, 130));
     }
 
     /**

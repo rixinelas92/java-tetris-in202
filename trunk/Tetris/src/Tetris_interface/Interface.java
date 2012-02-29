@@ -45,6 +45,7 @@ import tetris.Controller;
 import tetris.Main;
 import tetris.Position;
 import tetris.Screen;
+import tetris.util.TetrisPreferences;
 
 public class Interface extends JFrame {
 
@@ -525,8 +526,13 @@ public class Interface extends JFrame {
         JLabel volumeTitle = new JLabel("Volume");
         volumeTitle.setFont(font2_12);
         
+        
+        Integer slevel = Main.getInstance().getProp().getIntProperty(TetrisPreferences.ImplementedProperties.INT_SOUNDLEVEL);
+        if(slevel == null)
+            slevel = 100;
         volumeSlider = new JSlider();
-        volumeSlider.setValue(100);
+        
+        volumeSlider.setValue(slevel);
         volumeSlider.setMajorTickSpacing(10);
         volumeSlider.setMinorTickSpacing(10);
         volumeSlider.setBorder(null);
@@ -551,7 +557,7 @@ public class Interface extends JFrame {
              * screen after configuration of the keys.
              */
             public void actionPerformed(ActionEvent event) {
-                func_showPanel(0);
+                func_showPanel(0);                
             }
         });
         somPanel.add(applySom, new AbsoluteConstraints(60, 340, -1, -1));

@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
 import sound.SoundEffectWrapper;
+import sound.SoundManager;
 import tetris.Screen.BorderRetriever;
 import tetris.Screen.NotAvailablePlaceForPieceException;
 import tetris.Screen.OutOfScreenBoundsException;
@@ -636,7 +637,21 @@ public class Game extends Controller implements ActionListener {
      * Class to apply the sound effects
      */
     public void setSomTheme(int somTheme) {
+        switch(somTheme){
+            case 0:
+                SoundManager.setTheme(SoundManager.soundTheme.CLASSIC);
+                break;
+            case 1:
+                SoundManager.setTheme(SoundManager.soundTheme.MARIO);
+                break;
+            case 2:
+                SoundManager.setTheme(SoundManager.soundTheme.PACMAN);
+                break;
+            case 3:
+                SoundManager.setTheme(SoundManager.soundTheme.STARWARS);
+                break;
 
+        }
         if (somTheme == 0) {
             fallSom = SoundEffectWrapper.CFALL;
             eraseSom = SoundEffectWrapper.CERASE;

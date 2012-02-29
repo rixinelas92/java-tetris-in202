@@ -102,8 +102,8 @@ public class MidiSoundManager extends SoundManager {
                 
             Sequence mySeq = MidiSystem.getSequence(is);
             sequencer.setSequence(mySeq);
-            sequencer.start();
-            sequencer.stop();
+          //  sequencer.start();
+          //  sequencer.stop();
             if(isplaying)
                 play();
             

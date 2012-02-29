@@ -26,7 +26,7 @@ public class TetrisPreferences {
     
     public enum ImplementedProperties{
         INT_KEYPAUSE, INT_KEYGOLEFT, INT_KEYGORIGHT, INT_KEYGODOWN, INT_KEYROTATE, INT_KEYDOWN, INT_KEYHOLD,
-        STR_USERNAME, STR_IP
+        STR_USERNAME, STR_IP, INT_SOUNDLEVEL
     }
 
     

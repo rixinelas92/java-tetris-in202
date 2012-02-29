@@ -50,6 +50,7 @@ abstract public class Client extends Thread {
             Thread.sleep(1000);
             c2.requestMatchWith("0");
             Thread.sleep(1000);
+            
             c.acceptMatchWith("1");
             Thread.sleep(1000);
             c2.gamePoint();

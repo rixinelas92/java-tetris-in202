@@ -68,7 +68,7 @@ public class WavSoundManager extends SoundManager {
     protected void setUp(soundTheme theme,soundEffects effect,int volume) {
         try {
             // Use URL (instead of File) to read from disk and JAR.
-            URL url = this.getClass().getResource("files/"+theme+"_"+effect+".wav");
+            URL url = this.getClass().getResource("tracks/"+theme+"_"+effect+".wav");
             // Set up an audio input stream piped from the sound file.
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(url);
             // Get a clip resource.

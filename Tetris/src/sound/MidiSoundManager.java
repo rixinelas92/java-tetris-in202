@@ -4,7 +4,6 @@
  */
 package sound;
 
-import java.io.IOException;
 import java.io.InputStream;
 import javax.sound.midi.*;
 
@@ -133,6 +132,7 @@ public class MidiSoundManager extends SoundManager {
 
     }
     
+    @Override
     public String toString(){
         return "[MIDI SND MANAGER: "+theme+">"+effect+">"+volume+"]";
     }

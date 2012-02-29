@@ -4,6 +4,9 @@
  */
 package sound;
 
+import sound.SoundManager.soundEffects;
+import sound.SoundManager.soundTheme;
+
 /**
  *
  * @author gustavo
@@ -15,8 +18,7 @@ public class SoundManagerFactory {
     final static private int IMPL = MIDI;
     
     SoundManager getSoundManager(SoundManager.soundTheme theme, SoundManager.soundEffects effect){
-        
-        switch(IMPL){
+        switch(SoundManager.MAP_TYPE.get(SoundManager.codeET(effect,theme))){
             case MIDI:
                 return new MidiSoundManager(effect,theme);
             case WAVE:

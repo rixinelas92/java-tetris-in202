@@ -87,6 +87,7 @@ public class Interface extends JFrame {
     private JList playersList;
     private boolean is2PlayerGame;
     private SmallBoard secondPlayerBoard;
+    private JButton restartButton, pauseButton;
 
     /**
      * Initialize the configuration of the screen.
@@ -605,7 +606,7 @@ public class Interface extends JFrame {
         game1pPanel.add(secondPlayerBoard, new AbsoluteConstraints(232, 240, -1, -1));
 
         //Buttons.
-        JButton pauseButton = new JButton("Pause");
+        pauseButton = new JButton("Pause");
         pauseButton.setFont(planetBenson14);
         pauseButton.addActionListener(new ActionListener() {
 
@@ -616,7 +617,7 @@ public class Interface extends JFrame {
                 func_pause();
             }
         });
-        JButton restartButton = new JButton("Restart");
+        restartButton = new JButton("Restart");
         restartButton.setFont(planetBenson14);
         restartButton.addActionListener(new ActionListener() {
 
@@ -757,7 +758,8 @@ public class Interface extends JFrame {
         timePassed.setVisible(!is2PlayerGame);
         timeLabel.setVisible(!is2PlayerGame);
         secondPlayerBoard.setVisible(is2PlayerGame);
-
+        pauseButton.setVisible(!is2PlayerGame);
+        restartButton.setVisible(!is2PlayerGame);
     }
     /**
      * Configures the keys fo the game.

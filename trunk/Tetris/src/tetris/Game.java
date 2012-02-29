@@ -153,7 +153,7 @@ public class Game extends Controller implements ActionListener {
             screen.clean();
         }
         nextPiece = currentPiece = null;
-        Main.restart1pScreen();
+        Main.getInstance().restart1pScreen();
         Position.setBorderRetriever(screen.new BorderRetriever());
         Position.setFilledRetriever(screen.new FilledRetriever());
         try {
@@ -173,11 +173,11 @@ public class Game extends Controller implements ActionListener {
         }
 
         holdPiece = null;
-        level = Main.getInitialLevelMain();
+        level = Main.getInstance().getInitialLevelMain();
         points = pointsToLevel(level);
         Main.getInstance().setListeners(this);
         int pointsToNextLevel = pointsToLevel(level+1);
-        Main.setPointsAndLevel(points, level, points, pointsToNextLevel);
+        Main.getInstance().setPointsAndLevel(points, level, points, pointsToNextLevel);
         if (timer == null) {
             timer = new Timer(timeBefore(level), this);
         }
@@ -499,7 +499,7 @@ public class Game extends Controller implements ActionListener {
             int pointsToThisLevel = pointsToLevel(level);
             int pointsToNextLevel = pointsToLevel(level + 1);
             timer.setDelay(timeBefore(level));
-            Main.setPointsAndLevel(points, level, pointsToThisLevel, pointsToNextLevel);
+            Main.getInstance().setPointsAndLevel(points, level, pointsToThisLevel, pointsToNextLevel);
         }
     }
 

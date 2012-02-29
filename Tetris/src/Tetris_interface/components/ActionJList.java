@@ -32,7 +32,7 @@ public class ActionJList extends MouseAdapter {
             ListModel dlm = list.getModel();
             Object item = dlm.getElementAt(index);
             list.ensureIndexIsVisible(index);
-            Main.requestMatchWith((PlayerDescriptor) item);
+            Main.getInstance().requestMatchWith((PlayerDescriptor) item);
         }
     }
 }

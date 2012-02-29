@@ -171,6 +171,8 @@ final public class Main {
     }
 
     public void togglePause() {
+        if(twoPlayerGame && !game.isPaused)
+            return;
         game.stopToggleVariable();
         screen.requestFocusInWindow();
         screen.clock.togglePause();
@@ -183,15 +185,15 @@ final public class Main {
         }
     }
 
-    static void setPointsAndLevel(int points, int level, int pointsToThisLevel, int pointsToNextLevel) {
+    void setPointsAndLevel(int points, int level, int pointsToThisLevel, int pointsToNextLevel) {
         screen.setScore(points, level, pointsToThisLevel, pointsToNextLevel);
     }
 
-    public static void restart1pScreen() {
+    public void restart1pScreen() {
         screen.restart1pScreen();
     }
     
-    public static int getInitialLevelMain() {
+    public int getInitialLevelMain() {
         return screen.getInitialLevel();        
     }
 
@@ -217,7 +219,7 @@ final public class Main {
         }
     }
 
-    public static void requestMatchWith(PlayerDescriptor pd) {
+    public void requestMatchWith(PlayerDescriptor pd) {
         try {
             internet.requestMatchWith(((Integer) pd.getId()).toString());
         } catch (IOException ex) {

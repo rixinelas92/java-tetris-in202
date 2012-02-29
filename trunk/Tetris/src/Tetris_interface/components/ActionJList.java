@@ -19,7 +19,7 @@ public class ActionJList extends MouseAdapter {
     protected JList list;
     /**
      * Setter of the parameter <em>list</em>.
-     * @param l defines the player
+     * @param l defines the player.
      */
     public ActionJList(JList l) {
         list = l;

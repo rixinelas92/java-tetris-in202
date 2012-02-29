@@ -17,13 +17,19 @@ import tetris.Screen;
  *
  * @author gustavo
  */
+/**
+ * Class implemented to provide interface when the game is running in mode
+ * two player, allowing to know the mouvements of the opponent.
+ */
 public class SmallBoard extends JPanel {
 
     int[] isFilled;
     Interface container;
     int pxlsize = 6;
     JLabel boardLabels[][];
-
+    /**
+     * Creates a new small board with parameters by default.
+     */
     public SmallBoard(int[] initialImg, Interface container) {
         this.container = container;
         setSize(Screen.SIZE_X * pxlsize, Screen.SIZE_Y * pxlsize);
@@ -44,22 +50,19 @@ public class SmallBoard extends JPanel {
                 boardLabels[i][j].setMinimumSize(new Dimension(pxlsize, pxlsize));
                 boardLabels[i][j].setOpaque(true);
                 boardLabels[i][j].setVisible(false);
-                
                 add(boardLabels[i][j]);
-
             }
         }
-
         for (int i = Screen.SIZE_Y -1; i >= 0; i--) {
             for (int j = 0; j < Screen.SIZE_X; j++) {
                 add(boardLabels[j][i]);
             }
         }
-
         updateBoardDescription(initialImg);
     }
-
-
+    /**
+     * Updates the interface.
+     */
     public void updateBoardDescription(int newFilled[]) {
         boolean changed = false;
         for (int i = 0; i < Screen.SIZE_X; i++) {
@@ -79,12 +82,9 @@ public class SmallBoard extends JPanel {
                 }
             }
             isFilled[i] = newFilled[i];
-
         }
         if(changed){
-
             paintImmediately(getBounds());
-            
         }
     }
 }

@@ -39,11 +39,9 @@ public class ClockTimer implements ActionListener {
             timer.restart();
             field.setText(String.format("%1$tM:%1$tS", time, time));
         }
-        //############################################################
-
         /**
-         *
-         * @param ae
+         * Implements a listener to the clock.
+         * @param ae informes that an event arrived. 
          */
         public void actionPerformed(ActionEvent ae) {
             time += delay;

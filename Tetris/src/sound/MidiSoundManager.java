@@ -39,12 +39,8 @@ public class MidiSoundManager extends SoundManager {
     }
     @Override
     public void setVolume(int newVolume) {
-        
-        
-        
         setUp(theme, effect, newVolume);
     }
-
     @Override
     public void play() {
         if (sequencer != null) {
@@ -55,21 +51,18 @@ public class MidiSoundManager extends SoundManager {
             System.err.println("sequencer null :"+effect+" .. "+theme);
         }
     }
-
     @Override
     public void setLoop() {
         if (sequencer != null) {
            sequencer.setLoopCount(sequencer.LOOP_CONTINUOUSLY);
         }
     }
-
     @Override
     public void stopSound() {
         if (sequencer != null) {
             sequencer.stop();
         }
     }
-
     int volumeTransfFunction(int volume){
         if(volume > 100)
             volume = 100;
@@ -77,7 +70,6 @@ public class MidiSoundManager extends SoundManager {
             volume = 0;
         return volume/10;
     }
-    
     @Override
     protected void setUp(soundTheme theme,soundEffects effect,int volume){
         volume = volumeTransfFunction(volume);

@@ -1,4 +1,8 @@
-
+/**
+ * This class was designed in order to define the parameters of the protocol that
+ * allows the comunication in the network when the game is configured for two 
+ * players.
+ */
 package online.client;
 
 import java.io.BufferedReader;

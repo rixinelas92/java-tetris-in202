@@ -16,7 +16,7 @@ import java.util.Map;
 public abstract class SoundManager {
     private static final Map<soundEffects, SoundManager> instances = new EnumMap<soundEffects, SoundManager>(soundEffects.class);
     
-    private static final Map<Integer,Integer> mapa = Collections.unmodifiableMap(new HashMap<Integer,Integer>(){{
+    public static final Map<Integer,Integer> MAP_TYPE = Collections.unmodifiableMap(new HashMap<Integer,Integer>(){{
         put(codeET(soundEffects.ERASE,soundTheme.CLASSIC),SoundManagerFactory.WAVE);
         put(codeET(soundEffects.ERASE,soundTheme.MARIO),SoundManagerFactory.WAVE);
         put(codeET(soundEffects.ERASE,soundTheme.PACMAN),SoundManagerFactory.WAVE);
@@ -32,10 +32,10 @@ public abstract class SoundManager {
         put(codeET(soundEffects.PAUSE,soundTheme.PACMAN),SoundManagerFactory.WAVE);
         put(codeET(soundEffects.PAUSE,soundTheme.STARWARS),SoundManagerFactory.WAVE);
         
-        put(codeET(soundEffects.THEME,soundTheme.CLASSIC),SoundManagerFactory.WAVE);
-        put(codeET(soundEffects.THEME,soundTheme.MARIO),SoundManagerFactory.WAVE);
-        put(codeET(soundEffects.THEME,soundTheme.PACMAN),SoundManagerFactory.WAVE);
-        put(codeET(soundEffects.THEME,soundTheme.STARWARS),SoundManagerFactory.WAVE);
+        put(codeET(soundEffects.THEME,soundTheme.CLASSIC),SoundManagerFactory.MIDI);
+        put(codeET(soundEffects.THEME,soundTheme.MARIO),SoundManagerFactory.MIDI);
+        put(codeET(soundEffects.THEME,soundTheme.PACMAN),SoundManagerFactory.MIDI);
+        put(codeET(soundEffects.THEME,soundTheme.STARWARS),SoundManagerFactory.MIDI);
         
         put(codeET(soundEffects.GAMEOVER,soundTheme.CLASSIC),SoundManagerFactory.WAVE);
         put(codeET(soundEffects.GAMEOVER,soundTheme.MARIO),SoundManagerFactory.WAVE);

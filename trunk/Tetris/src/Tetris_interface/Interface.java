@@ -614,7 +614,7 @@ public class Interface extends JFrame {
         game1pPanel.add(timePassed, new AbsoluteConstraints(232, 248, 60, 25));
 
         secondPlayerBoard = new SmallBoard(new int[Screen.SIZE_X], this);
-        game1pPanel.add(secondPlayerBoard, new AbsoluteConstraints(232, 240, -1, -1));
+        game1pPanel.add(secondPlayerBoard, new AbsoluteConstraints(230, 240, -1, -1));
 
         //Buttons.
         pauseButton = new JButton("Pause");

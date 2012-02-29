@@ -94,7 +94,7 @@ public class Interface extends JFrame {
      */
     public Interface() {
         try {
-            imageb = ImageIO.read(getClass().getResource(getStringForColor("back")));
+            imageb = ImageIO.read(getClass().getResource("imgs/back4.png"));
         } catch (IOException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }

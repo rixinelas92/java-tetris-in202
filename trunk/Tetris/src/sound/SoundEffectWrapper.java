@@ -17,23 +17,27 @@ public enum SoundEffectWrapper {
     CERASE(soundTheme.CLASSIC,soundEffects.ERASE),      
     CFALL(soundTheme.CLASSIC,soundEffects.FALL),   
     CTHEME(soundTheme.CLASSIC,soundEffects.THEME),
+    CPUNN(soundTheme.STARWARS,soundEffects.PUN),
     
     MERASE(soundTheme.MARIO,soundEffects.ERASE),      
     MFALL(soundTheme.MARIO,soundEffects.FALL),  
     MGAMEOVER(soundTheme.MARIO,soundEffects.GAMEOVER),
     MPAUSE(soundTheme.MARIO,soundEffects.PAUSE),      
-    MTHEME(soundTheme.MARIO,soundEffects.THEME), 
+    MTHEME(soundTheme.MARIO,soundEffects.THEME),
+    MPUNN(soundTheme.STARWARS,soundEffects.PUN),
     
     
     PERASE(soundTheme.PACMAN,soundEffects.ERASE),      
     PFALL(soundTheme.PACMAN,soundEffects.FALL),  
     PGAMEOVER(soundTheme.PACMAN,soundEffects.GAMEOVER),
     PPAUSE(soundTheme.PACMAN,soundEffects.PAUSE),    
-    PTHEME(soundTheme.PACMAN,soundEffects.THEME),    
+    PTHEME(soundTheme.PACMAN,soundEffects.THEME), 
+    PPUNN(soundTheme.STARWARS,soundEffects.PUN),
     
     STHEME(soundTheme.STARWARS,soundEffects.THEME), 
     SERASE(soundTheme.STARWARS,soundEffects.ERASE),  
-    SFALL(soundTheme.STARWARS,soundEffects.FALL);
+    SFALL(soundTheme.STARWARS,soundEffects.FALL),
+    SPUNN(soundTheme.STARWARS,soundEffects.PUN);
     
     
     SoundManager sm;

@@ -410,6 +410,7 @@ public class Game extends Controller implements ActionListener {
         }
         if (isFallingFinished) {
             try {
+                alreadyHolded = false;
                 isFallingFinished = false;
                 currentPiece = nextPiece;
                 short xx = currentPiece.getX();
@@ -421,7 +422,7 @@ public class Game extends Controller implements ActionListener {
                 shadowPiece.setRotation(currentPiece.getRotation());
                 shadowPiece.setShape(currentPiece.getShapeType());
                 Main.getInstance().setNewPiece();
-                alreadyHolded = false;
+
             } catch (NotAvailablePlaceForPieceException ex) {
                 Main.getInstance().pauseGame();
                 Main.getInstance().showGameOverAndReturnToNewGame();

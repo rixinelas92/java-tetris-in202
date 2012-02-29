@@ -16,19 +16,25 @@ import online.util.Match;
  *
  * @author gustavo
  */
+/**
+ * This class was implemented in order to attend the necessity of menager the 
+ * screens that show the players availables in the network and the packages that 
+ * are change between the players and the server. 
+ */
 public class MatchInstrospection extends JPanel {
     JTabbedPane attachTo;
     JList messages;
+    /**
+     * It builds the screen that will shows the process running in the network.
+     * @param attachTo defines what will be added like a tab.
+     * @param m identifies a match by a number.
+     */
     public MatchInstrospection(JTabbedPane attachTo,Match m){
         this.attachTo =  attachTo;
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         int[] ids = m.getPlayersIds();
-
-        
-
         messages = new JList();
        // userList.setCellRenderer(new CellRendererWithImage(null));
-
         messages.setModel(new DefaultListModel());
         messages.addMouseListener(new ActionJList(messages));
         JScrollPane scrollPane = new JScrollPane(messages);
@@ -47,20 +53,22 @@ public class MatchInstrospection extends JPanel {
         m.setInstrospector(this);
 
     }
-
+    /**
+     * Defines what will be remove of the tab.
+     */
     public void detach(){
         attachTo.remove(this);
     }
-
+    /**
+     * It allows the visualization of the messages that are change among the
+     * players and the server.
+     * @param msg defines the message that will be printed.
+     */
     public void addSignal(String msg) {
         DefaultListModel lm  = (DefaultListModel)messages.getModel();
         lm.addElement(msg);
         synchronized(MatchInstrospection.class){
             messages.ensureIndexIsVisible(lm.getSize()-1);
         }
-
     }
-
-
-
 }

@@ -167,7 +167,7 @@ public class SIM extends JPanel {
         return instance;
     }
     /**
-     * Removes a player of the available's player list.
+     * It removes a player of the available's player list.
      * @param player informes the player.
      */
     public void removePlayer(Player player) {

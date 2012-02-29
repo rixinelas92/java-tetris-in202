@@ -87,7 +87,7 @@ public class MidiSoundManagerTest extends TestCase {
      */
     public void testSetLoop() {
         System.out.println("setLoop");
-        sm = new MidiSoundManager(soundEffects.THEME, soundTheme.MARIO,50);
+        sm = new MidiSoundManager(soundEffects.GAMEOVER, soundTheme.MARIO,50);
         sm.setLoop();
         sm.play();
         
@@ -105,7 +105,7 @@ public class MidiSoundManagerTest extends TestCase {
      */
     public void testStopSound() {
         System.out.println("stopSound");
-        sm = new MidiSoundManager(soundEffects.THEME, soundTheme.MARIO,50);
+        sm = new MidiSoundManager(soundEffects.GAMEOVER, soundTheme.MARIO,50);
         sm.setLoop();
         sm.play();
         

@@ -16,12 +16,9 @@ import tetris.Main;
  * @author gustavo
  */
 public class ActionJList extends MouseAdapter {
-
     protected JList list;
-
     /**
      * Setter of the parameter <em>list</em>.
-    //########################################################
      * @param l defines the player
      */
     public ActionJList(JList l) {
@@ -29,7 +26,6 @@ public class ActionJList extends MouseAdapter {
     }
 
     @Override
-    //############################################################
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2) {
             int index = list.locationToIndex(e.getPoint());

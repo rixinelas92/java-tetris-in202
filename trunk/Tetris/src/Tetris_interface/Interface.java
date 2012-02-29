@@ -93,7 +93,7 @@ public class Interface extends JFrame {
      */
     public Interface() {
         try {
-            imageb = ImageIO.read(getClass().getResource(getStringForColor("back")));
+            imageb = ImageIO.read(getClass().getResource("imgs/back7.png"));
         } catch (IOException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -228,8 +228,6 @@ public class Interface extends JFrame {
 
         JLabel menuImage = new JLabel();
         try {
-            //Setup of the presentation screen.
-            menuImage.setIcon(new ImageIcon(getClass().getResource("imgs/menuimage.png")));
             initialPanel.add(menuImage, new AbsoluteConstraints(0, 100, 260, 250));
             JLabel initialMenu = new JLabel("TETRIS");
             initialMenu.setFont(new Font("Neuropol", 0, 48));

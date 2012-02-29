@@ -1,6 +1,3 @@
-/*
- * Java doc OK, mas função em constantte modificação.
- */
 package tetris;
 
 import java.awt.Color;
@@ -109,7 +106,6 @@ public class Game extends Controller implements ActionListener {
         }
         return false;
     }
-
     /**
      * Default getter of the color and constructor of the boxes in the screen.
      * @param x informes the coodinate x of the piece.
@@ -132,7 +128,6 @@ public class Game extends Controller implements ActionListener {
         }
         return Box.getEmptyColor();
     }
-
     /**
      * This class initialize the game. Giving the basic default configurations
      * of the user screen and determining the genation of new piece.   
@@ -182,10 +177,7 @@ public class Game extends Controller implements ActionListener {
         alreadyHolded = false;
         timer.start();
         isStarted = true;
-
-
     }
-
     /**
      * Default getter of the positons of the piece.
      * @return the positions.
@@ -193,7 +185,10 @@ public class Game extends Controller implements ActionListener {
     public Position[] getCurrentPiecePositions() {
         return currentPiece.getAllPosition();
     }
-
+    /**
+     * Default getter of the positons of the shadow piece.
+     * @return the positions of the shadow piece.
+     */
     public Position[] getShadowPiecePositions() {
         try {
             shadowPiece.setShape(currentPiece.getShapeType());
@@ -205,7 +200,6 @@ public class Game extends Controller implements ActionListener {
         goToBottomShadow();
         return shadowPiece.getAllPosition();
     }
-
     /**
      * Default getter of the positions of the next piece.
      * @return the positions.
@@ -213,7 +207,6 @@ public class Game extends Controller implements ActionListener {
     public Position[] getNextPiecePositions() {
         return nextPiece.getAllPosition();
     }
-
     /**
      * Default getter of the positions of the hold piece.
      * @return the positions.
@@ -221,7 +214,6 @@ public class Game extends Controller implements ActionListener {
     public Position[] getHoldPiecePositions() {
         return holdPiece.getAllPosition();
     }
-
     /**
      * Default getter of the parameter color of the current piece. 
      * @return a string with the name. 
@@ -229,7 +221,6 @@ public class Game extends Controller implements ActionListener {
     public String getCurrentPieceColorName() {
         return currentPiece.getColorName();
     }
-
     /**
      * Default getter of the parameter color of the next piece. 
      * @return a string with the name. 
@@ -237,7 +228,6 @@ public class Game extends Controller implements ActionListener {
     public String getNextPieceColorName() {
         return nextPiece.getColorName();
     }
-
     /**
      * Executes rotation of the piece if it is possible.
      */
@@ -263,7 +253,10 @@ public class Game extends Controller implements ActionListener {
             }
         }
     }
-
+    /**
+     * Manages the actions introduced by the mouse.
+     * @param e informes the event of click.
+     */
     public void mouseClicked(MouseEvent e) {
         if (isPaused) {
             return;
@@ -273,7 +266,10 @@ public class Game extends Controller implements ActionListener {
         }
         super.mouseClicked(e);
     }
-    
+    /**
+     * Manages the actions introduced by the mouse.
+     * @param e informes that the mouse was mouved.
+     */
     public void mouseMoved(MouseEvent e) {
         if (isPaused) {
             return;
@@ -283,7 +279,6 @@ public class Game extends Controller implements ActionListener {
         }
         super.mouseMoved(e);
     }
-    
     /**
      * Executes the direct downward movement when it is possible.
      */
@@ -296,7 +291,10 @@ public class Game extends Controller implements ActionListener {
             }
         }
     }
-
+    /**
+     * Executes the direct downward movement showing, with the shadow, where the
+     * piece will be fixed.
+     */
     public void goToBottomShadow() {
         while (true) {
             try {
@@ -306,7 +304,6 @@ public class Game extends Controller implements ActionListener {
             }
         }
     }
-
     /**
      * Executes the downward movement in steps, decrementing the coordinate y 
      * and refreshing the new position.
@@ -321,14 +318,20 @@ public class Game extends Controller implements ActionListener {
         y--;
         currentPiece.setPosition(new Position(x, y));
     }
-
+    /**
+     * Executes the downward movement in steps, decrementing the coordinate y 
+     * and refreshing the new position of the shadow.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen is not respected. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit with static pieces.
+     */
     public void goDownShadow() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
         int x = shadowPiece.getX();
         int y = shadowPiece.getY();
         y--;
         shadowPiece.setPosition(new Position(x, y));
     }
-
     /**
      * Executes the movement to the left in steps, decrementing the coordinate x 
      * and refreshing the new position.
@@ -343,7 +346,6 @@ public class Game extends Controller implements ActionListener {
         x--;
         currentPiece.setPosition(new Position(x, y));
     }
-
     /**
      * Executes the movement to the right in steps, decrementing the coordinate x 
      * and refreshing the new position.
@@ -358,21 +360,21 @@ public class Game extends Controller implements ActionListener {
         x++;
         currentPiece.setPosition(new Position(x, y));
     }
-
     /**
      * Inversor of condition.
      */
     public void stopToggle() {
         Main.getInstance().togglePause();
     }
-
+    /**
+     * Stops the execution of the inversor.
+     */
     public void stopToggleVariable() {
         isPaused = !isPaused;
         if (pauseSom != null) {
             pauseSom.play();
         }
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
         if (isPaused && keyPause != e.getKeyCode()) {
@@ -383,10 +385,16 @@ public class Game extends Controller implements ActionListener {
         }
         super.keyPressed(e);
     }
-
+    /**
+     * 
+     * @param newX updates the value of x.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen is not respected. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit with static pieces.
+     */
     synchronized protected void goToX(int newX) throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
         int x = -2 + newX / pieceSize;
-
         while (true) {
             Position p = currentPiece.getPosition();
             if(x == p.getX())
@@ -401,9 +409,11 @@ public class Game extends Controller implements ActionListener {
                 break;
             }
         }
-
     }
-
+    /**
+     * Implements the listeners of the game.
+     * @param ae informes the action to be executed.
+     */
     public void actionPerformed(ActionEvent ae) {
         if (isPaused) {
             return;
@@ -497,7 +507,13 @@ public class Game extends Controller implements ActionListener {
             Main.getInstance().setPointsAndLevel(points, level, pointsToThisLevel, pointsToNextLevel);
         }
     }
-
+    /**
+     * It holds a piece when required by the user.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen is not respected. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit with static pieces.
+     */
     public void hold() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
         Piece auxiliar = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
         if (holdPiece != null) {
@@ -515,11 +531,11 @@ public class Game extends Controller implements ActionListener {
                     }
                     if(flag){
 
-                 /*   if (!screen.getBoxAt(aux[0].getX(), aux[0].getY()).isFull() &&
+                    /*if (!screen.getBoxAt(aux[0].getX(), aux[0].getY()).isFull() &&
                             !screen.getBoxAt(aux[1].getX(), aux[1].getY()).isFull() &&
                             !screen.getBoxAt(aux[2].getX(), aux[2].getY()).isFull() &&
                             !screen.getBoxAt(aux[3].getX(), aux[3].getY()).isFull()) {
-*/
+                    */
                         auxiliar.setRotation(currentPiece.getRotation());
                         auxiliar.setShape(currentPiece.getShapeType());
                         currentPiece.setRotation(holdPiece.getRotation());
@@ -579,11 +595,16 @@ public class Game extends Controller implements ActionListener {
     @Override
     public void mouseExited(MouseEvent e) {
     }
-
+    /**
+     * Implements the pause of the game.
+     */
     void pauseGame() {
         isPaused = true;
     }
-
+    /**
+     * It returns informations compacted (masked) to be send in the network. 
+     * @return the result of the simplification.
+     */
     public int[] getGameMask() {
         if (!isStarted) {
             return new int[0];
@@ -603,7 +624,11 @@ public class Game extends Controller implements ActionListener {
         }
         return mask;
     }
-
+    /**
+     * Builds the game from the mask passed.
+     * @param mask defines the description of the mask.
+     * @return the result of the building.
+     */
     static public boolean[][] getGameDescWithMask(Integer[] mask) {
         boolean[][] desc = new boolean[Screen.SIZE_X][Screen.SIZE_Y];
         for (int i = 0; i < Screen.SIZE_X; i++) {
@@ -613,11 +638,12 @@ public class Game extends Controller implements ActionListener {
         }
         return desc;
     }
-
+    /**
+     * Implements the punition when the opponent makes points.
+     */
     void punnition() {
         goToBottom();
     }
-
     /**
      * Class to implement the functions listener.
      */
@@ -626,11 +652,11 @@ public class Game extends Controller implements ActionListener {
             initGame();
         }
     }
-   
-     /**
-     * Class to apply the sound effects
+    /**
+     * Class to apply the sound effects.
      */
     public void setSomTheme(int somTheme) {
+
         switch(somTheme){
             case 0:
                 SoundManager.setTheme(SoundManager.soundTheme.CLASSIC);
@@ -675,8 +701,6 @@ public class Game extends Controller implements ActionListener {
             eraseSom = null;
             gameoverSom = null;
             pauseSom = null;
-        }
-        
-        
+        }        
     }
 }

@@ -1,7 +1,3 @@
-/*
- * Java doc 
- */
-
 package tetris;
 
 import java.awt.Color;
@@ -93,6 +89,14 @@ public class Piece {
         }
         position.setX(newX);
     }
+    /**
+     * Default setter of the coordenate x and rotation if the operation is possible.
+     * @param newX defines the new coordinate x.
+     * @throws tetris.Screen.OutOfScreenBoundsException when the borders of the 
+     * screen are not respected. 
+     * @throws tetris.Screen.NotAvailablePlaceForPieceException when there is a 
+     * conflit with static pieces.
+     */
 
     public void setXandRotate(short newX) throws NotAvailablePlaceForPieceException, OutOfScreenBoundsException{
         int tyleN = currentShape.ordinal();
@@ -107,10 +111,7 @@ public class Piece {
         }
         currentRotation = rot;
         position.setX(newX);
-
     }
-
-
      /**
      * Default setter of the position of the piece with a updated values of x and y. 
      * @param newPos informes the updated position.
@@ -170,16 +171,31 @@ public class Piece {
         }
         return pos;
     }
-    
+    /**
+     * Default getter of the parameter position.
+     * @return the current position.
+     */
     public Position getPosition(){
         return position;
     }
+    /**
+     * Default getter of the parameter currentShape.
+     * @return the type.
+     */
     public ShapeType getShapeType(){
         return currentShape;
     }
+    /**
+     * Default getter of the parameter currentrotation.
+     * @return the rotation.
+     */
     public short getRotation(){
         return currentRotation;
     }
+    /**
+     * Default setter of the rotation.
+     * @param newRotation informes the rotation.
+     */
     public void setRotation(short newRotation){
         currentRotation=newRotation;
     }

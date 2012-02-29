@@ -316,7 +316,7 @@ final public class Main {
                 }
             }
             int response = JOptionPane.showConfirmDialog(screen, "Game Request From User " + 
-                    name + "\n Do you Accept?", "dd", JOptionPane.YES_NO_OPTION,
+                    name + "\n Do you Accept?", "Wow, you have friends!", JOptionPane.YES_NO_OPTION,
                     JOptionPane.INFORMATION_MESSAGE);
             if (response == JOptionPane.OK_OPTION) {
                 acceptMatchWith(uid);

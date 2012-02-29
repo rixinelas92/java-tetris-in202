@@ -173,11 +173,11 @@ public class Game extends Controller implements ActionListener {
         }
 
         holdPiece = null;
-        level = 1;
-        points = 0;
+        level = Main.getInitialLevelMain();
+        points = pointsToLevel(level);
         Main.getInstance().setListeners(this);
-        int pointsToNextLevel = pointsToLevel(level + 1);
-        Main.setPointsAndLevel(points, level, pointsToNextLevel);
+        int pointsToNextLevel = pointsToLevel(level+1);
+        Main.setPointsAndLevel(points, level, points, pointsToNextLevel);
         if (timer == null) {
             timer = new Timer(timeBefore(level), this);
         }
@@ -496,9 +496,10 @@ public class Game extends Controller implements ActionListener {
             if (points > pointsToLevel(level + 1)) {
                 level++;
             }
+            int pointsToThisLevel = pointsToLevel(level);
             int pointsToNextLevel = pointsToLevel(level + 1);
             timer.setDelay(timeBefore(level));
-            Main.setPointsAndLevel(points, level, pointsToNextLevel);
+            Main.setPointsAndLevel(points, level, pointsToThisLevel, pointsToNextLevel);
         }
     }
 
@@ -630,7 +631,10 @@ public class Game extends Controller implements ActionListener {
             initGame();
         }
     }
-
+   
+     /**
+     * Class to apply the sound effects
+     */
     public void setSomTheme(int somTheme) {
 
         if (somTheme == 0) {

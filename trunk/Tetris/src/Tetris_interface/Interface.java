@@ -58,7 +58,7 @@ public class Interface extends JFrame {
     static public final Color COLOR_translucent = new Color(0, 0, 0, 0);
     private Image imageb = null;
     //constants
-    private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y, levelScore = 20, levelScoreAnt = 0, scoreFactor = 50, levelNumber = 0;
+    private int pieceSize = 19, screenWidth = Screen.SIZE_X, screenHeight = Screen.SIZE_Y;
     //options components
     private JTextField leftKey, rightKey, downKey, rotateKey, goToBottonKey, holdKey, pauseKey, playerName, ipName;
     private JCheckBox mouseBox;
@@ -68,11 +68,14 @@ public class Interface extends JFrame {
     private JComboBox themeBox;
     private JSlider volumeSlider;
     private static JButton applySom;
+    //selection components
+    private JComboBox levelGame1p;
     //1 players components
     private JPanel gameScreen1pPanel, gameNext1pPanel, gameHold1pPanel;
     private JProgressBar scoreBar;
     private JTextField score, timePassed;
     private JLabel level, gameover, gamewin;
+    private int initialLevel,initialScore;
     private static final int X_screenPanel = 43;
     private static final int Y_screenPanel = 49;
     private JLabel scoreLabel;
@@ -268,6 +271,12 @@ public class Interface extends JFrame {
                 func_showPanel(4);
             }
         });
+        JLabel levelLabel = new JLabel("Initial Level");
+        levelLabel.setFont(neuropol14);
+        levelGame1p = new JComboBox();
+        levelGame1p.setModel(new DefaultComboBoxModel(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}));
+        levelGame1p.setFont(sevenSegments14); 
+        
         JButton player2 = new JButton("Multiplayer");
         player2.setFont(neuropol14);
         player2.addActionListener(new ActionListener() {
@@ -281,7 +290,9 @@ public class Interface extends JFrame {
         });
         selectionPanel.add(selectionMenu, new AbsoluteConstraints(100, 20));
         selectionPanel.add(separator, new AbsoluteConstraints(5, 50, 313, 10));
-        selectionPanel.add(player1, new AbsoluteConstraints(2, 55, 320, 130));
+        selectionPanel.add(player1, new AbsoluteConstraints(2, 55, 220, 130));
+        selectionPanel.add(levelLabel, new AbsoluteConstraints(235, 85, -1, -1));
+        selectionPanel.add(levelGame1p, new AbsoluteConstraints(245, 115, 37, 27));
         selectionPanel.add(player2, new AbsoluteConstraints(2, 202, 320, 130));
     }
 
@@ -724,10 +735,12 @@ public class Interface extends JFrame {
             Main.getInstance().removeListeners();
             Main.getInstance().sendGameOver();
         } else if (i == 4) {
+            initialLevel=levelGame1p.getSelectedIndex()+1;
+            initialScore=(initialLevel)*(initialLevel)*160;
             if (gameViewReady != null) {
                 gameViewReady.actionPerformed(null);
-            }
         }
+    }
     }
 
     /**
@@ -887,10 +900,10 @@ public class Interface extends JFrame {
         return keys;
     }
 
-    /**
-     * Default getter of the sound volume.
-     * @return the actual value of the sound.
-     */
+   public int getInitialLevel() {
+         return initialLevel;
+    }
+   
     public String getIPChange() {
         return ipName.getText();
     }
@@ -906,7 +919,10 @@ public class Interface extends JFrame {
     public void setIP(String str) {
         ipName.setText(str);
     }
-
+ /**
+     * Default getter of the sound volume.
+     * @return the actual value of the sound.
+     */
     public int getSomVolume() {
         return volumeSlider.getValue();
     }
@@ -1260,7 +1276,7 @@ public class Interface extends JFrame {
      */
     public void setScore(int newScore, int newLevel, int scoreMin, int scoreMax) {
         //If change of level, set the new level maximum score and change the label.
-        score.setText(String.valueOf(newScore));
+        score.setText(String.valueOf(newScore-initialScore));
         level.setText("Level:" + newLevel);
         scoreBar.setValue((newScore - scoreMin) * 100 / (scoreMax - scoreMin));
     }
@@ -1317,6 +1333,7 @@ public class Interface extends JFrame {
     public static void addSomChanger(ActionListener newSomChanger) {
         applySom.addActionListener(newSomChanger);
     }
+  
 
     /**
      * Defines the list of players.

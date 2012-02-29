@@ -514,6 +514,7 @@ public class Game extends Controller implements ActionListener {
      */
     public void hold() throws OutOfScreenBoundsException, NotAvailablePlaceForPieceException {
         Piece auxiliar = new Piece(randomShape.randomExceptLast(), Screen.getMiddlePosition());
+        System.out.println(alreadyHolded + " "+isFallingFinished);
         if (holdPiece != null) {
             if (!alreadyHolded) {
                 try {

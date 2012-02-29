@@ -34,7 +34,7 @@ public class JLabelCont extends JLabel {
         /**
          * Default getter of the coordinate x.
          * @return the value of the coordinate.
-         * @throws Exception if position x is -1.#############################################
+         * @throws Exception if position x is -1.
          */
         public int getCX() throws Exception {
             if (x == -1) {
@@ -46,7 +46,7 @@ public class JLabelCont extends JLabel {
         /**
          * Default getter of the coordinate y.
          * @return the value of the coordinate.
-         * @throws Exception if position y is -1.#############################################
+         * @throws Exception if position y is -1.
          */
         public int getCY() throws Exception {
             if (y == -1) {

@@ -55,9 +55,7 @@ public abstract class SoundManager {
     static public enum soundTheme{
         CLASSIC, MARIO, PACMAN, STARWARS;
     }
-    
-   
-    
+       
     protected SoundManager(){
 
     }

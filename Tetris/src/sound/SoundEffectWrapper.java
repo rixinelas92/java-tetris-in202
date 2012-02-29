@@ -42,10 +42,7 @@ public enum SoundEffectWrapper {
          SoundManagerFactory smf = new SoundManagerFactory();
          sm = smf.getSoundManager(theme, effect);
      }
-
-     
-     
-     
+   
     /**
      * Adjuts the level of volume of the game.
      * @param newVolume defines the updated volume.

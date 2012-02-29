@@ -12,19 +12,26 @@ import javax.sound.midi.*;
  * @author gustavo
  */
 public class MidiSoundManager extends SoundManager {
-
     Sequencer sequencer;
-    
     soundTheme theme;
     soundEffects effect;
-    
-
+    /**
+     * Creates a new MidiSoundManager with the parameters theme and effect setted.
+     * @param se defines the sound effects.
+     * @param st defines the sound theme.
+     */
     public MidiSoundManager(soundEffects se, soundTheme st){
         super(se,st);
         theme = st;
         effect = se;
     }
-    
+    /**
+     * Creates a new MidiSoundManager with the parameters theme and effect setted,
+     * also defining the volume.
+     * @param se defines the sound effects.
+     * @param st defines the sound theme.
+     * @param vvolume defines the volume of the sound.
+     */
     public MidiSoundManager(soundEffects se, soundTheme st,int vvolume){
         super(se,st,vvolume);
         theme = st;
@@ -127,11 +134,11 @@ public class MidiSoundManager extends SoundManager {
         } 
         if(sequencer == null)
                 System.err.println("Sounds were turned off for this effect: [ops] "+theme+">"+effect+">"+volume+" ");
-
-        
-
     }
-    
+    /**
+     * Returns the information about the class MidiSoundManager's parameters. 
+     * @return a string with the parameters.
+     */
     @Override
     public String toString(){
         return "[MIDI SND MANAGER: "+theme+">"+effect+">"+volume+"]";

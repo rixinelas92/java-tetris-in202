@@ -1,7 +1,3 @@
-/* Java doc OK
- * 
- */
-
 package sound;
 
 import javax.sound.midi.*;

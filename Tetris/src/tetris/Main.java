@@ -36,6 +36,10 @@ final public class Main {
     private static SoundEffectWrapper themeSom = null;
     static TetrisPreferences prop;
 
+    public static TetrisPreferences getProp() {
+        return prop;
+    }
+
     private boolean twoPlayerGame;
 
     
@@ -85,9 +89,12 @@ final public class Main {
                     }
                 });
                 Interface.addSomChanger(new ActionListener() {
-
+                    
                     public void actionPerformed(ActionEvent event) {
                         SomChanger();
+                        getProp().setProperty(TetrisPreferences.ImplementedProperties.INT_SOUNDLEVEL,screen.getSomVolume());
+                       
+
                     }
                 });
                 
@@ -398,7 +405,7 @@ final public class Main {
         System.out.println("::>"+screen.getSomVolume());
         SoundEffectWrapper.setGlobalVolume(screen.getSomVolume());
         int aux = screen.getSomTheme();
-        
+       
         game.setSomTheme(aux);        
         if (themeSom != null) {
             themeSom.setStop();

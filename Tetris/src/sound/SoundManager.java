@@ -17,7 +17,8 @@ import java.util.Map;
  * this class was designed in order to manage the library of sound's samples. 
  */
 public abstract class SoundManager {
-    private static final Map<soundEffects, SoundManager> instances = new EnumMap<soundEffects, SoundManager>(soundEffects.class);
+    //private static final Map<soundEffects, SoundManager> instances = new EnumMap<soundEffects, SoundManager>(soundEffects.class);
+    private static soundTheme theme;
     
     public static final Map<Integer,Integer> MAP_TYPE = Collections.unmodifiableMap(new HashMap<Integer,Integer>(){{
         put(codeET(soundEffects.ERASE,soundTheme.CLASSIC),SoundManagerFactory.WAVE);
@@ -56,6 +57,16 @@ public abstract class SoundManager {
         return se.ordinal()*(soundTheme.values().length)+ st.ordinal();
     }
     static Integer volume = null;
+
+    /**
+     * Set the global theme.
+     * @param soundTheme is the theme to be used
+     */
+    public static void setTheme(soundTheme soundTheme) {
+        SoundManager.theme = soundTheme;
+    }
+    
+
     /**
      * Defines a standard to sound's effects.
      */
@@ -78,10 +89,6 @@ public abstract class SoundManager {
     public SoundManager(soundEffects se, soundTheme st){
         if(volume == null)
             volume = 100;
-        synchronized(SoundManager.class){
-            //if(!instances.containsKey(se))
-                instances.put(se, this);
-        }
         setUp(st, se,volume);   
     }
     /**
@@ -91,16 +98,10 @@ public abstract class SoundManager {
      */
     public SoundManager(soundEffects se, soundTheme st,int vvolume){
         volume = vvolume;
-        synchronized(SoundManager.class){
-           // if(!instances.containsKey(se))
-                instances.put(se, this);
-        }
+
         setUp(st, se,vvolume);   
     }
-    
-    public static SoundManager getInstance(Object key) {
-        return instances.get(key);
-    }
+
     /**
      * Adjusts the level of volume of the game.
      * @param newVolume defines the updated volume, should be between 0 and 100 (inclusively).
@@ -118,8 +119,7 @@ public abstract class SoundManager {
             newVolume = 0;
         
         volume = newVolume;
-        for (SoundManager sm : instances.values()) {
-            System.out.println("Setting volume for: "+sm.toString());
+        for (SoundEffectWrapper sm : SoundEffectWrapper.values()){
             sm.setVolume(newVolume);
         }
     }

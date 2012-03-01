@@ -96,15 +96,22 @@ public class SIM extends JPanel {
      * event-dispatching thread.
      */
     private static void createAndShowGUI() {
+        JFrame frame = null;
+        try{
         //Create and set up the window.
-        JFrame frame = new JFrame("Tetris Server");
+            frame = new JFrame("Tetris Server");
        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        }catch (Exception e){
+            System.out.println("Graphic interface was disabled");
+        }
+        
         //Create and set up the content pane.
         instance = new SIM();
         instance.setOpaque(true); //content panes must be opaque
+        
+        if(frame == null)
+            return;
         frame.setContentPane(instance);
-
         //Display the window.
         frame.pack();
         frame.setVisible(true);

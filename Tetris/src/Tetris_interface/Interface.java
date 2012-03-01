@@ -749,6 +749,9 @@ public class Interface extends JFrame {
             initialScore=(initialLevel)*(initialLevel)*160;
             if (gameViewReady != null) {
                 gameViewReady.actionPerformed(null);
+        } else if (i == 5) {
+            initialLevel=0;
+            initialScore=0;
         }
     }
     }
